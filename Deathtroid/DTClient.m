@@ -1,0 +1,38 @@
+//
+//  DTClient.m
+//  Deathtroid
+//
+//  Created by Per Borgman on 10/7/11.
+//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//
+
+#import "DTClient.h"
+
+#import <OpenGL/gl.h>
+
+@implementation DTClient
+
+-(void)tick:(double)delta;
+{
+    // Ticka de som ska tickas?
+}
+
+-(void)draw;
+{
+    glClear(GL_COLOR_BUFFER_BIT);
+    glLoadIdentity();
+    
+    //glTranslatef(0, 0, -10);
+    
+    glBegin(GL_TRIANGLES);
+    glColor3f(1., 1, 1.);
+    
+    glVertex3f(0., 0., 0.);
+    glVertex3f(1., 0., 0.);
+    glVertex3f(0., 1., 0.);
+    
+    glEnd();
+
+}
+
+@end

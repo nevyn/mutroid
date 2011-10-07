@@ -8,8 +8,13 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface DTAppDelegate : NSObject <NSApplicationDelegate>
+@class DTView, DTCore;
+
+@interface DTAppDelegate : NSObject <NSApplicationDelegate> {
+    NSTimer		*loopTimer;
+}
 
 @property (assign) IBOutlet NSWindow *window;
+@property (assign) IBOutlet DTView *view;
 
 @end

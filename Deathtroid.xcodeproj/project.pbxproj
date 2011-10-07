@@ -17,6 +17,10 @@
 		D8548F4D143F45D7005D7DC0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8548F2D143F45D7005D7DC0 /* Cocoa.framework */; };
 		D8548F55143F45D7005D7DC0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D8548F53143F45D7005D7DC0 /* InfoPlist.strings */; };
 		D8548F58143F45D7005D7DC0 /* DeathtroidTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D8548F57143F45D7005D7DC0 /* DeathtroidTests.m */; };
+		D8548F72143F4C4D005D7DC0 /* DTView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8548F71143F4C4D005D7DC0 /* DTView.m */; };
+		D8548F79143F5323005D7DC0 /* DTClient.m in Sources */ = {isa = PBXBuildFile; fileRef = D8548F78143F5323005D7DC0 /* DTClient.m */; };
+		D8548F7B143F542B005D7DC0 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8548F7A143F542B005D7DC0 /* OpenGL.framework */; };
+		D8B05708143F77E6002CE09B /* DTCore.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B05707143F77E6002CE09B /* DTCore.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,20 +39,29 @@
 		D8548F30143F45D7005D7DC0 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		D8548F31143F45D7005D7DC0 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		D8548F32143F45D7005D7DC0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		D8548F35143F45D7005D7DC0 /* Deathtroid-Info.plist */ = {isa = PBXFileReference; path = "Deathtroid-Info.plist"; sourceTree = "<group>"; };
+		D8548F35143F45D7005D7DC0 /* Deathtroid-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Deathtroid-Info.plist"; sourceTree = "<group>"; };
 		D8548F37143F45D7005D7DC0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D8548F39143F45D7005D7DC0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		D8548F3B143F45D7005D7DC0 /* Deathtroid-Prefix.pch */ = {isa = PBXFileReference; path = "Deathtroid-Prefix.pch"; sourceTree = "<group>"; };
+		D8548F3B143F45D7005D7DC0 /* Deathtroid-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Deathtroid-Prefix.pch"; sourceTree = "<group>"; };
 		D8548F3D143F45D7005D7DC0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
-		D8548F3F143F45D7005D7DC0 /* DTAppDelegate.h */ = {isa = PBXFileReference; path = DTAppDelegate.h; sourceTree = "<group>"; };
+		D8548F3F143F45D7005D7DC0 /* DTAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTAppDelegate.h; sourceTree = "<group>"; };
 		D8548F40143F45D7005D7DC0 /* DTAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTAppDelegate.m; sourceTree = "<group>"; };
 		D8548F43143F45D7005D7DC0 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		D8548F4A143F45D7005D7DC0 /* DeathtroidTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DeathtroidTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8548F4B143F45D7005D7DC0 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		D8548F52143F45D7005D7DC0 /* DeathtroidTests-Info.plist */ = {isa = PBXFileReference; path = "DeathtroidTests-Info.plist"; sourceTree = "<group>"; };
+		D8548F52143F45D7005D7DC0 /* DeathtroidTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DeathtroidTests-Info.plist"; sourceTree = "<group>"; };
 		D8548F54143F45D7005D7DC0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		D8548F56143F45D7005D7DC0 /* DeathtroidTests.h */ = {isa = PBXFileReference; path = DeathtroidTests.h; sourceTree = "<group>"; };
+		D8548F56143F45D7005D7DC0 /* DeathtroidTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeathtroidTests.h; sourceTree = "<group>"; };
 		D8548F57143F45D7005D7DC0 /* DeathtroidTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeathtroidTests.m; sourceTree = "<group>"; };
+		D8548F70143F4C4D005D7DC0 /* DTView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTView.h; sourceTree = "<group>"; };
+		D8548F71143F4C4D005D7DC0 /* DTView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTView.m; sourceTree = "<group>"; };
+		D8548F77143F5323005D7DC0 /* DTClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTClient.h; sourceTree = "<group>"; };
+		D8548F78143F5323005D7DC0 /* DTClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTClient.m; sourceTree = "<group>"; };
+		D8548F7A143F542B005D7DC0 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		D896A3C6143F761F005F440F /* DTInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTInput.h; sourceTree = "<group>"; };
+		D8B05704143F7697002CE09B /* DTInput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTInput.m; sourceTree = "<group>"; };
+		D8B05706143F77E6002CE09B /* DTCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTCore.h; sourceTree = "<group>"; };
+		D8B05707143F77E6002CE09B /* DTCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTCore.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D8548F7B143F542B005D7DC0 /* OpenGL.framework in Frameworks */,
 				D8548F2E143F45D7005D7DC0 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -104,6 +118,7 @@
 		D8548F2F143F45D7005D7DC0 /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D8548F7A143F542B005D7DC0 /* OpenGL.framework */,
 				D8548F30143F45D7005D7DC0 /* AppKit.framework */,
 				D8548F31143F45D7005D7DC0 /* CoreData.framework */,
 				D8548F32143F45D7005D7DC0 /* Foundation.framework */,
@@ -116,8 +131,16 @@
 			children = (
 				D8548F3F143F45D7005D7DC0 /* DTAppDelegate.h */,
 				D8548F40143F45D7005D7DC0 /* DTAppDelegate.m */,
+				D8548F70143F4C4D005D7DC0 /* DTView.h */,
+				D8548F71143F4C4D005D7DC0 /* DTView.m */,
 				D8548F42143F45D7005D7DC0 /* MainMenu.xib */,
 				D8548F34143F45D7005D7DC0 /* Supporting Files */,
+				D8548F77143F5323005D7DC0 /* DTClient.h */,
+				D8548F78143F5323005D7DC0 /* DTClient.m */,
+				D896A3C6143F761F005F440F /* DTInput.h */,
+				D8B05704143F7697002CE09B /* DTInput.m */,
+				D8B05706143F77E6002CE09B /* DTCore.h */,
+				D8B05707143F77E6002CE09B /* DTCore.m */,
 			);
 			path = Deathtroid;
 			sourceTree = "<group>";
@@ -262,6 +285,9 @@
 			files = (
 				D8548F3A143F45D7005D7DC0 /* main.m in Sources */,
 				D8548F41143F45D7005D7DC0 /* DTAppDelegate.m in Sources */,
+				D8548F72143F4C4D005D7DC0 /* DTView.m in Sources */,
+				D8548F79143F5323005D7DC0 /* DTClient.m in Sources */,
+				D8B05708143F77E6002CE09B /* DTCore.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -435,6 +461,7 @@
 				D8548F5D143F45D7005D7DC0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D8548F5E143F45D7005D7DC0 /* Build configuration list for PBXNativeTarget "DeathtroidTests" */ = {
 			isa = XCConfigurationList;
@@ -443,6 +470,7 @@
 				D8548F60143F45D7005D7DC0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
