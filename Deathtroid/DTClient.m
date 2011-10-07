@@ -11,6 +11,18 @@
 #import <OpenGL/gl.h>
 
 @implementation DTClient
+-(id)init;
+{
+    return [self initConnectingTo:@"localhost" port:kDTServerDefaultPort];
+}
+-(id)initConnectingTo:(NSString *)host port:(NSUInteger)port;
+{
+    if(!(self = [super init])) return nil;
+    
+    // TODO<nevyn>: connect somewhere
+    
+    return self;
+}
 
 -(void)tick:(double)delta;
 {

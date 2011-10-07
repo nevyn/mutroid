@@ -9,10 +9,11 @@
 #import <Foundation/Foundation.h>
 
 @class DTClient;
+@class DTServer;
 
 @interface DTCore : NSObject {
     DTClient    *client;
-   // DTServer    *server;
+    DTServer    *server;
 }
 
 -(void)draw;

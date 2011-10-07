@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0587E51E143F8A2700EA9CBF /* DTServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0587E51D143F8A2700EA9CBF /* DTServer.m */; };
+		0587E522143F8DB200EA9CBF /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 0587E521143F8DB200EA9CBF /* AsyncSocket.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0587E525143F8FB200EA9CBF /* DTConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0587E524143F8FB200EA9CBF /* DTConstants.m */; };
 		D8548F2E143F45D7005D7DC0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8548F2D143F45D7005D7DC0 /* Cocoa.framework */; };
 		D8548F38143F45D7005D7DC0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D8548F36143F45D7005D7DC0 /* InfoPlist.strings */; };
 		D8548F3A143F45D7005D7DC0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D8548F39143F45D7005D7DC0 /* main.m */; };
@@ -34,6 +37,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0587E51C143F8A2700EA9CBF /* DTServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTServer.h; sourceTree = "<group>"; };
+		0587E51D143F8A2700EA9CBF /* DTServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTServer.m; sourceTree = "<group>"; };
+		0587E520143F8DB200EA9CBF /* AsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AsyncSocket.h; path = Vendor/cocoaasyncsocket/RunLoop/AsyncSocket.h; sourceTree = SOURCE_ROOT; };
+		0587E521143F8DB200EA9CBF /* AsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AsyncSocket.m; path = Vendor/cocoaasyncsocket/RunLoop/AsyncSocket.m; sourceTree = SOURCE_ROOT; };
+		0587E523143F8FB100EA9CBF /* DTConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTConstants.h; sourceTree = "<group>"; };
+		0587E524143F8FB200EA9CBF /* DTConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTConstants.m; sourceTree = "<group>"; };
 		D8548F29143F45D7005D7DC0 /* Deathtroid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Deathtroid.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8548F2D143F45D7005D7DC0 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		D8548F30143F45D7005D7DC0 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -137,10 +146,14 @@
 				D8548F34143F45D7005D7DC0 /* Supporting Files */,
 				D8548F77143F5323005D7DC0 /* DTClient.h */,
 				D8548F78143F5323005D7DC0 /* DTClient.m */,
+				0587E51C143F8A2700EA9CBF /* DTServer.h */,
+				0587E51D143F8A2700EA9CBF /* DTServer.m */,
 				D896A3C6143F761F005F440F /* DTInput.h */,
 				D8B05704143F7697002CE09B /* DTInput.m */,
 				D8B05706143F77E6002CE09B /* DTCore.h */,
 				D8B05707143F77E6002CE09B /* DTCore.m */,
+				0587E523143F8FB100EA9CBF /* DTConstants.h */,
+				0587E524143F8FB200EA9CBF /* DTConstants.m */,
 			);
 			path = Deathtroid;
 			sourceTree = "<group>";
@@ -148,6 +161,8 @@
 		D8548F34143F45D7005D7DC0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				0587E520143F8DB200EA9CBF /* AsyncSocket.h */,
+				0587E521143F8DB200EA9CBF /* AsyncSocket.m */,
 				D8548F35143F45D7005D7DC0 /* Deathtroid-Info.plist */,
 				D8548F36143F45D7005D7DC0 /* InfoPlist.strings */,
 				D8548F39143F45D7005D7DC0 /* main.m */,
@@ -288,6 +303,9 @@
 				D8548F72143F4C4D005D7DC0 /* DTView.m in Sources */,
 				D8548F79143F5323005D7DC0 /* DTClient.m in Sources */,
 				D8B05708143F77E6002CE09B /* DTCore.m in Sources */,
+				0587E51E143F8A2700EA9CBF /* DTServer.m in Sources */,
+				0587E522143F8DB200EA9CBF /* AsyncSocket.m in Sources */,
+				0587E525143F8FB200EA9CBF /* DTConstants.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -399,6 +417,7 @@
 				GCC_PREFIX_HEADER = "Deathtroid/Deathtroid-Prefix.pch";
 				INFOPLIST_FILE = "Deathtroid/Deathtroid-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = Vendor/cocoaasyncsocket/RunLoop;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -410,6 +429,7 @@
 				GCC_PREFIX_HEADER = "Deathtroid/Deathtroid-Prefix.pch";
 				INFOPLIST_FILE = "Deathtroid/Deathtroid-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = Vendor/cocoaasyncsocket/RunLoop;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

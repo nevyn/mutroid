@@ -9,7 +9,8 @@
 #import <Foundation/Foundation.h>
 
 @interface DTClient : NSObject
-
+-(id)init; // to local
+-(id)initConnectingTo:(NSString*)host port:(NSUInteger)port;
 -(void)draw;
 
 @end

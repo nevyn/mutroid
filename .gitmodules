@@ -1,0 +1,3 @@
+[submodule "Vendor/cocoaasyncsocket"]
+	path = Vendor/cocoaasyncsocket
+	url = https://code.google.com/p/cocoaasyncsocket

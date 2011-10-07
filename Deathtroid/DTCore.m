@@ -9,14 +9,14 @@
 #import "DTCore.h"
 
 #import "DTClient.h"
-//#import "DTServer.h"
+#import "DTServer.h"
 
 @implementation DTCore
 
 -(id)init;
 {
     client = [[DTClient alloc] init];
-   // server = [[DTServer alloc] init];
+    server = [[DTServer alloc] init];
     return self;
 }
 
