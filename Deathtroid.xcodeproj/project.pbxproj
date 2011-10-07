@@ -1,0 +1,450 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D8548F2E143F45D7005D7DC0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8548F2D143F45D7005D7DC0 /* Cocoa.framework */; };
+		D8548F38143F45D7005D7DC0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D8548F36143F45D7005D7DC0 /* InfoPlist.strings */; };
+		D8548F3A143F45D7005D7DC0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D8548F39143F45D7005D7DC0 /* main.m */; };
+		D8548F3E143F45D7005D7DC0 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = D8548F3C143F45D7005D7DC0 /* Credits.rtf */; };
+		D8548F41143F45D7005D7DC0 /* DTAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D8548F40143F45D7005D7DC0 /* DTAppDelegate.m */; };
+		D8548F44143F45D7005D7DC0 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D8548F42143F45D7005D7DC0 /* MainMenu.xib */; };
+		D8548F4C143F45D7005D7DC0 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8548F4B143F45D7005D7DC0 /* SenTestingKit.framework */; };
+		D8548F4D143F45D7005D7DC0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8548F2D143F45D7005D7DC0 /* Cocoa.framework */; };
+		D8548F55143F45D7005D7DC0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D8548F53143F45D7005D7DC0 /* InfoPlist.strings */; };
+		D8548F58143F45D7005D7DC0 /* DeathtroidTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D8548F57143F45D7005D7DC0 /* DeathtroidTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D8548F4E143F45D7005D7DC0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D8548F20143F45D6005D7DC0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D8548F28143F45D7005D7DC0;
+			remoteInfo = Deathtroid;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		D8548F29143F45D7005D7DC0 /* Deathtroid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Deathtroid.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D8548F2D143F45D7005D7DC0 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		D8548F30143F45D7005D7DC0 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		D8548F31143F45D7005D7DC0 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		D8548F32143F45D7005D7DC0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		D8548F35143F45D7005D7DC0 /* Deathtroid-Info.plist */ = {isa = PBXFileReference; path = "Deathtroid-Info.plist"; sourceTree = "<group>"; };
+		D8548F37143F45D7005D7DC0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D8548F39143F45D7005D7DC0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		D8548F3B143F45D7005D7DC0 /* Deathtroid-Prefix.pch */ = {isa = PBXFileReference; path = "Deathtroid-Prefix.pch"; sourceTree = "<group>"; };
+		D8548F3D143F45D7005D7DC0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		D8548F3F143F45D7005D7DC0 /* DTAppDelegate.h */ = {isa = PBXFileReference; path = DTAppDelegate.h; sourceTree = "<group>"; };
+		D8548F40143F45D7005D7DC0 /* DTAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTAppDelegate.m; sourceTree = "<group>"; };
+		D8548F43143F45D7005D7DC0 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		D8548F4A143F45D7005D7DC0 /* DeathtroidTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DeathtroidTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D8548F4B143F45D7005D7DC0 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		D8548F52143F45D7005D7DC0 /* DeathtroidTests-Info.plist */ = {isa = PBXFileReference; path = "DeathtroidTests-Info.plist"; sourceTree = "<group>"; };
+		D8548F54143F45D7005D7DC0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D8548F56143F45D7005D7DC0 /* DeathtroidTests.h */ = {isa = PBXFileReference; path = DeathtroidTests.h; sourceTree = "<group>"; };
+		D8548F57143F45D7005D7DC0 /* DeathtroidTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeathtroidTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D8548F26143F45D7005D7DC0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D8548F2E143F45D7005D7DC0 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D8548F46143F45D7005D7DC0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D8548F4C143F45D7005D7DC0 /* SenTestingKit.framework in Frameworks */,
+				D8548F4D143F45D7005D7DC0 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D8548F1E143F45D6005D7DC0 = {
+			isa = PBXGroup;
+			children = (
+				D8548F33143F45D7005D7DC0 /* Deathtroid */,
+				D8548F50143F45D7005D7DC0 /* DeathtroidTests */,
+				D8548F2C143F45D7005D7DC0 /* Frameworks */,
+				D8548F2A143F45D7005D7DC0 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D8548F2A143F45D7005D7DC0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D8548F29143F45D7005D7DC0 /* Deathtroid.app */,
+				D8548F4A143F45D7005D7DC0 /* DeathtroidTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D8548F2C143F45D7005D7DC0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D8548F2D143F45D7005D7DC0 /* Cocoa.framework */,
+				D8548F4B143F45D7005D7DC0 /* SenTestingKit.framework */,
+				D8548F2F143F45D7005D7DC0 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D8548F2F143F45D7005D7DC0 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D8548F30143F45D7005D7DC0 /* AppKit.framework */,
+				D8548F31143F45D7005D7DC0 /* CoreData.framework */,
+				D8548F32143F45D7005D7DC0 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		D8548F33143F45D7005D7DC0 /* Deathtroid */ = {
+			isa = PBXGroup;
+			children = (
+				D8548F3F143F45D7005D7DC0 /* DTAppDelegate.h */,
+				D8548F40143F45D7005D7DC0 /* DTAppDelegate.m */,
+				D8548F42143F45D7005D7DC0 /* MainMenu.xib */,
+				D8548F34143F45D7005D7DC0 /* Supporting Files */,
+			);
+			path = Deathtroid;
+			sourceTree = "<group>";
+		};
+		D8548F34143F45D7005D7DC0 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D8548F35143F45D7005D7DC0 /* Deathtroid-Info.plist */,
+				D8548F36143F45D7005D7DC0 /* InfoPlist.strings */,
+				D8548F39143F45D7005D7DC0 /* main.m */,
+				D8548F3B143F45D7005D7DC0 /* Deathtroid-Prefix.pch */,
+				D8548F3C143F45D7005D7DC0 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D8548F50143F45D7005D7DC0 /* DeathtroidTests */ = {
+			isa = PBXGroup;
+			children = (
+				D8548F56143F45D7005D7DC0 /* DeathtroidTests.h */,
+				D8548F57143F45D7005D7DC0 /* DeathtroidTests.m */,
+				D8548F51143F45D7005D7DC0 /* Supporting Files */,
+			);
+			path = DeathtroidTests;
+			sourceTree = "<group>";
+		};
+		D8548F51143F45D7005D7DC0 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D8548F52143F45D7005D7DC0 /* DeathtroidTests-Info.plist */,
+				D8548F53143F45D7005D7DC0 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D8548F28143F45D7005D7DC0 /* Deathtroid */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D8548F5B143F45D7005D7DC0 /* Build configuration list for PBXNativeTarget "Deathtroid" */;
+			buildPhases = (
+				D8548F25143F45D7005D7DC0 /* Sources */,
+				D8548F26143F45D7005D7DC0 /* Frameworks */,
+				D8548F27143F45D7005D7DC0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Deathtroid;
+			productName = Deathtroid;
+			productReference = D8548F29143F45D7005D7DC0 /* Deathtroid.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D8548F49143F45D7005D7DC0 /* DeathtroidTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D8548F5E143F45D7005D7DC0 /* Build configuration list for PBXNativeTarget "DeathtroidTests" */;
+			buildPhases = (
+				D8548F45143F45D7005D7DC0 /* Sources */,
+				D8548F46143F45D7005D7DC0 /* Frameworks */,
+				D8548F47143F45D7005D7DC0 /* Resources */,
+				D8548F48143F45D7005D7DC0 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D8548F4F143F45D7005D7DC0 /* PBXTargetDependency */,
+			);
+			name = DeathtroidTests;
+			productName = DeathtroidTests;
+			productReference = D8548F4A143F45D7005D7DC0 /* DeathtroidTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D8548F20143F45D6005D7DC0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
+			buildConfigurationList = D8548F23143F45D6005D7DC0 /* Build configuration list for PBXProject "Deathtroid" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = D8548F1E143F45D6005D7DC0;
+			productRefGroup = D8548F2A143F45D7005D7DC0 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D8548F28143F45D7005D7DC0 /* Deathtroid */,
+				D8548F49143F45D7005D7DC0 /* DeathtroidTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D8548F27143F45D7005D7DC0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D8548F38143F45D7005D7DC0 /* InfoPlist.strings in Resources */,
+				D8548F3E143F45D7005D7DC0 /* Credits.rtf in Resources */,
+				D8548F44143F45D7005D7DC0 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D8548F47143F45D7005D7DC0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D8548F55143F45D7005D7DC0 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		D8548F48143F45D7005D7DC0 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D8548F25143F45D7005D7DC0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D8548F3A143F45D7005D7DC0 /* main.m in Sources */,
+				D8548F41143F45D7005D7DC0 /* DTAppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D8548F45143F45D7005D7DC0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D8548F58143F45D7005D7DC0 /* DeathtroidTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D8548F4F143F45D7005D7DC0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D8548F28143F45D7005D7DC0 /* Deathtroid */;
+			targetProxy = D8548F4E143F45D7005D7DC0 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		D8548F36143F45D7005D7DC0 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D8548F37143F45D7005D7DC0 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		D8548F3C143F45D7005D7DC0 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D8548F3D143F45D7005D7DC0 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		D8548F42143F45D7005D7DC0 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D8548F43143F45D7005D7DC0 /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		D8548F53143F45D7005D7DC0 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D8548F54143F45D7005D7DC0 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		D8548F59143F45D7005D7DC0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		D8548F5A143F45D7005D7DC0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		D8548F5C143F45D7005D7DC0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Deathtroid/Deathtroid-Prefix.pch";
+				INFOPLIST_FILE = "Deathtroid/Deathtroid-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		D8548F5D143F45D7005D7DC0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Deathtroid/Deathtroid-Prefix.pch";
+				INFOPLIST_FILE = "Deathtroid/Deathtroid-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		D8548F5F143F45D7005D7DC0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Deathtroid.app/Contents/MacOS/Deathtroid";
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Deathtroid/Deathtroid-Prefix.pch";
+				INFOPLIST_FILE = "DeathtroidTests/DeathtroidTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		D8548F60143F45D7005D7DC0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Deathtroid.app/Contents/MacOS/Deathtroid";
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Deathtroid/Deathtroid-Prefix.pch";
+				INFOPLIST_FILE = "DeathtroidTests/DeathtroidTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D8548F23143F45D6005D7DC0 /* Build configuration list for PBXProject "Deathtroid" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D8548F59143F45D7005D7DC0 /* Debug */,
+				D8548F5A143F45D7005D7DC0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D8548F5B143F45D7005D7DC0 /* Build configuration list for PBXNativeTarget "Deathtroid" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D8548F5C143F45D7005D7DC0 /* Debug */,
+				D8548F5D143F45D7005D7DC0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		D8548F5E143F45D7005D7DC0 /* Build configuration list for PBXNativeTarget "DeathtroidTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D8548F5F143F45D7005D7DC0 /* Debug */,
+				D8548F60143F45D7005D7DC0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D8548F20143F45D6005D7DC0 /* Project object */;
+}
