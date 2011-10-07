@@ -44,7 +44,11 @@
     glVertex3f(0., 1., 0.);
     
     glEnd();
-
 }
+
+-(void)walkLeft; { printf("Gå vänster\n"); }
+-(void)stopWalkLeft; { printf("Sluta gå vänster\n"); }
+-(void)walkRight; { printf("Gå höger\n"); }
+-(void)stopWalkRight; { printf("Sluta gå höger\n"); }
 
 @end

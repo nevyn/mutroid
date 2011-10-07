@@ -11,6 +11,7 @@
 #import <OpenGL/gl.h>
 
 #import "DTCore.h"
+#import "DTInput.h"
 
 @implementation DTView
 
@@ -32,12 +33,11 @@
 }
 
 -(void)keyDown:(NSEvent *)theEvent {
-    
-	//[core.inputSystem pressedKey:[theEvent keyCode] repeated:[theEvent isARepeat]];
+    [core.input pressedKey:[theEvent keyCode] repeated:[theEvent isARepeat]];
 }
 
 -(void)keyUp:(NSEvent *)theEvent {
-	//[core.inputSystem releasedKey:[theEvent keyCode]];
+	[core.input releasedKey:[theEvent keyCode]];
 }
 
 -(void)flagsChanged:(NSEvent *)theEvent {

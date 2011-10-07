@@ -10,11 +10,22 @@
 
 #import "DTClient.h"
 #import "DTServer.h"
+#import "DTInput.h"
 
 @implementation DTCore
 
+@synthesize input;
+
 -(id)init;
 {
+    input = [[DTInput alloc] init];
+    
+    [input.mapper registerStateActionWithName:@"WalkLeft" beginAction:^{ [client walkLeft]; } endAction:^{ [client stopWalkLeft]; }];
+    [input.mapper registerStateActionWithName:@"WalkRight" beginAction:^{ [client walkRight]; } endAction:^{ [client stopWalkRight]; }];
+    
+    [input.mapper mapKey:0 toAction:@"WalkLeft"];
+    [input.mapper mapKey:2 toAction:@"WalkRight"];
+     
     client = [[DTClient alloc] init];
     server = [[DTServer alloc] init];
     return self;

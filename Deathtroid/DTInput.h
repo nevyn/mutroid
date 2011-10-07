@@ -8,24 +8,24 @@
 
 #import <Cocoa/Cocoa.h>
 
+typedef void(^DTInputCallback)();
 
-@interface QSTInputMapping : NSObject {
+@interface DTInputMapping : NSObject {
 @public
 	//typedef struct {
 	NSString	*name;		// Is shown in configmanager
 	// And also used when loading config
 	int			key;		// OS key
 	BOOL		isSet;
-	
-	id			target;
-	SEL			beginAction;
-	SEL			endAction;
+	    
+    DTInputCallback begin;
+    DTInputCallback end;
 	//} InputMapping;
 }
 
 @end
 
-@interface QSTInputMapper : NSObject {
+@interface DTInputMapper : NSObject {
 	// Hm, could probably be a dictionary,
 	// where key is the string.
 	NSMutableArray	*mappings;
@@ -34,10 +34,10 @@
 -(id)init;
 
 // Called by engine, binds an action to a real selector
--(void)registerActionWithName:(NSString*)name action:(SEL)action target:(id)target;
+-(void)registerActionWithName:(NSString*)name action:(DTInputCallback)action;
 
 // Used for actions that keep going until key is released
--(void)registerStateActionWithName:(NSString*)name beginAction:(SEL)begin endAction:(SEL)end target:(id)target;
+-(void)registerStateActionWithName:(NSString*)name beginAction:(DTInputCallback)begin endAction:(DTInputCallback)end;
 
 // Called by Configuration Manager
 -(void)mapKey:(int)key toAction:(NSString*)actionName;
@@ -48,10 +48,10 @@
 @end
 
 @interface DTInput : NSObject {
-	QSTInputMapper *mapper;
+	DTInputMapper *mapper;
 }
 
-@property (nonatomic,retain) QSTInputMapper *mapper;
+@property (nonatomic,retain) DTInputMapper *mapper;
 
 -(void)pressedKey:(int)key repeated:(BOOL)repeated;
 -(void)releasedKey:(int)key;

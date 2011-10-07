@@ -13,4 +13,9 @@
 -(id)initConnectingTo:(NSString*)host port:(NSUInteger)port;
 -(void)draw;
 
+-(void)walkLeft;
+-(void)stopWalkLeft;
+-(void)walkRight;
+-(void)stopWalkRight;
+
 @end

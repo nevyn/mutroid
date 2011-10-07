@@ -24,6 +24,10 @@
 		D8548F79143F5323005D7DC0 /* DTClient.m in Sources */ = {isa = PBXBuildFile; fileRef = D8548F78143F5323005D7DC0 /* DTClient.m */; };
 		D8548F7B143F542B005D7DC0 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8548F7A143F542B005D7DC0 /* OpenGL.framework */; };
 		D8B05708143F77E6002CE09B /* DTCore.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B05707143F77E6002CE09B /* DTCore.m */; };
+		D8B0570F143F83FF002CE09B /* DTPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B0570E143F83FF002CE09B /* DTPlayer.m */; };
+		D8B05712143F840B002CE09B /* DTEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B05711143F840B002CE09B /* DTEntity.m */; };
+		D8B05715143F8569002CE09B /* Vector2.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B05714143F8569002CE09B /* Vector2.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		D8B05716143F8A73002CE09B /* DTInput.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B05704143F7697002CE09B /* DTInput.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +75,12 @@
 		D8B05704143F7697002CE09B /* DTInput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTInput.m; sourceTree = "<group>"; };
 		D8B05706143F77E6002CE09B /* DTCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTCore.h; sourceTree = "<group>"; };
 		D8B05707143F77E6002CE09B /* DTCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTCore.m; sourceTree = "<group>"; };
+		D8B0570D143F83FF002CE09B /* DTPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTPlayer.h; sourceTree = "<group>"; };
+		D8B0570E143F83FF002CE09B /* DTPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTPlayer.m; sourceTree = "<group>"; };
+		D8B05710143F840B002CE09B /* DTEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTEntity.h; sourceTree = "<group>"; };
+		D8B05711143F840B002CE09B /* DTEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTEntity.m; sourceTree = "<group>"; };
+		D8B05713143F8569002CE09B /* Vector2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector2.h; sourceTree = "<group>"; };
+		D8B05714143F8569002CE09B /* Vector2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vector2.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +148,8 @@
 		D8548F33143F45D7005D7DC0 /* Deathtroid */ = {
 			isa = PBXGroup;
 			children = (
+				D8B05713143F8569002CE09B /* Vector2.h */,
+				D8B05714143F8569002CE09B /* Vector2.m */,
 				D8548F3F143F45D7005D7DC0 /* DTAppDelegate.h */,
 				D8548F40143F45D7005D7DC0 /* DTAppDelegate.m */,
 				D8548F70143F4C4D005D7DC0 /* DTView.h */,
@@ -154,6 +166,10 @@
 				D8B05707143F77E6002CE09B /* DTCore.m */,
 				0587E523143F8FB100EA9CBF /* DTConstants.h */,
 				0587E524143F8FB200EA9CBF /* DTConstants.m */,
+				D8B0570D143F83FF002CE09B /* DTPlayer.h */,
+				D8B0570E143F83FF002CE09B /* DTPlayer.m */,
+				D8B05710143F840B002CE09B /* DTEntity.h */,
+				D8B05711143F840B002CE09B /* DTEntity.m */,
 			);
 			path = Deathtroid;
 			sourceTree = "<group>";
@@ -298,6 +314,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D8B05716143F8A73002CE09B /* DTInput.m in Sources */,
 				D8548F3A143F45D7005D7DC0 /* main.m in Sources */,
 				D8548F41143F45D7005D7DC0 /* DTAppDelegate.m in Sources */,
 				D8548F72143F4C4D005D7DC0 /* DTView.m in Sources */,
@@ -306,6 +323,9 @@
 				0587E51E143F8A2700EA9CBF /* DTServer.m in Sources */,
 				0587E522143F8DB200EA9CBF /* AsyncSocket.m in Sources */,
 				0587E525143F8FB200EA9CBF /* DTConstants.m in Sources */,
+				D8B0570F143F83FF002CE09B /* DTPlayer.m in Sources */,
+				D8B05712143F840B002CE09B /* DTEntity.m in Sources */,
+				D8B05715143F8569002CE09B /* Vector2.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,11 +10,14 @@
 
 @class DTClient;
 @class DTServer;
+@class DTInput;
 
 @interface DTCore : NSObject {
     DTClient    *client;
     DTServer    *server;
 }
+
+@property (nonatomic,strong) DTInput *input;
 
 -(void)draw;
 
