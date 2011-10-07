@@ -148,6 +148,8 @@
 		D8548F33143F45D7005D7DC0 /* Deathtroid */ = {
 			isa = PBXGroup;
 			children = (
+				D8B0571E143FA0E3002CE09B /* Client */,
+				D8B0571D143FA0D1002CE09B /* Server */,
 				D8B05713143F8569002CE09B /* Vector2.h */,
 				D8B05714143F8569002CE09B /* Vector2.m */,
 				D8548F3F143F45D7005D7DC0 /* DTAppDelegate.h */,
@@ -205,6 +207,20 @@
 				D8548F53143F45D7005D7DC0 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D8B0571D143FA0D1002CE09B /* Server */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Server;
+			sourceTree = "<group>";
+		};
+		D8B0571E143FA0E3002CE09B /* Client */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Client;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

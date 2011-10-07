@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+@class DTEntity;
+
 @interface DTPlayer : NSObject
+
+@property (nonatomic,strong) DTEntity *entity;
 
 @end

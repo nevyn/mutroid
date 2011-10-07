@@ -10,7 +10,12 @@
 
 #import <OpenGL/gl.h>
 
+#import "DTEntity.h"
+
 @implementation DTClient
+
+@synthesize entities;
+
 -(id)init;
 {
     return [self initConnectingTo:@"localhost" port:kDTServerDefaultPort];
@@ -20,6 +25,11 @@
     if(!(self = [super init])) return nil;
     
     // TODO<nevyn>: connect somewhere
+    
+    entities = [NSMutableArray array];
+    
+    DTEntity *playerEnt = [[DTEntity alloc] init];
+    [entities addObject:playerEnt];
     
     return self;
 }

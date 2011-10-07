@@ -10,4 +10,6 @@
 
 @implementation DTPlayer
 
+@synthesize entity;
+
 @end

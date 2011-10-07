@@ -18,4 +18,6 @@
 -(void)walkRight;
 -(void)stopWalkRight;
 
+@property (nonatomic,strong) NSMutableArray *entities;
+
 @end
