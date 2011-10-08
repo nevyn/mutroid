@@ -11,6 +11,7 @@
 #import "DTClient.h"
 #import "DTServer.h"
 #import "DTInput.h"
+#import <Carbon/Carbon.h>
 
 @implementation DTCore
 
@@ -20,12 +21,12 @@
 {
     input = [[DTInput alloc] init];
     
-    [input.mapper registerStateActionWithName:@"WalkLeft" beginAction:^{ [server walkLeft]; } endAction:^{ [server stopWalkLeft]; }];
-    [input.mapper registerStateActionWithName:@"WalkRight" beginAction:^{ [server walkRight]; } endAction:^{ [server stopWalkRight]; }];
+    [input.mapper registerStateActionWithName:@"WalkLeft" beginAction:^{ [client walkLeft]; } endAction:^{ [client stopWalkLeft]; }];
+    [input.mapper registerStateActionWithName:@"WalkRight" beginAction:^{ [client walkRight]; } endAction:^{ [client stopWalkRight]; }];
     
-    [input.mapper mapKey:0 toAction:@"WalkLeft"];
-    [input.mapper mapKey:2 toAction:@"WalkRight"];
-     
+    [input.mapper mapKey:kVK_ANSI_A toAction:@"WalkLeft"];
+    [input.mapper mapKey:kVK_ANSI_D toAction:@"WalkRight"];
+	
     server = [[DTServer alloc] init];
     server.client = client;
     client = [[DTClient alloc] init];

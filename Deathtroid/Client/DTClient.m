@@ -133,4 +133,23 @@
 	[_proto readHash];
 }
 
+#pragma mark Dunno
+-(void)walkLeft;
+{
+	[_proto sendHash:$dict(@"action", @"walk",   @"direction", @"left")];
+}
+-(void)stopWalkLeft;
+{
+	[_proto sendHash:$dict(@"action", @"walk",   @"direction", @"stop")];
+}
+-(void)walkRight;
+{
+	[_proto sendHash:$dict(@"action", @"walk",   @"direction", @"right")];
+}
+-(void)stopWalkRight;
+{
+	[_proto sendHash:$dict(@"action", @"walk",   @"direction", @"stop")];
+}
+
+
 @end

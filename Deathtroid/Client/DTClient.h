@@ -15,6 +15,12 @@
 -(id)initConnectingTo:(NSString*)host port:(NSUInteger)port;
 -(void)draw;
 
+-(void)walkLeft;
+-(void)stopWalkLeft;
+-(void)walkRight;
+-(void)stopWalkRight;
+
+
 @property (nonatomic,strong) NSMutableArray *entities;
 
 @property (nonatomic,strong) DTLevel *level;

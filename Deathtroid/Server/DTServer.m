@@ -73,8 +73,17 @@
 {
 	NSLog(@"Hello! %@", hash);
 	[proto readHash];
+	
+	NSString *action = [hash objectForKey:@"action"];
+	DTPlayer *player = [players objectAtIndex:0]; // TODO: infer from proto
+	
+	if([action isEqual:@"walk"]) {
+		NSString *direction = [hash objectForKey:@"direction"];
+		player.direction = [direction isEqual:@"left"] ? EntityDirectionLeft :
+			[direction isEqual:@"right"] ? EntityDirectionRight :
+			EntityDirectionNone;
+	} else NSLog(@"Unknown command %@", hash);
 }
-
 
 -(void)tick:(double)delta;
 {    
@@ -154,12 +163,5 @@ collides: function(a, b) {
 }
 */
 
-
-
-
--(void)walkLeft; { ((DTPlayer*)[players objectAtIndex:0]).direction = EntityDirectionLeft; }
--(void)stopWalkLeft; { ((DTPlayer*)[players objectAtIndex:0]).direction = EntityDirectionNone; }
--(void)walkRight; { ((DTPlayer*)[players objectAtIndex:0]).direction = EntityDirectionRight; }
--(void)stopWalkRight; { ((DTPlayer*)[players objectAtIndex:0]).direction = EntityDirectionNone; }
 
 @end
