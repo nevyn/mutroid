@@ -17,5 +17,11 @@
 
 @property (assign) IBOutlet NSWindow *window;
 @property (assign) IBOutlet DTView *view;
+@property (assign) IBOutlet NSTextField *customHost;
+@property (assign) IBOutlet NSTabView *tabView;
+
+-(IBAction)startGame:(id)sender;
+-(IBAction)joinSelected:(id)sender;
+-(IBAction)joinCustom:(id)sender;
 
 @end

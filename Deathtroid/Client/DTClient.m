@@ -68,15 +68,16 @@
     //glEnable(GL_TEXTURE_2D);
     glPointSize(5.0f);
     
+    glClearColor(0.0, 0.0, 0.0, 1.0);
+    
     camera = [[DTCamera alloc] init];
     
-#ifdef DUMB_CLIENT
+#if DUMB_CLIENT
     physics = nil;
 #else
     physics = [[DTPhysics alloc] init];
 #endif
 
-    glClearColor(0.0, 0.0, 0.0, 1.0);
         
     return self;
 }

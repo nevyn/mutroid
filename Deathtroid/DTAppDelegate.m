@@ -22,15 +22,41 @@
 @synthesize window = _window;
 @synthesize view = _view;
 @synthesize core;
+@synthesize customHost;
+@synthesize tabView;
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
-{    
-    core = [[DTCore alloc] init];
+
+-(void)start2;
+{
+   core = [[DTCore alloc] init];
     _view.core = core;
     
     // LOOP-DE-LOOP
     interval = 1.0f / 60.0f;
     loopTimer = [NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(tick:) userInfo:nil repeats:YES];
+}
+-(void)start;
+{
+    [tabView selectTabViewItemAtIndex:1];
+    [self performSelector:@selector(start2) withObject:nil afterDelay:0.05];
+}
+
+-(IBAction)startGame:(id)sender;
+{
+    
+    [self start];
+}
+-(IBAction)joinSelected:(id)sender;
+{
+
+
+    [self start];
+}
+-(IBAction)joinCustom:(id)sender;
+{
+	[[NSUserDefaults standardUserDefaults] setObject:customHost.stringValue forKey:@"host"];
+    
+    [self start];
 }
 
 -(void)tick:(NSTimer*)theTimer;

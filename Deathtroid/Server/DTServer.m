@@ -20,7 +20,7 @@
 #import "DTPhysics.h"
 #import "DTLevelRepository.h"
 
-#ifdef DUMB_CLIENT
+#if DUMB_CLIENT
 static const int kMaxServerFramerate = 60;
 #else
 static const int kMaxServerFramerate = 5;
