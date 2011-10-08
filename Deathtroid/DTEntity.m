@@ -29,7 +29,8 @@
 @synthesize world;
 @synthesize position, velocity, size, moveDirection, lookDirection, collisionType, gravity;
 
--(id)init {
+-(id)init;
+{
     if(!(self = [super init])) return nil;
     
     printf("SEN DENNA!\n");
@@ -43,15 +44,39 @@
     
     return self;
 }
+-(id)initWithRep:(NSDictionary*)rep;
+{
+    Class klass = NSClassFromString([rep objectForKey:@"class"]);
+    if(klass && ![klass isEqual:[self class]])
+        self = [klass alloc];
+    
+    return [[self init] updateFromRep:rep];
+}
 
--(id)initWithWorld:(DTWorld*)_world {
-    if(!(self = [super init])) return nil;
+#define $doif(key, then) ({id o = [rep objectForKey:key]; if(o) { then; } });
+
+-(id)updateFromRep:(NSDictionary*)rep;
+{
+    $doif(@"position", position = [[MutableVector2 alloc] initWithRep:o]);
+    $doif(@"velocity", velocity = [[MutableVector2 alloc] initWithRep:o]);
+    $doif(@"size", size = [[MutableVector2 alloc] initWithRep:o]);
     
-    printf("FÖRST DENNA\n");
+    $doif(@"moveDirection", moveDirection = [o intValue]);
+    $doif(@"lookDirection", lookDirection = [o intValue]);
+    $doif(@"collisionType", collisionType = [o intValue]);
     
-    world = world;
-    
-    return [self init];
+    return self;
+}
+-(NSDictionary*)rep;
+{
+    return $dict(
+        @"position", [position rep],
+        @"velocity", [velocity rep],
+        @"size", [size rep],
+        @"moveDirection", $num(moveDirection),
+        @"lookDirection", $num(lookDirection),
+        @"collisionType", $num(collisionType)
+    );
 }
 
 -(void)tick:(double)delta;

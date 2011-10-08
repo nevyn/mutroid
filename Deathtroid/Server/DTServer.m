@@ -1,3 +1,4 @@
+
 #import "DTServer.h"
 #import "TCAsyncHashProtocol.h"
 
@@ -15,13 +16,19 @@
 #import "DTEntityZoomer.h"
 #import "Vector2.h"
 
+typedef void(^EntCtor)(DTEntity*);
+@interface DTServer ()
+-(id)createEntity:(Class)class setup:(EntCtor)setItUp;
+-(void)destroyEntityKeyed:(NSString*)key;
+@end
+
 @implementation DTServer {
     AsyncSocket *_sock;
 	NSMutableArray *players;
 }
 
 @synthesize entities;
-@synthesize client, level, world;
+@synthesize level, world;
 
 -(id)init;
 {
@@ -32,36 +39,32 @@
     if(!(self = [super init])) return nil;
     
     players = [NSMutableArray array];
-    entities = [NSMutableArray array];
+    entities = [NSMutableDictionary dictionary];
     
     world = [[DTWorld alloc] init];
     
     level = [[DTLevel alloc] init];
     
     world.level = level;
+    
+    [self createEntity:[DTEntityRipper class] setup:(EntCtor)^(DTEntityRipper *ripper) {
+        ripper.position.x = 11;
+        ripper.position.y = 7;
+        ripper.size.y = 0.5;
+    }];
+    
+    [self createEntity:[DTEntityRipper class] setup:(EntCtor)^(DTEntityRipper *ripper) {
+        ripper.position.x = 5;
+        ripper.position.y = 5.2;
+        ripper.size.y = 0.5;
+    }];
 
-  //  DTPlayer *player = [[DTPlayer alloc] init];
-  //  player.entity = [[DTEntity alloc] init];
-  //  [entities addObject:player.entity];
-  //  [players addObject:player];
-    
-    DTEntityRipper *ripper = [[DTEntityRipper alloc] initWithWorld:world];
-    ripper.position.x = 11;
-    ripper.position.y = 7;
-    ripper.size.y = 0.5;
-    [entities addObject:ripper];
-    
-    ripper = [[DTEntityRipper alloc] initWithWorld:world];
-    ripper.position.x = 5;
-    ripper.position.y = 5.2;
-    ripper.size.y = 0.5;
-    [entities addObject:ripper];
-    
-    DTEntityZoomer *zoomer = [[DTEntityZoomer alloc] initWithWorld:world];
-    zoomer.position.x = 8;
-    zoomer.position.y = 8;
-    [entities addObject:zoomer];
-    
+    [self createEntity:[DTEntityZoomer class] setup:(EntCtor)^(DTEntityZoomer *zoomer) {    
+        zoomer.position.x = 8;
+        zoomer.position.y = 8;
+    }];
+
+
     _sock = [[AsyncSocket alloc] initWithDelegate:self];
 	_sock.delegate = self;
 	NSError *err = nil;
@@ -73,6 +76,8 @@
     return self;
 }
 
+#pragma mark Network
+
 -(void)onSocket:(AsyncSocket *)sock didAcceptNewSocket:(AsyncSocket *)newSocket;
 {
 	NSLog(@"Gained client: %@", newSocket);
@@ -80,12 +85,18 @@
 	
 	DTPlayer *player = [DTPlayer new];
 	player.proto = clientProto;
-	
 	[players addObject:player];
+    
+    // Send world state
+    for(NSString *key in entities)
+        [clientProto sendHash:$dict(
+            @"command", @"addEntity",
+            @"uuid", key,
+            @"rep", [[entities objectForKey:key] rep]
+        )];
+
 	
-	DTEntity *avatar = [DTEntity new];
-    player.entity = avatar;
-	[entities addObject:avatar];
+    player.entity = [self createEntity:[DTEntity class] setup:nil];
 	
 	[clientProto readHash];
 }
@@ -125,6 +136,48 @@
 	[proto readHash];
 }
 
+-(void)broadcast:(NSDictionary*)d;
+{
+    for(DTPlayer *player in players)
+        [player.proto sendHash:d];
+}
+
+-(id)createEntity:(Class)class setup:(EntCtor)setItUp;
+{
+    DTEntity *ent = [[class alloc] init];
+    ent.world = world;
+    
+    CFUUIDRef uuid = CFUUIDCreate(NULL);
+    NSString *uuidS = (__bridge_transfer NSString*)CFUUIDCreateString(NULL, uuid);
+    CFRelease(uuid);
+    
+    [entities setObject:ent forKey:uuidS];
+    
+    if(setItUp) setItUp(ent);
+    
+    [self broadcast:$dict(
+        @"command", @"addEntity",
+        @"uuid", uuidS,
+        @"rep", [ent rep]
+    )];
+    return ent;
+}
+
+-(void)destroyEntityKeyed:(NSString*)key;
+{
+    [self broadcast:$dict(
+        @"command", @"removeEntity",
+        @"uuid", key
+    )];
+}
+
+-(NSDictionary*)optimizeDelta:(NSDictionary*)newRep;
+{
+    // todo: Save old delta, remove any attrs that haven't changed
+    return newRep;
+}
+
+
 -(void)tick:(double)delta;
 {    
     // Physics!
@@ -138,7 +191,7 @@
             entity.velocity.x = 0;
     }
     
-    for(DTEntity *entity in entities) {
+    for(DTEntity *entity in entities.allValues) {
         if(entity.gravity && entity.velocity.y < 10)
             entity.velocity.y += 0.1;
 
@@ -146,7 +199,17 @@
         
         [entity tick:delta];
     }
+    
+    NSDictionary *reps = [self optimizeDelta:[entities sp_map: ^(NSString *k, id v) {
+        return [v rep];
+    }]];
+    [self broadcast:$dict(
+        @"command", @"updateEntityDeltas",
+        @"reps", reps
+    )];
 }
+
+#pragma mark physics and shit
 
 
 -(void)collideEntityWithWorld:(DTEntity*)entity delta:(double)delta;

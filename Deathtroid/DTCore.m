@@ -39,9 +39,6 @@
 		client = [[DTClient alloc] init];
 	
 	// horrible hacks
-	server.client = client;
-    client.server = server;
-    client.entities = server.entities;
     client.level = server.level;
     
     return self;

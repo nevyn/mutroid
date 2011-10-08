@@ -35,6 +35,8 @@ typedef enum
 - (id)initWithVector2:(Vector2*)vector;
 - (id)initWithVec2:(Vec2)vec;
 - (id)initWithScalar:(float)scalar;
+- (id)initWithRep:(NSDictionary*)rep;
+- (NSDictionary*)rep;
 
 - (void)dealloc;
 

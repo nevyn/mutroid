@@ -120,6 +120,14 @@ static Vector2 *negativeYAxis;
 {
 	return [self initWithX:scalar y:scalar];
 }
+- (id)initWithRep:(NSDictionary*)rep;
+{
+    return [self initWithX:[[rep objectForKey:@"x"] floatValue] y:[[rep objectForKey:@"y"] floatValue]];
+}
+- (NSDictionary*)rep;
+{
+    return $dict(@"x", $numf(X), @"y", $numf(Y));
+}
 
 - (void)dealloc;
 {

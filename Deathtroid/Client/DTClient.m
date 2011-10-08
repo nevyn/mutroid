@@ -10,7 +10,6 @@
 #import "TCAsyncHashProtocol.h"
 #import <OpenGL/gl.h>
 
-#import "DTServer.h"
 #import "DTLevel.h"
 #import "DTLayer.h"
 #import "DTMap.h"
@@ -26,8 +25,6 @@
 }
 @synthesize entities, level;
 @synthesize camera;
-
-@synthesize server;
 
 -(id)init;
 {
@@ -45,10 +42,7 @@
 		return nil;
 	}
     
-    //entities = [NSMutableArray array];
-    
-    //DTEntity *playerEnt = [[DTEntity alloc] init];
-    //[entities addObject:playerEnt];
+    entities = [NSMutableDictionary dictionary];
     
     // Insert code here to initialize your application
     glViewport(0, 0, 640, 480);
@@ -79,7 +73,7 @@
 -(void)tick:(double)delta;
 {
     // Ticka de som ska tickas?
-    camera.position.x = ((DTEntity*)[entities objectAtIndex:0]).position.x - 10;
+//    camera.position.x = ((DTEntity*)[entities objectAtIndex:2]).position.x - 10;
 }
 
 -(void)draw;
@@ -109,7 +103,7 @@
     glTranslatef(-camera.position.x, -camera.position.y, 0);
         
     glColor3f(1., 0, 0.);
-    for(DTEntity *entity in entities) {
+    for(DTEntity *entity in entities.allValues) {
         glPushMatrix();
         glTranslatef(entity.position.x, entity.position.y, 0);
         glBegin(GL_QUADS);
@@ -128,7 +122,6 @@
 {
 	NSLog(@"Connected to server: %@", sock);
 	[_proto readHash];
-	[_proto sendHash:$dict(@"hello", @"world")];
 	
 }
 -(void)onSocketDidDisconnect:(AsyncSocket *)sock;
@@ -138,7 +131,33 @@
 
 -(void)protocol:(TCAsyncHashProtocol*)proto receivedHash:(NSDictionary*)hash;
 {
-	NSLog(@"Hello! %@", hash);
+    NSString *command = [hash objectForKey:@"command"];
+    
+    if([command isEqual:@"updateEntityDeltas"]) {
+        NSDictionary *reps = $notNull([hash objectForKey:@"reps"]);
+        
+        for(NSString *key in reps) {
+            DTEntity *ent = $notNull([entities objectForKey:key]);
+            [ent updateFromRep:[reps objectForKey:key]];
+        }
+        
+    } else if([command isEqual:@"addEntity"]) {
+        NSString *key = $notNull([hash objectForKey:@"uuid"]);
+        NSDictionary *rep = $notNull([hash objectForKey:@"rep"]);
+        
+        DTEntity *ent = [[DTEntity alloc] initWithRep:rep];
+        // TODO<nevyn>: Per, laga detta.
+//        ent.world = world;
+        
+        [entities setObject:ent forKey:key];
+        
+    } else if([command isEqual:@"removeEntity"]) {
+        NSString *key = $notNull([hash objectForKey:@"uuid"]);
+        
+        [entities removeObjectForKey:key];
+        
+    } else NSLog(@"Unknown server command: %@", hash);
+    
 	[_proto readHash];
 }
 

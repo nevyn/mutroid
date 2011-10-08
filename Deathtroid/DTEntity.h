@@ -47,8 +47,10 @@ typedef struct {
 @end
 
 @interface DTEntity : NSObject
-
--(id)initWithWorld:(DTWorld*)_world;
+-(id)init;
+-(id)initWithRep:(NSDictionary*)rep;
+-(id)updateFromRep:(NSDictionary*)rep;
+-(NSDictionary*)rep;
 
 -(void)didCollideWithWorld:(DTCollisionInfo*)info;
 -(void)didCollideWithEntity:(DTEntity*)other;

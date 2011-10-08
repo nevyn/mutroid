@@ -25,11 +25,9 @@
 -(void)jump;
 
 
-@property (nonatomic,strong) NSMutableArray *entities;
+@property (nonatomic,strong) NSMutableDictionary *entities;
 
 @property (nonatomic,strong) DTLevel *level;
-
-@property (nonatomic,strong) DTServer *server;
 
 @property (nonatomic,strong) DTCamera *camera;
 

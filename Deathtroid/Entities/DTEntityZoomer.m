@@ -17,8 +17,6 @@
 {
     if(!(self = [super init])) return nil;
     
-    printf("SIST DENNA!\n");
-    
     self.size.x = 1;
     self.size.y = 1;
     
