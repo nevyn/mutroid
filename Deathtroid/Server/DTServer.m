@@ -67,6 +67,22 @@ typedef void(^EntCtor)(DTEntity*);
     return self;
 }
 
+-(void)spawnPlayer:(DTPlayer*)player;
+{
+    if(player.entity)
+        [self destroyEntityKeyed:player.entity.uuid];
+    
+    player.entity = [self createEntity:[DTEntityPlayer class] setup:nil];
+    [player.proto sendHash:$dict(
+        @"command", @"cameraFollow",
+        @"uuid", player.entity.uuid
+    )];
+    [player.proto sendHash:$dict(
+        @"command", @"playerEntity",
+        @"uuid", player.entity.uuid
+    )];
+}
+
 -(void)loadLevel:(NSString*)levelName;
 {
     [levelRepo fetchRoomNamed:@"test" whenDone:^(DTLevel *newLevel, NSError *err) {
@@ -100,13 +116,7 @@ typedef void(^EntCtor)(DTEntity*);
             zoomer.position.y = 8;
         }];
   */      
-        for(DTPlayer *player in players) {
-            player.entity = [self createEntity:[DTEntity class] setup:nil];
-            [player.proto sendHash:$dict(
-                @"command", @"cameraFollow",
-                @"uuid", player.entity.uuid
-            )];
-        }
+        for(DTPlayer *player in players) [self spawnPlayer:player];
     }];
 }
 
@@ -134,16 +144,7 @@ typedef void(^EntCtor)(DTEntity*);
             @"rep", [[entities objectForKey:key] rep]
         )];
 
-	
-    player.entity = [self createEntity:[DTEntityPlayer class] setup:nil];
-    [clientProto sendHash:$dict(
-        @"command", @"cameraFollow",
-        @"uuid", player.entity.uuid
-    )];
-    [clientProto sendHash:$dict(
-        @"command", @"playerEntity",
-        @"uuid", player.entity.uuid
-    )];
+	[self spawnPlayer:player];
 	
 	[clientProto readHash];
 }
@@ -168,7 +169,11 @@ typedef void(^EntCtor)(DTEntity*);
 		}
 	NSAssert(player, @"Unknown player sent us stuff");
     
-    if(!player.entity) return;
+    if(!player.entity) {
+        [self spawnPlayer:player];
+        [proto readHash];
+        return;
+    }
 
 	NSString *action = [hash objectForKey:@"action"];
 	
@@ -183,7 +188,7 @@ typedef void(^EntCtor)(DTEntity*);
         [self createEntity:[DTEntityBullet class] setup:(EntCtor)^(DTEntityBullet *e) {
             e.position = [MutableVector2 vectorWithVector2:player.entity.position];
             e.moveDirection = e.lookDirection = player.entity.lookDirection;
-            e.owner = (DTPlayerEntity*)player.entity;
+            e.owner = (DTEntityPlayer*)player.entity;
         }];
     } else NSLog(@"Unknown command %@", hash);
 	

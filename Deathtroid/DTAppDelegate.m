@@ -43,7 +43,7 @@
 
 -(IBAction)startGame:(id)sender;
 {
-    
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"host"];
     [self start];
 }
 -(IBAction)joinSelected:(id)sender;
