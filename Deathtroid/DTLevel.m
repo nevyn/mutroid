@@ -15,7 +15,7 @@
 
 @implementation DTLevel
 
-@synthesize layers;
+@synthesize layers = _layers;
 @synthesize entityLayerIndex;
 @synthesize name = _name;
 -(id)initWithPath:(NSURL*)path;
@@ -23,14 +23,24 @@
 	if(!(self = [super init])) return nil;
 	
     _name = [[path lastPathComponent] stringByDeletingPathExtension];
+	_layers = [NSMutableArray array];
     
-	layers = [NSMutableArray array];
-	
-    DTLayer *layer2 = [[DTLayer alloc] init];
-    layer2.depth = 0.5;
-    [layers addObject:layer2];
-	DTLayer *layer = [[DTLayer alloc] init];
-	[layers addObject:layer];
+    NSURL *repFile = [path URLByAppendingPathComponent:@"room.json"];
+    
+    NSData *d = [NSData dataWithContentsOfURL:repFile];
+    if(!d)
+        return self = nil;
+
+    NSError *err = nil;
+    NSDictionary *rep = [NSJSONSerialization JSONObjectWithData:d options:0 error:&err];
+    if(!rep) {
+        [NSApp presentError:err];
+        return self = nil;
+    }
+    
+    NSArray *layerReps = $notNull([rep objectForKey:@"layers"]);
+	for(NSDictionary *layerRep in layerReps)
+        [_layers addObject:[[DTLayer alloc] initWithRep:layerRep]];
     
     entityLayerIndex = 1;
 	
@@ -38,7 +48,7 @@
 }
 
 -(void)tick:(float)delta {
-	for(DTLayer *lay in layers)
+	for(DTLayer *lay in _layers)
 		[lay tick:delta];
 }
 

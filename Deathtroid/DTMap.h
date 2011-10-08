@@ -24,6 +24,6 @@
 @property (nonatomic,assign) int *tiles;
 @property (nonatomic,assign) int width, height;
 
--(id)init;
+-(id)initWithRep:(NSDictionary*)rep;
 
 @end

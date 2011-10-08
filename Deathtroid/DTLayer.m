@@ -17,16 +17,19 @@
 @synthesize currentPosition;
 @synthesize autoScrollSpeed;
 
--(id)init {
+-(id)initWithRep:(NSDictionary*)rep;
+{
+    if(!(self = [super init])) return nil;
+
 	currentPosition = [MutableVector2 vector];
 	startPosition = [Vector2 vectorWithX:0. y:0.];
 	
-    depth = 1.0;
+    depth = [[rep objectForKey:@"depth"]?:$num(1) floatValue];
 	autoScrollSpeed = CGPointMake(0.f, 0.f);
 		
-	map = [[DTMap alloc] init];
-	
-	return self;
+	map = [[DTMap alloc] initWithRep:rep];
+    
+    return self;
 }
 
 -(void)tick:(float)delta {

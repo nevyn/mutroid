@@ -33,7 +33,7 @@
 @property (nonatomic) float depth;
 @property (nonatomic) CGPoint autoScrollSpeed;
 
--(id)init;
+-(id)initWithRep:(NSDictionary*)rep;
 
 -(void)tick:(float)delta;
 
