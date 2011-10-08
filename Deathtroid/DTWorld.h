@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class DTMap, DTLevel, Vector2, DTEntity;
+@class DTMap, DTLevel, Vector2, DTEntity, DTServer;
 
 @interface DTTraceResult : NSObject
 -(id)initWithX:(BOOL)_x y:(BOOL)_y entity:(DTEntity*)_entity collisionPosition:(Vector2*)colPos velocity:(Vector2*)_velocity;
@@ -26,6 +26,7 @@
 -(DTTraceResult*)traceBox:(Vector2*)box from:(Vector2*)from to:(Vector2*)to inverted:(BOOL)inverted;
 -(DTTraceResult*)traceBoxStep:(Vector2*)position size:(Vector2*)size vx:(float)vx vy:(float)vy map:(DTMap*)map inverted:(BOOL)inverted;
 
+@property (nonatomic,weak) DTServer *server; // nil if world is on client
 @property (nonatomic,weak) DTLevel *level;
 
 @end

@@ -24,10 +24,12 @@
     [input.mapper registerStateActionWithName:@"WalkLeft" beginAction:^{ [client walkLeft]; } endAction:^{ [client stopWalk]; }];
     [input.mapper registerStateActionWithName:@"WalkRight" beginAction:^{ [client walkRight]; } endAction:^{ [client stopWalk]; }];
     [input.mapper registerActionWithName:@"Jump" action:^{ [client jump]; }];
+    [input.mapper registerActionWithName:@"Shoot" action:^{ [client shoot]; }];
     
     [input.mapper mapKey:kVK_ANSI_A toAction:@"WalkLeft"];
     [input.mapper mapKey:kVK_ANSI_D toAction:@"WalkRight"];
     [input.mapper mapKey:kVK_Space toAction:@"Jump"];
+    [input.mapper mapKey:kVK_ANSI_K toAction:@"Shoot"];
 	
      	
 	NSString *host = [[NSUserDefaults standardUserDefaults] objectForKey:@"host"];

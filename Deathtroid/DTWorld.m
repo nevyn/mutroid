@@ -31,7 +31,7 @@
 
 @implementation DTWorld
 
-@synthesize level;
+@synthesize level, server;
 
 -(id)initWithLevel:(DTLevel*)_level;
 {

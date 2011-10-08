@@ -15,6 +15,7 @@
 #import "DTEntityPlayer.h"
 #import "DTEntityRipper.h"
 #import "DTEntityZoomer.h"
+#import "DTEntityBullet.h"
 #import "Vector2.h"
 #import "DTPhysics.h"
 
@@ -23,7 +24,6 @@ static const int kMaxServerFramerate = 5;
 typedef void(^EntCtor)(DTEntity*);
 @interface DTServer ()
 -(id)createEntity:(Class)class setup:(EntCtor)setItUp;
--(void)destroyEntityKeyed:(NSString*)key;
 @end
 
 @implementation DTServer {
@@ -53,6 +53,7 @@ typedef void(^EntCtor)(DTEntity*);
     
     level = [[DTLevel alloc] initWithName:@"test"];
     world = [[DTWorld alloc] initWithLevel:level];
+    world.server = self;
         
     [self createEntity:[DTEntityRipper class] setup:(EntCtor)^(DTEntityRipper *ripper) {
         ripper.position.x = 11;
@@ -150,7 +151,12 @@ typedef void(^EntCtor)(DTEntity*);
         else if([direction isEqual:@"right"]) { player.entity.moving = true; player.entity.moveDirection = EntityDirectionRight; }
         else if([direction isEqual:@"stop"]) { player.entity.moving = false; }
 	} else if([action isEqual:@"jump"]) {
-        player.entity.velocity.y = -15;
+        [(DTEntityPlayer*)player.entity jump];
+    } else if([action isEqual:@"shoot"]) {
+        [self createEntity:[DTEntityBullet class] setup:(EntCtor)^(DTEntityBullet *e) {
+            e.position = [MutableVector2 vectorWithVector2:player.entity.position];
+            e.moveDirection = e.lookDirection = player.entity.lookDirection;
+        }];
     } else NSLog(@"Unknown command %@", hash);
 	
 	[proto readHash];

@@ -44,6 +44,9 @@
             self.velocity.x += brakeSpeed; if(self.velocity.x > 0) self.velocity.x = 0;
         }               
     }
+    
+    if(self.velocity.x < 0) self.lookDirection = EntityDirectionLeft;
+    else if(self.velocity.x > 0) self.lookDirection = EntityDirectionRight;
 
 }
 

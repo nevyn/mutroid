@@ -23,7 +23,7 @@
 -(void)stopWalk;
 -(void)walkRight;
 -(void)jump;
-
+-(void)shoot;
 
 @property (nonatomic,strong) DTPhysics *physics;
 

@@ -5,7 +5,10 @@
 @class DTTraceResult;
 @class Vector2;
 
-@interface DTServer : NSObject
+@interface DTServer : NSObject 
+
+-(void)destroyEntityKeyed:(NSString*)key;
+
 -(id)init;
 -(id)initListeningOnPort:(NSUInteger)port;
 

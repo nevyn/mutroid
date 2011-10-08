@@ -65,7 +65,7 @@
     //glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
     
     //glEnable(GL_TEXTURE_2D);
-    //glPointSize(5.0f);
+    glPointSize(5.0f);
     
     camera = [[DTCamera alloc] init];
     physics = [[DTPhysics alloc] init];
@@ -113,15 +113,22 @@
 
     glTranslatef(-camera.position.x, -camera.position.y, 0);
         
-    glColor3f(1., 0, 0.);
     for(DTEntity *entity in entities.allValues) {
         glPushMatrix();
         glTranslatef(entity.position.x, entity.position.y, 0);
         glBegin(GL_QUADS);
+        glColor3f(1., 0, 0.);
         glVertex3f(0., 0., 0.);
         glVertex3f(entity.size.x, 0., 0.);
         glVertex3f(entity.size.x, entity.size.y, 0.);
         glVertex3f(0., entity.size.y, 0);
+        glEnd();
+        glColor3f(0,0,1.);
+        glBegin(GL_POINTS);
+        if(entity.lookDirection == EntityDirectionLeft)
+            glVertex3f(0, entity.size.y/3, 0);
+        else if(entity.lookDirection == EntityDirectionRight)
+            glVertex3f(entity.size.x, entity.size.y/3, 0);
         glEnd();
         glPopMatrix();
     }
@@ -209,6 +216,10 @@
 {
     [(DTEntityPlayer*)playerEntity jump];
     [_proto sendHash:$dict(@"action", @"jump")];
+}
+-(void)shoot;
+{
+    [_proto sendHash:$dict(@"action",@"shoot")];
 }
 
 

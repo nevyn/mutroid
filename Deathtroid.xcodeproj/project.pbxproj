@@ -34,6 +34,7 @@
 		D8548F7B143F542B005D7DC0 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8548F7A143F542B005D7DC0 /* OpenGL.framework */; };
 		D891F8111440D98800B489CA /* DTPhysics.m in Sources */ = {isa = PBXBuildFile; fileRef = D891F8101440D98800B489CA /* DTPhysics.m */; };
 		D891F81D1440E83500B489CA /* DTEntityPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D891F81C1440E83500B489CA /* DTEntityPlayer.m */; };
+		D891F8251440F62B00B489CA /* DTEntityBullet.m in Sources */ = {isa = PBXBuildFile; fileRef = D891F8241440F62B00B489CA /* DTEntityBullet.m */; };
 		D8B05708143F77E6002CE09B /* DTCore.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B05707143F77E6002CE09B /* DTCore.m */; };
 		D8B05712143F840B002CE09B /* DTEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B05711143F840B002CE09B /* DTEntity.m */; };
 		D8B05715143F8569002CE09B /* Vector2.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B05714143F8569002CE09B /* Vector2.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -98,8 +99,10 @@
 		D8548F7A143F542B005D7DC0 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		D891F80F1440D98800B489CA /* DTPhysics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTPhysics.h; sourceTree = "<group>"; };
 		D891F8101440D98800B489CA /* DTPhysics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTPhysics.m; sourceTree = "<group>"; };
-		D891F81B1440E83500B489CA /* DTEntityPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; path = DTEntityPlayer.h; sourceTree = "<group>"; };
+		D891F81B1440E83500B489CA /* DTEntityPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTEntityPlayer.h; sourceTree = "<group>"; };
 		D891F81C1440E83500B489CA /* DTEntityPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTEntityPlayer.m; sourceTree = "<group>"; };
+		D891F8231440F62B00B489CA /* DTEntityBullet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTEntityBullet.h; sourceTree = "<group>"; };
+		D891F8241440F62B00B489CA /* DTEntityBullet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTEntityBullet.m; sourceTree = "<group>"; };
 		D896A3C6143F761F005F440F /* DTInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTInput.h; sourceTree = "<group>"; };
 		D8B05704143F7697002CE09B /* DTInput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTInput.m; sourceTree = "<group>"; };
 		D8B05706143F77E6002CE09B /* DTCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTCore.h; sourceTree = "<group>"; };
@@ -167,6 +170,8 @@
 				D822B7D414406D750097FC9E /* DTEntityZoomer.m */,
 				D891F81B1440E83500B489CA /* DTEntityPlayer.h */,
 				D891F81C1440E83500B489CA /* DTEntityPlayer.m */,
+				D891F8231440F62B00B489CA /* DTEntityBullet.h */,
+				D891F8241440F62B00B489CA /* DTEntityBullet.m */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -437,6 +442,7 @@
 				D822B7DD14407E1F0097FC9E /* DTWorld.m in Sources */,
 				D891F8111440D98800B489CA /* DTPhysics.m in Sources */,
 				D891F81D1440E83500B489CA /* DTEntityPlayer.m in Sources */,
+				D891F8251440F62B00B489CA /* DTEntityBullet.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -28,6 +28,9 @@
     gravity = true;
     moving = false;
     
+    moveDirection = EntityDirectionRight;
+    lookDirection = EntityDirectionRight;
+    
     return self;
 }
 -(id)initWithRep:(NSDictionary*)rep;
