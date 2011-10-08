@@ -139,7 +139,7 @@ typedef void(^EntCtor)(DTEntity*);
 			[direction isEqual:@"right"] ? EntityDirectionRight :
 			EntityDirectionNone;
 	} else if([action isEqual:@"jump"]) {
-        player.entity.velocity.y = -5;
+        player.entity.velocity.y = -15;
     } else NSLog(@"Unknown command %@", hash);
 	
 	[proto readHash];
@@ -225,7 +225,7 @@ typedef void(^EntCtor)(DTEntity*);
     
     for(DTEntity *entity in entities.allValues) {
         if(entity.gravity && entity.velocity.y < 10)
-            entity.velocity.y += 0.1;
+            entity.velocity.y += 0.5;
 
         [self collideEntityWithWorld:entity delta:delta];
         
@@ -248,7 +248,7 @@ typedef void(^EntCtor)(DTEntity*);
 {
     Vector2 *move = [entity.velocity vectorByMultiplyingWithScalar:delta];
     
-    DTCollisionInfo *info = [world traceBox:entity.size from:entity.position to:[entity.position vectorByAddingVector:move]];
+    DTTraceResult *info = [world traceBox:entity.size from:entity.position to:[entity.position vectorByAddingVector:move]];
     
     if(info==nil) { [entity.position addVector:move]; }
     else {

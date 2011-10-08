@@ -14,36 +14,59 @@
 #import "DTLayer.h"
 #import "DTLevel.h"
 
+@implementation DTTraceResult
+@synthesize x,y,entity,collisionPosition,velocity;
+-(id)initWithX:(BOOL)_x y:(BOOL)_y entity:(DTEntity*)_entity collisionPosition:(Vector2*)colPos velocity:(Vector2*)_velocity;
+{
+    if(!(self = [super init])) return nil;
+    x = _x;
+    y = _y;
+    entity = _entity;
+    collisionPosition = colPos;
+    velocity = _velocity;
+    return self;
+}
+@end
+
+
 @implementation DTWorld
 
 @synthesize level;
 
--(DTCollisionInfo*)traceBox:(Vector2*)box from:(Vector2*)from to:(Vector2*)to;
+-(DTTraceResult*)traceBox:(Vector2*)box from:(Vector2*)from to:(Vector2*)to;
+{
+    return [self traceBox:box from:from to:to inverted:false];
+}
+
+-(DTTraceResult*)traceBox:(Vector2*)box from:(Vector2*)from to:(Vector2*)to inverted:(BOOL)inverted;
 {
     Vector2 *move = [to vectorBySubtractingVector:from];
     float l = [move length];
     float stepLength = l>1 ? 1/l : 1;
-        
+    
     int steps = (int)ceil(l);
+    
+    if(steps > 1) printf("SNABB JÄVEL DU! %d, %f\n", steps, stepLength);
     
     DTMap *map = ((DTLayer*)[level.layers objectAtIndex:level.entityLayerIndex]).map;
 
     // Potentiell bug här, det kan bli så att move.x*(steps*stepLength) blir större än to.x. Får fixa det när det blir ett problem.
-    
     for(int i=0; i<steps; i++) {
-        DTCollisionInfo *result = [self traceBoxStep:from size:box vx:move.x*(steps*stepLength) vy:move.y*(steps*stepLength) map:map];
+     //   if(move.x > 0 && move.x*(steps*stepLength) > to.x) 
+           
+        DTTraceResult *result = [self traceBoxStep:from size:box vx:move.x*(steps*stepLength) vy:move.y*(steps*stepLength) map:map inverted:inverted];
         if(result != nil) return result;
     }
     
     return nil;
 }
 
--(DTCollisionInfo*)traceBoxStep:(Vector2*)position size:(Vector2*)size vx:(float)vx vy:(float)vy map:(DTMap*)map;
+-(DTTraceResult*)traceBoxStep:(Vector2*)position size:(Vector2*)size vx:(float)vx vy:(float)vy map:(DTMap*)map inverted:(BOOL)inverted;
 {
     int *tiles = map.tiles;
     
-    BOOL collidedX = false;
-    BOOL collidedY = false;
+    BOOL collidedX = NO;
+    BOOL collidedY = NO;
     
     float gx = position.x;
     float gy = position.y;
@@ -54,12 +77,18 @@
         int from = (int)gy;
         int to = (int)(gy + size.y - 0.0001);
         for(int y=from; y<=to; ++y) {
-            if(tiles[y*map.width+(int)coordx] > 0) {
+            int tile = tiles[y*map.width+(int)coordx];
+            if(tile>0) {
                 gx = vx < 0 ? ceil(coordx) : floor(coordx) - size.x;
-                collidedX = true;
+                collidedX = YES;
                 break;
             }
         }
+        
+        if(inverted) {
+            collidedX = !collidedX;
+            gx = vx < 0 ? ceil(coordx)-size.x : floor(coordx);
+        }        
     }
     
     if(vy != 0.0f) {
@@ -68,16 +97,22 @@
         int from = (int)gx;
         int to = (int)(gx + size.x - 0.0001);
         for(int x=from; x<=to; ++x) {
-            if(tiles[(int)coordy*map.width+x] > 0) {
+            int tile = tiles[(int)coordy*map.width+x];
+            if(tile>0) {
                 gy = vy < 0 ? ceil(coordy) : floor(coordy) - size.y;
-                collidedY = true;
+                collidedY = YES;
                 break;
             }
+        }
+        
+        if(inverted) {
+            collidedY = !collidedY;
+            gy = vy < 0 ? ceil(coordy)-size.y : floor(coordy);
         }
     }
         
     if(collidedX || collidedY) {
-        return [[DTCollisionInfo alloc] initWithX:collidedX y:collidedY entity:nil collisionPosition:[Vector2 vectorWithX:gx y:gy] velocity:nil];
+        return [[DTTraceResult alloc] initWithX:collidedX y:collidedY entity:nil collisionPosition:[Vector2 vectorWithX:gx y:gy] velocity:nil];
     }
     return nil;
 }

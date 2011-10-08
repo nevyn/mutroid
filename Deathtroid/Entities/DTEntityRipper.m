@@ -26,7 +26,7 @@
     return self;
 }
 
--(void)didCollideWithWorld:(DTCollisionInfo*)info;
+-(void)didCollideWithWorld:(DTTraceResult*)info;
 {
     self.moveDirection = self.moveDirection == EntityDirectionRight ? EntityDirectionLeft : EntityDirectionRight;
     if(self.moveDirection == EntityDirectionLeft) self.velocity.x = -speed;

@@ -12,6 +12,7 @@
 #import "DTWorld.h"
 
 @implementation DTEntityZoomer
+@synthesize crawlPosition;
 
 -(id)init;
 {
@@ -22,19 +23,44 @@
     
     self.gravity = false;
     self.collisionType = EntityCollisionTypeNone;
+    crawlPosition = ZoomerPositionGround;
     
-    self.velocity.x = 2;
+    speed = 2;
+    self.velocity.x = speed;
     
     return self;
 }
 
 -(void)tick:(double)delta;
 {
-    return;
-    // Check beneath
-    DTCollisionInfo *info = [self.world traceBox:self.size from:self.position to:[Vector2 vectorWithX:self.position.x y:self.position.y+0.5]];
-    printf("Y: %d", info.y);
-    //if(!info.y) self.velocity.y = 2;
-}                             
+    Vector2 *move = [self.velocity vectorByMultiplyingWithScalar:delta];
+    
+    if(move.x != 0.0f) {
+        float offset = move.x > 0 ? -self.size.x : self.size.x;
+        DTTraceResult *res = [self.world traceBox:self.size from:[Vector2 vectorWithX:self.position.x+offset y:self.position.y+0.5] to:[Vector2 vectorWithX:self.position.x+offset+move.x y:self.position.y+0.5] inverted:YES];
+        if(res && res.x) { self.velocity.x = 0; self.position.x = res.collisionPosition.x; self.velocity.y = speed; }
+    } else if(move.y != 0.0f) {
+        float offset = move.y > 0 ? -self.size.y : self.size.y;
+        DTTraceResult *res = [self.world traceBox:self.size from:[Vector2 vectorWithX:self.position.x-0.5 y:self.position.y+offset] to:[Vector2 vectorWithX:self.position.x-0.5 y:self.position.y+move.y+offset] inverted:YES];
+        if(res && res.y) { self.velocity.y = 0; self.position.y = res.collisionPosition.y; self.velocity.x = -speed; }
+    }
+}
+
+       
+-(id)updateFromRep:(NSDictionary*)rep;
+{
+    [super updateFromRep:rep];
+    $doif(@"crawlPosition", crawlPosition = [o intValue]);
+    return self;
+}
+       
+-(NSDictionary*)rep;
+{
+    NSMutableDictionary *rep = $mdict(
+      @"crawlPosition", $num(crawlPosition)
+    );
+    [rep addEntriesFromDictionary:[super rep]];
+    return rep;
+}
 
 @end

@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 
 @class DTWorld, DTLevel, DTEntity, DTMap;
-@class DTCollisionInfo;
+@class DTTraceResult;
 @class Vector2;
 
 @interface DTServer : NSObject

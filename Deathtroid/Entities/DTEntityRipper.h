@@ -14,7 +14,7 @@
 
 -(id)init;
 
--(void)didCollideWithWorld:(DTCollisionInfo*)info;
+-(void)didCollideWithWorld:(DTTraceResult*)info;
 -(void)didCollideWithEntity:(DTEntity*)other;
 
 @end

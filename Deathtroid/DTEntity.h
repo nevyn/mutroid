@@ -11,6 +11,9 @@
 @class Vector2, MutableVector2;
 @class DTEntity;
 @class DTWorld;
+@class DTTraceResult;
+
+#define $doif(key, then) ({id o = [rep objectForKey:key]; if(o) { then; } });
 
 typedef enum {
     EntityDirectionNone,
@@ -38,13 +41,6 @@ typedef struct {
 } CollisionInfo;
 */
 
-@interface DTCollisionInfo : NSObject
--(id)initWithX:(BOOL)_x y:(BOOL)_y entity:(DTEntity*)_entity collisionPosition:(Vector2*)colPos velocity:(Vector2*)_velocity;
-@property (nonatomic) BOOL x, y;
-@property (nonatomic,strong) DTEntity *entity;
-@property (nonatomic,strong) Vector2 *collisionPosition;
-@property (nonatomic,strong) Vector2 *velocity;   // Entity's velocity at impact
-@end
 
 @interface DTEntity : NSObject
 -(id)init;
@@ -52,7 +48,7 @@ typedef struct {
 -(id)updateFromRep:(NSDictionary*)rep;
 -(NSDictionary*)rep;
 
--(void)didCollideWithWorld:(DTCollisionInfo*)info;
+-(void)didCollideWithWorld:(DTTraceResult*)info;
 -(void)didCollideWithEntity:(DTEntity*)other;
 
 -(void)tick:(double)delta;

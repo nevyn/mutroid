@@ -8,8 +8,19 @@
 
 #import "DTEntity.h"
 
-@interface DTEntityZoomer : DTEntity
+typedef enum {
+    ZoomerPositionCeiling,
+    ZoomerPositionGround,
+    ZoomerPositionWallLeft,
+    ZoomerPositionWallRight,
+} ZoomerPosition;
+
+@interface DTEntityZoomer : DTEntity {
+    float   speed;
+}
 
 -(id)init;
+
+@property (nonatomic) ZoomerPosition crawlPosition;
 
 @end
