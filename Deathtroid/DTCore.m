@@ -26,8 +26,8 @@
     [input.mapper mapKey:0 toAction:@"WalkLeft"];
     [input.mapper mapKey:2 toAction:@"WalkRight"];
      
-    client = [[DTClient alloc] init];
     server = [[DTServer alloc] init];
+    client = [[DTClient alloc] init];
     return self;
 }
 
