@@ -77,13 +77,7 @@
     }
         
     if(collidedX || collidedY) {
-        DTCollisionInfo *info = [[DTCollisionInfo alloc] init];
-        info.x = collidedX;
-        info.y = collidedY;
-        //info.entity = nil;
-        info.collisionPosition = [Vector2 vectorWithX:gx y:gy];
-        //info.velocity = [Vector2 vectorWithX:oldvx y:oldvy];
-        return info;
+        return [[DTCollisionInfo alloc] initWithX:collidedX y:collidedY entity:nil collisionPosition:[Vector2 vectorWithX:gx y:gy] velocity:nil];
     }
     return nil;
 }

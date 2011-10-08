@@ -39,10 +39,11 @@ typedef struct {
 */
 
 @interface DTCollisionInfo : NSObject
+-(id)initWithX:(BOOL)_x y:(BOOL)_y entity:(DTEntity*)_entity collisionPosition:(Vector2*)colPos velocity:(Vector2*)_velocity;
 @property (nonatomic) BOOL x, y;
-@property (nonatomic,weak) DTEntity *entity;
-@property (nonatomic,weak) Vector2 *collisionPosition;
-@property (nonatomic,weak) Vector2 *velocity;   // Entity's velocity at impact
+@property (nonatomic,strong) DTEntity *entity;
+@property (nonatomic,strong) Vector2 *collisionPosition;
+@property (nonatomic,strong) Vector2 *velocity;   // Entity's velocity at impact
 @end
 
 @interface DTEntity : NSObject

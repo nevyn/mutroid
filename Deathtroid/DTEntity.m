@@ -11,9 +11,17 @@
 #import "Vector2.h"
 
 @implementation DTCollisionInfo
-
 @synthesize x,y,entity,collisionPosition,velocity;
-
+-(id)initWithX:(BOOL)_x y:(BOOL)_y entity:(DTEntity*)_entity collisionPosition:(Vector2*)colPos velocity:(Vector2*)_velocity;
+{
+    if(!(self = [super init])) return nil;
+    x = _x;
+    y = _y;
+    entity = _entity;
+    collisionPosition = colPos;
+    velocity = _velocity;
+    return self;
+}
 @end
 
 @implementation DTEntity
@@ -23,6 +31,8 @@
 
 -(id)init {
     if(!(self = [super init])) return nil;
+    
+    printf("SEN DENNA!\n");
     
     position = [MutableVector2 vectorWithX:5 y:1];
     velocity = [MutableVector2 vectorWithX:0 y:0];
@@ -36,6 +46,8 @@
 
 -(id)initWithWorld:(DTWorld*)_world {
     if(!(self = [super init])) return nil;
+    
+    printf("FÖRST DENNA\n");
     
     world = world;
     

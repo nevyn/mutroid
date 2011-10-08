@@ -51,13 +51,13 @@
     ripper.size.y = 0.5;
     [entities addObject:ripper];
     
-    ripper = [[DTEntityRipper alloc] init];
+    ripper = [[DTEntityRipper alloc] initWithWorld:world];
     ripper.position.x = 5;
     ripper.position.y = 5.2;
     ripper.size.y = 0.5;
     [entities addObject:ripper];
     
-    DTEntityZoomer *zoomer = [[DTEntityZoomer alloc] init];
+    DTEntityZoomer *zoomer = [[DTEntityZoomer alloc] initWithWorld:world];
     zoomer.position.x = 8;
     zoomer.position.y = 8;
     [entities addObject:zoomer];
@@ -155,8 +155,15 @@
     
     DTCollisionInfo *info = [world traceBox:entity.size from:entity.position to:[entity.position vectorByAddingVector:move]];
     
-    if(!info.x) entity.position.x += move.x; else { entity.position.x = info.collisionPosition.x; entity.velocity.x = 0; }
-    if(!info.y) entity.position.y += move.y; else { entity.position.y = info.collisionPosition.y; entity.velocity.y = 0; }
+    if(info==nil) { [entity.position addVector:move]; }
+    else {
+        if(entity.collisionType == EntityCollisionTypeNone || !info.x) entity.position.x += move.x;
+        else { entity.position.x = info.collisionPosition.x; entity.velocity.x = 0; }
+        if(entity.collisionType == EntityCollisionTypeNone || !info.y) entity.position.y += move.y;
+        else { entity.position.y = info.collisionPosition.y; entity.velocity.y = 0; }
+    }
+    
+    if(info.x || info.y) [entity didCollideWithWorld:info];
 }
 
 
