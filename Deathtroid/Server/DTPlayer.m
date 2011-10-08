@@ -12,5 +12,6 @@
 
 @synthesize entity;
 @synthesize direction;
+@synthesize proto;
 
 @end

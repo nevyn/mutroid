@@ -27,11 +27,19 @@
     
     [input.mapper mapKey:kVK_ANSI_A toAction:@"WalkLeft"];
     [input.mapper mapKey:kVK_ANSI_D toAction:@"WalkRight"];
-    [input.mapper mapKey:49 toAction:@"Jump"];
-     
-    server = [[DTServer alloc] init];
-    server.client = client;
-    client = [[DTClient alloc] init];
+    [input.mapper mapKey:kVK_Space toAction:@"Jump"];
+	
+     	
+	NSString *host = [[NSUserDefaults standardUserDefaults] objectForKey:@"-host"];
+	server = [[DTServer alloc] init];
+
+	if(host)
+		client = [[DTClient alloc] initConnectingTo:host port:kDTServerDefaultPort];
+	else
+		client = [[DTClient alloc] init];
+	
+	// horrible hacks
+	server.client = client;
     client.server = server;
     client.entities = server.entities;
     client.level = server.level;

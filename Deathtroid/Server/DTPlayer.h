@@ -10,10 +10,12 @@
 #import "DTEntity.h"
 
 @class DTEntity;
+@class TCAsyncHashProtocol;
 
 @interface DTPlayer : NSObject
 
-@property (nonatomic,strong) DTEntity *entity;
+@property (nonatomic,weak) DTEntity *entity;
 @property (nonatomic) EntityDirection direction;
+@property (nonatomic,strong) TCAsyncHashProtocol *proto;
 
 @end

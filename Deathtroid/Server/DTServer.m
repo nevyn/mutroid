@@ -14,10 +14,10 @@
 
 @implementation DTServer {
     AsyncSocket *_sock;
-	NSMutableArray *_clients;
+	NSMutableArray *players;
 }
 
-@synthesize players, entities;
+@synthesize entities;
 @synthesize client, level;
 
 -(id)init;
@@ -32,12 +32,7 @@
     entities = [NSMutableArray array];
     
     level = [[DTLevel alloc] init];
-    
-    DTPlayer *player = [[DTPlayer alloc] init];
-    player.entity = [[DTEntity alloc] init];
-    [entities addObject:player.entity];
-    [players addObject:player];    
-    
+        
     _sock = [[AsyncSocket alloc] initWithDelegate:self];
 	_sock.delegate = self;
 	NSError *err = nil;
@@ -45,8 +40,6 @@
 		[NSApp presentError:err];
 		return nil;
 	}
-
-	_clients = [NSMutableArray new];
     
     return self;
 }
@@ -55,16 +48,25 @@
 {
 	NSLog(@"Gained client: %@", newSocket);
 	TCAsyncHashProtocol *clientProto = [[TCAsyncHashProtocol alloc] initWithSocket:newSocket delegate:self];
-	[_clients addObject:clientProto];
+	
+	DTPlayer *player = [DTPlayer new];
+	player.proto = clientProto;
+	
+	[players addObject:player];
+	
+	DTEntity *avatar = [DTEntity new];
+    player.entity = avatar;
+	[entities addObject:avatar];
+	
 	[clientProto readHash];
 }
 -(void)onSocketDidDisconnect:(AsyncSocket *)sock;
 {
 	NSLog(@"Lost client: %@", sock);
 	sock.delegate = nil;
-	for(TCAsyncHashProtocol *proto in _clients)
-		if(proto.socket == sock) {
-			[_clients removeObject:proto];
+	for(DTPlayer *player in players)
+		if(player.proto.socket == sock) {
+			[players removeObject:player];
 			break;
 		}
 }
@@ -72,10 +74,15 @@
 -(void)protocol:(TCAsyncHashProtocol*)proto receivedHash:(NSDictionary*)hash;
 {
 	NSLog(@"Hello! %@", hash);
-	[proto readHash];
 	
+	DTPlayer *player = nil;
+	for(DTPlayer *pl in players)
+		if(pl.proto == proto) {
+			player = pl; break;
+		}
+	NSAssert(player, @"Unknown player sent us stuff");
+
 	NSString *action = [hash objectForKey:@"action"];
-	DTPlayer *player = [players objectAtIndex:0]; // TODO: infer from proto
 	
 	if([action isEqual:@"walk"]) {
 		NSString *direction = [hash objectForKey:@"direction"];
@@ -85,6 +92,8 @@
 	} else if([action isEqual:@"jump"]) {
         player.entity.velocity.y = -5;
     } else NSLog(@"Unknown command %@", hash);
+	
+	[proto readHash];
 }
 
 -(void)tick:(double)delta;
