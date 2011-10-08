@@ -20,7 +20,11 @@
 #import "DTPhysics.h"
 #import "DTLevelRepository.h"
 
+#ifdef DUMB_CLIENT
+static const int kMaxServerFramerate = 60;
+#else
 static const int kMaxServerFramerate = 5;
+#endif
 
 typedef void(^EntCtor)(DTEntity*);
 @interface DTServer ()
@@ -90,11 +94,12 @@ typedef void(^EntCtor)(DTEntity*);
             ripper.size.y = 0.5;
         }];
 
+/*
         [self createEntity:[DTEntityZoomer class] setup:(EntCtor)^(DTEntityZoomer *zoomer) {    
             zoomer.position.x = 8;
             zoomer.position.y = 8;
         }];
-        
+  */      
         for(DTPlayer *player in players) {
             player.entity = [self createEntity:[DTEntity class] setup:nil];
             [player.proto sendHash:$dict(
@@ -176,6 +181,7 @@ typedef void(^EntCtor)(DTEntity*);
         [self createEntity:[DTEntityBullet class] setup:(EntCtor)^(DTEntityBullet *e) {
             e.position = [MutableVector2 vectorWithVector2:player.entity.position];
             e.moveDirection = e.lookDirection = player.entity.lookDirection;
+            e.owner = (DTPlayerEntity*)player.entity;
         }];
     } else NSLog(@"Unknown command %@", hash);
 	

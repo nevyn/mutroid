@@ -22,9 +22,11 @@
 
 -(id)initWithLevel:(DTLevel*)_level;
 
--(DTTraceResult*)traceBox:(Vector2*)box from:(Vector2*)from to:(Vector2*)to;
--(DTTraceResult*)traceBox:(Vector2*)box from:(Vector2*)from to:(Vector2*)to inverted:(BOOL)inverted;
--(DTTraceResult*)traceBoxStep:(Vector2*)position size:(Vector2*)size vx:(float)vx vy:(float)vy map:(DTMap*)map inverted:(BOOL)inverted;
+-(DTTraceResult*)traceBox:(Vector2*)box from:(Vector2*)from to:(Vector2*)to exclude:(DTEntity*)exclude;
+-(DTTraceResult*)traceBox:(Vector2*)box from:(Vector2*)from to:(Vector2*)to exclude:(DTEntity*)exclude inverted:(BOOL)inverted;
+-(DTTraceResult*)traceBoxStep:(Vector2*)position size:(Vector2*)size vx:(float)vx vy:(float)vy map:(DTMap*)map exclude:(DTEntity*)exclude inverted:(BOOL)inverted;
+
+-(BOOL)boxCollideBoxA:(Vector2*)boxA sizeA:(Vector2*)sizeA boxB:(Vector2*)boxB sizeB:(Vector2*)sizeB;
 
 @property (nonatomic,weak) DTServer *server; // nil if world is on client
 @property (nonatomic,weak) DTLevel *level;

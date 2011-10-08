@@ -8,6 +8,10 @@
 
 #import "DTEntity.h"
 
+@class DTPlayerEntity;
+
 @interface DTEntityBullet : DTEntity
+
+@property (nonatomic,weak) DTPlayerEntity *owner;
 
 @end

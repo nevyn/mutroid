@@ -13,6 +13,7 @@
 #import "DTMap.h"
 #import "DTLayer.h"
 #import "DTLevel.h"
+#import "DTServer.h"
 
 @implementation DTTraceResult
 @synthesize x,y,entity,collisionPosition,velocity;
@@ -40,12 +41,12 @@
     return self;
 }
 
--(DTTraceResult*)traceBox:(Vector2*)box from:(Vector2*)from to:(Vector2*)to;
+-(DTTraceResult*)traceBox:(Vector2*)box from:(Vector2*)from to:(Vector2*)to exclude:(DTEntity*)exclude;
 {
-    return [self traceBox:box from:from to:to inverted:false];
+    return [self traceBox:box from:from to:to exclude:exclude inverted:false];
 }
 
--(DTTraceResult*)traceBox:(Vector2*)box from:(Vector2*)from to:(Vector2*)to inverted:(BOOL)inverted;
+-(DTTraceResult*)traceBox:(Vector2*)box from:(Vector2*)from to:(Vector2*)to exclude:(DTEntity*)exclude inverted:(BOOL)inverted;
 {
     Vector2 *move = [to vectorBySubtractingVector:from];
     float l = [move length];
@@ -61,14 +62,14 @@
     for(int i=0; i<steps; i++) {
      //   if(move.x > 0 && move.x*(steps*stepLength) > to.x) 
            
-        DTTraceResult *result = [self traceBoxStep:from size:box vx:move.x*(steps*stepLength) vy:move.y*(steps*stepLength) map:map inverted:inverted];
+        DTTraceResult *result = [self traceBoxStep:from size:box vx:move.x*(steps*stepLength) vy:move.y*(steps*stepLength) map:map exclude:exclude inverted:inverted];
         if(result != nil) return result;
     }
     
     return nil;
 }
 
--(DTTraceResult*)traceBoxStep:(Vector2*)position size:(Vector2*)size vx:(float)vx vy:(float)vy map:(DTMap*)map inverted:(BOOL)inverted;
+-(DTTraceResult*)traceBoxStep:(Vector2*)position size:(Vector2*)size vx:(float)vx vy:(float)vy map:(DTMap*)map exclude:(DTEntity*)exclude inverted:(BOOL)inverted;
 {
     int *tiles = map.tiles;
     
@@ -77,7 +78,7 @@
     
     float gx = position.x;
     float gy = position.y;
-        
+            
     if(vx != 0.0f) {
         gx += vx;
         float coordx = vx < 0 ? gx : gx + size.x - 0.0001;
@@ -121,7 +122,26 @@
     if(collidedX || collidedY) {
         return [[DTTraceResult alloc] initWithX:collidedX y:collidedY entity:nil collisionPosition:[Vector2 vectorWithX:gx y:gy] velocity:nil];
     }
+    
+    if(server) {
+        for(DTEntity *entity in server.entities.allValues) {
+            if(entity == exclude) continue;
+            if([self boxCollideBoxA:position sizeA:size boxB:entity.position sizeB:entity.size]) {
+                return [[DTTraceResult alloc] initWithX:YES y:YES entity:entity collisionPosition:[Vector2 vectorWithVector2:position] velocity:nil];
+            }
+        }
+    }
+
     return nil;
+}
+
+-(BOOL)boxCollideBoxA:(Vector2*)boxA sizeA:(Vector2*)sizeA boxB:(Vector2*)boxB sizeB:(Vector2*)sizeB;
+{
+    if(boxA.x + sizeA.x < boxB.x) return NO;
+    if(boxA.x > boxB.x + sizeB.x) return NO;
+    if(boxA.y + sizeA.y < boxB.y) return NO;
+    if(boxA.y > boxB.y + sizeB.y) return NO;
+    return YES;
 }
 
 @end

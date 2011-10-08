@@ -21,6 +21,11 @@
             entity.velocity.y += 0.5;
         
         [self moveEntity:entity world:world delta:delta];
+        
+        for(DTEntity *other in entities) {
+            if(other == entity) continue;
+            
+        }
     }
 }
 
@@ -28,17 +33,18 @@
 {
     Vector2 *move = [entity.velocity vectorByMultiplyingWithScalar:delta];
     
-    DTTraceResult *info = [world traceBox:entity.size from:entity.position to:[entity.position vectorByAddingVector:move]];
+    DTTraceResult *info = [world traceBox:entity.size from:entity.position to:[entity.position vectorByAddingVector:move] exclude:entity];
     
     if(info==nil) { [entity.position addVector:move]; }
     else {
-        if(entity.collisionType == EntityCollisionTypeNone || !info.x) entity.position.x += move.x;
+        if(info.entity || entity.collisionType == EntityCollisionTypeNone || !info.x) entity.position.x += move.x;
         else { entity.position.x = info.collisionPosition.x; entity.velocity.x = 0; }
-        if(entity.collisionType == EntityCollisionTypeNone || !info.y) entity.position.y += move.y;
+        if(info.entity || entity.collisionType == EntityCollisionTypeNone || !info.y) entity.position.y += move.y;
         else { entity.position.y = info.collisionPosition.y; entity.velocity.y = 0; }
     }
     
-    if(info.x || info.y) [entity didCollideWithWorld:info];
+    if(!info.entity && (info.x || info.y)) [entity didCollideWithWorld:info];
+    else if(info.entity) [entity didCollideWithEntity:info.entity];
 }
 
 

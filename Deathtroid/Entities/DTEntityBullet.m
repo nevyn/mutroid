@@ -14,6 +14,8 @@
 
 @implementation DTEntityBullet
 
+@synthesize owner;
+
 -(id)init;
 {
     if(!(self = [super init])) return nil;
@@ -33,6 +35,13 @@
 -(void)didCollideWithWorld:(DTTraceResult *)info;
 {
     [self.world.server destroyEntityKeyed:self.uuid];
+}
+
+-(void)didCollideWithEntity:(DTEntity *)other;
+{
+    if(other == (DTEntity*)owner) return;
+    [self.world.server destroyEntityKeyed:self.uuid];
+    [self.world.server destroyEntityKeyed:other.uuid];
 }
 
 @end

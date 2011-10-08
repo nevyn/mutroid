@@ -69,8 +69,13 @@
     glPointSize(5.0f);
     
     camera = [[DTCamera alloc] init];
-    physics = [[DTPhysics alloc] init];
     
+#ifdef DUMB_CLIENT
+    physics = nil;
+#else
+    physics = [[DTPhysics alloc] init];
+#endif
+
     glClearColor(0.0, 0.0, 0.0, 1.0);
         
     return self;
