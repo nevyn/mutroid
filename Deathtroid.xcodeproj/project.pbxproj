@@ -32,6 +32,9 @@
 		D8B05712143F840B002CE09B /* DTEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B05711143F840B002CE09B /* DTEntity.m */; };
 		D8B05715143F8569002CE09B /* Vector2.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B05714143F8569002CE09B /* Vector2.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		D8B05716143F8A73002CE09B /* DTInput.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B05704143F7697002CE09B /* DTInput.m */; };
+		D8B0572D143FB22F002CE09B /* DTMap.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B0572C143FB22F002CE09B /* DTMap.m */; };
+		D8B05732143FB2AA002CE09B /* DTLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B0572F143FB2AA002CE09B /* DTLayer.m */; };
+		D8B05733143FB2AA002CE09B /* DTLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B05731143FB2AA002CE09B /* DTLevel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +96,12 @@
 		D8B05723143FA20F002CE09B /* DTPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTPlayer.m; path = Server/DTPlayer.m; sourceTree = "<group>"; };
 		D8B05724143FA20F002CE09B /* DTServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTServer.h; path = Server/DTServer.h; sourceTree = "<group>"; };
 		D8B05725143FA20F002CE09B /* DTServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTServer.m; path = Server/DTServer.m; sourceTree = "<group>"; };
+		D8B0572B143FB22F002CE09B /* DTMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTMap.h; sourceTree = "<group>"; };
+		D8B0572C143FB22F002CE09B /* DTMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTMap.m; sourceTree = "<group>"; };
+		D8B0572E143FB2AA002CE09B /* DTLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTLayer.h; sourceTree = "<group>"; };
+		D8B0572F143FB2AA002CE09B /* DTLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTLayer.m; sourceTree = "<group>"; };
+		D8B05730143FB2AA002CE09B /* DTLevel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTLevel.h; sourceTree = "<group>"; };
+		D8B05731143FB2AA002CE09B /* DTLevel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTLevel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,10 +195,6 @@
 				D8548F34143F45D7005D7DC0 /* Supporting Files */,
 				05C35703143F9F53001FE29E /* TCAsyncHashProtocol.h */,
 				05C35704143F9F53001FE29E /* TCAsyncHashProtocol.m */,
-				D8548F77143F5323005D7DC0 /* DTClient.h */,
-				D8548F78143F5323005D7DC0 /* DTClient.m */,
-				0587E51C143F8A2700EA9CBF /* DTServer.h */,
-				0587E51D143F8A2700EA9CBF /* DTServer.m */,
 				D896A3C6143F761F005F440F /* DTInput.h */,
 				D8B05704143F7697002CE09B /* DTInput.m */,
 				D8B05706143F77E6002CE09B /* DTCore.h */,
@@ -198,6 +203,12 @@
 				0587E524143F8FB200EA9CBF /* DTConstants.m */,
 				D8B05710143F840B002CE09B /* DTEntity.h */,
 				D8B05711143F840B002CE09B /* DTEntity.m */,
+				D8B0572B143FB22F002CE09B /* DTMap.h */,
+				D8B0572C143FB22F002CE09B /* DTMap.m */,
+				D8B0572E143FB2AA002CE09B /* DTLayer.h */,
+				D8B0572F143FB2AA002CE09B /* DTLayer.m */,
+				D8B05730143FB2AA002CE09B /* DTLevel.h */,
+				D8B05731143FB2AA002CE09B /* DTLevel.m */,
 			);
 			path = Deathtroid;
 			sourceTree = "<group>";
@@ -379,6 +390,9 @@
 				05CC7B77143FC4BB00052D06 /* SPDepends.m in Sources */,
 				05CC7B78143FC4BB00052D06 /* SPKVONotificationCenter.m in Sources */,
 				05CC7B79143FC4BB00052D06 /* SPLowVerbosity.m in Sources */,
+				D8B0572D143FB22F002CE09B /* DTMap.m in Sources */,
+				D8B05732143FB2AA002CE09B /* DTLayer.m in Sources */,
+				D8B05733143FB2AA002CE09B /* DTLevel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

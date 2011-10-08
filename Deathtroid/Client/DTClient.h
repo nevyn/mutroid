@@ -8,16 +8,17 @@
 
 #import <Foundation/Foundation.h>
 
+@class DTServer, DTLevel;
+
 @interface DTClient : NSObject
 -(id)init; // to local
 -(id)initConnectingTo:(NSString*)host port:(NSUInteger)port;
 -(void)draw;
 
--(void)walkLeft;
--(void)stopWalkLeft;
--(void)walkRight;
--(void)stopWalkRight;
-
 @property (nonatomic,strong) NSMutableArray *entities;
+
+@property (nonatomic,strong) DTLevel *level;
+
+@property (nonatomic,strong) DTServer *server;
 
 @end

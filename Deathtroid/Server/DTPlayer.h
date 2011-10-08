@@ -7,11 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DTEntity.h"
 
 @class DTEntity;
 
 @interface DTPlayer : NSObject
 
 @property (nonatomic,strong) DTEntity *entity;
+@property (nonatomic) EntityDirection direction;
 
 @end

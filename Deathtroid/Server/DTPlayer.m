@@ -11,5 +11,6 @@
 @implementation DTPlayer
 
 @synthesize entity;
+@synthesize direction;
 
 @end

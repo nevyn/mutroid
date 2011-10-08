@@ -24,27 +24,7 @@
 @synthesize core;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
-{
-    // Insert code here to initialize your application
-    glViewport(0, 0, 640, 480);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glOrtho(0., 10.0f, 7.5f, 0., -1., 1.);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    
-    glDisable(GL_DEPTH_TEST);
-    //glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_FASTEST);
-    glDisable(GL_CULL_FACE);
-    //glEnable(GL_BLEND);
-    //glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-    
-    //glEnable(GL_TEXTURE_2D);
-    //glPointSize(5.0f);
-    
-    
-    glClearColor(0.0, 0.0, 0.0, 1.0);
-    
+{    
     core = [[DTCore alloc] init];
     _view.core = core;
     
@@ -56,6 +36,7 @@
 
 -(void)tick:(NSTimer*)theTimer;
 {
+    [core tick:0.1];
     //[server tick];
     //[client tick];
     

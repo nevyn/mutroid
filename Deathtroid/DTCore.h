@@ -20,5 +20,6 @@
 @property (nonatomic,strong) DTInput *input;
 
 -(void)draw;
+-(void)tick:(double)delta;
 
 @end

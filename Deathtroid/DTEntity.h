@@ -8,23 +8,24 @@
 
 #import <Foundation/Foundation.h>
 
-@class Vector2;
+@class MutableVector2;
 
 typedef enum {
-    Left,
-    LeftUp,
-    Up,
-    RightUp,
-    Right,
-    RightDown,
-    Down,
-    LeftDown
+    EntityDirectionNone,
+    EntityDirectionLeft,
+    EntityDirectionLeftUp,
+    EntityDirectionUp,
+    EntityDirectionRightUp,
+    EntityDirectionRight,
+    EntityDirectionRightDown,
+    EntityDirectionDown,
+    EntityDirectionLeftDown
 } EntityDirection;
 
 @interface DTEntity : NSObject
 
-@property (nonatomic,strong) Vector2 *position;
-@property (nonatomic,strong) Vector2 *velocity;
+@property (nonatomic,strong) MutableVector2 *position;
+@property (nonatomic,strong) MutableVector2 *velocity;
 @property (nonatomic) EntityDirection walkDirection;
 @property (nonatomic) EntityDirection lookDirection;
 

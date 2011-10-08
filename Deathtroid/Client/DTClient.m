@@ -9,7 +9,13 @@
 #import "DTClient.h"
 #import "TCAsyncHashProtocol.h"
 #import <OpenGL/gl.h>
+
+#import "DTServer.h"
+#import "DTLevel.h"
+#import "DTLayer.h"
+#import "DTMap.h"
 #import "DTEntity.h"
+#import "Vector2.h"
 
 @interface DTClient () <TCAsyncHashProtocolDelegate>
 @end
@@ -17,7 +23,9 @@
 @implementation DTClient {
 	TCAsyncHashProtocol *_proto;
 }
-@synthesize entities;
+@synthesize entities, level;
+
+@synthesize server;
 
 -(id)init;
 {
@@ -35,10 +43,31 @@
 		return nil;
 	}
     
-    entities = [NSMutableArray array];
+    //entities = [NSMutableArray array];
     
-    DTEntity *playerEnt = [[DTEntity alloc] init];
-    [entities addObject:playerEnt];
+    //DTEntity *playerEnt = [[DTEntity alloc] init];
+    //[entities addObject:playerEnt];
+    
+    // Insert code here to initialize your application
+    glViewport(0, 0, 640, 480);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(0., 20.0f, 15.f, 0., -1., 1.);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    
+    glDisable(GL_DEPTH_TEST);
+    //glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_FASTEST);
+    glDisable(GL_CULL_FACE);
+    //glEnable(GL_BLEND);
+    //glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+    
+    //glEnable(GL_TEXTURE_2D);
+    //glPointSize(5.0f);
+    
+    
+    glClearColor(0.0, 0.0, 0.0, 1.0);
+
     
     return self;
 }
@@ -53,22 +82,36 @@
     glClear(GL_COLOR_BUFFER_BIT);
     glLoadIdentity();
     
-    //glTranslatef(0, 0, -10);
-    
-    glBegin(GL_TRIANGLES);
-    glColor3f(1., 1, 1.);
-    
-    glVertex3f(0., 0., 0.);
-    glVertex3f(1., 0., 0.);
-    glVertex3f(0., 1., 0.);
-    
+    glBegin(GL_QUADS);
+    glColor3f(1, 1, 1);
+    for(DTLayer *layer in level.layers) {
+        DTMap *map = layer.map;
+        for(int h=0; h<map.height; h++) {
+            for(int w=0; w<map.width; w++) {
+                if(map.tiles[h*map.width+w] == 0) continue;
+                glVertex2f(w, h);
+                glVertex2f(w+1, h);
+                glVertex2f(w+1, h+1);
+                glVertex2f(w, h+1);
+            }
+        }
+    }
     glEnd();
-}
 
--(void)walkLeft; { printf("Gå vänster\n"); }
--(void)stopWalkLeft; { printf("Sluta gå vänster\n"); }
--(void)walkRight; { printf("Gå höger\n"); }
--(void)stopWalkRight; { printf("Sluta gå höger\n"); }
+        
+    glColor3f(1., 0, 0.);
+    for(DTEntity *entity in entities) {
+        glPushMatrix();
+        glTranslatef(entity.position.x, entity.position.y, 0);
+        glBegin(GL_QUADS);
+        glVertex3f(0., 0., 0.);
+        glVertex3f(1., 0., 0.);
+        glVertex3f(1., 1., 0.);
+        glVertex3f(0., 1.0, 0);
+        glEnd();
+        glPopMatrix();
+    }
+}
 
 
 #pragma mark Network

@@ -20,20 +20,30 @@
 {
     input = [[DTInput alloc] init];
     
-    [input.mapper registerStateActionWithName:@"WalkLeft" beginAction:^{ [client walkLeft]; } endAction:^{ [client stopWalkLeft]; }];
-    [input.mapper registerStateActionWithName:@"WalkRight" beginAction:^{ [client walkRight]; } endAction:^{ [client stopWalkRight]; }];
+    [input.mapper registerStateActionWithName:@"WalkLeft" beginAction:^{ [server walkLeft]; } endAction:^{ [server stopWalkLeft]; }];
+    [input.mapper registerStateActionWithName:@"WalkRight" beginAction:^{ [server walkRight]; } endAction:^{ [server stopWalkRight]; }];
     
     [input.mapper mapKey:0 toAction:@"WalkLeft"];
     [input.mapper mapKey:2 toAction:@"WalkRight"];
      
     server = [[DTServer alloc] init];
+    server.client = client;
     client = [[DTClient alloc] init];
+    client.server = server;
+    client.entities = server.entities;
+    client.level = server.level;
+    
     return self;
 }
 
 -(void)draw;
 {
     [client draw];
+}
+
+-(void)tick:(double)delta;
+{
+    [server tick:delta];
 }
 
 @end
