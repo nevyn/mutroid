@@ -167,6 +167,8 @@ typedef void(^EntCtor)(DTEntity*);
 			player = pl; break;
 		}
 	NSAssert(player, @"Unknown player sent us stuff");
+    
+    if(!player.entity) return;
 
 	NSString *action = [hash objectForKey:@"action"];
 	
