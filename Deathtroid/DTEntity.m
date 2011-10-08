@@ -26,7 +26,7 @@
 
 @implementation DTEntity
 
-@synthesize world;
+@synthesize world, uuid;
 @synthesize position, velocity, size, moveDirection, lookDirection, collisionType, gravity;
 
 -(id)init;

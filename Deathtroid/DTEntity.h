@@ -64,7 +64,9 @@ typedef struct {
 @property (nonatomic) EntityDirection lookDirection;
 @property (nonatomic) EntityCollisionType collisionType;
 @property (nonatomic) BOOL gravity;
+
 @property (nonatomic,weak) DTWorld *world;
+@property (nonatomic,strong) NSString *uuid;
 
 @end
 

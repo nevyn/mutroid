@@ -97,6 +97,10 @@ typedef void(^EntCtor)(DTEntity*);
 
 	
     player.entity = [self createEntity:[DTEntity class] setup:nil];
+    [clientProto sendHash:$dict(
+        @"command", @"cameraFollow",
+        @"uuid", player.entity.uuid
+    )];
 	
 	[clientProto readHash];
 }
@@ -106,6 +110,7 @@ typedef void(^EntCtor)(DTEntity*);
 	sock.delegate = nil;
 	for(DTPlayer *player in players)
 		if(player.proto.socket == sock) {
+            [self destroyEntityKeyed:player.entity.uuid];
 			[players removeObject:player];
 			break;
 		}
@@ -113,8 +118,6 @@ typedef void(^EntCtor)(DTEntity*);
 
 -(void)protocol:(TCAsyncHashProtocol*)proto receivedHash:(NSDictionary*)hash;
 {
-	NSLog(@"Hello! %@", hash);
-	
 	DTPlayer *player = nil;
 	for(DTPlayer *pl in players)
 		if(pl.proto == proto) {
@@ -150,6 +153,7 @@ typedef void(^EntCtor)(DTEntity*);
     CFUUIDRef uuid = CFUUIDCreate(NULL);
     NSString *uuidS = (__bridge_transfer NSString*)CFUUIDCreateString(NULL, uuid);
     CFRelease(uuid);
+    ent.uuid = uuidS;
     
     [entities setObject:ent forKey:uuidS];
     

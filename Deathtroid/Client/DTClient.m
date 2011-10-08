@@ -22,6 +22,7 @@
 
 @implementation DTClient {
 	TCAsyncHashProtocol *_proto;
+    __weak DTEntity *followThis;
 }
 @synthesize entities, level;
 @synthesize camera;
@@ -73,7 +74,7 @@
 -(void)tick:(double)delta;
 {
     // Ticka de som ska tickas?
-//    camera.position.x = ((DTEntity*)[entities objectAtIndex:2]).position.x - 10;
+    camera.position.x = followThis.position.x - 10;
 }
 
 -(void)draw;
@@ -146,6 +147,7 @@
         NSDictionary *rep = $notNull([hash objectForKey:@"rep"]);
         
         DTEntity *ent = [[DTEntity alloc] initWithRep:rep];
+        ent.uuid = key;
         // TODO<nevyn>: Per, laga detta.
 //        ent.world = world;
         
@@ -155,7 +157,10 @@
         NSString *key = $notNull([hash objectForKey:@"uuid"]);
         
         [entities removeObjectForKey:key];
-        
+    
+    } else if([command isEqual:@"cameraFollow"]) {
+        DTEntity *f = $notNull([entities objectForKey:[hash objectForKey:@"uuid"]]);
+        followThis = f; // silence stupid warning :/
     } else NSLog(@"Unknown server command: %@", hash);
     
 	[_proto readHash];
