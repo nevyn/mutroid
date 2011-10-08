@@ -9,7 +9,7 @@
 -(void)tick:(double)delta;
 
 -(void)collideEntityWithWorld:(DTEntity*)entity delta:(double)delta;
--(void)collideEntityWithWorldStep:(DTEntity*)entity vx:(float)vx vy:(float)vy map:(DTMap*)map;
+-(BOOL)collideEntityWithWorldStep:(DTEntity*)entity vx:(float)vx vy:(float)vy map:(DTMap*)map;
 
 @property (nonatomic,strong) NSMutableArray *entities;
 

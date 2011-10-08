@@ -8,7 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-@class MutableVector2;
+@class Vector2, MutableVector2;
+@class DTEntity;
 
 typedef enum {
     EntityDirectionNone,
@@ -22,13 +23,40 @@ typedef enum {
     EntityDirectionLeftDown
 } EntityDirection;
 
+typedef enum {
+    EntityCollisionTypeNone,
+    EntityCollisionTypeStop,
+    EntityCollisionTypeBounce
+} EntityCollisionType;
+
+/*
+typedef struct {
+    BOOL        x, y;
+    DTEntity    *entity;    // null = world
+    Vector2     *position;
+} CollisionInfo;
+*/
+
+@interface DTCollisionInfo : NSObject
+@property (nonatomic) BOOL x, y;
+@property (nonatomic,weak) DTEntity *entity;
+@property (nonatomic,weak) Vector2 *collisionPosition;
+@property (nonatomic,weak) Vector2 *velocity;   // Entity's velocity at impact
+@end
+
 @interface DTEntity : NSObject
+
+-(void)didCollideWithWorld:(DTCollisionInfo*)info;
+-(void)didCollideWithEntity:(DTEntity*)other;
+
+-(void)tick:(double)delta;
 
 @property (nonatomic,strong) MutableVector2 *position;
 @property (nonatomic,strong) MutableVector2 *velocity;
 @property (nonatomic,strong) MutableVector2 *size;
-@property (nonatomic) EntityDirection walkDirection;
+@property (nonatomic) EntityDirection moveDirection;
 @property (nonatomic) EntityDirection lookDirection;
+@property (nonatomic) EntityCollisionType collisionType;
 
 @end
 

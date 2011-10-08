@@ -10,6 +10,7 @@
 #import "DTMap.h"
 #import "DTPlayer.h"
 #import "DTEntity.h"
+#import "DTEntityRipper.h"
 #import "Vector2.h"
 
 @implementation DTServer {
@@ -32,6 +33,23 @@
     entities = [NSMutableArray array];
     
     level = [[DTLevel alloc] init];
+
+  //  DTPlayer *player = [[DTPlayer alloc] init];
+  //  player.entity = [[DTEntity alloc] init];
+  //  [entities addObject:player.entity];
+  //  [players addObject:player];
+    
+    DTEntityRipper *ripper = [[DTEntityRipper alloc] init];
+    ripper.position.x = 11;
+    ripper.position.y = 7;
+    ripper.size.y = 0.5;
+    [entities addObject:ripper];
+    
+    ripper = [[DTEntityRipper alloc] init];
+    ripper.position.x = 5;
+    ripper.position.y = 5.2;
+    ripper.size.y = 0.5;
+    [entities addObject:ripper];
         
     _sock = [[AsyncSocket alloc] initWithDelegate:self];
 	_sock.delegate = self;
@@ -110,7 +128,9 @@
         
         if(entity.velocity.y < 10)
             entity.velocity.y += 0.1;
-                
+    }
+    
+    for(DTEntity *entity in entities) {
         [self collideEntityWithWorld:entity delta:delta];
     }
 }
@@ -126,42 +146,74 @@
     DTMap *map = ((DTLayer*)[level.layers objectAtIndex:level.entityLayerIndex]).map;
     
     for(int i=0; i<steps; ++i) {
-        [self collideEntityWithWorldStep:entity vx:vx/steps vy:vy/steps map:map];
+        BOOL collided = [self collideEntityWithWorldStep:entity vx:vx/steps vy:vy/steps map:map];
+        if(collided) {
+            //[entity didCollideWithWorld];
+            break;
+        }        
     }    
 }
 
 
--(void)collideEntityWithWorldStep:(DTEntity*)entity vx:(float)vx vy:(float)vy map:(DTMap*)map;
+-(BOOL)collideEntityWithWorldStep:(DTEntity*)entity vx:(float)vx vy:(float)vy map:(DTMap*)map;
 {
     int *tiles = map.tiles;
     
+    BOOL collidedX = false;
+    BOOL collidedY = false;
+    
+    float gx = entity.position.x;
+    float gy = entity.position.y;
+    float oldvx = entity.velocity.x;
+    float oldvy = entity.velocity.y;
+    
     if(vx != 0.0f) {
-        entity.position.x += vx;
-        float coordx = vx < 0 ? entity.position.x : entity.position.x + entity.size.x - 0.0001;
-        int from = (int)entity.position.y;
-        int to = (int)(entity.position.y + entity.size.y - 0.0001);
+        gx += vx;
+        float coordx = vx < 0 ? gx : gx + entity.size.x - 0.0001;
+        int from = (int)gy;
+        int to = (int)(gy + entity.size.y - 0.0001);
         for(int y=from; y<=to; ++y) {
             if(tiles[y*map.width+(int)coordx] > 0) {
-                entity.position.x = vx < 0 ? ceil(coordx) : floor(coordx) - entity.size.x;
-                entity.velocity.x = 0.0;
+                gx = vx < 0 ? ceil(coordx) : floor(coordx) - entity.size.x;
+                collidedX = true;
                 break;
             }
         }
     }
     
     if(vy != 0.0f) {
-        entity.position.y += vy;
-        float coordy = vy < 0 ? entity.position.y : entity.position.y + entity.size.y - 0.0001;
-        int from = (int)entity.position.x;
-        int to = (int)(entity.position.x + entity.size.x - 0.0001);
+        gy += vy;
+        float coordy = vy < 0 ? gy : gy + entity.size.y - 0.0001;
+        int from = (int)gx;
+        int to = (int)(gx + entity.size.x - 0.0001);
         for(int x=from; x<=to; ++x) {
             if(tiles[(int)coordy*map.width+x] > 0) {
-                entity.position.y = vy < 0 ? ceil(coordy) : floor(coordy) - entity.size.y;
-                entity.velocity.y = 0.0;
+                gy = vy < 0 ? ceil(coordy) : floor(coordy) - entity.size.y;
+                collidedY = true;
                 break;
             }
         }
     }
+    
+    entity.position.x += vx;
+    entity.position.y += vy;
+        
+    if(collidedX || collidedY) {
+        
+        if(entity.collisionType == EntityCollisionTypeStop) {
+            if(collidedX) { entity.position.x = gx; entity.velocity.x = 0; }
+            if(collidedY) { entity.position.y = gy; entity.velocity.y = 0; }
+        }
+        
+        DTCollisionInfo *info = [[DTCollisionInfo alloc] init];
+        info.x = collidedX;
+        info.y = collidedY;
+        info.entity = nil;
+        info.collisionPosition = [Vector2 vectorWithX:gx y:gy];
+        info.velocity = [Vector2 vectorWithX:oldvx y:oldvy];
+        [entity didCollideWithWorld:info];
+    }
+    return collidedX || collidedY;
 }
 
 /*
