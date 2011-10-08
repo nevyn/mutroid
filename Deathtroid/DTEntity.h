@@ -10,6 +10,7 @@
 
 @class Vector2, MutableVector2;
 @class DTEntity;
+@class DTWorld;
 
 typedef enum {
     EntityDirectionNone,
@@ -46,6 +47,8 @@ typedef struct {
 
 @interface DTEntity : NSObject
 
+-(id)initWithWorld:(DTWorld*)_world;
+
 -(void)didCollideWithWorld:(DTCollisionInfo*)info;
 -(void)didCollideWithEntity:(DTEntity*)other;
 
@@ -57,6 +60,8 @@ typedef struct {
 @property (nonatomic) EntityDirection moveDirection;
 @property (nonatomic) EntityDirection lookDirection;
 @property (nonatomic) EntityCollisionType collisionType;
+@property (nonatomic) BOOL gravity;
+@property (nonatomic,weak) DTWorld *world;
 
 @end
 

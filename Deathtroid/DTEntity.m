@@ -18,7 +18,8 @@
 
 @implementation DTEntity
 
-@synthesize position, velocity, size, moveDirection, lookDirection, collisionType;
+@synthesize world;
+@synthesize position, velocity, size, moveDirection, lookDirection, collisionType, gravity;
 
 -(id)init {
     if(!(self = [super init])) return nil;
@@ -28,8 +29,17 @@
     size = [MutableVector2 vectorWithX:0.8 y:1.75];
     
     collisionType = EntityCollisionTypeStop;
+    gravity = true;
     
     return self;
+}
+
+-(id)initWithWorld:(DTWorld*)_world {
+    if(!(self = [super init])) return nil;
+    
+    world = world;
+    
+    return [self init];
 }
 
 -(void)tick:(double)delta;

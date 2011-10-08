@@ -79,7 +79,7 @@
 -(void)tick:(double)delta;
 {
     // Ticka de som ska tickas?
-    camera.position.x = ((DTEntity*)[entities objectAtIndex:2]).position.x - 10;
+    camera.position.x = ((DTEntity*)[entities objectAtIndex:0]).position.x - 10;
 }
 
 -(void)draw;

@@ -1,6 +1,8 @@
 #import <Foundation/Foundation.h>
 
-@class DTClient, DTLevel, DTEntity, DTMap;
+@class DTClient, DTWorld, DTLevel, DTEntity, DTMap;
+@class DTCollisionInfo;
+@class Vector2;
 
 @interface DTServer : NSObject
 -(id)init;
@@ -13,6 +15,7 @@
 
 @property (nonatomic,strong) NSMutableArray *entities;
 
+@property (nonatomic,strong) DTWorld *world;
 @property (nonatomic,strong) DTLevel *level;
 
 @property (nonatomic,strong) DTClient *client;

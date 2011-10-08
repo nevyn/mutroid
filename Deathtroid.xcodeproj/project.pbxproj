@@ -18,6 +18,8 @@
 		05CC7B82143FCE3900052D06 /* DTPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B05723143FA20F002CE09B /* DTPlayer.m */; };
 		D822B7C2143FDDF80097FC9E /* DTCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = D822B7C1143FDDF80097FC9E /* DTCamera.m */; };
 		D822B7C6143FE1AC0097FC9E /* DTEntityRipper.m in Sources */ = {isa = PBXBuildFile; fileRef = D822B7C5143FE1AC0097FC9E /* DTEntityRipper.m */; };
+		D822B7D514406D750097FC9E /* DTEntityZoomer.m in Sources */ = {isa = PBXBuildFile; fileRef = D822B7D414406D750097FC9E /* DTEntityZoomer.m */; };
+		D822B7DD14407E1F0097FC9E /* DTWorld.m in Sources */ = {isa = PBXBuildFile; fileRef = D822B7DC14407E1F0097FC9E /* DTWorld.m */; };
 		D8548F2E143F45D7005D7DC0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8548F2D143F45D7005D7DC0 /* Cocoa.framework */; };
 		D8548F38143F45D7005D7DC0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D8548F36143F45D7005D7DC0 /* InfoPlist.strings */; };
 		D8548F3A143F45D7005D7DC0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D8548F39143F45D7005D7DC0 /* main.m */; };
@@ -66,6 +68,10 @@
 		D822B7C1143FDDF80097FC9E /* DTCamera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTCamera.m; path = Client/DTCamera.m; sourceTree = "<group>"; };
 		D822B7C4143FE1AC0097FC9E /* DTEntityRipper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTEntityRipper.h; sourceTree = "<group>"; };
 		D822B7C5143FE1AC0097FC9E /* DTEntityRipper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTEntityRipper.m; sourceTree = "<group>"; };
+		D822B7D314406D750097FC9E /* DTEntityZoomer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTEntityZoomer.h; sourceTree = "<group>"; };
+		D822B7D414406D750097FC9E /* DTEntityZoomer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTEntityZoomer.m; sourceTree = "<group>"; };
+		D822B7DB14407E1F0097FC9E /* DTWorld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTWorld.h; sourceTree = "<group>"; };
+		D822B7DC14407E1F0097FC9E /* DTWorld.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTWorld.m; sourceTree = "<group>"; };
 		D8548F29143F45D7005D7DC0 /* Deathtroid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Deathtroid.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8548F2D143F45D7005D7DC0 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		D8548F30143F45D7005D7DC0 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -151,6 +157,8 @@
 			children = (
 				D822B7C4143FE1AC0097FC9E /* DTEntityRipper.h */,
 				D822B7C5143FE1AC0097FC9E /* DTEntityRipper.m */,
+				D822B7D314406D750097FC9E /* DTEntityZoomer.h */,
+				D822B7D414406D750097FC9E /* DTEntityZoomer.m */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -225,6 +233,8 @@
 				D8B0572F143FB2AA002CE09B /* DTLayer.m */,
 				D8B05730143FB2AA002CE09B /* DTLevel.h */,
 				D8B05731143FB2AA002CE09B /* DTLevel.m */,
+				D822B7DB14407E1F0097FC9E /* DTWorld.h */,
+				D822B7DC14407E1F0097FC9E /* DTWorld.m */,
 			);
 			path = Deathtroid;
 			sourceTree = "<group>";
@@ -413,6 +423,8 @@
 				D8B05733143FB2AA002CE09B /* DTLevel.m in Sources */,
 				D822B7C2143FDDF80097FC9E /* DTCamera.m in Sources */,
 				D822B7C6143FE1AC0097FC9E /* DTEntityRipper.m in Sources */,
+				D822B7D514406D750097FC9E /* DTEntityZoomer.m in Sources */,
+				D822B7DD14407E1F0097FC9E /* DTWorld.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -17,6 +17,7 @@
     if(!(self = [super init])) return nil;
     
     speed = 2;
+    self.gravity = false;
     
     self.velocity.x = speed;
     self.moveDirection = EntityDirectionRight;
