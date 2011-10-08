@@ -30,7 +30,7 @@
     [input.mapper mapKey:kVK_Space toAction:@"Jump"];
 	
      	
-	NSString *host = [[NSUserDefaults standardUserDefaults] objectForKey:@"-host"];
+	NSString *host = [[NSUserDefaults standardUserDefaults] objectForKey:@"host"];
 
 	if(host)
 		client = [[DTClient alloc] initConnectingTo:host port:kDTServerDefaultPort];
