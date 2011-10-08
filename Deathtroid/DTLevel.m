@@ -7,17 +7,23 @@
 //
 
 #import "DTLevel.h"
-
 #import "DTLayer.h"
+
+@interface DTLevel ()
+@property (nonatomic,strong,readwrite) NSString *name;
+@end
 
 @implementation DTLevel
 
 @synthesize layers;
 @synthesize entityLayerIndex;
-
--(id)init {
+@synthesize name = _name;
+-(id)initWithName:(NSString *)name;
+{
 	if(!(self = [super init])) return nil;
 	
+    _name = name;
+    
 	layers = [NSMutableArray array];
 	
     DTLayer *layer2 = [[DTLayer alloc] init];

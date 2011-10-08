@@ -31,16 +31,14 @@
 	
      	
 	NSString *host = [[NSUserDefaults standardUserDefaults] objectForKey:@"-host"];
-	server = [[DTServer alloc] init];
 
 	if(host)
 		client = [[DTClient alloc] initConnectingTo:host port:kDTServerDefaultPort];
-	else
+	else {
+        server = [[DTServer alloc] init];
 		client = [[DTClient alloc] init];
-	
-	// horrible hacks
-    client.level = server.level;
-    
+    }
+	    
     return self;
 }
 

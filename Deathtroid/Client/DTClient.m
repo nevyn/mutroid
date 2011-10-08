@@ -161,6 +161,10 @@
     } else if([command isEqual:@"cameraFollow"]) {
         DTEntity *f = $notNull([entities objectForKey:[hash objectForKey:@"uuid"]]);
         followThis = f; // silence stupid warning :/
+        
+    } else if([command isEqual:@"loadLevel"]) {
+        id l = $notNull([[DTLevel alloc] initWithName:$notNull([hash objectForKey:@"name"])]);
+        level = l; // ARC bug :(
     } else NSLog(@"Unknown server command: %@", hash);
     
 	[_proto readHash];

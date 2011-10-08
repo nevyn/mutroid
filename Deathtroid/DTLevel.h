@@ -13,8 +13,8 @@
 
 @property (nonatomic,strong) NSMutableArray *layers;
 @property (nonatomic) int entityLayerIndex;
-
--(id)init;
+@property (nonatomic,strong,readonly) NSString *name;
+-(id)initWithName:(NSString*)name;
 
 -(void)tick:(float)delta;
 

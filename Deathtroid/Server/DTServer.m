@@ -44,7 +44,7 @@ typedef void(^EntCtor)(DTEntity*);
     
     world = [[DTWorld alloc] init];
     
-    level = [[DTLevel alloc] init];
+    level = [[DTLevel alloc] initWithName:@"test"];
     
     world.level = level;
     
@@ -87,6 +87,11 @@ typedef void(^EntCtor)(DTEntity*);
 	DTPlayer *player = [DTPlayer new];
 	player.proto = clientProto;
 	[players addObject:player];
+
+    [clientProto sendHash:$dict(
+        @"command", @"loadLevel",
+        @"name", level.name
+    )];
     
     // Send world state
     for(NSString *key in entities)
@@ -174,6 +179,7 @@ typedef void(^EntCtor)(DTEntity*);
         @"command", @"removeEntity",
         @"uuid", key
     )];
+    [entities removeObjectForKey:key];
 }
 
 -(NSDictionary*)optimizeDelta:(NSDictionary*)new;
