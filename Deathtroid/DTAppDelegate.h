@@ -12,6 +12,7 @@
 
 @interface DTAppDelegate : NSObject <NSApplicationDelegate> {
     NSTimer		*loopTimer;
+    float       interval;
 }
 
 @property (assign) IBOutlet NSWindow *window;

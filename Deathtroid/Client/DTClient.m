@@ -105,9 +105,9 @@
         glTranslatef(entity.position.x, entity.position.y, 0);
         glBegin(GL_QUADS);
         glVertex3f(0., 0., 0.);
-        glVertex3f(1., 0., 0.);
-        glVertex3f(1., 1., 0.);
-        glVertex3f(0., 1.0, 0);
+        glVertex3f(entity.size.x, 0., 0.);
+        glVertex3f(entity.size.x, entity.size.y, 0.);
+        glVertex3f(0., entity.size.y, 0);
         glEnd();
         glPopMatrix();
     }
@@ -149,6 +149,10 @@
 -(void)stopWalkRight;
 {
 	[_proto sendHash:$dict(@"action", @"walk",   @"direction", @"stop")];
+}
+-(void)jump;
+{
+    [_proto sendHash:$dict(@"action", @"jump")];
 }
 
 

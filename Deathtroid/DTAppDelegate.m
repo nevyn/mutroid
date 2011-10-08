@@ -28,17 +28,14 @@
     core = [[DTCore alloc] init];
     _view.core = core;
     
-    
     // LOOP-DE-LOOP
-    float interval = 1.0f / 60.0f;
+    interval = 1.0f / 60.0f;
     loopTimer = [NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(tick:) userInfo:nil repeats:YES];
 }
 
 -(void)tick:(NSTimer*)theTimer;
 {
-    [core tick:0.1];
-    //[server tick];
-    //[client tick];
+    [core tick:interval];
     
     // Should maybe be moved to client
     // Updated separately because engine systems may run with different framerates

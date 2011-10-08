@@ -82,7 +82,9 @@
 		player.direction = [direction isEqual:@"left"] ? EntityDirectionLeft :
 			[direction isEqual:@"right"] ? EntityDirectionRight :
 			EntityDirectionNone;
-	} else NSLog(@"Unknown command %@", hash);
+	} else if([action isEqual:@"jump"]) {
+        player.entity.velocity.y = -5;
+    } else NSLog(@"Unknown command %@", hash);
 }
 
 -(void)tick:(double)delta;
@@ -91,13 +93,13 @@
     for(DTPlayer *player in players) {
         DTEntity *entity = player.entity;
         if(player.direction == EntityDirectionLeft)
-            entity.velocity.x = -1;
+            entity.velocity.x = -5;
         else if(player.direction == EntityDirectionRight)
-            entity.velocity.x = 1;
+            entity.velocity.x = 5;
         else
             entity.velocity.x = 0;
         
-        if(entity.velocity.y < 2)
+        if(entity.velocity.y < 10)
             entity.velocity.y += 0.1;
                 
         [self collideEntityWithWorld:entity delta:delta];
@@ -112,7 +114,7 @@
     
     int steps = ceil(vx*vx+vy*vy);
     
-    DTMap *map = ((DTLayer*)[level.layers objectAtIndex:0]).map;
+    DTMap *map = ((DTLayer*)[level.layers objectAtIndex:level.entityLayerIndex]).map;
     
     for(int i=0; i<steps; ++i) {
         [self collideEntityWithWorldStep:entity vx:vx/steps vy:vy/steps map:map];
@@ -126,12 +128,12 @@
     
     if(vx != 0.0f) {
         entity.position.x += vx;
-        float coordx = vx < 0 ? entity.position.x : entity.position.x + 0.9999;
+        float coordx = vx < 0 ? entity.position.x : entity.position.x + entity.size.x - 0.0001;
         int from = (int)entity.position.y;
-        int to = (int)(entity.position.y + 0.9999);
+        int to = (int)(entity.position.y + entity.size.y - 0.0001);
         for(int y=from; y<=to; ++y) {
             if(tiles[y*map.width+(int)coordx] > 0) {
-                entity.position.x = vx < 0 ? ceil(coordx) : floor(coordx) - 1;
+                entity.position.x = vx < 0 ? ceil(coordx) : floor(coordx) - entity.size.x;
                 entity.velocity.x = 0.0;
                 break;
             }
@@ -140,12 +142,12 @@
     
     if(vy != 0.0f) {
         entity.position.y += vy;
-        float coordy = vy < 0 ? entity.position.y : entity.position.y + 0.9999;
+        float coordy = vy < 0 ? entity.position.y : entity.position.y + entity.size.y - 0.0001;
         int from = (int)entity.position.x;
-        int to = (int)(entity.position.x + 0.9999);
+        int to = (int)(entity.position.x + entity.size.x - 0.0001);
         for(int x=from; x<=to; ++x) {
             if(tiles[(int)coordy*map.width+x] > 0) {
-                entity.position.y = vy < 0 ? ceil(coordy) : floor(coordy) - 1;
+                entity.position.y = vy < 0 ? ceil(coordy) : floor(coordy) - entity.size.y;
                 entity.velocity.y = 0.0;
                 break;
             }
@@ -162,6 +164,5 @@ collides: function(a, b) {
     return true;
 }
 */
-
 
 @end

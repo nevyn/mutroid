@@ -9,14 +9,10 @@
 #import <Cocoa/Cocoa.h>
 
 @interface DTLevel : NSObject {
-	// A level is just a bunch of layers with
-	// different tilemaps.
-	// Entites can be in any layer, but only collide
-	// with world and other entities in the same layer.
-	NSMutableArray	*layers;
 }
 
-@property (nonatomic, readonly) NSMutableArray *layers;
+@property (nonatomic,strong) NSMutableArray *layers;
+@property (nonatomic) int entityLayerIndex;
 
 -(id)init;
 

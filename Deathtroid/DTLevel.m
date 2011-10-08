@@ -13,6 +13,7 @@
 @implementation DTLevel
 
 @synthesize layers;
+@synthesize entityLayerIndex;
 
 -(id)init {
 	if(!(self = [super init])) return nil;
@@ -21,6 +22,8 @@
 	
 	DTLayer *layer = [[DTLayer alloc] init];
 	[layers addObject:layer];
+    
+    entityLayerIndex = 0;
 	
 	return self;
 }

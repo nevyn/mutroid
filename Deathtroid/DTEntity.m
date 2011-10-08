@@ -12,13 +12,14 @@
 
 @implementation DTEntity
 
-@synthesize position, velocity, walkDirection, lookDirection;
+@synthesize position, velocity, size, walkDirection, lookDirection;
 
 -(id)init {
     if(!(self = [super init])) return nil;
     
     position = [MutableVector2 vectorWithX:5 y:1];
     velocity = [MutableVector2 vectorWithX:0 y:0];
+    size = [MutableVector2 vectorWithX:0.8 y:1.75];
     
     return self;
 }

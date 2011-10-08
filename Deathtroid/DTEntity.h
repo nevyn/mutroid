@@ -26,6 +26,7 @@ typedef enum {
 
 @property (nonatomic,strong) MutableVector2 *position;
 @property (nonatomic,strong) MutableVector2 *velocity;
+@property (nonatomic,strong) MutableVector2 *size;
 @property (nonatomic) EntityDirection walkDirection;
 @property (nonatomic) EntityDirection lookDirection;
 

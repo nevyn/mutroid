@@ -19,6 +19,7 @@
 -(void)stopWalkLeft;
 -(void)walkRight;
 -(void)stopWalkRight;
+-(void)jump;
 
 
 @property (nonatomic,strong) NSMutableArray *entities;
