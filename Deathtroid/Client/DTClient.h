@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class DTPhysics;
-@class DTServer, DTLevel, DTWorld, DTEntityPlayer;
+@class DTServer, DTLevel, DTWorld, DTEntityPlayer, DTLevelRepository;
 @class DTCamera;
 
 @interface DTClient : NSObject
@@ -32,6 +32,7 @@
 
 @property (nonatomic,strong) DTWorld *world;
 @property (nonatomic,strong) DTLevel *level;
+@property (nonatomic,strong) DTLevelRepository *levelRepo;
 
 @property (nonatomic,strong) DTCamera *camera;
 

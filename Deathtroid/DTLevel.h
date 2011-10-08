@@ -14,7 +14,7 @@
 @property (nonatomic,strong) NSMutableArray *layers;
 @property (nonatomic) int entityLayerIndex;
 @property (nonatomic,strong,readonly) NSString *name;
--(id)initWithName:(NSString*)name;
+-(id)initWithPath:(NSURL*)path;
 
 -(void)tick:(float)delta;
 

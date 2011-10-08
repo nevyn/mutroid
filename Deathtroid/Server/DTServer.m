@@ -18,12 +18,14 @@
 #import "DTEntityBullet.h"
 #import "Vector2.h"
 #import "DTPhysics.h"
+#import "DTLevelRepository.h"
 
 static const int kMaxServerFramerate = 5;
 
 typedef void(^EntCtor)(DTEntity*);
 @interface DTServer ()
 -(id)createEntity:(Class)class setup:(EntCtor)setItUp;
+-(void)broadcast:(NSDictionary*)d;
 @end
 
 @implementation DTServer {
@@ -35,7 +37,7 @@ typedef void(^EntCtor)(DTEntity*);
 
 @synthesize physics;
 @synthesize entities;
-@synthesize level, world;
+@synthesize level, levelRepo, world;
 
 -(id)init;
 {
@@ -49,30 +51,6 @@ typedef void(^EntCtor)(DTEntity*);
     
     players = [NSMutableArray array];
     entities = [NSMutableDictionary dictionary];
-    
-    
-    level = [[DTLevel alloc] initWithName:@"test"];
-    world = [[DTWorld alloc] initWithLevel:level];
-    world.server = self;
-        
-    [self createEntity:[DTEntityRipper class] setup:(EntCtor)^(DTEntityRipper *ripper) {
-        ripper.position.x = 11;
-        ripper.position.y = 7;
-        ripper.size.y = 0.5;
-    }];
-    
-    [self createEntity:[DTEntityRipper class] setup:(EntCtor)^(DTEntityRipper *ripper) {
-        ripper.position.x = 5;
-        ripper.position.y = 5.2;
-        ripper.size.y = 0.5;
-    }];
-
-    /*
-    [self createEntity:[DTEntityZoomer class] setup:(EntCtor)^(DTEntityZoomer *zoomer) {    
-        zoomer.position.x = 8;
-        zoomer.position.y = 8;
-    }];
-    */
 
     _sock = [[AsyncSocket alloc] initWithDelegate:self];
 	_sock.delegate = self;
@@ -83,6 +61,48 @@ typedef void(^EntCtor)(DTEntity*);
 	}
     
     return self;
+}
+
+-(void)loadLevel:(NSString*)levelName;
+{
+    [levelRepo fetchRoomNamed:@"test" whenDone:^(DTLevel *newLevel, NSError *err) {
+        level = newLevel;
+        world = [[DTWorld alloc] initWithLevel:level];
+        world.server = self;
+
+        world.level = level;
+        
+        [self broadcast:$dict(
+            @"command", @"loadLevel",
+            @"name", newLevel.name
+        )];
+        [entities removeAllObjects];
+        
+        [self createEntity:[DTEntityRipper class] setup:(EntCtor)^(DTEntityRipper *ripper) {
+            ripper.position.x = 11;
+            ripper.position.y = 7;
+            ripper.size.y = 0.5;
+        }];
+
+        [self createEntity:[DTEntityRipper class] setup:(EntCtor)^(DTEntityRipper *ripper) {
+            ripper.position.x = 5;
+            ripper.position.y = 5.2;
+            ripper.size.y = 0.5;
+        }];
+
+        [self createEntity:[DTEntityZoomer class] setup:(EntCtor)^(DTEntityZoomer *zoomer) {    
+            zoomer.position.x = 8;
+            zoomer.position.y = 8;
+        }];
+        
+        for(DTPlayer *player in players) {
+            player.entity = [self createEntity:[DTEntity class] setup:nil];
+            [player.proto sendHash:$dict(
+                @"command", @"cameraFollow",
+                @"uuid", player.entity.uuid
+            )];
+        }
+    }];
 }
 
 #pragma mark Network

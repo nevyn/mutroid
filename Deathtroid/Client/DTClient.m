@@ -20,6 +20,7 @@
 #import "DTWorld.h"
 #import "DTEntity.h"
 #import "DTEntityPlayer.h"
+#import "DTLevelRepository.h"
 
 @interface DTClient () <TCAsyncHashProtocolDelegate>
 @end
@@ -29,7 +30,7 @@
     __weak DTEntity *followThis;
 }
 @synthesize physics;
-@synthesize entities, level, world, playerEntity;
+@synthesize entities, level, world, playerEntity, levelRepo;
 @synthesize camera;
 
 -(id)init;
@@ -184,11 +185,16 @@
         followThis = f; // silence stupid warning :/
         
     } else if([command isEqual:@"loadLevel"]) {
-        id l = $notNull([[DTLevel alloc] initWithName:$notNull([hash objectForKey:@"name"])]);
-        level = l; // ARC bug :(
-        world = [[DTWorld alloc] initWithLevel:l];
-        
-        
+        level = nil;
+        [entities removeAllObjects];
+        [levelRepo fetchRoomNamed:$notNull([hash objectForKey:@"name"]) whenDone:^(DTLevel *newLevel, NSError *err) {
+            if(!newLevel) {
+                [NSApp presentError:err];
+                return;
+            }
+            level = newLevel;
+            world = [[DTWorld alloc] initWithLevel:newLevel];
+        }];
     } else NSLog(@"Unknown server command: %@", hash);
     
 	[_proto readHash];

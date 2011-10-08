@@ -18,11 +18,11 @@
 @synthesize layers;
 @synthesize entityLayerIndex;
 @synthesize name = _name;
--(id)initWithName:(NSString *)name;
+-(id)initWithPath:(NSURL*)path;
 {
 	if(!(self = [super init])) return nil;
 	
-    _name = name;
+    _name = [[path lastPathComponent] stringByDeletingPathExtension];
     
 	layers = [NSMutableArray array];
 	

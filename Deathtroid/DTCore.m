@@ -11,6 +11,7 @@
 #import "DTClient.h"
 #import "DTServer.h"
 #import "DTInput.h"
+#import "DTLevelRepository.h"
 #import <Carbon/Carbon.h>
 
 @implementation DTCore
@@ -40,6 +41,25 @@
         server = [[DTServer alloc] init];
 		client = [[DTClient alloc] init];
     }
+    
+    
+    DTDiskLevelRepository *local = nil;
+    DTDiskLevelRepository *storage = nil;
+    for(NSString *support in NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSAllDomainsMask, YES)) {
+        DTDiskLevelRepository *parent = local;
+        NSURL *u = [[NSURL fileURLWithPath:support] URLByAppendingPathComponent:@"Deathtroid" isDirectory:YES];
+        local = [[DTDiskLevelRepository alloc] initWithRoot:u parent:parent];
+        if(!storage) storage = local;
+     }
+    
+    DTDiskLevelRepository *bundled = [[DTDiskLevelRepository alloc] initWithRoot:[[NSBundle mainBundle] URLForResource:@"rooms" withExtension:nil] parent:local];
+    
+    DTOnlineRepository *online = [[DTOnlineRepository alloc] initWithBaseURL:[NSURL URLWithString:@"http://nevyn.nu/whatev"] storingLevelsIn:storage parent:bundled];
+    
+    server.levelRepo = client.levelRepo = online;
+    
+    
+    [server loadLevel:@"test"];
 	    
     return self;
 }
