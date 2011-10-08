@@ -25,6 +25,7 @@ typedef void(^EntCtor)(DTEntity*);
 @implementation DTServer {
     AsyncSocket *_sock;
 	NSMutableArray *players;
+    NSDictionary *previousDelta;
 }
 
 @synthesize entities;
@@ -175,10 +176,31 @@ typedef void(^EntCtor)(DTEntity*);
     )];
 }
 
--(NSDictionary*)optimizeDelta:(NSDictionary*)newRep;
+-(NSDictionary*)optimizeDelta:(NSDictionary*)new;
 {
     // todo: Save old delta, remove any attrs that haven't changed
-    return newRep;
+    NSDictionary *old = previousDelta;
+    previousDelta = new;
+    
+    if(!old) return new;
+    
+    NSMutableDictionary *slimmed = [NSMutableDictionary dictionaryWithCapacity:new.count];
+    
+    for(NSString *uuid in new.allKeys) {
+        NSDictionary *oldRep = [old objectForKey:uuid];
+        NSDictionary *newRep = [new objectForKey:uuid];
+        if(!oldRep) { [slimmed setObject:newRep forKey:uuid]; break; }
+        
+        NSMutableDictionary *onlyChangedKeys = [NSMutableDictionary dictionaryWithCapacity:newRep.count];
+        for(NSString *attr in newRep.allKeys)
+            if(![[oldRep objectForKey:attr] isEqual:[newRep objectForKey:attr]])
+                [onlyChangedKeys setObject:[newRep objectForKey:attr] forKey:attr];
+        
+        if(onlyChangedKeys.count > 0)
+            [slimmed setObject:onlyChangedKeys forKey:uuid];
+    }
+    
+    return slimmed;
 }
 
 
