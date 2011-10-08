@@ -16,6 +16,8 @@
 #import "DTEntityZoomer.h"
 #import "Vector2.h"
 
+static const int kMaxServerFramerate = 5;
+
 typedef void(^EntCtor)(DTEntity*);
 @interface DTServer ()
 -(id)createEntity:(Class)class setup:(EntCtor)setItUp;
@@ -26,6 +28,7 @@ typedef void(^EntCtor)(DTEntity*);
     AsyncSocket *_sock;
 	NSMutableArray *players;
     NSDictionary *previousDelta;
+    NSTimeInterval secondsSinceLastDelta;
 }
 
 @synthesize entities;
@@ -231,14 +234,18 @@ typedef void(^EntCtor)(DTEntity*);
         
         [entity tick:delta];
     }
-    
-    NSDictionary *reps = [self optimizeDelta:[entities sp_map: ^(NSString *k, id v) {
-        return [v rep];
-    }]];
-    [self broadcast:$dict(
-        @"command", @"updateEntityDeltas",
-        @"reps", reps
-    )];
+
+    secondsSinceLastDelta += delta;
+    if(secondsSinceLastDelta > 1./kMaxServerFramerate) { // push 5 times/sec
+        NSDictionary *reps = [self optimizeDelta:[entities sp_map: ^(NSString *k, id v) {
+            return [v rep];
+        }]];
+        [self broadcast:$dict(
+            @"command", @"updateEntityDeltas",
+            @"reps", reps
+        )];
+        secondsSinceLastDelta = 0;
+    }
 }
 
 #pragma mark physics and shit
