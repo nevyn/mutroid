@@ -153,9 +153,9 @@ typedef void(^EntCtor)(DTEntity*);
 	sock.delegate = nil;
 	for(DTPlayer *player in players)
 		if(player.proto.socket == sock) {
-            [self destroyEntityKeyed:player.entity.uuid];
-			[players removeObject:player];
-			break;
+            if(player.entity) [self destroyEntityKeyed:player.entity.uuid];
+            [players removeObject:player];
+            break;
 		}
 }
 
