@@ -10,6 +10,7 @@
 		0587E522143F8DB200EA9CBF /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 0587E521143F8DB200EA9CBF /* AsyncSocket.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0587E525143F8FB200EA9CBF /* DTConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0587E524143F8FB200EA9CBF /* DTConstants.m */; };
 		05B60AD41440E57000CFFCE9 /* DTLevelRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = 05B60AD31440E56F00CFFCE9 /* DTLevelRepository.m */; };
+		05B60AD61440EFF100CFFCE9 /* rooms in Resources */ = {isa = PBXBuildFile; fileRef = 05B60AD51440EFF000CFFCE9 /* rooms */; };
 		05C35705143F9F53001FE29E /* TCAsyncHashProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 05C35704143F9F53001FE29E /* TCAsyncHashProtocol.m */; };
 		05CC7B77143FC4BB00052D06 /* SPDepends.m in Sources */ = {isa = PBXBuildFile; fileRef = 05CC7B6F143FC4BB00052D06 /* SPDepends.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		05CC7B78143FC4BB00052D06 /* SPKVONotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 05CC7B71143FC4BB00052D06 /* SPKVONotificationCenter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -62,6 +63,7 @@
 		0587E524143F8FB200EA9CBF /* DTConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTConstants.m; sourceTree = "<group>"; };
 		05B60AD21440E56F00CFFCE9 /* DTLevelRepository.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTLevelRepository.h; sourceTree = "<group>"; };
 		05B60AD31440E56F00CFFCE9 /* DTLevelRepository.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTLevelRepository.m; sourceTree = "<group>"; };
+		05B60AD51440EFF000CFFCE9 /* rooms */ = {isa = PBXFileReference; lastKnownFileType = folder; path = rooms; sourceTree = SOURCE_ROOT; };
 		05C35703143F9F53001FE29E /* TCAsyncHashProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCAsyncHashProtocol.h; sourceTree = "<group>"; };
 		05C35704143F9F53001FE29E /* TCAsyncHashProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCAsyncHashProtocol.m; sourceTree = "<group>"; };
 		05CC7B6E143FC4BB00052D06 /* SPDepends.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPDepends.h; sourceTree = "<group>"; };
@@ -255,6 +257,7 @@
 				D822B7DC14407E1F0097FC9E /* DTWorld.m */,
 				D891F80F1440D98800B489CA /* DTPhysics.h */,
 				D891F8101440D98800B489CA /* DTPhysics.m */,
+				05B60AD51440EFF000CFFCE9 /* rooms */,
 			);
 			path = Deathtroid;
 			sourceTree = "<group>";
@@ -388,6 +391,7 @@
 				D8548F38143F45D7005D7DC0 /* InfoPlist.strings in Resources */,
 				D8548F3E143F45D7005D7DC0 /* Credits.rtf in Resources */,
 				D8548F44143F45D7005D7DC0 /* MainMenu.xib in Resources */,
+				05B60AD61440EFF100CFFCE9 /* rooms in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
