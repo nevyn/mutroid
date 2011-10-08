@@ -16,6 +16,7 @@
 		05CC7B7F143FCE3100052D06 /* DTClient.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B05720143FA202002CE09B /* DTClient.m */; };
 		05CC7B81143FCE3400052D06 /* DTServer.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B05725143FA20F002CE09B /* DTServer.m */; };
 		05CC7B82143FCE3900052D06 /* DTPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B05723143FA20F002CE09B /* DTPlayer.m */; };
+		D822B7C2143FDDF80097FC9E /* DTCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = D822B7C1143FDDF80097FC9E /* DTCamera.m */; };
 		D8548F2E143F45D7005D7DC0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8548F2D143F45D7005D7DC0 /* Cocoa.framework */; };
 		D8548F38143F45D7005D7DC0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D8548F36143F45D7005D7DC0 /* InfoPlist.strings */; };
 		D8548F3A143F45D7005D7DC0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D8548F39143F45D7005D7DC0 /* main.m */; };
@@ -60,6 +61,8 @@
 		05CC7B71143FC4BB00052D06 /* SPKVONotificationCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPKVONotificationCenter.m; sourceTree = "<group>"; };
 		05CC7B72143FC4BB00052D06 /* SPLowVerbosity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPLowVerbosity.h; sourceTree = "<group>"; };
 		05CC7B73143FC4BB00052D06 /* SPLowVerbosity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPLowVerbosity.m; sourceTree = "<group>"; };
+		D822B7C0143FDDF80097FC9E /* DTCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTCamera.h; path = Client/DTCamera.h; sourceTree = "<group>"; };
+		D822B7C1143FDDF80097FC9E /* DTCamera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTCamera.m; path = Client/DTCamera.m; sourceTree = "<group>"; };
 		D8548F29143F45D7005D7DC0 /* Deathtroid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Deathtroid.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8548F2D143F45D7005D7DC0 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		D8548F30143F45D7005D7DC0 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -263,6 +266,8 @@
 			children = (
 				D8B0571F143FA202002CE09B /* DTClient.h */,
 				D8B05720143FA202002CE09B /* DTClient.m */,
+				D822B7C0143FDDF80097FC9E /* DTCamera.h */,
+				D822B7C1143FDDF80097FC9E /* DTCamera.m */,
 			);
 			name = Client;
 			sourceTree = "<group>";
@@ -393,6 +398,7 @@
 				D8B0572D143FB22F002CE09B /* DTMap.m in Sources */,
 				D8B05732143FB2AA002CE09B /* DTLayer.m in Sources */,
 				D8B05733143FB2AA002CE09B /* DTLevel.m in Sources */,
+				D822B7C2143FDDF80097FC9E /* DTCamera.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

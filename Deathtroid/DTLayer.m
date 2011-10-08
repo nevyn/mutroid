@@ -13,14 +13,15 @@
 @implementation DTLayer
 
 @synthesize map;
+@synthesize depth;
 @synthesize currentPosition;
-@synthesize scrollSpeed;
+@synthesize autoScrollSpeed;
 
 -(id)init {
 	currentPosition = [MutableVector2 vector];
 	startPosition = [Vector2 vectorWithX:0. y:0.];
 	
-	scrollSpeed = CGPointMake(1.0f, 1.0f);
+    depth = 1.0;
 	autoScrollSpeed = CGPointMake(0.f, 0.f);
 		
 	map = [[DTMap alloc] init];

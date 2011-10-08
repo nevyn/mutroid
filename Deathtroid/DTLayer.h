@@ -19,14 +19,7 @@
 
 @interface DTLayer : NSObject {
 	DTMap				*map;
-	
-	// Thinking of totally replacing scrollSpeed with this.
-	float				depth;
-		
-	// This is how fast the layer continuously scrolls, regardless
-	// of Camera movement.
-	CGPoint			autoScrollSpeed;
-	
+				
 	BOOL			repeatX, repeatY;
 	
 	// Make sure to clamp.
@@ -34,10 +27,11 @@
 	Vector2			*startPosition;
 }
 
-@property (readonly,nonatomic) DTMap *map;
-@property (readonly,nonatomic) MutableVector2 *currentPosition;
+@property (nonatomic,strong) DTMap *map;
+@property (nonatomic,strong) MutableVector2 *currentPosition;
 
-@property (readonly,nonatomic) CGPoint scrollSpeed;
+@property (nonatomic) float depth;
+@property (nonatomic) CGPoint autoScrollSpeed;
 
 -(id)init;
 

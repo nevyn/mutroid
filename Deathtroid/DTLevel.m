@@ -20,10 +20,13 @@
 	
 	layers = [NSMutableArray array];
 	
+    DTLayer *layer2 = [[DTLayer alloc] init];
+    layer2.depth = 0.5;
+    [layers addObject:layer2];
 	DTLayer *layer = [[DTLayer alloc] init];
 	[layers addObject:layer];
     
-    entityLayerIndex = 0;
+    entityLayerIndex = 1;
 	
 	return self;
 }

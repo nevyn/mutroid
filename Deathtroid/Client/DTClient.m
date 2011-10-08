@@ -16,6 +16,7 @@
 #import "DTMap.h"
 #import "DTEntity.h"
 #import "Vector2.h"
+#import "DTCamera.h"
 
 @interface DTClient () <TCAsyncHashProtocolDelegate>
 @end
@@ -24,6 +25,7 @@
 	TCAsyncHashProtocol *_proto;
 }
 @synthesize entities, level;
+@synthesize camera;
 
 @synthesize server;
 
@@ -65,6 +67,8 @@
     //glEnable(GL_TEXTURE_2D);
     //glPointSize(5.0f);
     
+    camera = [[DTCamera alloc] init];
+    
     
     glClearColor(0.0, 0.0, 0.0, 1.0);
 
@@ -75,16 +79,19 @@
 -(void)tick:(double)delta;
 {
     // Ticka de som ska tickas?
+    camera.position.x = ((DTEntity*)[entities objectAtIndex:0]).position.x - 10;
 }
 
 -(void)draw;
 {
     glClear(GL_COLOR_BUFFER_BIT);
     glLoadIdentity();
-    
-    glBegin(GL_QUADS);
-    glColor3f(1, 1, 1);
+        
     for(DTLayer *layer in level.layers) {
+        glPushMatrix();
+        glTranslatef(-camera.position.x * layer.depth, -camera.position.y * layer.depth, 0);
+        glBegin(GL_QUADS);
+        glColor3f(layer.depth, layer.depth, layer.depth);
         DTMap *map = layer.map;
         for(int h=0; h<map.height; h++) {
             for(int w=0; w<map.width; w++) {
@@ -95,9 +102,11 @@
                 glVertex2f(w, h+1);
             }
         }
+        glEnd();
+        glPopMatrix();
     }
-    glEnd();
 
+    glTranslatef(-camera.position.x, -camera.position.y, 0);
         
     glColor3f(1., 0, 0.);
     for(DTEntity *entity in entities) {

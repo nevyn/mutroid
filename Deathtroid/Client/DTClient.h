@@ -9,10 +9,13 @@
 #import <Foundation/Foundation.h>
 
 @class DTServer, DTLevel;
+@class DTCamera;
 
 @interface DTClient : NSObject
 -(id)init; // to local
 -(id)initConnectingTo:(NSString*)host port:(NSUInteger)port;
+
+-(void)tick:(double)delta;
 -(void)draw;
 
 -(void)walkLeft;
@@ -27,5 +30,7 @@
 @property (nonatomic,strong) DTLevel *level;
 
 @property (nonatomic,strong) DTServer *server;
+
+@property (nonatomic,strong) DTCamera *camera;
 
 @end

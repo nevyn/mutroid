@@ -55,6 +55,7 @@
 -(void)tick:(double)delta;
 {
     [server tick:delta];
+    [client tick:delta];
 }
 
 @end
