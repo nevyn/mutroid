@@ -15,7 +15,6 @@
 @interface DTPlayer : NSObject
 
 @property (nonatomic,weak) DTEntity *entity;
-@property (nonatomic) EntityDirection direction;
 @property (nonatomic,strong) TCAsyncHashProtocol *proto;
 
 @end

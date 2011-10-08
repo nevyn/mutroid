@@ -14,20 +14,19 @@
 @implementation DTEntity
 
 @synthesize world, uuid;
-@synthesize position, velocity, size, moveDirection, lookDirection, collisionType, gravity;
+@synthesize position, velocity, size, moveDirection, lookDirection, collisionType, gravity, moving;
 
 -(id)init;
 {
     if(!(self = [super init])) return nil;
-    
-    printf("SEN DENNA!\n");
-    
+        
     position = [MutableVector2 vectorWithX:5 y:1];
     velocity = [MutableVector2 vectorWithX:0 y:0];
     size = [MutableVector2 vectorWithX:0.8 y:1.75];
     
     collisionType = EntityCollisionTypeStop;
     gravity = true;
+    moving = false;
     
     return self;
 }
@@ -46,6 +45,9 @@
     $doif(@"velocity", velocity = [[MutableVector2 alloc] initWithRep:o]);
     $doif(@"size", size = [[MutableVector2 alloc] initWithRep:o]);
     
+    $doif(@"gravity", gravity = [o boolValue]);
+    $doif(@"moving", moving = [o boolValue]);
+    
     $doif(@"moveDirection", moveDirection = [o intValue]);
     $doif(@"lookDirection", lookDirection = [o intValue]);
     $doif(@"collisionType", collisionType = [o intValue]);
@@ -55,9 +57,12 @@
 -(NSDictionary*)rep;
 {
     return $dict(
+        @"class", NSStringFromClass([self class]),
         @"position", [position rep],
         @"velocity", [velocity rep],
         @"size", [size rep],
+        @"gravity", $num(gravity),
+        @"moving", $num(moving),
         @"moveDirection", $num(moveDirection),
         @"lookDirection", $num(lookDirection),
         @"collisionType", $num(collisionType)

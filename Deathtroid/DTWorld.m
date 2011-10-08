@@ -33,6 +33,13 @@
 
 @synthesize level;
 
+-(id)initWithLevel:(DTLevel*)_level;
+{
+    if(!(self = [super init])) return nil;
+    level = _level;
+    return self;
+}
+
 -(DTTraceResult*)traceBox:(Vector2*)box from:(Vector2*)from to:(Vector2*)to;
 {
     return [self traceBox:box from:from to:to inverted:false];

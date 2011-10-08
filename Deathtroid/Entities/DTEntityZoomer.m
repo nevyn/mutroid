@@ -35,6 +35,17 @@
 {
     Vector2 *move = [self.velocity vectorByMultiplyingWithScalar:delta];
     
+    /*
+     
+        JAG VILL ATT DET SKA VARA SÅHÄR ENKELT:
+     
+        if(onGround) {
+            if(FUCK YOU
+        }
+     
+     
+    */
+    
     if(move.x != 0.0f) {
         float offset = move.x > 0 ? -self.size.x : self.size.x;
         DTTraceResult *res = [self.world traceBox:self.size from:[Vector2 vectorWithX:self.position.x+offset y:self.position.y+0.5] to:[Vector2 vectorWithX:self.position.x+offset+move.x y:self.position.y+0.5] inverted:YES];

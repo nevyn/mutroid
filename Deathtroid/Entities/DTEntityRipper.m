@@ -22,7 +22,7 @@
     self.velocity.x = speed;
     self.moveDirection = EntityDirectionRight;
     self.collisionType = EntityCollisionTypeStop;
-    
+        
     return self;
 }
 

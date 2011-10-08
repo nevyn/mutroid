@@ -20,6 +20,8 @@
 
 @interface DTWorld : NSObject
 
+-(id)initWithLevel:(DTLevel*)_level;
+
 -(DTTraceResult*)traceBox:(Vector2*)box from:(Vector2*)from to:(Vector2*)to;
 -(DTTraceResult*)traceBox:(Vector2*)box from:(Vector2*)from to:(Vector2*)to inverted:(BOOL)inverted;
 -(DTTraceResult*)traceBoxStep:(Vector2*)position size:(Vector2*)size vx:(float)vx vy:(float)vy map:(DTMap*)map inverted:(BOOL)inverted;

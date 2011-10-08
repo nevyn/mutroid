@@ -21,8 +21,8 @@
 {
     input = [[DTInput alloc] init];
     
-    [input.mapper registerStateActionWithName:@"WalkLeft" beginAction:^{ [client walkLeft]; } endAction:^{ [client stopWalkLeft]; }];
-    [input.mapper registerStateActionWithName:@"WalkRight" beginAction:^{ [client walkRight]; } endAction:^{ [client stopWalkRight]; }];
+    [input.mapper registerStateActionWithName:@"WalkLeft" beginAction:^{ [client walkLeft]; } endAction:^{ [client stopWalk]; }];
+    [input.mapper registerStateActionWithName:@"WalkRight" beginAction:^{ [client walkRight]; } endAction:^{ [client stopWalk]; }];
     [input.mapper registerActionWithName:@"Jump" action:^{ [client jump]; }];
     
     [input.mapper mapKey:kVK_ANSI_A toAction:@"WalkLeft"];

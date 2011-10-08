@@ -12,9 +12,11 @@
 #import "DTMap.h"
 #import "DTPlayer.h"
 #import "DTEntity.h"
+#import "DTEntityPlayer.h"
 #import "DTEntityRipper.h"
 #import "DTEntityZoomer.h"
 #import "Vector2.h"
+#import "DTPhysics.h"
 
 static const int kMaxServerFramerate = 5;
 
@@ -31,6 +33,7 @@ typedef void(^EntCtor)(DTEntity*);
     NSTimeInterval secondsSinceLastDelta;
 }
 
+@synthesize physics;
 @synthesize entities;
 @synthesize level, world;
 
@@ -42,15 +45,15 @@ typedef void(^EntCtor)(DTEntity*);
 {
     if(!(self = [super init])) return nil;
     
+    physics = [[DTPhysics alloc] init];
+    
     players = [NSMutableArray array];
     entities = [NSMutableDictionary dictionary];
     
-    world = [[DTWorld alloc] init];
     
     level = [[DTLevel alloc] initWithName:@"test"];
-    
-    world.level = level;
-    
+    world = [[DTWorld alloc] initWithLevel:level];
+        
     [self createEntity:[DTEntityRipper class] setup:(EntCtor)^(DTEntityRipper *ripper) {
         ripper.position.x = 11;
         ripper.position.y = 7;
@@ -63,11 +66,12 @@ typedef void(^EntCtor)(DTEntity*);
         ripper.size.y = 0.5;
     }];
 
+    /*
     [self createEntity:[DTEntityZoomer class] setup:(EntCtor)^(DTEntityZoomer *zoomer) {    
         zoomer.position.x = 8;
         zoomer.position.y = 8;
     }];
-
+    */
 
     _sock = [[AsyncSocket alloc] initWithDelegate:self];
 	_sock.delegate = self;
@@ -105,9 +109,13 @@ typedef void(^EntCtor)(DTEntity*);
         )];
 
 	
-    player.entity = [self createEntity:[DTEntity class] setup:nil];
+    player.entity = [self createEntity:[DTEntityPlayer class] setup:nil];
     [clientProto sendHash:$dict(
         @"command", @"cameraFollow",
+        @"uuid", player.entity.uuid
+    )];
+    [clientProto sendHash:$dict(
+        @"command", @"playerEntity",
         @"uuid", player.entity.uuid
     )];
 	
@@ -138,9 +146,9 @@ typedef void(^EntCtor)(DTEntity*);
 	
 	if([action isEqual:@"walk"]) {
 		NSString *direction = [hash objectForKey:@"direction"];
-		player.direction = [direction isEqual:@"left"] ? EntityDirectionLeft :
-			[direction isEqual:@"right"] ? EntityDirectionRight :
-			EntityDirectionNone;
+        if([direction isEqual:@"left"]) { player.entity.moving = true; player.entity.moveDirection = EntityDirectionLeft; }
+        else if([direction isEqual:@"right"]) { player.entity.moving = true; player.entity.moveDirection = EntityDirectionRight; }
+        else if([direction isEqual:@"stop"]) { player.entity.moving = false; }
 	} else if([action isEqual:@"jump"]) {
         player.entity.velocity.y = -15;
     } else NSLog(@"Unknown command %@", hash);
@@ -214,27 +222,16 @@ typedef void(^EntCtor)(DTEntity*);
 
 
 -(void)tick:(double)delta;
-{    
+{   
     // Physics!
-    for(DTPlayer *player in players) {
-        DTEntity *entity = player.entity;
-        if(player.direction == EntityDirectionLeft)
-            entity.velocity.x = -5;
-        else if(player.direction == EntityDirectionRight)
-            entity.velocity.x = 5;
-        else
-            entity.velocity.x = 0;
-    }
+    //for(DTPlayer *player in players) {
+    //}
     
-    for(DTEntity *entity in entities.allValues) {
-        if(entity.gravity && entity.velocity.y < 10)
-            entity.velocity.y += 0.5;
-
-        [self collideEntityWithWorld:entity delta:delta];
-        
+    [physics runWithEntities:entities.allValues world:world delta:delta];
+    
+    for(DTEntity *entity in entities.allValues)
         [entity tick:delta];
-    }
-
+        
     secondsSinceLastDelta += delta;
     if(secondsSinceLastDelta > 1./kMaxServerFramerate) { // push 5 times/sec
         NSDictionary *reps = [self optimizeDelta:[entities sp_map: ^(NSString *k, id v) {
@@ -250,23 +247,6 @@ typedef void(^EntCtor)(DTEntity*);
 
 #pragma mark physics and shit
 
-
--(void)collideEntityWithWorld:(DTEntity*)entity delta:(double)delta;
-{
-    Vector2 *move = [entity.velocity vectorByMultiplyingWithScalar:delta];
-    
-    DTTraceResult *info = [world traceBox:entity.size from:entity.position to:[entity.position vectorByAddingVector:move]];
-    
-    if(info==nil) { [entity.position addVector:move]; }
-    else {
-        if(entity.collisionType == EntityCollisionTypeNone || !info.x) entity.position.x += move.x;
-        else { entity.position.x = info.collisionPosition.x; entity.velocity.x = 0; }
-        if(entity.collisionType == EntityCollisionTypeNone || !info.y) entity.position.y += move.y;
-        else { entity.position.y = info.collisionPosition.y; entity.velocity.y = 0; }
-    }
-    
-    if(info.x || info.y) [entity didCollideWithWorld:info];
-}
 
 
 

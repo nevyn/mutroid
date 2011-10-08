@@ -8,7 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-@class DTServer, DTLevel;
+@class DTPhysics;
+@class DTServer, DTLevel, DTWorld, DTEntityPlayer;
 @class DTCamera;
 
 @interface DTClient : NSObject
@@ -19,14 +20,17 @@
 -(void)draw;
 
 -(void)walkLeft;
--(void)stopWalkLeft;
+-(void)stopWalk;
 -(void)walkRight;
--(void)stopWalkRight;
 -(void)jump;
 
 
-@property (nonatomic,strong) NSMutableDictionary *entities;
+@property (nonatomic,strong) DTPhysics *physics;
 
+@property (nonatomic,strong) NSMutableDictionary *entities;
+@property (nonatomic,strong) DTEntityPlayer *playerEntity;
+
+@property (nonatomic,strong) DTWorld *world;
 @property (nonatomic,strong) DTLevel *level;
 
 @property (nonatomic,strong) DTCamera *camera;

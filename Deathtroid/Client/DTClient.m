@@ -16,6 +16,10 @@
 #import "DTEntity.h"
 #import "Vector2.h"
 #import "DTCamera.h"
+#import "DTPhysics.h"
+#import "DTWorld.h"
+#import "DTEntity.h"
+#import "DTEntityPlayer.h"
 
 @interface DTClient () <TCAsyncHashProtocolDelegate>
 @end
@@ -24,7 +28,8 @@
 	TCAsyncHashProtocol *_proto;
     __weak DTEntity *followThis;
 }
-@synthesize entities, level;
+@synthesize physics;
+@synthesize entities, level, world, playerEntity;
 @synthesize camera;
 
 -(id)init;
@@ -63,11 +68,10 @@
     //glPointSize(5.0f);
     
     camera = [[DTCamera alloc] init];
-    
+    physics = [[DTPhysics alloc] init];
     
     glClearColor(0.0, 0.0, 0.0, 1.0);
-
-    
+        
     return self;
 }
 
@@ -75,6 +79,12 @@
 {
     // Ticka de som ska tickas?
     camera.position.x = followThis.position.x - 10;
+    
+    for(DTEntity *entity in entities.allValues)
+        [entity tick:delta];
+    
+    if(world)
+        [physics runWithEntities:entities.allValues world:world delta:delta];
 }
 
 -(void)draw;
@@ -153,7 +163,11 @@
         
         [entities setObject:ent forKey:key];
         
-    } else if([command isEqual:@"removeEntity"]) {
+    } else if([command isEqual:@"playerEntity"]) {
+        NSString *key = $notNull([hash objectForKey:@"uuid"]);
+        playerEntity = [entities objectForKey:key];
+        
+    }else if([command isEqual:@"removeEntity"]) {
         NSString *key = $notNull([hash objectForKey:@"uuid"]);
         
         [entities removeObjectForKey:key];
@@ -165,6 +179,9 @@
     } else if([command isEqual:@"loadLevel"]) {
         id l = $notNull([[DTLevel alloc] initWithName:$notNull([hash objectForKey:@"name"])]);
         level = l; // ARC bug :(
+        world = [[DTWorld alloc] initWithLevel:l];
+        
+        
     } else NSLog(@"Unknown server command: %@", hash);
     
 	[_proto readHash];
@@ -173,22 +190,24 @@
 #pragma mark Dunno
 -(void)walkLeft;
 {
+    playerEntity.moving = true;
+    playerEntity.moveDirection = EntityDirectionLeft;
 	[_proto sendHash:$dict(@"action", @"walk",   @"direction", @"left")];
 }
--(void)stopWalkLeft;
+-(void)stopWalk;
 {
+    playerEntity.moving = false;
 	[_proto sendHash:$dict(@"action", @"walk",   @"direction", @"stop")];
 }
 -(void)walkRight;
 {
+    playerEntity.moving = true;
+    playerEntity.moveDirection = EntityDirectionRight;
 	[_proto sendHash:$dict(@"action", @"walk",   @"direction", @"right")];
-}
--(void)stopWalkRight;
-{
-	[_proto sendHash:$dict(@"action", @"walk",   @"direction", @"stop")];
 }
 -(void)jump;
 {
+    [(DTEntityPlayer*)playerEntity jump];
     [_proto sendHash:$dict(@"action", @"jump")];
 }
 

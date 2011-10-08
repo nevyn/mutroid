@@ -1,5 +1,6 @@
 #import <Foundation/Foundation.h>
 
+@class DTPhysics;
 @class DTWorld, DTLevel, DTEntity, DTMap;
 @class DTTraceResult;
 @class Vector2;
@@ -10,7 +11,7 @@
 
 -(void)tick:(double)delta;
 
--(void)collideEntityWithWorld:(DTEntity*)entity delta:(double)delta;
+@property (nonatomic,strong) DTPhysics *physics;
 
 @property (nonatomic,strong) NSMutableDictionary *entities;
 
