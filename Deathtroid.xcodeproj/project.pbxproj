@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		0587E522143F8DB200EA9CBF /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 0587E521143F8DB200EA9CBF /* AsyncSocket.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0587E525143F8FB200EA9CBF /* DTConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0587E524143F8FB200EA9CBF /* DTConstants.m */; };
+		05CC7B77143FC4BB00052D06 /* SPDepends.m in Sources */ = {isa = PBXBuildFile; fileRef = 05CC7B6F143FC4BB00052D06 /* SPDepends.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		05CC7B78143FC4BB00052D06 /* SPKVONotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 05CC7B71143FC4BB00052D06 /* SPKVONotificationCenter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		05CC7B79143FC4BB00052D06 /* SPLowVerbosity.m in Sources */ = {isa = PBXBuildFile; fileRef = 05CC7B73143FC4BB00052D06 /* SPLowVerbosity.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		05CC7B7F143FCE3100052D06 /* DTClient.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B05720143FA202002CE09B /* DTClient.m */; };
+		05CC7B81143FCE3400052D06 /* DTServer.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B05725143FA20F002CE09B /* DTServer.m */; };
+		05CC7B82143FCE3900052D06 /* DTPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B05723143FA20F002CE09B /* DTPlayer.m */; };
 		D8548F2E143F45D7005D7DC0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8548F2D143F45D7005D7DC0 /* Cocoa.framework */; };
 		D8548F38143F45D7005D7DC0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D8548F36143F45D7005D7DC0 /* InfoPlist.strings */; };
 		D8548F3A143F45D7005D7DC0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D8548F39143F45D7005D7DC0 /* main.m */; };
@@ -25,9 +31,6 @@
 		D8B05712143F840B002CE09B /* DTEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B05711143F840B002CE09B /* DTEntity.m */; };
 		D8B05715143F8569002CE09B /* Vector2.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B05714143F8569002CE09B /* Vector2.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		D8B05716143F8A73002CE09B /* DTInput.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B05704143F7697002CE09B /* DTInput.m */; };
-		D8B05721143FA202002CE09B /* DTClient.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B05720143FA202002CE09B /* DTClient.m */; };
-		D8B05726143FA20F002CE09B /* DTPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B05723143FA20F002CE09B /* DTPlayer.m */; };
-		D8B05727143FA20F002CE09B /* DTServer.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B05725143FA20F002CE09B /* DTServer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +48,12 @@
 		0587E521143F8DB200EA9CBF /* AsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AsyncSocket.m; path = Vendor/cocoaasyncsocket/RunLoop/AsyncSocket.m; sourceTree = SOURCE_ROOT; };
 		0587E523143F8FB100EA9CBF /* DTConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTConstants.h; sourceTree = "<group>"; };
 		0587E524143F8FB200EA9CBF /* DTConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTConstants.m; sourceTree = "<group>"; };
+		05CC7B6E143FC4BB00052D06 /* SPDepends.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPDepends.h; sourceTree = "<group>"; };
+		05CC7B6F143FC4BB00052D06 /* SPDepends.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPDepends.m; sourceTree = "<group>"; };
+		05CC7B70143FC4BB00052D06 /* SPKVONotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPKVONotificationCenter.h; sourceTree = "<group>"; };
+		05CC7B71143FC4BB00052D06 /* SPKVONotificationCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPKVONotificationCenter.m; sourceTree = "<group>"; };
+		05CC7B72143FC4BB00052D06 /* SPLowVerbosity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPLowVerbosity.h; sourceTree = "<group>"; };
+		05CC7B73143FC4BB00052D06 /* SPLowVerbosity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPLowVerbosity.m; sourceTree = "<group>"; };
 		D8548F29143F45D7005D7DC0 /* Deathtroid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Deathtroid.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8548F2D143F45D7005D7DC0 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		D8548F30143F45D7005D7DC0 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -105,6 +114,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		05CC7B6C143FC4BB00052D06 /* SPSuccinct */ = {
+			isa = PBXGroup;
+			children = (
+				05CC7B6E143FC4BB00052D06 /* SPDepends.h */,
+				05CC7B6F143FC4BB00052D06 /* SPDepends.m */,
+				05CC7B70143FC4BB00052D06 /* SPKVONotificationCenter.h */,
+				05CC7B71143FC4BB00052D06 /* SPKVONotificationCenter.m */,
+				05CC7B72143FC4BB00052D06 /* SPLowVerbosity.h */,
+				05CC7B73143FC4BB00052D06 /* SPLowVerbosity.m */,
+			);
+			name = SPSuccinct;
+			path = Vendor/SPSuccinct/SPSuccinct;
+			sourceTree = SOURCE_ROOT;
+		};
 		D8548F1E143F45D6005D7DC0 = {
 			isa = PBXGroup;
 			children = (
@@ -175,6 +198,7 @@
 			children = (
 				0587E520143F8DB200EA9CBF /* AsyncSocket.h */,
 				0587E521143F8DB200EA9CBF /* AsyncSocket.m */,
+				05CC7B6C143FC4BB00052D06 /* SPSuccinct */,
 				D8548F35143F45D7005D7DC0 /* Deathtroid-Info.plist */,
 				D8548F36143F45D7005D7DC0 /* InfoPlist.strings */,
 				D8548F39143F45D7005D7DC0 /* main.m */,
@@ -335,13 +359,16 @@
 				D8548F41143F45D7005D7DC0 /* DTAppDelegate.m in Sources */,
 				D8548F72143F4C4D005D7DC0 /* DTView.m in Sources */,
 				D8B05708143F77E6002CE09B /* DTCore.m in Sources */,
+				05CC7B81143FCE3400052D06 /* DTServer.m in Sources */,
+				05CC7B7F143FCE3100052D06 /* DTClient.m in Sources */,
+				05CC7B82143FCE3900052D06 /* DTPlayer.m in Sources */,
 				0587E522143F8DB200EA9CBF /* AsyncSocket.m in Sources */,
 				0587E525143F8FB200EA9CBF /* DTConstants.m in Sources */,
 				D8B05712143F840B002CE09B /* DTEntity.m in Sources */,
 				D8B05715143F8569002CE09B /* Vector2.m in Sources */,
-				D8B05721143FA202002CE09B /* DTClient.m in Sources */,
-				D8B05726143FA20F002CE09B /* DTPlayer.m in Sources */,
-				D8B05727143FA20F002CE09B /* DTServer.m in Sources */,
+				05CC7B77143FC4BB00052D06 /* SPDepends.m in Sources */,
+				05CC7B78143FC4BB00052D06 /* SPKVONotificationCenter.m in Sources */,
+				05CC7B79143FC4BB00052D06 /* SPLowVerbosity.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -453,7 +480,7 @@
 				GCC_PREFIX_HEADER = "Deathtroid/Deathtroid-Prefix.pch";
 				INFOPLIST_FILE = "Deathtroid/Deathtroid-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = Vendor/cocoaasyncsocket/RunLoop;
+				USER_HEADER_SEARCH_PATHS = "Vendor/SPSuccinct/SPSuccinct Vendor/cocoaasyncsocket/RunLoop";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -465,7 +492,7 @@
 				GCC_PREFIX_HEADER = "Deathtroid/Deathtroid-Prefix.pch";
 				INFOPLIST_FILE = "Deathtroid/Deathtroid-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = Vendor/cocoaasyncsocket/RunLoop;
+				USER_HEADER_SEARCH_PATHS = "Vendor/SPSuccinct/SPSuccinct Vendor/cocoaasyncsocket/RunLoop";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
