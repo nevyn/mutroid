@@ -37,12 +37,19 @@
     interval = 1.0f / 60.0f;
     loopTimer = [NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(tick:) userInfo:nil repeats:YES];
     
+	__block int oldMax = 0, oldCur = 0;
     core.client.healthCallback = ^(int max, int cur) {
-        healthIndicator.maxValue = max;
-        healthIndicator.criticalValue = max/3;
-        healthIndicator.warningValue = max/2;
-        healthIndicator.floatValue = cur;
-        healthText.stringValue = $sprintf(@"%d", cur);
+		if(oldMax != max) {
+			healthIndicator.maxValue = max;
+			healthIndicator.criticalValue = max/3;
+			healthIndicator.warningValue = max/2;
+			oldMax = max;
+		}
+		if(oldCur != cur) {
+			healthIndicator.floatValue = cur;
+			healthText.stringValue = $sprintf(@"%d", cur);
+			oldCur = cur;
+		}
     };
 }
 -(void)start;
