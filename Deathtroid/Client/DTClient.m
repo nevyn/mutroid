@@ -227,6 +227,14 @@
                 return;
             }
             [rooms setObject:room forKey:uuid];
+            
+            for(NSString *key in $notNull([hash objectForKey:@"entities"])) {
+                NSDictionary *rep = [[hash objectForKey:@"entities"] objectForKey:key];
+                DTEntity *ent = [[DTEntity alloc] initWithRep:rep];
+                ent.uuid = key;
+                ent.world = room.world;
+                [room.entities setObject:ent forKey:key];
+            }
         }];
     } else if([command isEqual:@"entityDamaged"]) {
         NSString *roomName = $notNull([hash objectForKey:@"room"]);

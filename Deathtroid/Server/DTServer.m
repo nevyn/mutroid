@@ -84,6 +84,18 @@ static const int kMaxServerFramerate = 5;
     )];
 }
 
+-(void)sendRoom:(DTRoom*)room toPlayer:(DTPlayer*)player;
+{
+    NSDictionary *entReps = [room.entities sp_map: ^(NSString *k, id v) { return [v rep]; }];
+
+    [player.proto sendHash:$dict(
+        @"command", @"loadRoom",
+        @"uuid", room.uuid,
+        @"name", room.name,
+        @"entities", entReps
+    )];
+}
+
 -(void)loadLevel:(NSString*)levelName;
 {
     [levelRepo fetchRoomNamed:@"test" ofClass:[DTServerRoom class] whenDone:^(DTRoom *newLevel, NSError *err) {
@@ -91,12 +103,6 @@ static const int kMaxServerFramerate = 5;
         
         sroom.delegate = self;
         [rooms setObject:sroom forKey:sroom.uuid];
-        
-        [self broadcast:$dict(
-            @"command", @"loadRoom",
-            @"uuid", sroom.uuid,
-            @"name", sroom.name
-        )];
         
         sroom.world.server = self;
         
@@ -118,25 +124,9 @@ static const int kMaxServerFramerate = 5;
 	player.proto = clientProto;
 	[players addObject:player];
     
-    DTServerRoom *initialRoom = [[rooms allValues] objectAtIndex:random()%rooms.allValues.count];
+    player.room = [[rooms allValues] objectAtIndex:random()%rooms.allValues.count];
     
-    player.room = initialRoom;
-
-    [clientProto sendHash:$dict(
-        @"command", @"loadRoom",
-        @"uuid", initialRoom.uuid,
-        @"name", initialRoom.name
-    )];
-    
-    // Send room state
-    for(NSString *key in initialRoom.entities)
-        [clientProto sendHash:$dict(
-            @"command", @"addEntity",
-            @"uuid", key,
-            @"room", initialRoom.uuid,
-            @"rep", [[initialRoom.entities objectForKey:key] rep]
-        )];
-
+    [self sendRoom:player.room toPlayer:player];
 	[self spawnPlayer:player];
 	
 	[clientProto readHash];
