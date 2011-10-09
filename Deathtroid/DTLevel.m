@@ -18,6 +18,8 @@
 @synthesize layers = _layers;
 @synthesize entityLayerIndex;
 @synthesize name = _name;
+@synthesize initialEntityReps;
+
 -(id)initWithPath:(NSURL*)path;
 {
 	if(!(self = [super init])) return nil;
@@ -43,6 +45,8 @@
         [_layers addObject:[[DTLayer alloc] initWithRep:layerRep]];
     
     entityLayerIndex = 1;
+    
+    initialEntityReps = [rep objectForKey:@"entities"];
 	
 	return self;
 }

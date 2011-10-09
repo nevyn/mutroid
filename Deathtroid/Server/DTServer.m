@@ -86,29 +86,24 @@ typedef void(^EntCtor)(DTEntity*);
 -(void)loadLevel:(NSString*)levelName;
 {
     [levelRepo fetchRoomNamed:@"test" whenDone:^(DTLevel *newLevel, NSError *err) {
+    
+        [entities removeAllObjects];
+        
+        [self broadcast:$dict(
+            @"command", @"loadLevel",
+            @"name", newLevel.name
+        )];
+
         level = newLevel;
         world = [[DTWorld alloc] initWithLevel:level];
         world.server = self;
 
         world.level = level;
         
-        [self broadcast:$dict(
-            @"command", @"loadLevel",
-            @"name", newLevel.name
-        )];
-        [entities removeAllObjects];
-        
-        [self createEntity:[DTEntityRipper class] setup:(EntCtor)^(DTEntityRipper *ripper) {
-            ripper.position.x = 11;
-            ripper.position.y = 7;
-            ripper.size.y = 0.5;
-        }];
-
-        [self createEntity:[DTEntityRipper class] setup:(EntCtor)^(DTEntityRipper *ripper) {
-            ripper.position.x = 5;
-            ripper.position.y = 5.2;
-            ripper.size.y = 0.5;
-        }];
+        for(NSDictionary *entRep in level.initialEntityReps)
+            [self createEntity:NSClassFromString([entRep objectForKey:@"class"]) setup:^(DTEntity *e) {
+                [e updateFromRep:entRep];
+            }];
 
 /*
         [self createEntity:[DTEntityZoomer class] setup:(EntCtor)^(DTEntityZoomer *zoomer) {    

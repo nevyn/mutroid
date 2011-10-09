@@ -61,11 +61,14 @@
 {
     return $dict(
         @"class", NSStringFromClass([self class]),
+        
         @"position", [position rep],
         @"velocity", [velocity rep],
         @"size", [size rep],
+        
         @"gravity", $num(gravity),
         @"moving", $num(moving),
+        
         @"moveDirection", $num(moveDirection),
         @"lookDirection", $num(lookDirection),
         @"collisionType", $num(collisionType)
