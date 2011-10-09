@@ -53,6 +53,9 @@ typedef struct {
 
 -(void)tick:(double)delta;
 
+-(void)damage:(int)damage;
+
+@property (nonatomic) int health;
 @property (nonatomic,strong) MutableVector2 *position;
 @property (nonatomic,strong) MutableVector2 *velocity;
 @property (nonatomic,strong) MutableVector2 *size;
@@ -62,6 +65,8 @@ typedef struct {
 @property (nonatomic) BOOL gravity;
 @property (nonatomic) BOOL moving;  // Actually physically flexing its muscles to induce forward motion
 @property (nonatomic) BOOL onGround;
+
+@property (nonatomic) float damageFlashTimer;
 
 @property (nonatomic,weak) DTWorld *world;
 @property (nonatomic,strong) NSString *uuid;

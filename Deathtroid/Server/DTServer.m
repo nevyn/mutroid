@@ -227,6 +227,17 @@ typedef void(^EntCtor)(DTEntity*);
     [entities removeObjectForKey:key];
 }
 
+
+-(void)entityDamaged:(DTEntity*)entity damage:(int)damage;
+{
+    [self broadcast:$dict(
+        @"command", @"entityDamaged",
+        @"uuid", entity.uuid,
+        @"damage", $num(damage)
+    )];
+}
+
+
 -(NSDictionary*)optimizeDelta:(NSDictionary*)new;
 {
     // todo: Save old delta, remove any attrs that haven't changed
@@ -265,7 +276,11 @@ typedef void(^EntCtor)(DTEntity*);
     
     for(DTEntity *entity in entities.allValues)
         [entity tick:delta];
-        
+
+    for(DTEntity *entity in entities.allValues) {
+        if(entity.health <= 0) [self destroyEntityKeyed:entity.uuid];
+    }
+
     secondsSinceLastDelta += delta;
     if(secondsSinceLastDelta > 1./kMaxServerFramerate) { // push 5 times/sec
         NSDictionary *reps = [self optimizeDelta:[entities sp_map: ^(NSString *k, id v) {

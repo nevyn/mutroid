@@ -124,7 +124,10 @@
         glPushMatrix();
         glTranslatef(entity.position.x, entity.position.y, 0);
         glBegin(GL_QUADS);
-        glColor3f(1., 0, 0.);
+        if(entity.damageFlashTimer > 0) {
+            glColor3f(1., entity.damageFlashTimer*5, entity.damageFlashTimer*5);
+        } else
+            glColor3f(1., 0, 0.);
         glVertex3f(0., 0., 0.);
         glVertex3f(entity.size.x, 0., 0.);
         glVertex3f(entity.size.x, entity.size.y, 0.);
@@ -201,6 +204,10 @@
             level = newLevel;
             world = [[DTWorld alloc] initWithLevel:newLevel];
         }];
+    } else if([command isEqual:@"entityDamaged"]) {
+        DTEntity *e = $notNull([entities objectForKey:[hash objectForKey:@"uuid"]]);
+        int d = [[hash objectForKey:@"damage"] intValue];
+        [e damage:d];
     } else NSLog(@"Unknown server command: %@", hash);
     
 	[_proto readHash];

@@ -41,7 +41,7 @@
 {
     if(other == (DTEntity*)owner) return;
     [self.world.server destroyEntityKeyed:self.uuid];
-    [self.world.server destroyEntityKeyed:other.uuid];
+    [other damage:1];
 }
 
 @end

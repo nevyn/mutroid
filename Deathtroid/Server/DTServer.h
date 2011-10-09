@@ -16,6 +16,8 @@
 
 -(void)tick:(double)delta;
 
+-(void)entityDamaged:(DTEntity*)entity damage:(int)damage;
+
 @property (nonatomic,strong) DTPhysics *physics;
 
 @property (nonatomic,strong) NSMutableDictionary *entities;

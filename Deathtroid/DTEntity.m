@@ -9,16 +9,21 @@
 #import "DTEntity.h"
 
 #import "Vector2.h"
+#import "DTWorld.h"
+#import "DTServer.h"
 
 
 @implementation DTEntity
 
 @synthesize world, uuid;
-@synthesize position, velocity, size, moveDirection, lookDirection, collisionType, gravity, moving, onGround;
+@synthesize position, velocity, size, moveDirection, lookDirection, collisionType, gravity, moving, onGround, health;
+@synthesize damageFlashTimer;
 
 -(id)init;
 {
     if(!(self = [super init])) return nil;
+    
+    health = 1;
         
     position = [MutableVector2 vectorWithX:5 y:1];
     velocity = [MutableVector2 vectorWithX:0 y:0];
@@ -80,17 +85,18 @@
 
 -(void)tick:(double)delta;
 {
-    // CHeck state changes osv
+    if(damageFlashTimer > 0)
+        damageFlashTimer -= delta;
 }
 
--(void)didCollideWithWorld:(DTTraceResult*)info;
-{
-    /*
-    if(info.x) { printf("Hej"); velocity.x = 0; position.x = info.position.x; } else position.x += info.velocity.x;
-    if(info.y) { velocity.y = 0; position.y = info.position.y; } else position.y += info.velocity.y;
-     */
-}
-
+-(void)didCollideWithWorld:(DTTraceResult*)info; {}
 -(void)didCollideWithEntity:(DTEntity*)other; {}
+
+-(void)damage:(int)damage;
+{
+    health -= damage;
+    damageFlashTimer = 0.2;
+    [world.server entityDamaged:self damage:damage];
+}
 
 @end
