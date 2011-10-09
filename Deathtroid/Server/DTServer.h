@@ -14,7 +14,7 @@
 
 -(void)tick:(double)delta;
 
--(void)entityDamaged:(DTEntity*)entity damage:(int)damage;
+-(void)entityDamaged:(DTEntity*)entity damage:(int)damage location:(Vector2*)where;
 
 -(void)teleportPlayerForEntity:(DTEntity*)playerE toPosition:(Vector2*)pos inRoomNamed:(NSString*)roomName;
 

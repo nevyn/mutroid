@@ -33,6 +33,7 @@
 @implementation DTClient {
 	TCAsyncHashProtocol *_proto;
     __weak DTEntity *followThis;
+	uint64_t frameCount;
 }
 @synthesize physics;
 @synthesize rooms, playerEntity, levelRepo, currentRoom;
@@ -107,6 +108,8 @@
 
 -(void)draw;
 {
+	frameCount++;
+	
     glClear(GL_COLOR_BUFFER_BIT);
     glLoadIdentity();
 	glEnable(GL_TEXTURE_2D);
@@ -151,6 +154,10 @@
     glTranslatef(-camera.position.x, -camera.position.y, 0);
         
     for(DTEntity *entity in currentRoom.entities.allValues) {
+	
+		if([$castIf(DTEntityPlayer, entity) immune] && (frameCount/2)%2)
+			continue;
+		
         glPushMatrix();
         glTranslatef(entity.position.x, entity.position.y, 0);
         glBegin(GL_QUADS);
@@ -270,8 +277,9 @@
         
         DTEntity *e = $notNull([room.entities objectForKey:[hash objectForKey:@"uuid"]]);
         
-        int d = [[hash objectForKey:@"damage"] intValue];
-        [e damage:d];
+        int d = [$notNull([hash objectForKey:@"damage"]) intValue];
+		Vector2 *location = [[Vector2 alloc] initWithRep:$notNull([hash objectForKey:@"location"])];
+        [e damage:d from:location];
     } else NSLog(@"Unknown server command: %@", hash);
     
     done()

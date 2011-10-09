@@ -11,7 +11,12 @@
 #import "Vector2.h"
 #import "DTWorld.h"
 
-@implementation DTEntityPlayer
+@implementation DTEntityPlayer {
+    float   acceleration;
+    float   maxMoveSpeed;
+    float   brakeSpeed;
+	float   immunityTimer;
+}
 
 -(id)init;
 {
@@ -22,7 +27,7 @@
     brakeSpeed = 0.2;
     self.destructible = YES;
     
-    self.maxHealth = self.health = 20;
+    self.maxHealth = self.health = 99;
             
     return self;
 }
@@ -30,6 +35,8 @@
 -(void)tick:(double)delta;
 {
     [super tick:delta];
+	
+	if(immunityTimer > 0) immunityTimer -= delta;
 
     if(self.moving) {
         if(self.moveDirection == EntityDirectionRight && self.velocity.x < maxMoveSpeed) {
@@ -49,6 +56,21 @@
     else if(self.velocity.x > 0) self.lookDirection = EntityDirectionRight;
 }
 
+-(id)updateFromRep:(NSDictionary*)rep;
+{
+    [super updateFromRep:rep];
+    $doif(@"immunityTimer", immunityTimer = [o floatValue]);
+    return self;
+}
+-(NSDictionary*)rep;
+{
+    NSMutableDictionary *rep = $mdict(
+        @"immunityTimer", $numf(immunityTimer)
+    );
+    [rep addEntriesFromDictionary:[super rep]];
+    return rep;
+}
+
 -(void)jump;
 {
 	if(!self.onGround) return;
@@ -56,5 +78,22 @@
     self.onGround = false;
     self.velocity.y = -15;
 }
+
+-(BOOL)damage:(int)damage from:(Vector2*)damagerLocation;
+{
+	if(self.immune) return NO;
+	if(![super damage:damage from:damagerLocation]) return NO;
+	
+	self.immune = YES;
+	
+	float strength = damage*2;
+	self.velocity = [MutableVector2 vectorWithX:damagerLocation.x < self.position.x ? strength : -strength y:5];
+	self.onGround = NO;
+	
+	return YES;
+}
+
+-(BOOL)immune; { return immunityTimer > 0; }
+-(void)setImmune:(BOOL)immune; { immunityTimer = 1.0; }
 
 @end

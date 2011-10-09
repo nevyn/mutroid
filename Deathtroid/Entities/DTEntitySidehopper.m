@@ -21,6 +21,7 @@
     
     self.maxHealth = self.health = 5;
     self.destructible = YES;
+	self.touchDamage = 20;
     
     idleTimer = 0;
     
@@ -47,6 +48,7 @@
 
 -(void)didCollideWithWorld:(DTTraceResult *)info;
 {
+	[super didCollideWithWorld:info];
     if(info.velocity.y > 0) {
         idleTimer = 1;
         self.velocity.x = 0;

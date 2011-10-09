@@ -31,6 +31,7 @@
 
 -(void)didCollideWithWorld:(DTTraceResult*)info;
 {
+	[super didCollideWithWorld:info];
     self.moveDirection = self.lookDirection = self.moveDirection == EntityDirectionRight ? EntityDirectionLeft : EntityDirectionRight;
     if(self.moveDirection == EntityDirectionLeft) self.velocity.x = -speed;
     else self.velocity.x = speed;
@@ -38,7 +39,7 @@
 
 -(void)didCollideWithEntity:(DTEntity*)other;
 {
-    
+    [super didCollideWithEntity:other];
 }
 
 @end

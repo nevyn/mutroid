@@ -8,11 +8,8 @@
 
 #import "DTEntity.h"
 
-@interface DTEntityPlayer : DTEntity {
-    float   acceleration;
-    float   maxMoveSpeed;
-    float   brakeSpeed;
-}
+@interface DTEntityPlayer : DTEntity
+@property(nonatomic) BOOL immune;
 
 -(id)init;
 -(void)tick:(double)delta;

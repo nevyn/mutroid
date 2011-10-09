@@ -6,7 +6,7 @@
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "DTEntity.h"
+#import "DTEntityEnemyBase.h"
 
 typedef enum {
     ZoomerPositionCeiling,
@@ -16,7 +16,7 @@ typedef enum {
 } ZoomerPosition;
 
 
-@interface DTEntityZoomer : DTEntity {
+@interface DTEntityZoomer : DTEntityEnemyBase {
     float   speed;
     MutableVector2 *orientation;
     CGPoint target;

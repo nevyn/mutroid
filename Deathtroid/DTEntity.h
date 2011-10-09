@@ -53,7 +53,7 @@ typedef struct {
 
 -(void)tick:(double)delta;
 
--(void)damage:(int)damage;
+-(BOOL)damage:(int)damage from:(Vector2*)damagerLocation;
 
 @property (nonatomic) int health;
 @property (nonatomic) int maxHealth;

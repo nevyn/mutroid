@@ -97,12 +97,13 @@
 -(void)didCollideWithWorld:(DTTraceResult*)info; {}
 -(void)didCollideWithEntity:(DTEntity*)other; {}
 
--(void)damage:(int)damage;
+-(BOOL)damage:(int)damage from:(Vector2*)damagerLocation;
 {
-    if(!destructible) return;
+    if(!destructible) return NO;
     health -= damage;
     damageFlashTimer = 0.2;
-    [world.server entityDamaged:self damage:damage];
+    [world.server entityDamaged:self damage:damage location:damagerLocation];
+	return YES;
 }
 
 -(NSString*)description;

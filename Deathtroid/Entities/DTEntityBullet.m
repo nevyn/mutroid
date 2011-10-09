@@ -49,7 +49,7 @@
         [$cast(DTServerRoom, self.world.room) destroyEntityKeyed:self.uuid];
     
     if(other.destructible)
-        [other damage:1];
+        [other damage:4 from:self.position];
 }
 
 @end

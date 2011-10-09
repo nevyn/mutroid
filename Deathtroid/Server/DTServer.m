@@ -194,12 +194,13 @@ static const int kMaxServerFramerate = 5;
 }
 
 
--(void)entityDamaged:(DTEntity*)entity damage:(int)damage;
+-(void)entityDamaged:(DTEntity*)entity damage:(int)damage location:(Vector2*)where;
 {
     [self broadcast:$dict(
         @"command", @"entityDamaged",
         @"room", entity.world.room.uuid,
         @"uuid", entity.uuid,
+		@"location", where.rep,
         @"damage", $num(damage)
     )];
 }

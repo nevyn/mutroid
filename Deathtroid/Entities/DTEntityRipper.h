@@ -6,9 +6,9 @@
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "DTEntity.h"
+#import "DTEntityEnemyBase.h"
 
-@interface DTEntityRipper : DTEntity {
+@interface DTEntityRipper : DTEntityEnemyBase {
     float   speed;
 }
 
