@@ -36,14 +36,23 @@
     [self.entities setObject:ent forKey:uuidS];
     
     if(setItUp) setItUp(ent);
-    
-    [self.delegate room:self createdEntity:ent];
 
+    [self.delegate room:self createdEntity:ent];
+    
     return ent;
+}
+-(void)addEntityToRoom:(DTEntity*)ent;
+{
+    NSLog(@"Adding entity %@", ent);
+    ent.world = self.world;
+    [self.entities setObject:ent forKey:ent.uuid];
+    [self.delegate room:self createdEntity:ent];
 }
 -(void)destroyEntityKeyed:(NSString*)key;
 {
     DTEntity *ent = [self.entities objectForKey:key];
+    NSLog(@"Destroying entity %@", ent);
+    ent.world = nil;
     [self.entities removeObjectForKey:key];
     [self.delegate room:self destroyedEntity:ent];
 }

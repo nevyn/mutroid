@@ -11,7 +11,7 @@
 #import "Vector2.h"
 #import "DTWorld.h"
 #import "DTServer.h"
-
+#import "DTRoom.h"
 
 @implementation DTEntity
 
@@ -99,4 +99,8 @@
     [world.server entityDamaged:self damage:damage];
 }
 
+-(NSString*)description;
+{
+    return $sprintf(@"<%@ %@/0x%x in %@>", NSStringFromClass([self class]), self.uuid, self, self.world.room);
+}
 @end

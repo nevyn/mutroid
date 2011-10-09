@@ -74,5 +74,8 @@
 	}
 }
 */
-
+-(NSString*)description;
+{
+    return $sprintf(@"<%@ %@/0x%x '%@'>", NSStringFromClass([self class]), self.uuid, self, self.name);
+}
 @end

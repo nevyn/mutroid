@@ -72,7 +72,7 @@
 				"y": 4
 			},
 			"size": {
-				"x": 1,
+				"x": 0.1,
 				"y": 2
 			},
 			"destinationRoom": "test2",
@@ -84,11 +84,11 @@
         {
 			"class": "DTEntityDoor",
 			"position": {
-				"x": 38,
+				"x": 39,
 				"y": 6
 			},
 			"size": {
-				"x": 1,
+				"x": 0.1,
 				"y": 2
 			},
 			"destinationRoom": "test2",

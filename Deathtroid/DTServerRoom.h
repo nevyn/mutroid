@@ -22,6 +22,7 @@ typedef void(^EntCtor)(DTEntity*);
 @interface DTServerRoom : DTRoom
 @property(nonatomic,weak) id<DTServerRoomDelegate> delegate;
 -(id)createEntity:(Class)class setup:(EntCtor)setItUp;
+-(void)addEntityToRoom:(DTEntity*)ent;
 -(void)destroyEntityKeyed:(NSString*)key;
 
 -(NSDictionary*)optimizeDelta:(NSDictionary*)new;

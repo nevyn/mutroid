@@ -283,6 +283,7 @@ static const int kMaxServerFramerate = 5;
 #pragma Entity handling
 -(void)room:(DTServerRoom*)room createdEntity:(DTEntity*)ent;
 {
+    NSLog(@"Added entity %@", ent);
     [self broadcast:$dict(
         @"command", @"addEntity",
         @"uuid", ent.uuid,
