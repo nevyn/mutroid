@@ -56,6 +56,7 @@ typedef struct {
 -(void)damage:(int)damage;
 
 @property (nonatomic) int health;
+@property (nonatomic) BOOL destructible;
 @property (nonatomic,strong) MutableVector2 *position;
 @property (nonatomic,strong) MutableVector2 *velocity;
 @property (nonatomic,strong) MutableVector2 *size;

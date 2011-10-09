@@ -20,6 +20,7 @@
     acceleration = 0.4;
     maxMoveSpeed = 5;
     brakeSpeed = 0.2;
+    self.destructible = YES;
     
     self.health = 10;
             

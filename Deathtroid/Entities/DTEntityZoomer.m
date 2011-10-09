@@ -26,6 +26,7 @@
     crawlPosition = ZoomerPositionGround;
     
     speed = 2;
+    self.destructible = YES;
     self.velocity.x = speed;
     
     return self;

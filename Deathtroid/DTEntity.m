@@ -16,7 +16,7 @@
 @implementation DTEntity
 
 @synthesize world, uuid;
-@synthesize position, velocity, size, moveDirection, lookDirection, collisionType, gravity, moving, onGround, health;
+@synthesize position, velocity, size, moveDirection, lookDirection, collisionType, gravity, moving, onGround, health, destructible;
 @synthesize damageFlashTimer;
 
 -(id)init;
@@ -24,6 +24,7 @@
     if(!(self = [super init])) return nil;
     
     health = 1;
+    destructible = NO;
         
     position = [MutableVector2 vectorWithX:5 y:1];
     velocity = [MutableVector2 vectorWithX:0 y:0];
@@ -94,6 +95,7 @@
 
 -(void)damage:(int)damage;
 {
+    if(!destructible) return;
     health -= damage;
     damageFlashTimer = 0.2;
     [world.server entityDamaged:self damage:damage];
