@@ -19,6 +19,8 @@
     
     self.size.x = 1.5;
     
+    self.health = 5;
+    
     idleTimer = 0;
     
     return self;
@@ -26,6 +28,8 @@
 
 -(void)tick:(double)delta;
 {
+    [super tick:delta];
+
     if(idleTimer > 0)
         idleTimer -= delta;
     if(idleTimer < 0) {

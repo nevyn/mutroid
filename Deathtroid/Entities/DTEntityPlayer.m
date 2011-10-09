@@ -9,6 +9,7 @@
 #import "DTEntityPlayer.h"
 
 #import "Vector2.h"
+#import "DTWorld.h"
 
 @implementation DTEntityPlayer
 
@@ -19,18 +20,16 @@
     acceleration = 0.4;
     maxMoveSpeed = 5;
     brakeSpeed = 0.2;
+    
+    self.health = 10;
             
     return self;
 }
 
 -(void)tick:(double)delta;
-{/*
-    if(self.moving) {
-        if(self.moveDirection == EntityDirectionLeft) self.velocity.x = -maxMoveSpeed;
-        else if(self.moveDirection == EntityDirectionRight) self.velocity.x = maxMoveSpeed;
-    } else
-        self.velocity.x = 0;
-*/
+{
+    [super tick:delta];
+
     if(self.moving) {
         if(self.moveDirection == EntityDirectionRight && self.velocity.x < maxMoveSpeed) {
             self.velocity.x += acceleration; if(self.velocity.x > maxMoveSpeed) self.velocity.x = maxMoveSpeed;
@@ -47,7 +46,6 @@
     
     if(self.velocity.x < 0) self.lookDirection = EntityDirectionLeft;
     else if(self.velocity.x > 0) self.lookDirection = EntityDirectionRight;
-
 }
 
 -(void)jump;

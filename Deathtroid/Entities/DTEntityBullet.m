@@ -29,6 +29,8 @@
 
 -(void)tick:(double)delta;
 {
+    [super tick:delta];
+    
     if(self.moveDirection == EntityDirectionLeft) self.velocity.x = -10;
     else self.velocity.x = 10;
 }

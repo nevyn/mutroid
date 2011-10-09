@@ -18,7 +18,7 @@
 {
     for(DTEntity *entity in entities) {
         // Check if should start to fall
-        DTTraceResult *down = [world traceBox:entity.size from:entity.position to:[entity.position vectorByAddingVector:[Vector2 vectorWithX:0 y:0.5]] exclude:entity];
+        DTTraceResult *down = [world traceBox:entity.size from:entity.position to:[entity.position vectorByAddingVector:[Vector2 vectorWithX:0 y:0.5]] exclude:entity ignoreEntities:YES];
         if(!down || !down.y || down.entity) entity.onGround = false;
 
         if(entity.gravity && entity.velocity.y < 10 && !entity.onGround) {
@@ -38,7 +38,7 @@
 {
     Vector2 *move = [entity.velocity vectorByMultiplyingWithScalar:delta];
     
-    DTTraceResult *info = [world traceBox:entity.size from:entity.position to:[entity.position vectorByAddingVector:move] exclude:entity];
+    DTTraceResult *info = [world traceBox:entity.size from:entity.position to:[entity.position vectorByAddingVector:move] exclude:entity ignoreEntities:YES];
     
     if(info==nil) { [entity.position addVector:move]; }
     else {

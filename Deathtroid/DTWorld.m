@@ -41,35 +41,32 @@
     return self;
 }
 
--(DTTraceResult*)traceBox:(Vector2*)box from:(Vector2*)from to:(Vector2*)to exclude:(DTEntity*)exclude;
+-(DTTraceResult*)traceBox:(Vector2*)box from:(Vector2*)from to:(Vector2*)to exclude:(DTEntity*)exclude ignoreEntities:(BOOL)ignore;
 {
-    return [self traceBox:box from:from to:to exclude:exclude inverted:false];
+    return [self traceBox:box from:from to:to exclude:exclude ignoreEntities:ignore inverted:false];
 }
 
--(DTTraceResult*)traceBox:(Vector2*)box from:(Vector2*)from to:(Vector2*)to exclude:(DTEntity*)exclude inverted:(BOOL)inverted;
+-(DTTraceResult*)traceBox:(Vector2*)box from:(Vector2*)from to:(Vector2*)to exclude:(DTEntity*)exclude ignoreEntities:(BOOL)ignore inverted:(BOOL)inverted;
 {
     Vector2 *move = [to vectorBySubtractingVector:from];
-    float l = [move length];
-    float stepLength = l>1 ? 1/l : 1;
     
-    int steps = (int)ceil(l);
+    float length = [move length];
+    int   steps = ceil(length);
     
-    if(steps > 1) printf("SNABB JÄVEL DU! %d, %f\n", steps, stepLength);
+    float stepX = move.x / steps;
+    float stepY = move.y / steps;
     
     DTMap *map = ((DTLayer*)[room.layers objectAtIndex:room.entityLayerIndex]).map;
 
-    // Potentiell bug här, det kan bli så att move.x*(steps*stepLength) blir större än to.x. Får fixa det när det blir ett problem.
-    for(int i=0; i<steps; i++) {
-     //   if(move.x > 0 && move.x*(steps*stepLength) > to.x) 
-           
-        DTTraceResult *result = [self traceBoxStep:from size:box vx:move.x*(steps*stepLength) vy:move.y*(steps*stepLength) map:map exclude:exclude inverted:inverted];
+    for(int i=1; i<=steps; i++) {
+        DTTraceResult *result = [self traceBoxStep:from size:box vx:i*stepX vy:i*stepY map:map exclude:exclude ignore:ignore inverted:inverted];
         if(result != nil) return result;
     }
     
     return nil;
 }
 
--(DTTraceResult*)traceBoxStep:(Vector2*)position size:(Vector2*)size vx:(float)vx vy:(float)vy map:(DTMap*)map exclude:(DTEntity*)exclude inverted:(BOOL)inverted;
+-(DTTraceResult*)traceBoxStep:(Vector2*)position size:(Vector2*)size vx:(float)vx vy:(float)vy map:(DTMap*)map exclude:(DTEntity*)exclude ignore:(BOOL)ignore inverted:(BOOL)inverted;
 {
     int *tiles = map.tiles;
     
@@ -122,8 +119,8 @@
     if(collidedX || collidedY) {
         return [[DTTraceResult alloc] initWithX:collidedX y:collidedY entity:nil collisionPosition:[Vector2 vectorWithX:gx y:gy] velocity:[Vector2 vectorWithX:vx y:vy]];
     }
-    
-    if(server) {
+
+    if(server && !ignore) {
         for(DTEntity *entity in room.entities.allValues) {
             if(entity == exclude) continue;
             if([self boxCollideBoxA:position sizeA:size boxB:entity.position sizeB:entity.size]) {
