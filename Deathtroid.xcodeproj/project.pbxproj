@@ -18,6 +18,12 @@
 		05CC7B7F143FCE3100052D06 /* DTClient.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B05720143FA202002CE09B /* DTClient.m */; };
 		05CC7B81143FCE3400052D06 /* DTServer.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B05725143FA20F002CE09B /* DTServer.m */; };
 		05CC7B82143FCE3900052D06 /* DTPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B05723143FA20F002CE09B /* DTPlayer.m */; };
+		994E55F3144115DF009EC13C /* DTResourceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 994E55F2144115DF009EC13C /* DTResourceManager.m */; };
+		994E55F614411609009EC13C /* DTTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = 994E55F514411609009EC13C /* DTTexture.m */; };
+		994E55F914411645009EC13C /* DTResource.m in Sources */ = {isa = PBXBuildFile; fileRef = 994E55F814411645009EC13C /* DTResource.m */; };
+		994E55FC1441169D009EC13C /* DTSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = 994E55FB1441169D009EC13C /* DTSprite.m */; };
+		994E55FF14412A30009EC13C /* DTImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 994E55FE14412A30009EC13C /* DTImage.m */; };
+		994E5610144146A8009EC13C /* resources in Resources */ = {isa = PBXBuildFile; fileRef = 994E560F144146A8009EC13C /* resources */; };
 		D822B7C2143FDDF80097FC9E /* DTCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = D822B7C1143FDDF80097FC9E /* DTCamera.m */; };
 		D822B7C6143FE1AC0097FC9E /* DTEntityRipper.m in Sources */ = {isa = PBXBuildFile; fileRef = D822B7C5143FE1AC0097FC9E /* DTEntityRipper.m */; };
 		D822B7D514406D750097FC9E /* DTEntityZoomer.m in Sources */ = {isa = PBXBuildFile; fileRef = D822B7D414406D750097FC9E /* DTEntityZoomer.m */; };
@@ -73,6 +79,17 @@
 		05CC7B71143FC4BB00052D06 /* SPKVONotificationCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPKVONotificationCenter.m; sourceTree = "<group>"; };
 		05CC7B72143FC4BB00052D06 /* SPLowVerbosity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPLowVerbosity.h; sourceTree = "<group>"; };
 		05CC7B73143FC4BB00052D06 /* SPLowVerbosity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPLowVerbosity.m; sourceTree = "<group>"; };
+		994E55F1144115DF009EC13C /* DTResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTResourceManager.h; path = Graphics/DTResourceManager.h; sourceTree = "<group>"; };
+		994E55F2144115DF009EC13C /* DTResourceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTResourceManager.m; path = Graphics/DTResourceManager.m; sourceTree = "<group>"; };
+		994E55F414411609009EC13C /* DTTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTTexture.h; path = Graphics/DTTexture.h; sourceTree = "<group>"; };
+		994E55F514411609009EC13C /* DTTexture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTTexture.m; path = Graphics/DTTexture.m; sourceTree = "<group>"; };
+		994E55F714411645009EC13C /* DTResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTResource.h; sourceTree = "<group>"; };
+		994E55F814411645009EC13C /* DTResource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTResource.m; sourceTree = "<group>"; };
+		994E55FA1441169D009EC13C /* DTSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTSprite.h; path = Graphics/DTSprite.h; sourceTree = "<group>"; };
+		994E55FB1441169D009EC13C /* DTSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTSprite.m; path = Graphics/DTSprite.m; sourceTree = "<group>"; };
+		994E55FD14412A30009EC13C /* DTImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTImage.h; path = Graphics/DTImage.h; sourceTree = "<group>"; };
+		994E55FE14412A30009EC13C /* DTImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTImage.m; path = Graphics/DTImage.m; sourceTree = "<group>"; };
+		994E560F144146A8009EC13C /* resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = resources; sourceTree = SOURCE_ROOT; };
 		D822B7C0143FDDF80097FC9E /* DTCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTCamera.h; path = Client/DTCamera.h; sourceTree = "<group>"; };
 		D822B7C1143FDDF80097FC9E /* DTCamera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTCamera.m; path = Client/DTCamera.m; sourceTree = "<group>"; };
 		D822B7C4143FE1AC0097FC9E /* DTEntityRipper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTEntityRipper.h; sourceTree = "<group>"; };
@@ -169,6 +186,23 @@
 			path = Vendor/SPSuccinct/SPSuccinct;
 			sourceTree = SOURCE_ROOT;
 		};
+		994E55EF144115B5009EC13C /* Graphics */ = {
+			isa = PBXGroup;
+			children = (
+				994E55F714411645009EC13C /* DTResource.h */,
+				994E55F814411645009EC13C /* DTResource.m */,
+				994E55F1144115DF009EC13C /* DTResourceManager.h */,
+				994E55F2144115DF009EC13C /* DTResourceManager.m */,
+				994E55F414411609009EC13C /* DTTexture.h */,
+				994E55F514411609009EC13C /* DTTexture.m */,
+				994E55FA1441169D009EC13C /* DTSprite.h */,
+				994E55FB1441169D009EC13C /* DTSprite.m */,
+				994E55FD14412A30009EC13C /* DTImage.h */,
+				994E55FE14412A30009EC13C /* DTImage.m */,
+			);
+			name = Graphics;
+			sourceTree = "<group>";
+		};
 		D822B7C3143FE1880097FC9E /* Entities */ = {
 			isa = PBXGroup;
 			children = (
@@ -229,6 +263,7 @@
 		D8548F33143F45D7005D7DC0 /* Deathtroid */ = {
 			isa = PBXGroup;
 			children = (
+				994E55EF144115B5009EC13C /* Graphics */,
 				D822B7C3143FE1880097FC9E /* Entities */,
 				D8B0571E143FA0E3002CE09B /* Client */,
 				D8B0571D143FA0D1002CE09B /* Server */,
@@ -262,6 +297,7 @@
 				D822B7DC14407E1F0097FC9E /* DTWorld.m */,
 				D891F80F1440D98800B489CA /* DTPhysics.h */,
 				D891F8101440D98800B489CA /* DTPhysics.m */,
+				994E560F144146A8009EC13C /* resources */,
 				05B60AD51440EFF000CFFCE9 /* rooms */,
 			);
 			path = Deathtroid;
@@ -397,6 +433,7 @@
 				D8548F3E143F45D7005D7DC0 /* Credits.rtf in Resources */,
 				D8548F44143F45D7005D7DC0 /* MainMenu.xib in Resources */,
 				05B60AD61440EFF100CFFCE9 /* rooms in Resources */,
+				994E5610144146A8009EC13C /* resources in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -459,6 +496,11 @@
 				D891F8251440F62B00B489CA /* DTEntityBullet.m in Sources */,
 				05B60AD41440E57000CFFCE9 /* DTLevelRepository.m in Sources */,
 				D891F85514412F0400B489CA /* DTEntitySidehopper.m in Sources */,
+				994E55F3144115DF009EC13C /* DTResourceManager.m in Sources */,
+				994E55F614411609009EC13C /* DTTexture.m in Sources */,
+				994E55F914411645009EC13C /* DTResource.m in Sources */,
+				994E55FC1441169D009EC13C /* DTSprite.m in Sources */,
+				994E55FF14412A30009EC13C /* DTImage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
