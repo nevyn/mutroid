@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0554598D1441383400E94DB2 /* DTServerRoom.m in Sources */ = {isa = PBXBuildFile; fileRef = 0554598C1441383400E94DB2 /* DTServerRoom.m */; };
 		0587E522143F8DB200EA9CBF /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 0587E521143F8DB200EA9CBF /* AsyncSocket.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0587E525143F8FB200EA9CBF /* DTConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0587E524143F8FB200EA9CBF /* DTConstants.m */; };
 		05B60AD41440E57000CFFCE9 /* DTLevelRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = 05B60AD31440E56F00CFFCE9 /* DTLevelRepository.m */; };
@@ -64,6 +65,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0554598B1441383300E94DB2 /* DTServerRoom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTServerRoom.h; sourceTree = "<group>"; };
+		0554598C1441383400E94DB2 /* DTServerRoom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTServerRoom.m; sourceTree = "<group>"; };
 		0587E520143F8DB200EA9CBF /* AsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AsyncSocket.h; path = Vendor/cocoaasyncsocket/RunLoop/AsyncSocket.h; sourceTree = SOURCE_ROOT; };
 		0587E521143F8DB200EA9CBF /* AsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AsyncSocket.m; path = Vendor/cocoaasyncsocket/RunLoop/AsyncSocket.m; sourceTree = SOURCE_ROOT; };
 		0587E523143F8FB100EA9CBF /* DTConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTConstants.h; sourceTree = "<group>"; };
@@ -292,6 +295,8 @@
 				D8B0572E143FB2AA002CE09B /* DTLayer.h */,
 				D8B0572F143FB2AA002CE09B /* DTLayer.m */,
 				D8B05730143FB2AA002CE09B /* DTRoom.h */,
+				0554598B1441383300E94DB2 /* DTServerRoom.h */,
+				0554598C1441383400E94DB2 /* DTServerRoom.m */,
 				D8B05731143FB2AA002CE09B /* DTRoom.m */,
 				D822B7DB14407E1F0097FC9E /* DTWorld.h */,
 				D822B7DC14407E1F0097FC9E /* DTWorld.m */,
@@ -501,6 +506,7 @@
 				994E55F914411645009EC13C /* DTResource.m in Sources */,
 				994E55FC1441169D009EC13C /* DTSprite.m in Sources */,
 				994E55FF14412A30009EC13C /* DTImage.m in Sources */,
+				0554598D1441383400E94DB2 /* DTServerRoom.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -20,7 +20,7 @@
 
 @interface DTWorld : NSObject
 
--(id)initWithLevel:(DTRoom*)_level;
+-(id)initWithRoom:(DTRoom*)_room;
 
 -(DTTraceResult*)traceBox:(Vector2*)box from:(Vector2*)from to:(Vector2*)to exclude:(DTEntity*)exclude;
 -(DTTraceResult*)traceBox:(Vector2*)box from:(Vector2*)from to:(Vector2*)to exclude:(DTEntity*)exclude inverted:(BOOL)inverted;
@@ -29,6 +29,6 @@
 -(BOOL)boxCollideBoxA:(Vector2*)boxA sizeA:(Vector2*)sizeA boxB:(Vector2*)boxB sizeB:(Vector2*)sizeB;
 
 @property (nonatomic,weak) DTServer *server; // nil if world is on client
-@property (nonatomic,weak) DTRoom *level;
+@property (nonatomic,weak) DTRoom *room;
 
 @end

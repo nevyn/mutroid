@@ -22,6 +22,7 @@
 @synthesize initialEntityReps;
 @synthesize uuid;
 @synthesize world;
+@synthesize entities;
 
 -(id)initWithPath:(NSURL*)path;
 {
@@ -29,6 +30,7 @@
 	
     _name = [[path lastPathComponent] stringByDeletingPathExtension];
 	_layers = [NSMutableArray array];
+    entities = [NSMutableDictionary dictionary];
     
     NSURL *repFile = [path URLByAppendingPathComponent:@"room.json"];
     
@@ -51,7 +53,7 @@
     
     initialEntityReps = [rep objectForKey:@"entities"];
     
-    world = [[DTWorld alloc] initWithLevel:self];
+    world = [[DTWorld alloc] initWithRoom:self];
 	
 	return self;
 }

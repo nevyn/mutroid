@@ -19,9 +19,9 @@
     
     return self;
 }
--(void)fetchRoomNamed:(NSString*)name whenDone:(DTLevelFetchedCallback)done;
+-(void)fetchRoomNamed:(NSString*)name ofClass:(Class)cls whenDone:(DTLevelFetchedCallback)done;
 {
-    if(parentRepo) [parentRepo fetchRoomNamed:name whenDone:done];
+    if(parentRepo) [parentRepo fetchRoomNamed:name ofClass:cls whenDone:done];
     else done(nil, nil);
 }
 @end
@@ -36,7 +36,7 @@
     
     return self;
 }
--(void)fetchRoomNamed:(NSString*)name whenDone:(DTLevelFetchedCallback)done;
+-(void)fetchRoomNamed:(NSString*)name ofClass:(Class)cls whenDone:(DTLevelFetchedCallback)done;
 {
     NSParameterAssert(done != nil);
     
@@ -47,9 +47,9 @@
             return;
         }
         
-        done([[DTRoom alloc] initWithPath:levelURL], nil);
+        done([(DTRoom*)[cls alloc] initWithPath:levelURL], nil);
     };
-    if(self.parentRepo) [self.parentRepo fetchRoomNamed:name whenDone:^(DTRoom *newLevel, NSError *err) {
+    if(self.parentRepo) [self.parentRepo fetchRoomNamed:name ofClass:cls whenDone:^(DTRoom *newLevel, NSError *err) {
         if(newLevel) {
             done(newLevel, nil);
             return;

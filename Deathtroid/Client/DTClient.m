@@ -34,7 +34,7 @@
     __weak DTEntity *followThis;
 }
 @synthesize physics;
-@synthesize entities, level, world, playerEntity, levelRepo;
+@synthesize rooms, playerEntity, levelRepo, currentRoom;
 @synthesize camera;
 @synthesize resources;
 
@@ -56,7 +56,7 @@
 		return nil;
 	}
     
-    entities = [NSMutableDictionary dictionary];
+    rooms = [NSMutableDictionary dictionary];
     
     // Insert code here to initialize your application
     glViewport(0, 0, 640, 480);
@@ -94,11 +94,11 @@
     // Ticka de som ska tickas?
     camera.position.x = followThis.position.x - 10;
     
-    for(DTEntity *entity in entities.allValues)
+    for(DTEntity *entity in currentRoom.entities.allValues)
         [entity tick:delta];
     
-    if(level.world)
-        [physics runWithEntities:entities.allValues world:level.world delta:delta];
+    if(currentRoom.world)
+        [physics runWithEntities:currentRoom.entities.allValues world:currentRoom.world delta:delta];
 }
 
 -(void)draw;
@@ -110,7 +110,7 @@
 	DTTexture *texture = [resources resourceNamed:@"sten.texture"];
 	[texture use];
         
-    for(DTLayer *layer in level.layers) {
+    for(DTLayer *layer in currentRoom.layers) {
         glPushMatrix();
         glTranslatef(-camera.position.x * layer.depth, -camera.position.y * layer.depth, 0);
         glBegin(GL_QUADS);
@@ -132,7 +132,7 @@
 
     glTranslatef(-camera.position.x, -camera.position.y, 0);
         
-    for(DTEntity *entity in entities.allValues) {
+    for(DTEntity *entity in currentRoom.entities.allValues) {
         glPushMatrix();
         glTranslatef(entity.position.x, entity.position.y, 0);
         glBegin(GL_QUADS);
@@ -175,47 +175,65 @@
     
     if([command isEqual:@"updateEntityDeltas"]) {
         NSDictionary *reps = $notNull([hash objectForKey:@"reps"]);
+        NSString *roomName = $notNull([hash objectForKey:@"room"]);
+        DTRoom *room = $notNull([rooms objectForKey:roomName]);
         
         for(NSString *key in reps) {
-            DTEntity *ent = $notNull([entities objectForKey:key]);
+            DTEntity *ent = $notNull([room.entities objectForKey:key]);
             [ent updateFromRep:[reps objectForKey:key]];
         }
         
     } else if([command isEqual:@"addEntity"]) {
+        NSString *roomName = $notNull([hash objectForKey:@"room"]);
+        DTRoom *room = $notNull([rooms objectForKey:roomName]);
+        
         NSString *key = $notNull([hash objectForKey:@"uuid"]);
         NSDictionary *rep = $notNull([hash objectForKey:@"rep"]);
         
         DTEntity *ent = [[DTEntity alloc] initWithRep:rep];
         ent.uuid = key;
-        ent.world = level.world;
+        ent.world = room.world;
         
-        [entities setObject:ent forKey:key];
+        [room.entities setObject:ent forKey:key];
         
     } else if([command isEqual:@"playerEntity"]) {
         NSString *key = $notNull([hash objectForKey:@"uuid"]);
-        playerEntity = [entities objectForKey:key];
+        NSString *roomName = $notNull([hash objectForKey:@"room"]);
+        DTRoom *room = $notNull([rooms objectForKey:roomName]);
+        
+        currentRoom = room;
+        playerEntity = [room.entities objectForKey:key];
         
     }else if([command isEqual:@"removeEntity"]) {
         NSString *key = $notNull([hash objectForKey:@"uuid"]);
+        NSString *roomName = $notNull([hash objectForKey:@"room"]);
+        DTRoom *room = $notNull([rooms objectForKey:roomName]);
         
-        [entities removeObjectForKey:key];
+        [room.entities removeObjectForKey:key];
     
     } else if([command isEqual:@"cameraFollow"]) {
-        DTEntity *f = $notNull([entities objectForKey:[hash objectForKey:@"uuid"]]);
+        NSString *roomName = $notNull([hash objectForKey:@"room"]);
+        DTRoom *room = $notNull([rooms objectForKey:roomName]);
+        
+        DTEntity *f = $notNull([room.entities objectForKey:[hash objectForKey:@"uuid"]]);
         followThis = f; // silence stupid warning :/
         
-    } else if([command isEqual:@"loadLevel"]) {
-        level = nil;
-        [entities removeAllObjects];
-        [levelRepo fetchRoomNamed:$notNull([hash objectForKey:@"name"]) whenDone:^(DTRoom *newLevel, NSError *err) {
-            if(!newLevel) {
+    } else if([command isEqual:@"loadRoom"]) {
+        NSString *uuid = $notNull([hash objectForKey:@"uuid"]);
+        
+        [levelRepo fetchRoomNamed:$notNull([hash objectForKey:@"name"]) ofClass:[DTRoom class] whenDone:^(DTRoom *room, NSError *err) {
+            if(!room) {
                 [NSApp presentError:err];
                 return;
             }
-            level = newLevel;
+            [rooms setObject:room forKey:uuid];
         }];
     } else if([command isEqual:@"entityDamaged"]) {
-        DTEntity *e = $notNull([entities objectForKey:[hash objectForKey:@"uuid"]]);
+        NSString *roomName = $notNull([hash objectForKey:@"room"]);
+        DTRoom *room = $notNull([rooms objectForKey:roomName]);
+        
+        DTEntity *e = $notNull([room.entities objectForKey:[hash objectForKey:@"uuid"]]);
+        
         int d = [[hash objectForKey:@"damage"] intValue];
         [e damage:d];
     } else NSLog(@"Unknown server command: %@", hash);

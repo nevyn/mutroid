@@ -32,12 +32,12 @@
 
 @implementation DTWorld
 
-@synthesize level, server;
+@synthesize room, server;
 
--(id)initWithLevel:(DTRoom*)_level;
+-(id)initWithRoom:(DTRoom*)_room;
 {
     if(!(self = [super init])) return nil;
-    level = _level;
+    room = _room;
     return self;
 }
 
@@ -56,7 +56,7 @@
     
     if(steps > 1) printf("SNABB JÄVEL DU! %d, %f\n", steps, stepLength);
     
-    DTMap *map = ((DTLayer*)[level.layers objectAtIndex:level.entityLayerIndex]).map;
+    DTMap *map = ((DTLayer*)[room.layers objectAtIndex:room.entityLayerIndex]).map;
 
     // Potentiell bug här, det kan bli så att move.x*(steps*stepLength) blir större än to.x. Får fixa det när det blir ett problem.
     for(int i=0; i<steps; i++) {
@@ -124,7 +124,7 @@
     }
     
     if(server) {
-        for(DTEntity *entity in server.entities.allValues) {
+        for(DTEntity *entity in room.entities.allValues) {
             if(entity == exclude) continue;
             if([self boxCollideBoxA:position sizeA:size boxB:entity.position sizeB:entity.size]) {
                 return [[DTTraceResult alloc] initWithX:YES y:YES entity:entity collisionPosition:[Vector2 vectorWithVector2:position] velocity:nil];

@@ -11,6 +11,7 @@
 #import "Vector2.h"
 #import "DTWorld.h"
 #import "DTServer.h"
+#import "DTServerRoom.h"
 
 @implementation DTEntityBullet
 
@@ -34,13 +35,17 @@
 
 -(void)didCollideWithWorld:(DTTraceResult *)info;
 {
-    [self.world.server destroyEntityKeyed:self.uuid];
+    if(self.world.server)
+        [$cast(DTServerRoom, self.world.room) destroyEntityKeyed:self.uuid];
 }
 
 -(void)didCollideWithEntity:(DTEntity *)other;
 {
     if(other == (DTEntity*)owner) return;
-    [self.world.server destroyEntityKeyed:self.uuid];
+
+    if(self.world.server)
+        [$cast(DTServerRoom, self.world.room) destroyEntityKeyed:self.uuid];
+        
     [other damage:1];
 }
 

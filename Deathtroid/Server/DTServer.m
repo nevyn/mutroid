@@ -19,6 +19,7 @@
 #import "Vector2.h"
 #import "DTPhysics.h"
 #import "DTLevelRepository.h"
+#import "DTServerRoom.h"
 
 #if DUMB_CLIENT
 static const int kMaxServerFramerate = 60;
@@ -26,9 +27,7 @@ static const int kMaxServerFramerate = 60;
 static const int kMaxServerFramerate = 5;
 #endif
 
-typedef void(^EntCtor)(DTEntity*);
-@interface DTServer ()
--(id)createEntity:(Class)class setup:(EntCtor)setItUp;
+@interface DTServer () <DTServerRoomDelegate>
 -(void)broadcast:(NSDictionary*)d;
 @end
 
@@ -40,8 +39,7 @@ typedef void(^EntCtor)(DTEntity*);
 }
 
 @synthesize physics;
-@synthesize entities;
-@synthesize level, levelRepo, rooms;
+@synthesize levelRepo, rooms;
 
 -(id)init;
 {
@@ -54,7 +52,6 @@ typedef void(^EntCtor)(DTEntity*);
     physics = [[DTPhysics alloc] init];
     
     players = [NSMutableArray array];
-    entities = [NSMutableDictionary dictionary];
     rooms = [NSMutableDictionary dictionary];
 
     _sock = [[AsyncSocket alloc] initWithDelegate:self];
@@ -70,46 +67,43 @@ typedef void(^EntCtor)(DTEntity*);
 
 -(void)spawnPlayer:(DTPlayer*)player;
 {
+    DTServerRoom *room = player.room;
     if(player.entity)
-        [self destroyEntityKeyed:player.entity.uuid];
+        [room destroyEntityKeyed:player.entity.uuid];
     
-    player.entity = [self createEntity:[DTEntityPlayer class] setup:nil];
+    player.entity = [room createEntity:[DTEntityPlayer class] setup:nil];
     [player.proto sendHash:$dict(
         @"command", @"cameraFollow",
+        @"room", room.uuid,
         @"uuid", player.entity.uuid
     )];
     [player.proto sendHash:$dict(
         @"command", @"playerEntity",
+        @"room", room.uuid,
         @"uuid", player.entity.uuid
     )];
 }
 
 -(void)loadLevel:(NSString*)levelName;
 {
-    [levelRepo fetchRoomNamed:@"test" whenDone:^(DTRoom *newLevel, NSError *err) {
-    
-        [entities removeAllObjects];
+    [levelRepo fetchRoomNamed:@"test" ofClass:[DTServerRoom class] whenDone:^(DTRoom *newLevel, NSError *err) {
+        DTServerRoom *sroom = (id)newLevel;
+        
+        sroom.delegate = self;
+        [rooms setObject:sroom forKey:sroom.uuid];
         
         [self broadcast:$dict(
-            @"command", @"loadLevel",
-            @"name", newLevel.name
+            @"command", @"loadRoom",
+            @"uuid", sroom.uuid,
+            @"name", sroom.name
         )];
-
-        level = newLevel;
-        level.world.server = self;
         
-        for(NSDictionary *entRep in level.initialEntityReps)
-            [self createEntity:NSClassFromString([entRep objectForKey:@"class"]) setup:^(DTEntity *e) {
+        sroom.world.server = self;
+        
+        for(NSDictionary *entRep in sroom.initialEntityReps)
+            [sroom createEntity:NSClassFromString([entRep objectForKey:@"class"]) setup:^(DTEntity *e) {
                 [e updateFromRep:entRep];
             }];
-
-/*
-        [self createEntity:[DTEntityZoomer class] setup:(EntCtor)^(DTEntityZoomer *zoomer) {    
-            zoomer.position.x = 8;
-            zoomer.position.y = 8;
-        }];
-  */      
-        for(DTPlayer *player in players) [self spawnPlayer:player];
     }];
 }
 
@@ -123,18 +117,24 @@ typedef void(^EntCtor)(DTEntity*);
 	DTPlayer *player = [DTPlayer new];
 	player.proto = clientProto;
 	[players addObject:player];
+    
+    DTServerRoom *initialRoom = [[rooms allValues] objectAtIndex:random()%rooms.allValues.count];
+    
+    player.room = initialRoom;
 
     [clientProto sendHash:$dict(
-        @"command", @"loadLevel",
-        @"name", level.name
+        @"command", @"loadRoom",
+        @"uuid", initialRoom.uuid,
+        @"name", initialRoom.name
     )];
     
-    // Send world state
-    for(NSString *key in entities)
+    // Send room state
+    for(NSString *key in initialRoom.entities)
         [clientProto sendHash:$dict(
             @"command", @"addEntity",
             @"uuid", key,
-            @"rep", [[entities objectForKey:key] rep]
+            @"room", initialRoom.uuid,
+            @"rep", [[initialRoom.entities objectForKey:key] rep]
         )];
 
 	[self spawnPlayer:player];
@@ -147,7 +147,7 @@ typedef void(^EntCtor)(DTEntity*);
 	sock.delegate = nil;
 	for(DTPlayer *player in players)
 		if(player.proto.socket == sock) {
-            if(player.entity) [self destroyEntityKeyed:player.entity.uuid];
+            if(player.entity) [player.room destroyEntityKeyed:player.entity.uuid];
             [players removeObject:player];
             break;
 		}
@@ -178,7 +178,7 @@ typedef void(^EntCtor)(DTEntity*);
 	} else if([action isEqual:@"jump"]) {
         [(DTEntityPlayer*)player.entity jump];
     } else if([action isEqual:@"shoot"]) {
-        [self createEntity:[DTEntityBullet class] setup:(EntCtor)^(DTEntityBullet *e) {
+        [player.room createEntity:[DTEntityBullet class] setup:(EntCtor)^(DTEntityBullet *e) {
             e.position = [MutableVector2 vectorWithVector2:player.entity.position];
             e.moveDirection = e.lookDirection = player.entity.lookDirection;
             e.owner = (DTEntityPlayer*)player.entity;
@@ -194,73 +194,15 @@ typedef void(^EntCtor)(DTEntity*);
         [player.proto sendHash:d];
 }
 
--(id)createEntity:(Class)class setup:(EntCtor)setItUp;
-{
-    DTEntity *ent = [[class alloc] init];
-    ent.world = level.world;
-    
-    CFUUIDRef uuid = CFUUIDCreate(NULL);
-    NSString *uuidS = (__bridge_transfer NSString*)CFUUIDCreateString(NULL, uuid);
-    CFRelease(uuid);
-    ent.uuid = uuidS;
-    
-    [entities setObject:ent forKey:uuidS];
-    
-    if(setItUp) setItUp(ent);
-    
-    [self broadcast:$dict(
-        @"command", @"addEntity",
-        @"uuid", uuidS,
-        @"rep", [ent rep]
-    )];
-    return ent;
-}
-
--(void)destroyEntityKeyed:(NSString*)key;
-{
-    [self broadcast:$dict(
-        @"command", @"removeEntity",
-        @"uuid", key
-    )];
-    [entities removeObjectForKey:key];
-}
-
 
 -(void)entityDamaged:(DTEntity*)entity damage:(int)damage;
 {
     [self broadcast:$dict(
         @"command", @"entityDamaged",
+        @"room", entity.world.room.uuid,
         @"uuid", entity.uuid,
         @"damage", $num(damage)
     )];
-}
-
-
--(NSDictionary*)optimizeDelta:(NSDictionary*)new;
-{
-    // todo: Save old delta, remove any attrs that haven't changed
-    NSDictionary *old = previousDelta;
-    previousDelta = new;
-    
-    if(!old) return new;
-    
-    NSMutableDictionary *slimmed = [NSMutableDictionary dictionaryWithCapacity:new.count];
-    
-    for(NSString *uuid in new.allKeys) {
-        NSDictionary *oldRep = [old objectForKey:uuid];
-        NSDictionary *newRep = [new objectForKey:uuid];
-        if(!oldRep) { [slimmed setObject:newRep forKey:uuid]; break; }
-        
-        NSMutableDictionary *onlyChangedKeys = [NSMutableDictionary dictionaryWithCapacity:newRep.count];
-        for(NSString *attr in newRep.allKeys)
-            if(![[oldRep objectForKey:attr] isEqual:[newRep objectForKey:attr]])
-                [onlyChangedKeys setObject:[newRep objectForKey:attr] forKey:attr];
-        
-        if(onlyChangedKeys.count > 0)
-            [slimmed setObject:onlyChangedKeys forKey:uuid];
-    }
-    
-    return slimmed;
 }
 
 
@@ -270,41 +212,56 @@ typedef void(^EntCtor)(DTEntity*);
     //for(DTPlayer *player in players) {
     //}
     
-    [physics runWithEntities:entities.allValues world:level.world delta:delta];
-    
-    for(DTEntity *entity in entities.allValues)
-        [entity tick:delta];
+    for(DTServerRoom *room in rooms.allValues) {
+        NSDictionary *entities = room.entities;
+        
+        [physics runWithEntities:entities.allValues world:room.world delta:delta];
+        
+        for(DTEntity *entity in entities.allValues)
+            [entity tick:delta];
 
-    for(DTEntity *entity in entities.allValues) {
-        if(entity.health <= 0) [self destroyEntityKeyed:entity.uuid];
+        for(DTEntity *entity in entities.allValues) {
+            if(entity.health <= 0) [room destroyEntityKeyed:entity.uuid];
+        }
     }
 
     secondsSinceLastDelta += delta;
     if(secondsSinceLastDelta > 1./kMaxServerFramerate) { // push 5 times/sec
-        NSDictionary *reps = [self optimizeDelta:[entities sp_map: ^(NSString *k, id v) {
-            return [v rep];
-        }]];
-        [self broadcast:$dict(
-            @"command", @"updateEntityDeltas",
-            @"reps", reps
-        )];
+        for(DTServerRoom *room in rooms.allValues) {
+        
+            NSDictionary *reps = [room optimizeDelta:[room.entities sp_map: ^(NSString *k, id v) {
+                return [v rep];
+            }]];
+            if(reps.count == 0) continue;
+            
+            [self broadcast:$dict(
+                @"command", @"updateEntityDeltas",
+                @"room", room.uuid,
+                @"reps", reps
+            )];
+        }
         secondsSinceLastDelta = 0;
     }
 }
 
-#pragma mark physics and shit
-
-
-
-
-/*
-collides: function(a, b) {
-    if(a.position.x + a.size.w < b.position.x) return false;
-    if(a.position.x > b.position.x + b.size.w) return false;
-    if(a.position.y + a.size.h < b.position.y) return false;
-    if(a.position.y > b.position.y + b.size.h) return false;
-    return true;
+#pragma Entity handling
+-(void)room:(DTServerRoom*)room createdEntity:(DTEntity*)ent;
+{
+    [self broadcast:$dict(
+        @"command", @"addEntity",
+        @"uuid", ent.uuid,
+        @"room", room.uuid,
+        @"rep", [ent rep]
+    )];
 }
-*/
+-(void)room:(DTServerRoom*)room destroyedEntity:(DTEntity*)ent;
+{
+    [self broadcast:$dict(
+        @"command", @"removeEntity",
+        @"room", room.uuid,
+        @"uuid", ent.uuid
+    )];
+
+}
 
 @end

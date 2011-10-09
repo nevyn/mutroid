@@ -27,11 +27,10 @@
 
 @property (nonatomic,strong) DTPhysics *physics;
 
-@property (nonatomic,strong) NSMutableDictionary *entities;
 @property (nonatomic,strong) DTEntityPlayer *playerEntity;
 
-@property (nonatomic,strong) DTWorld *world;
-@property (nonatomic,strong) DTRoom *level;
+@property (nonatomic,strong) NSMutableDictionary *rooms;
+@property (nonatomic,weak) DTRoom *currentRoom;
 @property (nonatomic,strong) DTLevelRepository *levelRepo;
 
 @property (nonatomic,strong) DTCamera *camera;

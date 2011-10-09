@@ -15,7 +15,7 @@ typedef void(^DTLevelFetchedCallback)(DTRoom *newLevel, NSError *err);
 @interface DTLevelRepository : NSObject
 @property(nonatomic,strong,readonly) DTLevelRepository *parentRepo;
 -(id)initWithParentRepo:(DTLevelRepository*)parent;
--(void)fetchRoomNamed:(NSString*)name whenDone:(DTLevelFetchedCallback)done;
+-(void)fetchRoomNamed:(NSString*)name ofClass:(Class)cls whenDone:(DTLevelFetchedCallback)done;
 @end
 
 @interface DTDiskLevelRepository : DTLevelRepository

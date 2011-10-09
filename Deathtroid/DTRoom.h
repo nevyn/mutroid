@@ -10,8 +10,7 @@
 
 @class DTWorld;
 
-@interface DTRoom : NSObject {
-}
+@interface DTRoom : NSObject
 
 @property (nonatomic,strong) NSMutableArray *layers;
 @property (nonatomic) int entityLayerIndex;
@@ -20,6 +19,7 @@
 @property (nonatomic,strong) DTWorld *world; // room maths
 
 @property (nonatomic,strong) NSArray *initialEntityReps;
+@property (nonatomic,strong) NSMutableDictionary *entities;
 
 -(id)initWithPath:(NSURL*)path;
 
