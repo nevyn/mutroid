@@ -12,14 +12,18 @@
 
 @implementation DTLayer
 
+@synthesize tilemapName;
 @synthesize map;
 @synthesize depth;
 @synthesize currentPosition;
 @synthesize autoScrollSpeed;
+@synthesize repeatX, repeatY;
 
 -(id)initWithRep:(NSDictionary*)rep;
 {
     if(!(self = [super init])) return nil;
+    
+    tilemapName = [rep objectForKey:@"tilemap"];
 
 	currentPosition = [MutableVector2 vector];
 	startPosition = [Vector2 vectorWithX:0. y:0.];
@@ -28,6 +32,9 @@
 	autoScrollSpeed = CGPointMake(0.f, 0.f);
 		
 	map = [[DTMap alloc] initWithRep:rep];
+    
+    repeatX = [[rep objectForKey:@"repeatX"] boolValue];
+    repeatY = [[rep objectForKey:@"repeatY"] boolValue];
     
     return self;
 }

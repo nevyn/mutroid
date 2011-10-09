@@ -27,11 +27,15 @@
 	Vector2			*startPosition;
 }
 
+@property (nonatomic,strong) NSString *tilemapName;
+
 @property (nonatomic,strong) DTMap *map;
 @property (nonatomic,strong) MutableVector2 *currentPosition;
 
 @property (nonatomic) float depth;
 @property (nonatomic) CGPoint autoScrollSpeed;
+
+@property (nonatomic) BOOL repeatX, repeatY;
 
 -(id)initWithRep:(NSDictionary*)rep;
 

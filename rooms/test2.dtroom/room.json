@@ -1,7 +1,7 @@
 {
-	"tilemap": "bw",
 	"layers": [
 		{
+            "tilemap" : "brinstarjungle",
 			"width": 20,
 			"height": 15,
 			"depth": 1,

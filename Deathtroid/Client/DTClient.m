@@ -67,10 +67,11 @@
     glLoadIdentity();
     
     glDisable(GL_DEPTH_TEST);
-    //glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_FASTEST);
+    glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_FASTEST);
+    
     glDisable(GL_CULL_FACE);
-    //glEnable(GL_BLEND);
-    //glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
     
     //glEnable(GL_TEXTURE_2D);
     glPointSize(5.0f);
@@ -106,23 +107,33 @@
     glClear(GL_COLOR_BUFFER_BIT);
     glLoadIdentity();
 	glEnable(GL_TEXTURE_2D);
-	
-	DTTexture *texture = [resources resourceNamed:@"sten.texture"];
-	[texture use];
-        
+    	
     for(DTLayer *layer in currentRoom.layers) {
+        DTTexture *texture = [resources resourceNamed:$sprintf(@"%@.texture", layer.tilemapName)];
+        [texture use];
         glPushMatrix();
         glTranslatef(-camera.position.x * layer.depth, -camera.position.y * layer.depth, 0);
         glBegin(GL_QUADS);
-        glColor3f(layer.depth, layer.depth, layer.depth);
+        glColor3f(1,1,1);
         DTMap *map = layer.map;
-        for(int h=0; h<map.height; h++) {
-            for(int w=0; w<map.width; w++) {
-                if(map.tiles[h*map.width+w] == 0) continue;
-                glTexCoord2f(0, 0); glVertex2f(w, h);
-                glTexCoord2f(0, 1); glVertex2f(w+1, h);
-                glTexCoord2f(1, 1); glVertex2f(w+1, h+1);
-                glTexCoord2f(1, 0); glVertex2f(w, h+1);
+        for(int i=0; i<(layer.repeatX?2:1); i++) {
+            for(int h=0; h<map.height; h++) {
+                for(int w=0; w<map.width; w++) {
+                
+                    int x = i*map.width + w;
+                    int y = h;
+                
+                    int tile = map.tiles[h*map.width+w];
+                    if(tile == 0) continue;
+                    tile--;
+                    float r = 0.125;
+                    float u = r * (int)(tile % 8);
+                    float v = r * (int)(tile / 8);
+                    glTexCoord2f(u, v); glVertex2f(x, y);
+                    glTexCoord2f(u+r, v); glVertex2f(x+1, y);
+                    glTexCoord2f(u+r, v+r); glVertex2f(x+1, y+1);
+                    glTexCoord2f(u, v+r); glVertex2f(x, y+1);
+                }
             }
         }
         glEnd();
