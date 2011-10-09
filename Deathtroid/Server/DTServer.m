@@ -190,8 +190,11 @@ static const int kMaxServerFramerate = 5;
 
 -(void)broadcast:(NSDictionary*)d;
 {
-    for(DTPlayer *player in players)
+    for(DTPlayer *player in players) {
+        NSString *ruid = [d objectForKey:@"room"];
+        if(ruid && ![ruid isEqual:player.room.uuid]) continue;
         [player.proto sendHash:d];
+    }
 }
 
 
