@@ -8,9 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-@class DTLevel;
+@class DTRoom;
 
-typedef void(^DTLevelFetchedCallback)(DTLevel *newLevel, NSError *err);
+typedef void(^DTLevelFetchedCallback)(DTRoom *newLevel, NSError *err);
 
 @interface DTLevelRepository : NSObject
 @property(nonatomic,strong,readonly) DTLevelRepository *parentRepo;

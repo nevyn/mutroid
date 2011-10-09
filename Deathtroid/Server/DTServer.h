@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 
 @class DTPhysics;
-@class DTWorld, DTLevel, DTEntity, DTMap, DTLevelRepository;
+@class DTWorld, DTRoom, DTEntity, DTMap, DTLevelRepository;
 @class DTTraceResult;
 @class Vector2;
 
@@ -21,7 +21,7 @@
 @property (nonatomic,strong) NSMutableDictionary *entities;
 
 @property (nonatomic,strong) DTWorld *world;
-@property (nonatomic,strong) DTLevel *level;
+@property (nonatomic,strong) DTRoom *level;
 @property (nonatomic,strong) DTLevelRepository *levelRepo;
 
 @end

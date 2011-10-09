@@ -43,7 +43,7 @@
 		D8B05716143F8A73002CE09B /* DTInput.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B05704143F7697002CE09B /* DTInput.m */; };
 		D8B0572D143FB22F002CE09B /* DTMap.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B0572C143FB22F002CE09B /* DTMap.m */; };
 		D8B05732143FB2AA002CE09B /* DTLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B0572F143FB2AA002CE09B /* DTLayer.m */; };
-		D8B05733143FB2AA002CE09B /* DTLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B05731143FB2AA002CE09B /* DTLevel.m */; };
+		D8B05733143FB2AA002CE09B /* DTRoom.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B05731143FB2AA002CE09B /* DTRoom.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -126,8 +126,8 @@
 		D8B0572C143FB22F002CE09B /* DTMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTMap.m; sourceTree = "<group>"; };
 		D8B0572E143FB2AA002CE09B /* DTLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTLayer.h; sourceTree = "<group>"; };
 		D8B0572F143FB2AA002CE09B /* DTLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTLayer.m; sourceTree = "<group>"; };
-		D8B05730143FB2AA002CE09B /* DTLevel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTLevel.h; sourceTree = "<group>"; };
-		D8B05731143FB2AA002CE09B /* DTLevel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTLevel.m; sourceTree = "<group>"; };
+		D8B05730143FB2AA002CE09B /* DTRoom.h */ = {isa = PBXFileReference; fileEncoding = 4; path = DTRoom.h; sourceTree = "<group>"; };
+		D8B05731143FB2AA002CE09B /* DTRoom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTRoom.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -251,8 +251,8 @@
 				D8B0572C143FB22F002CE09B /* DTMap.m */,
 				D8B0572E143FB2AA002CE09B /* DTLayer.h */,
 				D8B0572F143FB2AA002CE09B /* DTLayer.m */,
-				D8B05730143FB2AA002CE09B /* DTLevel.h */,
-				D8B05731143FB2AA002CE09B /* DTLevel.m */,
+				D8B05730143FB2AA002CE09B /* DTRoom.h */,
+				D8B05731143FB2AA002CE09B /* DTRoom.m */,
 				D822B7DB14407E1F0097FC9E /* DTWorld.h */,
 				D822B7DC14407E1F0097FC9E /* DTWorld.m */,
 				D891F80F1440D98800B489CA /* DTPhysics.h */,
@@ -444,7 +444,7 @@
 				05CC7B79143FC4BB00052D06 /* SPLowVerbosity.m in Sources */,
 				D8B0572D143FB22F002CE09B /* DTMap.m in Sources */,
 				D8B05732143FB2AA002CE09B /* DTLayer.m in Sources */,
-				D8B05733143FB2AA002CE09B /* DTLevel.m in Sources */,
+				D8B05733143FB2AA002CE09B /* DTRoom.m in Sources */,
 				D822B7C2143FDDF80097FC9E /* DTCamera.m in Sources */,
 				D822B7C6143FE1AC0097FC9E /* DTEntityRipper.m in Sources */,
 				D822B7D514406D750097FC9E /* DTEntityZoomer.m in Sources */,
@@ -565,7 +565,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
-					"DUMB_CLIENT=0",
+					"DUMB_CLIENT=1",
 				);
 				INFOPLIST_FILE = "Deathtroid/Deathtroid-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";

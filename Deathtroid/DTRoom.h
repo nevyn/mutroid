@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface DTLevel : NSObject {
+@interface DTRoom : NSObject {
 }
 
 @property (nonatomic,strong) NSMutableArray *layers;

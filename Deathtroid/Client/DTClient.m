@@ -10,7 +10,7 @@
 #import "TCAsyncHashProtocol.h"
 #import <OpenGL/gl.h>
 
-#import "DTLevel.h"
+#import "DTRoom.h"
 #import "DTLayer.h"
 #import "DTMap.h"
 #import "DTEntity.h"
@@ -193,7 +193,7 @@
     } else if([command isEqual:@"loadLevel"]) {
         level = nil;
         [entities removeAllObjects];
-        [levelRepo fetchRoomNamed:$notNull([hash objectForKey:@"name"]) whenDone:^(DTLevel *newLevel, NSError *err) {
+        [levelRepo fetchRoomNamed:$notNull([hash objectForKey:@"name"]) whenDone:^(DTRoom *newLevel, NSError *err) {
             if(!newLevel) {
                 [NSApp presentError:err];
                 return;

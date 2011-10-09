@@ -7,7 +7,7 @@
 
 #import "AsyncSocket.h"
 #import "DTWorld.h"
-#import "DTLevel.h"
+#import "DTRoom.h"
 #import "DTLayer.h"
 #import "DTMap.h"
 #import "DTPlayer.h"
@@ -85,7 +85,7 @@ typedef void(^EntCtor)(DTEntity*);
 
 -(void)loadLevel:(NSString*)levelName;
 {
-    [levelRepo fetchRoomNamed:@"test" whenDone:^(DTLevel *newLevel, NSError *err) {
+    [levelRepo fetchRoomNamed:@"test" whenDone:^(DTRoom *newLevel, NSError *err) {
     
         [entities removeAllObjects];
         

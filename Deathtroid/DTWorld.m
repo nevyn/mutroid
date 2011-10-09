@@ -12,7 +12,7 @@
 #import "Vector2.h"
 #import "DTMap.h"
 #import "DTLayer.h"
-#import "DTLevel.h"
+#import "DTRoom.h"
 #import "DTServer.h"
 
 @implementation DTTraceResult
@@ -34,7 +34,7 @@
 
 @synthesize level, server;
 
--(id)initWithLevel:(DTLevel*)_level;
+-(id)initWithLevel:(DTRoom*)_level;
 {
     if(!(self = [super init])) return nil;
     level = _level;

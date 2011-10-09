@@ -6,14 +6,14 @@
 //  Copyright 2009 __MyCompanyName__. All rights reserved.
 //
 
-#import "DTLevel.h"
+#import "DTRoom.h"
 #import "DTLayer.h"
 
-@interface DTLevel ()
+@interface DTRoom ()
 @property (nonatomic,strong,readwrite) NSString *name;
 @end
 
-@implementation DTLevel
+@implementation DTRoom
 
 @synthesize layers = _layers;
 @synthesize entityLayerIndex;
