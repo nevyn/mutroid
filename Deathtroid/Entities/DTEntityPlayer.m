@@ -51,6 +51,8 @@
 
 -(void)jump;
 {
+	if(!self.onGround) return;
+	
     self.onGround = false;
     self.velocity.y = -15;
 }
