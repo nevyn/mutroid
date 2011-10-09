@@ -77,24 +77,24 @@
 			},
 			"destinationRoom": "test2",
 			"destinationPosition": {
-			    "x": 17,
-			    "y": 1
+			    "x": 17.8,
+			    "y": 1.25
 			}
 		},
         {
 			"class": "DTEntityDoor",
 			"position": {
-				"x": 39,
+				"x": 38.8,
 				"y": 6
 			},
 			"size": {
-				"x": 0.1,
+				"x": 0.2,
 				"y": 2
 			},
 			"destinationRoom": "test2",
 			"destinationPosition": {
-			    "x": 2,
-			    "y": 12
+			    "x": 1.5,
+			    "y": 12.25
 			}
 		}
 	]

@@ -28,33 +28,33 @@
         {
 			"class": "DTEntityDoor",
 			"position": {
-				"x": 19,
+				"x": 18.8,
 				"y": 1
 			},
 			"size": {
-				"x": 0.1,
+				"x": 0.2,
 				"y": 2
 			},
 			"destinationRoom": "test",
 			"destinationPosition": {
-			    "x": 2,
-			    "y": 4
+			    "x": 0.3,
+			    "y": 4.25
 			}
 		},
         {
 			"class": "DTEntityDoor",
 			"position": {
-				"x": 1,
+				"x": 1.0,
 				"y": 12
 			},
 			"size": {
-				"x": 0.1,
+				"x": 0.2,
 				"y": 2
 			},
 			"destinationRoom": "test",
 			"destinationPosition": {
-			    "x": 38,
-			    "y": 6
+			    "x": 37.7,
+			    "y": 6.25
 			}
 		}
 	]
