@@ -24,6 +24,7 @@
 
 #import "DTResourceManager.h"
 #import "DTTexture.h"
+#import "DTSpriteMap.h"
 
 @interface DTClient () <TCAsyncHashProtocolDelegate>
 @property (nonatomic, strong) DTResourceManager *resources;
@@ -141,22 +142,28 @@
         glEnd();
         glPopMatrix();
     }
-	glDisable(GL_TEXTURE_2D);
-
+	//glDisable(GL_TEXTURE_2D);
+	
+	DTSpriteMap *sprite = [resources spriteMapNamed:@"sten.spritemap"];
+	[sprite.texture use];
+	DTSpriteMapFrame frame = [sprite frameAtIndex:0];
+	
     glTranslatef(-camera.position.x, -camera.position.y, 0);
         
     for(DTEntity *entity in currentRoom.entities.allValues) {
         glPushMatrix();
         glTranslatef(entity.position.x, entity.position.y, 0);
         glBegin(GL_QUADS);
-        if(entity.damageFlashTimer > 0) {
-            glColor3f(1., entity.damageFlashTimer*5, entity.damageFlashTimer*5);
-        } else
-            glColor3f(1., 0, 0.);
-        glVertex3f(0., 0., 0.);
-        glVertex3f(entity.size.x, 0., 0.);
-        glVertex3f(entity.size.x, entity.size.y, 0.);
-        glVertex3f(0., entity.size.y, 0);
+        if(entity.damageFlashTimer > 0)
+            frame = [sprite frameAtIndex:1];
+		else
+			frame = [sprite frameAtIndex:0];
+            
+		glColor3f(1., 1., 1.);
+        glTexCoord2fv(&frame.coords[0]); glVertex3f(entity.size.x, 0., 0.);
+        glTexCoord2fv(&frame.coords[2]); glVertex3f(entity.size.x, entity.size.y, 0.);
+        glTexCoord2fv(&frame.coords[4]); glVertex3f(0., entity.size.y, 0);
+        glTexCoord2fv(&frame.coords[6]); glVertex3f(0., 0., 0.);
         glEnd();
         glColor3f(0,0,1.);
         glBegin(GL_POINTS);

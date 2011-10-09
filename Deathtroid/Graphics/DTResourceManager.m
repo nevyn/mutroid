@@ -89,7 +89,7 @@ static NSMutableDictionary *resourceLoaders = nil;
 {
 	NSURL *path = [self pathForResourceNamed:name];
 	id<DTResourceLoader>loader = [DTResourceManager resourceLoaderForTypeName:path.dt_resourceType];
-	check(loader);
+	if(!loader) NSLog(@"Warning!: No loader for resource %@", name);
 	return [loader loadResourceAtURL:path usingManager:self];
 }
 

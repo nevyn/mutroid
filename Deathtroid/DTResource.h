@@ -20,7 +20,7 @@
 
 
 @interface DTResource : NSObject <DTResource>
-
+-(id)initWithResourceId:(NSString *)rid;
 @end
 
 

@@ -11,7 +11,6 @@
 
 
 @interface DTImage : DTResource
-@property (nonatomic, readonly) NSData *imageData;
 @property (nonatomic, readonly) NSImage *NSImage;
 @property (nonatomic, readonly) NSBitmapImageRep *NSBitmapImageRep;
 @end

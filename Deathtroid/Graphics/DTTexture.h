@@ -10,6 +10,8 @@
 #import "DTResource.h"
 
 @interface DTTexture : DTResource
+@property (nonatomic, readonly) CGSize pixelSize;
+
 -(void)use;
 @end
 

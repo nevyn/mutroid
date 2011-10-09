@@ -27,6 +27,7 @@
 		994E55FC1441169D009EC13C /* DTSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = 994E55FB1441169D009EC13C /* DTSprite.m */; };
 		994E55FF14412A30009EC13C /* DTImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 994E55FE14412A30009EC13C /* DTImage.m */; };
 		994E5610144146A8009EC13C /* resources in Resources */ = {isa = PBXBuildFile; fileRef = 994E560F144146A8009EC13C /* resources */; };
+		994E56171441CB3C009EC13C /* DTSpriteMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 994E56161441CB3C009EC13C /* DTSpriteMap.m */; };
 		D822B7C2143FDDF80097FC9E /* DTCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = D822B7C1143FDDF80097FC9E /* DTCamera.m */; };
 		D822B7C6143FE1AC0097FC9E /* DTEntityRipper.m in Sources */ = {isa = PBXBuildFile; fileRef = D822B7C5143FE1AC0097FC9E /* DTEntityRipper.m */; };
 		D822B7D514406D750097FC9E /* DTEntityZoomer.m in Sources */ = {isa = PBXBuildFile; fileRef = D822B7D414406D750097FC9E /* DTEntityZoomer.m */; };
@@ -99,6 +100,8 @@
 		994E55FD14412A30009EC13C /* DTImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTImage.h; path = Graphics/DTImage.h; sourceTree = "<group>"; };
 		994E55FE14412A30009EC13C /* DTImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTImage.m; path = Graphics/DTImage.m; sourceTree = "<group>"; };
 		994E560F144146A8009EC13C /* resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = resources; sourceTree = SOURCE_ROOT; };
+		994E56151441CB3C009EC13C /* DTSpriteMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTSpriteMap.h; path = Graphics/DTSpriteMap.h; sourceTree = "<group>"; };
+		994E56161441CB3C009EC13C /* DTSpriteMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTSpriteMap.m; path = Graphics/DTSpriteMap.m; sourceTree = "<group>"; };
 		D822B7C0143FDDF80097FC9E /* DTCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTCamera.h; path = Client/DTCamera.h; sourceTree = "<group>"; };
 		D822B7C1143FDDF80097FC9E /* DTCamera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTCamera.m; path = Client/DTCamera.m; sourceTree = "<group>"; };
 		D822B7C4143FE1AC0097FC9E /* DTEntityRipper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTEntityRipper.h; sourceTree = "<group>"; };
@@ -208,6 +211,8 @@
 				994E55FB1441169D009EC13C /* DTSprite.m */,
 				994E55FD14412A30009EC13C /* DTImage.h */,
 				994E55FE14412A30009EC13C /* DTImage.m */,
+				994E56151441CB3C009EC13C /* DTSpriteMap.h */,
+				994E56161441CB3C009EC13C /* DTSpriteMap.m */,
 			);
 			name = Graphics;
 			sourceTree = "<group>";
@@ -519,6 +524,7 @@
 				0554598D1441383400E94DB2 /* DTServerRoom.m in Sources */,
 				055459A81441659000E94DB2 /* DTEntityDoor.m in Sources */,
 				055459AC1441DC3500E94DB2 /* BlackBackgroundView.m in Sources */,
+				994E56171441CB3C009EC13C /* DTSpriteMap.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

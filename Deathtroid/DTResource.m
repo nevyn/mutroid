@@ -8,9 +8,26 @@
 
 #import "DTResource.h"
 
+@interface DTResource ()
+@property (nonatomic, copy) NSString *resourceId;
+@end
+
 @implementation DTResource
 
 @synthesize resourceId;
+
+-(id)init{
+	[NSException raise:@"Use designated initializer 'initWithResourceId:'" format:nil];
+	return nil;
+}
+
+-(id)initWithResourceId:(NSString *)rid;
+{
+	if(![super init]) return nil;
+	
+	self.resourceId = rid;
+	return self;
+}
 
 @end
 

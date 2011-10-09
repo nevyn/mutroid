@@ -62,7 +62,7 @@
 	NSString *imagePath = [self.definition objectForKey:@"file"];
 	NSURL *imageURL = [NSURL URLWithString:imagePath relativeToURL:url];
 	
-	DTImage *image = [[DTImage alloc] init];
+	DTImage *image = [[DTImage alloc] initWithResourceId:url.dt_resourceId];
 	[image loadFromURL:imageURL];
 	return image;
 }

@@ -18,7 +18,11 @@
 @end
 
 @implementation DTTexture
-@synthesize textureId;
+@synthesize textureId, pixelSize;
+
+-(id)initWithResourceId:(NSString *)rid{
+	return [super initWithResourceId:rid];
+}
 
 -(void)loadWithImage:(DTImage *)image;
 {
@@ -28,6 +32,8 @@
 	int	width  = (int)[bitmap pixelsWide];
 	int	height = (int)[bitmap pixelsHigh];
 	BOOL hasAlpha = [bitmap hasAlpha];
+	
+	pixelSize = CGSizeMake(width, height);
 	
 	GLuint texId;
 	glGenTextures(1, &texId);
@@ -71,7 +77,7 @@
 {
 	[super loadResourceAtURL:url usingManager:manager];
 	
-	DTTexture *tex = [DTTexture new];
+	DTTexture *tex = [[DTTexture alloc] initWithResourceId:url.dt_resourceId];
 	
 	NSString *imageName = [self.definition objectForKey:@"image"];
 	DTImage *image = [manager imageNamed:imageName];
