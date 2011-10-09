@@ -222,8 +222,7 @@ static const int kMaxServerFramerate = 5;
         
         if(oldRoom != newRoom) {
             [oldRoom destroyEntityKeyed:playerE.uuid];
-            [newRoom.entities setObject:playerE forKey:playerE.uuid];
-            [self room:newRoom createdEntity:playerE];
+            [newRoom addEntityToRoom:playerE];
         }
         
         player.room = newRoom;
