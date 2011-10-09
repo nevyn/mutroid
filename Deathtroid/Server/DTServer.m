@@ -41,7 +41,7 @@ typedef void(^EntCtor)(DTEntity*);
 
 @synthesize physics;
 @synthesize entities;
-@synthesize level, levelRepo, world;
+@synthesize level, levelRepo, rooms;
 
 -(id)init;
 {
@@ -55,6 +55,7 @@ typedef void(^EntCtor)(DTEntity*);
     
     players = [NSMutableArray array];
     entities = [NSMutableDictionary dictionary];
+    rooms = [NSMutableDictionary dictionary];
 
     _sock = [[AsyncSocket alloc] initWithDelegate:self];
 	_sock.delegate = self;
@@ -95,10 +96,7 @@ typedef void(^EntCtor)(DTEntity*);
         )];
 
         level = newLevel;
-        world = [[DTWorld alloc] initWithLevel:level];
-        world.server = self;
-
-        world.level = level;
+        level.world.server = self;
         
         for(NSDictionary *entRep in level.initialEntityReps)
             [self createEntity:NSClassFromString([entRep objectForKey:@"class"]) setup:^(DTEntity *e) {
@@ -199,7 +197,7 @@ typedef void(^EntCtor)(DTEntity*);
 -(id)createEntity:(Class)class setup:(EntCtor)setItUp;
 {
     DTEntity *ent = [[class alloc] init];
-    ent.world = world;
+    ent.world = level.world;
     
     CFUUIDRef uuid = CFUUIDCreate(NULL);
     NSString *uuidS = (__bridge_transfer NSString*)CFUUIDCreateString(NULL, uuid);
@@ -272,7 +270,7 @@ typedef void(^EntCtor)(DTEntity*);
     //for(DTPlayer *player in players) {
     //}
     
-    [physics runWithEntities:entities.allValues world:world delta:delta];
+    [physics runWithEntities:entities.allValues world:level.world delta:delta];
     
     for(DTEntity *entity in entities.allValues)
         [entity tick:delta];

@@ -90,8 +90,8 @@
     for(DTEntity *entity in entities.allValues)
         [entity tick:delta];
     
-    if(world)
-        [physics runWithEntities:entities.allValues world:world delta:delta];
+    if(level.world)
+        [physics runWithEntities:entities.allValues world:level.world delta:delta];
 }
 
 -(void)draw;
@@ -175,8 +175,7 @@
         
         DTEntity *ent = [[DTEntity alloc] initWithRep:rep];
         ent.uuid = key;
-        // TODO<nevyn>: Per, laga detta.
-//        ent.world = world;
+        ent.world = level.world;
         
         [entities setObject:ent forKey:key];
         
@@ -202,7 +201,6 @@
                 return;
             }
             level = newLevel;
-            world = [[DTWorld alloc] initWithLevel:newLevel];
         }];
     } else if([command isEqual:@"entityDamaged"]) {
         DTEntity *e = $notNull([entities objectForKey:[hash objectForKey:@"uuid"]]);

@@ -8,6 +8,7 @@
 
 #import "DTRoom.h"
 #import "DTLayer.h"
+#import "DTWorld.h"
 
 @interface DTRoom ()
 @property (nonatomic,strong,readwrite) NSString *name;
@@ -19,6 +20,8 @@
 @synthesize entityLayerIndex;
 @synthesize name = _name;
 @synthesize initialEntityReps;
+@synthesize uuid;
+@synthesize world;
 
 -(id)initWithPath:(NSURL*)path;
 {
@@ -47,6 +50,8 @@
     entityLayerIndex = 1;
     
     initialEntityReps = [rep objectForKey:@"entities"];
+    
+    world = [[DTWorld alloc] initWithLevel:self];
 	
 	return self;
 }

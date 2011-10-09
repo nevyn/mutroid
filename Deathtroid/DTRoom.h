@@ -8,12 +8,16 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class DTWorld;
+
 @interface DTRoom : NSObject {
 }
 
 @property (nonatomic,strong) NSMutableArray *layers;
 @property (nonatomic) int entityLayerIndex;
 @property (nonatomic,strong,readonly) NSString *name;
+@property (nonatomic,strong) NSString *uuid;
+@property (nonatomic,strong) DTWorld *world; // room maths
 
 @property (nonatomic,strong) NSArray *initialEntityReps;
 

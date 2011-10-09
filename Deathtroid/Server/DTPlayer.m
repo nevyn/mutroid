@@ -12,5 +12,5 @@
 
 @synthesize entity;
 @synthesize proto;
-
+@synthesize room;
 @end

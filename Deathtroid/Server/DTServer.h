@@ -21,8 +21,8 @@
 @property (nonatomic,strong) DTPhysics *physics;
 
 @property (nonatomic,strong) NSMutableDictionary *entities;
+@property (nonatomic,strong) NSMutableDictionary *rooms;
 
-@property (nonatomic,strong) DTWorld *world;
 @property (nonatomic,strong) DTRoom *level;
 @property (nonatomic,strong) DTLevelRepository *levelRepo;
 
