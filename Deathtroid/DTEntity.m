@@ -14,7 +14,7 @@
 @implementation DTEntity
 
 @synthesize world, uuid;
-@synthesize position, velocity, size, moveDirection, lookDirection, collisionType, gravity, moving;
+@synthesize position, velocity, size, moveDirection, lookDirection, collisionType, gravity, moving, onGround;
 
 -(id)init;
 {
@@ -27,6 +27,7 @@
     collisionType = EntityCollisionTypeStop;
     gravity = true;
     moving = false;
+    onGround = false;
     
     moveDirection = EntityDirectionRight;
     lookDirection = EntityDirectionRight;
@@ -50,6 +51,7 @@
     
     $doif(@"gravity", gravity = [o boolValue]);
     $doif(@"moving", moving = [o boolValue]);
+    $doif(@"onGround", onGround = [o boolValue]);
     
     $doif(@"moveDirection", moveDirection = [o intValue]);
     $doif(@"lookDirection", lookDirection = [o intValue]);
@@ -68,6 +70,7 @@
         
         @"gravity", $num(gravity),
         @"moving", $num(moving),
+        @"onGround", $num(onGround),
         
         @"moveDirection", $num(moveDirection),
         @"lookDirection", $num(lookDirection),

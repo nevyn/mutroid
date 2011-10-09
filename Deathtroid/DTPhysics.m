@@ -17,8 +17,13 @@
 -(void)runWithEntities:(NSArray*)entities world:(DTWorld*)world delta:(double)delta;
 {
     for(DTEntity *entity in entities) {
-        if(entity.gravity && entity.velocity.y < 10)
+        // Check if should start to fall
+        DTTraceResult *down = [world traceBox:entity.size from:entity.position to:[entity.position vectorByAddingVector:[Vector2 vectorWithX:0 y:0.5]] exclude:entity];
+        if(!down || !down.y || down.entity) entity.onGround = false;
+
+        if(entity.gravity && entity.velocity.y < 10 && !entity.onGround) {
             entity.velocity.y += 0.5;
+        }
         
         [self moveEntity:entity world:world delta:delta];
         
@@ -38,9 +43,12 @@
     if(info==nil) { [entity.position addVector:move]; }
     else {
         if(info.entity || entity.collisionType == EntityCollisionTypeNone || !info.x) entity.position.x += move.x;
-        else { entity.position.x = info.collisionPosition.x; entity.velocity.x = 0; }
+        else if(info.x) { entity.position.x = info.collisionPosition.x; entity.velocity.x = 0; }
         if(info.entity || entity.collisionType == EntityCollisionTypeNone || !info.y) entity.position.y += move.y;
-        else { entity.position.y = info.collisionPosition.y; entity.velocity.y = 0; }
+        else if(info.y) {
+            if(entity.velocity.y > 0 && entity.gravity) entity.onGround = YES;
+            entity.position.y = info.collisionPosition.y; entity.velocity.y = 0;
+        }
     }
     
     if(!info.entity && (info.x || info.y)) [entity didCollideWithWorld:info];

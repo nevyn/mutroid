@@ -61,6 +61,7 @@ typedef struct {
 @property (nonatomic) EntityCollisionType collisionType;
 @property (nonatomic) BOOL gravity;
 @property (nonatomic) BOOL moving;  // Actually physically flexing its muscles to induce forward motion
+@property (nonatomic) BOOL onGround;
 
 @property (nonatomic,weak) DTWorld *world;
 @property (nonatomic,strong) NSString *uuid;

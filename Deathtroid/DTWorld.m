@@ -120,7 +120,7 @@
     }
         
     if(collidedX || collidedY) {
-        return [[DTTraceResult alloc] initWithX:collidedX y:collidedY entity:nil collisionPosition:[Vector2 vectorWithX:gx y:gy] velocity:nil];
+        return [[DTTraceResult alloc] initWithX:collidedX y:collidedY entity:nil collisionPosition:[Vector2 vectorWithX:gx y:gy] velocity:[Vector2 vectorWithX:vx y:vy]];
     }
     
     if(server) {

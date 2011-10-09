@@ -47,7 +47,7 @@
 		}
 	],
 	"entities": [
-		{
+        {
 			"class": "DTEntityRipper",
 			"position": {
 				"x": 11,
@@ -79,6 +79,13 @@
 				"x": 1,
 				"y": 0.5
 			}
-		}
+		},
+        {
+            "class": "DTEntitySidehopper",
+            "position": {
+                "x": 5,
+                "y": 0
+            }
+        }
 	]
 }
