@@ -36,7 +36,7 @@
 @synthesize physics;
 @synthesize rooms, playerEntity, levelRepo, currentRoom;
 @synthesize camera;
-@synthesize resources;
+@synthesize resources, healthCallback;
 
 -(id)init;
 {
@@ -100,6 +100,8 @@
     
     if(currentRoom.world)
         [physics runWithEntities:currentRoom.entities.allValues world:currentRoom.world delta:delta];
+        
+    if(self.healthCallback) self.healthCallback(followThis.maxHealth, followThis.health);
 }
 
 -(void)draw;

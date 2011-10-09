@@ -22,6 +22,7 @@
     
     self.size.x = 1;
     self.size.y = 1;
+    self.maxHealth = self.health = 2;
     
     self.gravity = false;
     self.collisionType = EntityCollisionTypeNone;

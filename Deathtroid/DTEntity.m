@@ -17,13 +17,14 @@
 
 @synthesize world, uuid;
 @synthesize position, velocity, size, moveDirection, lookDirection, collisionType, gravity, moving, onGround, health, destructible;
-@synthesize damageFlashTimer;
+@synthesize damageFlashTimer, maxHealth;
 
 -(id)init;
 {
     if(!(self = [super init])) return nil;
     
     health = 1;
+    maxHealth = 1;
     destructible = NO;
         
     position = [MutableVector2 vectorWithX:5 y:1];
@@ -58,6 +59,7 @@
     $doif(@"gravity", gravity = [o boolValue]);
     $doif(@"moving", moving = [o boolValue]);
     $doif(@"onGround", onGround = [o boolValue]);
+    $doif(@"maxHealth", maxHealth = [o intValue]);
     
     $doif(@"moveDirection", moveDirection = [o intValue]);
     $doif(@"lookDirection", lookDirection = [o intValue]);
@@ -77,6 +79,8 @@
         @"gravity", $num(gravity),
         @"moving", $num(moving),
         @"onGround", $num(onGround),
+        
+        @"maxHealth", $num(maxHealth),
         
         @"moveDirection", $num(moveDirection),
         @"lookDirection", $num(lookDirection),

@@ -21,5 +21,6 @@
 
 -(void)draw;
 -(void)tick:(double)delta;
+-(DTClient*)client;
 
 @end

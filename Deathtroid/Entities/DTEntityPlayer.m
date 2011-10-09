@@ -22,7 +22,7 @@
     brakeSpeed = 0.2;
     self.destructible = YES;
     
-    self.health = 10;
+    self.maxHealth = self.health = 20;
             
     return self;
 }

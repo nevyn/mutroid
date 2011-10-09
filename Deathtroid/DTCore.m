@@ -74,5 +74,8 @@
     [server tick:delta];
     [client tick:delta];
 }
-
+-(DTClient*)client;
+{
+    return client;
+}
 @end

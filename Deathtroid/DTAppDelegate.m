@@ -10,6 +10,7 @@
 
 #import "DTView.h"
 #import "DTCore.h"
+#import "DTClient.h"
 
 #import <OpenGL/gl.h>
 
@@ -24,6 +25,7 @@
 @synthesize core;
 @synthesize customHost;
 @synthesize tabView;
+@synthesize healthIndicator, healthText;
 
 
 -(void)start2;
@@ -34,6 +36,14 @@
     // LOOP-DE-LOOP
     interval = 1.0f / 60.0f;
     loopTimer = [NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(tick:) userInfo:nil repeats:YES];
+    
+    core.client.healthCallback = ^(int max, int cur) {
+        healthIndicator.maxValue = max;
+        healthIndicator.criticalValue = max/3;
+        healthIndicator.warningValue = max/2;
+        healthIndicator.floatValue = cur;
+        healthText.stringValue = $sprintf(@"%d", cur);
+    };
 }
 -(void)start;
 {

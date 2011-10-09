@@ -19,6 +19,9 @@
 @property (assign) IBOutlet DTView *view;
 @property (assign) IBOutlet NSTextField *customHost;
 @property (assign) IBOutlet NSTabView *tabView;
+@property (assign) IBOutlet NSLevelIndicator *healthIndicator;
+@property (assign) IBOutlet NSTextField *healthText;
+
 
 -(IBAction)startGame:(id)sender;
 -(IBAction)joinSelected:(id)sender;

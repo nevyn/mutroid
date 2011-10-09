@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+typedef void(^DTClientHealthCallback)(int maxHealth, int currentHealth);
+
 @class DTPhysics;
 @class DTServer, DTRoom, DTWorld, DTEntityPlayer, DTLevelRepository;
 @class DTCamera;
@@ -34,5 +36,7 @@
 @property (nonatomic,strong) DTLevelRepository *levelRepo;
 
 @property (nonatomic,strong) DTCamera *camera;
+
+@property(nonatomic,copy) DTClientHealthCallback healthCallback;
 
 @end

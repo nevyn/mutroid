@@ -19,7 +19,7 @@
     
     self.size.x = 1.5;
     
-    self.health = 5;
+    self.maxHealth = self.health = 5;
     self.destructible = YES;
     
     idleTimer = 0;

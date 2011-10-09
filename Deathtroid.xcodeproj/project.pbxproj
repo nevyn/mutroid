@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0554598D1441383400E94DB2 /* DTServerRoom.m in Sources */ = {isa = PBXBuildFile; fileRef = 0554598C1441383400E94DB2 /* DTServerRoom.m */; };
 		055459A81441659000E94DB2 /* DTEntityDoor.m in Sources */ = {isa = PBXBuildFile; fileRef = 055459A71441659000E94DB2 /* DTEntityDoor.m */; };
+		055459AC1441DC3500E94DB2 /* BlackBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 055459AB1441DC3400E94DB2 /* BlackBackgroundView.m */; };
 		0587E522143F8DB200EA9CBF /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 0587E521143F8DB200EA9CBF /* AsyncSocket.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0587E525143F8FB200EA9CBF /* DTConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0587E524143F8FB200EA9CBF /* DTConstants.m */; };
 		05B60AD41440E57000CFFCE9 /* DTLevelRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = 05B60AD31440E56F00CFFCE9 /* DTLevelRepository.m */; };
@@ -70,6 +71,8 @@
 		0554598C1441383400E94DB2 /* DTServerRoom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTServerRoom.m; sourceTree = "<group>"; };
 		055459A61441659000E94DB2 /* DTEntityDoor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTEntityDoor.h; sourceTree = "<group>"; };
 		055459A71441659000E94DB2 /* DTEntityDoor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTEntityDoor.m; sourceTree = "<group>"; };
+		055459AA1441DC3400E94DB2 /* BlackBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlackBackgroundView.h; sourceTree = "<group>"; };
+		055459AB1441DC3400E94DB2 /* BlackBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlackBackgroundView.m; sourceTree = "<group>"; };
 		0587E520143F8DB200EA9CBF /* AsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AsyncSocket.h; path = Vendor/cocoaasyncsocket/RunLoop/AsyncSocket.h; sourceTree = SOURCE_ROOT; };
 		0587E521143F8DB200EA9CBF /* AsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AsyncSocket.m; path = Vendor/cocoaasyncsocket/RunLoop/AsyncSocket.m; sourceTree = SOURCE_ROOT; };
 		0587E523143F8FB100EA9CBF /* DTConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTConstants.h; sourceTree = "<group>"; };
@@ -289,6 +292,8 @@
 				D8B05704143F7697002CE09B /* DTInput.m */,
 				D8B05706143F77E6002CE09B /* DTCore.h */,
 				05B60AD21440E56F00CFFCE9 /* DTLevelRepository.h */,
+				055459AA1441DC3400E94DB2 /* BlackBackgroundView.h */,
+				055459AB1441DC3400E94DB2 /* BlackBackgroundView.m */,
 				05B60AD31440E56F00CFFCE9 /* DTLevelRepository.m */,
 				D8B05707143F77E6002CE09B /* DTCore.m */,
 				0587E523143F8FB100EA9CBF /* DTConstants.h */,
@@ -513,6 +518,7 @@
 				994E55FF14412A30009EC13C /* DTImage.m in Sources */,
 				0554598D1441383400E94DB2 /* DTServerRoom.m in Sources */,
 				055459A81441659000E94DB2 /* DTEntityDoor.m in Sources */,
+				055459AC1441DC3500E94DB2 /* BlackBackgroundView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

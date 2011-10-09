@@ -16,7 +16,7 @@
 {
     if(!(self = [super init])) return nil;
     
-    self.health = 5;
+    self.maxHealth = self.health = 5;
     self.destructible = YES;
     
     speed = 2;
