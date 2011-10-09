@@ -13,7 +13,7 @@
 @interface DTRoom : NSObject
 
 @property (nonatomic,strong) NSMutableArray *layers;
-@property (nonatomic) int entityLayerIndex;
+@property (nonatomic) NSUInteger entityLayerIndex;
 @property (nonatomic,strong,readonly) NSString *name;
 @property (nonatomic,strong) NSString *uuid;
 @property (nonatomic,strong) DTWorld *world; // room maths

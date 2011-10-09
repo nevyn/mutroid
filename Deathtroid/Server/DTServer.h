@@ -16,6 +16,9 @@
 
 -(void)entityDamaged:(DTEntity*)entity damage:(int)damage;
 
+-(void)teleportPlayerForEntity:(DTEntity*)playerE toPosition:(Vector2*)pos inRoomNamed:(NSString*)roomName;
+
+
 @property (nonatomic,strong) DTPhysics *physics;
 
 @property (nonatomic,strong) NSMutableDictionary *rooms;

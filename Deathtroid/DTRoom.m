@@ -49,7 +49,7 @@
 	for(NSDictionary *layerRep in layerReps)
         [_layers addObject:[[DTLayer alloc] initWithRep:layerRep]];
     
-    entityLayerIndex = 1;
+    entityLayerIndex = _layers.count-1;
     
     initialEntityReps = [rep objectForKey:@"entities"];
     

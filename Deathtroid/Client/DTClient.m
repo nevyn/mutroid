@@ -169,6 +169,7 @@
 	NSLog(@"Lost connection to server: %@", sock);
 }
 
+#define done() { 	[_proto readHash]; return; }
 -(void)protocol:(TCAsyncHashProtocol*)proto receivedHash:(NSDictionary*)hash;
 {
     NSString *command = [hash objectForKey:@"command"];
@@ -185,7 +186,9 @@
         
     } else if([command isEqual:@"addEntity"]) {
         NSString *roomName = $notNull([hash objectForKey:@"room"]);
-        DTRoom *room = $notNull([rooms objectForKey:roomName]);
+        DTRoom *room = [rooms objectForKey:roomName];
+        if(!room)
+            done();
         
         NSString *key = $notNull([hash objectForKey:@"uuid"]);
         NSDictionary *rep = $notNull([hash objectForKey:@"rep"]);
@@ -207,7 +210,8 @@
     }else if([command isEqual:@"removeEntity"]) {
         NSString *key = $notNull([hash objectForKey:@"uuid"]);
         NSString *roomName = $notNull([hash objectForKey:@"room"]);
-        DTRoom *room = $notNull([rooms objectForKey:roomName]);
+        DTRoom *room = [rooms objectForKey:roomName];
+        if(!room) done();
         
         [room.entities removeObjectForKey:key];
     
@@ -221,12 +225,15 @@
     } else if([command isEqual:@"loadRoom"]) {
         NSString *uuid = $notNull([hash objectForKey:@"uuid"]);
         
+        // TODO<nevyn>: reuse loaded room instance
+        
         [levelRepo fetchRoomNamed:$notNull([hash objectForKey:@"name"]) ofClass:[DTRoom class] whenDone:^(DTRoom *room, NSError *err) {
             if(!room) {
                 [NSApp presentError:err];
                 return;
             }
             [rooms setObject:room forKey:uuid];
+            room.uuid = uuid;
             
             for(NSString *key in $notNull([hash objectForKey:@"entities"])) {
                 NSDictionary *rep = [[hash objectForKey:@"entities"] objectForKey:key];
@@ -238,7 +245,8 @@
         }];
     } else if([command isEqual:@"entityDamaged"]) {
         NSString *roomName = $notNull([hash objectForKey:@"room"]);
-        DTRoom *room = $notNull([rooms objectForKey:roomName]);
+        DTRoom *room = [rooms objectForKey:roomName];
+        if(!room) done();
         
         DTEntity *e = $notNull([room.entities objectForKey:[hash objectForKey:@"uuid"]]);
         
@@ -246,7 +254,7 @@
         [e damage:d];
     } else NSLog(@"Unknown server command: %@", hash);
     
-	[_proto readHash];
+    done()
 }
 
 #pragma mark Dunno

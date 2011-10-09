@@ -29,6 +29,8 @@ static const int kMaxServerFramerate = 5;
 
 @interface DTServer () <DTServerRoomDelegate>
 -(void)broadcast:(NSDictionary*)d;
+
+-(void)sendRoom:(DTRoom*)room toPlayer:(DTPlayer*)player;
 @end
 
 @implementation DTServer {
@@ -72,16 +74,8 @@ static const int kMaxServerFramerate = 5;
         [room destroyEntityKeyed:player.entity.uuid];
     
     player.entity = [room createEntity:[DTEntityPlayer class] setup:nil];
-    [player.proto sendHash:$dict(
-        @"command", @"cameraFollow",
-        @"room", room.uuid,
-        @"uuid", player.entity.uuid
-    )];
-    [player.proto sendHash:$dict(
-        @"command", @"playerEntity",
-        @"room", room.uuid,
-        @"uuid", player.entity.uuid
-    )];
+    
+    [self teleportPlayerForEntity:player.entity toPosition:player.entity.position inRoomNamed:player.room.name];
 }
 
 -(void)sendRoom:(DTRoom*)room toPlayer:(DTPlayer*)player;
@@ -96,9 +90,16 @@ static const int kMaxServerFramerate = 5;
     )];
 }
 
--(void)loadLevel:(NSString*)levelName;
+-(void)loadLevel:(NSString*)roomName then:(void(^)(DTServerRoom*))then;
 {
-    [levelRepo fetchRoomNamed:@"test" ofClass:[DTServerRoom class] whenDone:^(DTRoom *newLevel, NSError *err) {
+    DTServerRoom *existing = nil;
+    for(DTServerRoom *r in rooms.allValues) if([r.name isEqual:roomName]) { existing = r; break; }
+    if(existing) {
+        then(existing);
+        return;
+    }
+
+    [levelRepo fetchRoomNamed:roomName ofClass:[DTServerRoom class] whenDone:^(DTRoom *newLevel, NSError *err) {
         DTServerRoom *sroom = (id)newLevel;
         
         sroom.delegate = self;
@@ -110,7 +111,13 @@ static const int kMaxServerFramerate = 5;
             [sroom createEntity:NSClassFromString([entRep objectForKey:@"class"]) setup:^(DTEntity *e) {
                 [e updateFromRep:entRep];
             }];
+            
+        if(then) then(sroom);
     }];
+}
+-(void)loadLevel:(NSString *)roomName;
+{
+    [self loadLevel:roomName then:nil];
 }
 
 #pragma mark Network
@@ -125,7 +132,6 @@ static const int kMaxServerFramerate = 5;
 	[players addObject:player];
     
     player.room = [[rooms allValues] objectAtIndex:random()%rooms.allValues.count];
-    
     [self sendRoom:player.room toPlayer:player];
 	[self spawnPlayer:player];
 	
@@ -181,8 +187,8 @@ static const int kMaxServerFramerate = 5;
 -(void)broadcast:(NSDictionary*)d;
 {
     for(DTPlayer *player in players) {
-        NSString *ruid = [d objectForKey:@"room"];
-        if(ruid && ![ruid isEqual:player.room.uuid]) continue;
+        //NSString *ruid = [d objectForKey:@"room"];
+        //if(ruid && ![ruid isEqual:player.room.uuid]) continue;
         [player.proto sendHash:d];
     }
 }
@@ -198,6 +204,43 @@ static const int kMaxServerFramerate = 5;
     )];
 }
 
+-(void)teleportPlayerForEntity:(DTEntity*)playerE
+                    toPosition:(Vector2*)pos
+                   inRoomNamed:(NSString*)roomName;
+{
+    DTPlayer *player = nil;
+    for(DTPlayer *pl in players) if(pl.entity == playerE) { player = pl; break; }
+    NSAssert(player != nil, @"player entity was missing player");
+    
+    DTServerRoom *oldRoom = $cast(DTServerRoom, playerE.world.room);
+    
+    [self loadLevel:roomName then:^(DTServerRoom *newRoom) {
+    
+        [self sendRoom:newRoom toPlayer:player];
+        
+        player.entity.position = [MutableVector2 vectorWithVector2:pos];
+        
+        if(oldRoom != newRoom) {
+            [oldRoom destroyEntityKeyed:playerE.uuid];
+            [newRoom.entities setObject:playerE forKey:playerE.uuid];
+            [self room:newRoom createdEntity:playerE];
+        }
+        
+        player.room = newRoom;
+        
+        [player.proto sendHash:$dict(
+            @"command", @"cameraFollow",
+            @"room", newRoom.uuid,
+            @"uuid", player.entity.uuid
+        )];
+        [player.proto sendHash:$dict(
+            @"command", @"playerEntity",
+            @"room", newRoom.uuid,
+            @"uuid", player.entity.uuid
+        )];
+        
+    }];
+}
 
 -(void)tick:(double)delta;
 {   

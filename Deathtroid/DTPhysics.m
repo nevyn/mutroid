@@ -38,7 +38,7 @@
 {
     Vector2 *move = [entity.velocity vectorByMultiplyingWithScalar:delta];
     
-    DTTraceResult *info = [world traceBox:entity.size from:entity.position to:[entity.position vectorByAddingVector:move] exclude:entity ignoreEntities:YES];
+    DTTraceResult *info = [world traceBox:entity.size from:entity.position to:[entity.position vectorByAddingVector:move] exclude:entity ignoreEntities:NO];
     
     if(info==nil) { [entity.position addVector:move]; }
     else {
@@ -52,7 +52,10 @@
     }
     
     if(!info.entity && (info.x || info.y)) [entity didCollideWithWorld:info];
-    else if(info.entity) [entity didCollideWithEntity:info.entity];
+    else if(info.entity) {
+        [entity didCollideWithEntity:info.entity];
+        [info.entity didCollideWithEntity:entity];
+    }
 }
 
 
