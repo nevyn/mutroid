@@ -22,7 +22,11 @@
 #import "DTEntityPlayer.h"
 #import "DTLevelRepository.h"
 
+#import "DTResourceManager.h"
+#import "DTTexture.h"
+
 @interface DTClient () <TCAsyncHashProtocolDelegate>
+@property (nonatomic, strong) DTResourceManager *resources;
 @end
 
 @implementation DTClient {
@@ -32,6 +36,7 @@
 @synthesize physics;
 @synthesize entities, level, world, playerEntity, levelRepo;
 @synthesize camera;
+@synthesize resources;
 
 -(id)init;
 {
@@ -40,6 +45,8 @@
 -(id)initConnectingTo:(NSString *)host port:(NSUInteger)port;
 {
     if(!(self = [super init])) return nil;
+	
+	self.resources = [[DTResourceManager alloc] initWithBaseURL:[[NSBundle mainBundle] URLForResource:@"resources" withExtension:nil]];
 	
 	AsyncSocket *socket = [[AsyncSocket alloc] initWithDelegate:self];
 	socket.delegate = _proto = [[TCAsyncHashProtocol alloc] initWithSocket:socket delegate:self];
@@ -98,6 +105,10 @@
 {
     glClear(GL_COLOR_BUFFER_BIT);
     glLoadIdentity();
+	glEnable(GL_TEXTURE_2D);
+	
+	DTTexture *texture = [resources resourceNamed:@"sten.texture"];
+	[texture use];
         
     for(DTLayer *layer in level.layers) {
         glPushMatrix();
@@ -108,15 +119,16 @@
         for(int h=0; h<map.height; h++) {
             for(int w=0; w<map.width; w++) {
                 if(map.tiles[h*map.width+w] == 0) continue;
-                glVertex2f(w, h);
-                glVertex2f(w+1, h);
-                glVertex2f(w+1, h+1);
-                glVertex2f(w, h+1);
+                glTexCoord2f(0, 0); glVertex2f(w, h);
+                glTexCoord2f(0, 1); glVertex2f(w+1, h);
+                glTexCoord2f(1, 1); glVertex2f(w+1, h+1);
+                glTexCoord2f(1, 0); glVertex2f(w, h+1);
             }
         }
         glEnd();
         glPopMatrix();
     }
+	glDisable(GL_TEXTURE_2D);
 
     glTranslatef(-camera.position.x, -camera.position.y, 0);
         
