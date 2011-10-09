@@ -15,12 +15,22 @@ typedef enum {
     ZoomerPositionWallRight,
 } ZoomerPosition;
 
+
 @interface DTEntityZoomer : DTEntity {
     float   speed;
+    MutableVector2 *orientation;
+    CGPoint target;
 }
 
 -(id)init;
+- (BOOL) reachedTarget:(Vector2*) move;
+- (BOOL) hasPassedTarget:(Vector2*) move;
+- (CGPoint) findHole:(Vector2*)move;
+- (CGPoint) findWall:(Vector2*)move;
+- (void) updateLookDirection;
 
 @property (nonatomic) ZoomerPosition crawlPosition;
+@property (nonatomic, retain) MutableVector2 *orientation;
+@property (nonatomic) CGPoint target;
 
 @end

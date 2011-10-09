@@ -60,6 +60,7 @@
 
     for(int i=1; i<=steps; i++) {
         DTTraceResult *result = [self traceBoxStep:from size:box vx:i*stepX vy:i*stepY map:map exclude:exclude ignore:ignore inverted:inverted];
+
         if(result != nil) return result;
     }
     
@@ -83,7 +84,7 @@
         int to = (int)(gy + size.y - 0.0001);
         for(int y=from; y<=to; ++y) {
             int tile = tiles[y*map.width+(int)coordx];
-            if(tile>0) {
+            if(tile>0) {                
                 gx = vx < 0 ? ceil(coordx) : floor(coordx) - size.x;
                 collidedX = YES;
                 break;
