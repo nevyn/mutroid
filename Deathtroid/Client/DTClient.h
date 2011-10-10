@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 
 typedef void(^DTClientHealthCallback)(int maxHealth, int currentHealth);
+typedef void(^DTClientScoresCallback)(NSDictionary *scores);
+typedef void(^DTClientMessageCallback)(NSString *message);
 
 @class DTPhysics;
 @class DTServer, DTRoom, DTWorld, DTEntityPlayer, DTLevelRepository;
@@ -38,5 +40,6 @@ typedef void(^DTClientHealthCallback)(int maxHealth, int currentHealth);
 @property (nonatomic,strong) DTCamera *camera;
 
 @property(nonatomic,copy) DTClientHealthCallback healthCallback;
-
+@property(nonatomic,copy) DTClientScoresCallback scoresCallback;
+@property(nonatomic,copy) DTClientMessageCallback messageCallback;
 @end

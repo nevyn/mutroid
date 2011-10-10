@@ -130,17 +130,23 @@
 -(void)didCollideWithWorld:(DTTraceResult*)info; {}
 -(void)didCollideWithEntity:(DTEntity*)other; {}
 
--(BOOL)damage:(int)damage from:(Vector2*)damagerLocation;
+-(BOOL)damage:(int)damage from:(Vector2*)damagerLocation killer:(DTEntity *)killer;
 {
     if(!destructible) return NO;
     health -= damage;
     damageFlashTimer = 0.2;
-    [world.server entityDamaged:self damage:damage location:damagerLocation];
+    [world.server entityDamaged:self damage:damage location:damagerLocation killer:killer];
+	if(health < 0)
+		[world.server entityWasKilled:self by:killer];
 	return YES;
 }
 
 -(NSString*)description;
 {
     return $sprintf(@"<%@ %@/0x%x in %@>", NSStringFromClass([self class]), self.uuid, self, self.world.room);
+}
+-(NSString*)typeName;
+{
+	return [[[NSStringFromClass([self class]) componentsSeparatedByString:@"DTEntity"] objectAtIndex:1] lowercaseString];
 }
 @end

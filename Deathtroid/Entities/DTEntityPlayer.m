@@ -79,10 +79,10 @@
     self.velocity.y = -15;
 }
 
--(BOOL)damage:(int)damage from:(Vector2*)damagerLocation;
+-(BOOL)damage:(int)damage from:(Vector2*)damagerLocation killer:(DTEntity *)killer;
 {
 	if(self.immune) return NO;
-	if(![super damage:damage from:damagerLocation]) return NO;
+	if(![super damage:damage from:damagerLocation killer:killer]) return NO;
 	
 	self.immune = YES;
 	

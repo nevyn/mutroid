@@ -10,6 +10,7 @@
 
 @implementation DTPlayer
 
+@synthesize name;
 @synthesize entity;
 @synthesize proto;
 @synthesize room;

@@ -24,6 +24,6 @@
 {
 	[super didCollideWithEntity:other];
 	if([other isKindOfClass:[DTEntityPlayer class]])
-		[other damage:self.touchDamage from:self.position];
+		[other damage:self.touchDamage from:self.position killer:self];
 }
 @end

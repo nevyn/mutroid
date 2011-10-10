@@ -12,6 +12,7 @@
 #import "DTWorld.h"
 #import "DTServer.h"
 #import "DTServerRoom.h"
+#import "DTEntityPlayer.h"
 
 @implementation DTEntityBullet
 
@@ -49,7 +50,7 @@
         [$cast(DTServerRoom, self.world.room) destroyEntityKeyed:self.uuid];
     
     if(other.destructible)
-        [other damage:4 from:self.position];
+        [other damage:4 from:self.position killer:owner];
 }
 
 @end

@@ -54,7 +54,7 @@ typedef struct {
 
 -(void)tick:(double)delta;
 
--(BOOL)damage:(int)damage from:(Vector2*)damagerLocation;
+-(BOOL)damage:(int)damage from:(Vector2*)damagerLocation killer:(DTEntity*)killer;
 
 - (void) animateWalk:(double)delta;
 
@@ -75,6 +75,9 @@ typedef struct {
 
 @property (nonatomic,weak) DTWorld *world;
 @property (nonatomic,strong) NSString *uuid;
+@property (nonatomic,readonly) NSString *typeName;
+
+// protected
 
 @property (nonatomic, retain) DTSpriteMap *walkSprite;
 @property (nonatomic, assign) int currentWalkSpriteFrame;

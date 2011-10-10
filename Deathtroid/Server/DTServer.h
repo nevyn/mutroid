@@ -14,7 +14,7 @@
 
 -(void)tick:(double)delta;
 
--(void)entityDamaged:(DTEntity*)entity damage:(int)damage location:(Vector2*)where;
+-(void)entityDamaged:(DTEntity*)entity damage:(int)damage location:(Vector2*)where killer:(DTEntity*)killer;
 
 -(void)teleportPlayerForEntity:(DTEntity*)playerE toPosition:(Vector2*)pos inRoomNamed:(NSString*)roomName;
 
@@ -24,5 +24,7 @@
 @property (nonatomic,strong) NSMutableDictionary *rooms;
 
 @property (nonatomic,strong) DTLevelRepository *levelRepo;
+
+-(void)entityWasKilled:(DTEntity*)killed by:(DTEntity*)killer;
 
 @end

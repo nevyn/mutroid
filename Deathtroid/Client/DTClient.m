@@ -38,7 +38,7 @@
 @synthesize physics;
 @synthesize rooms, playerEntity, levelRepo, currentRoom;
 @synthesize camera;
-@synthesize resources, healthCallback;
+@synthesize resources, healthCallback, scoresCallback, messageCallback;
 
 -(id)init;
 {
@@ -200,6 +200,10 @@
 - (void)onSocket:(AsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port;
 {
 	NSLog(@"Connected to server: %@", sock);
+	[_proto sendHash:$dict(
+		@"hello", $num(1),
+		@"playerName", [[NSUserDefaults standardUserDefaults] objectForKey:@"playerName"]
+	)];
 	[_proto readHash];
 	
 }
@@ -288,10 +292,15 @@
         if(!room) done();
         
         DTEntity *e = $notNull([room.entities objectForKey:[hash objectForKey:@"uuid"]]);
+		DTEntity *other = [room.entities objectForKey:[hash objectForKey:@"killer"]];
         
         int d = [$notNull([hash objectForKey:@"damage"]) intValue];
 		Vector2 *location = [[Vector2 alloc] initWithRep:$notNull([hash objectForKey:@"location"])];
-        [e damage:d from:location];
+        [e damage:d from:location killer:other];
+	} else if([command isEqual:@"updateScoreboard"]) {
+		if(self.scoresCallback) self.scoresCallback([hash objectForKey:@"scoreboard"]);
+	} else if([command isEqual:@"displayMessage"]) {
+		if(self.messageCallback) self.messageCallback([hash objectForKey:@"message"]);
     } else NSLog(@"Unknown server command: %@", hash);
     
     done()

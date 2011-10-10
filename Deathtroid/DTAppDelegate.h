@@ -21,6 +21,8 @@
 @property (assign) IBOutlet NSTabView *tabView;
 @property (assign) IBOutlet NSLevelIndicator *healthIndicator;
 @property (assign) IBOutlet NSTextField *healthText;
+@property (assign) IBOutlet NSTextField *messages;
+@property (assign) IBOutlet NSTextField *highscores;
 
 
 -(IBAction)startGame:(id)sender;

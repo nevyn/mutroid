@@ -25,7 +25,7 @@
 @synthesize core;
 @synthesize customHost;
 @synthesize tabView;
-@synthesize healthIndicator, healthText;
+@synthesize healthIndicator, healthText, messages, highscores;
 
 
 -(void)start2;
@@ -51,6 +51,17 @@
 			oldCur = cur;
 		}
     };
+	core.client.scoresCallback = ^(NSDictionary *newScores) {
+		NSArray *players = [newScores keysSortedByValueUsingSelector:@selector(compare:)];
+		NSMutableString *scoresString = [NSMutableString string];
+		for(NSString *player in players) {
+			[scoresString appendFormat:@"%14@ %2.1f\n", player, [[newScores objectForKey:player] floatValue]];
+		}
+		highscores.stringValue = scoresString;
+	};
+	core.client.messageCallback = ^(NSString *newString) {
+		messages.stringValue = [newString stringByAppendingFormat:@"\n%@", messages.stringValue];
+	};
 }
 -(void)start;
 {

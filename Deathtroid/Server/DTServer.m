@@ -31,6 +31,8 @@ static const int kMaxServerFramerate = 5;
 -(void)broadcast:(NSDictionary*)d;
 
 -(void)sendRoom:(DTRoom*)room toPlayer:(DTPlayer*)player;
+-(void)addPoints:(float)pts forPlayer:(DTPlayer*)who;
+-(void)msg:(NSString*)msg;
 @end
 
 @implementation DTServer {
@@ -38,6 +40,7 @@ static const int kMaxServerFramerate = 5;
 	NSMutableArray *players;
     NSDictionary *previousDelta;
     NSTimeInterval secondsSinceLastDelta;
+	NSMutableDictionary *scoreBoard;
 }
 
 @synthesize physics;
@@ -55,6 +58,7 @@ static const int kMaxServerFramerate = 5;
     
     players = [NSMutableArray array];
     rooms = [NSMutableDictionary dictionary];
+	scoreBoard = [NSMutableDictionary dictionary];
 
     _sock = [[AsyncSocket alloc] initWithDelegate:self];
 	_sock.delegate = self;
@@ -144,6 +148,7 @@ static const int kMaxServerFramerate = 5;
 	for(DTPlayer *player in players)
 		if(player.proto.socket == sock) {
             if(player.entity) [player.room destroyEntityKeyed:player.entity.uuid];
+			[self msg:$sprintf(@"%@ disconnected.", player.name)];
             [players removeObject:player];
             break;
 		}
@@ -157,14 +162,22 @@ static const int kMaxServerFramerate = 5;
 			player = pl; break;
 		}
 	NSAssert(player, @"Unknown player sent us stuff");
+	
+	if([hash objectForKey:@"hello"]) {
+		player.name = [hash objectForKey:@"playerName"];
+		[self addPoints:0 forPlayer:player];
+		[self msg:$sprintf(@"%@ joined.", player.name)];
+        [proto readHash];
+		return;
+	}
+	
+	NSString *action = [hash objectForKey:@"action"];
     
-    if(!player.entity) {
+    if(action && !player.entity) {
         [self spawnPlayer:player];
         [proto readHash];
         return;
     }
-
-	NSString *action = [hash objectForKey:@"action"];
 	
 	if([action isEqual:@"walk"]) {
 		NSString *direction = [hash objectForKey:@"direction"];
@@ -193,25 +206,64 @@ static const int kMaxServerFramerate = 5;
     }
 }
 
-
--(void)entityDamaged:(DTEntity*)entity damage:(int)damage location:(Vector2*)where;
+#pragma mark Game logic
+-(DTPlayer*)playerForEntity:(DTEntity*)playerE;
 {
-    [self broadcast:$dict(
+	for(DTPlayer *pl in players) if(pl.entity == playerE) return pl;
+	return nil;
+}
+-(void)addPoints:(float)pts forPlayer:(DTPlayer*)who;
+{
+	float cur = [[scoreBoard objectForKey:who.name] floatValue];
+	[scoreBoard setObject:$numf(cur+pts) forKey:who.name];
+	
+	[self broadcast:$dict(
+		@"command", @"updateScoreboard",
+		@"scoreboard", scoreBoard
+	)];
+}
+-(void)msg:(NSString*)msg;
+{
+	[self broadcast:$dict(
+		@"command", @"displayMessage",
+		@"message", msg
+	)];
+}
+
+
+-(void)entityDamaged:(DTEntity*)entity damage:(int)damage location:(Vector2*)where killer:(DTEntity*)killer;
+{
+	NSMutableDictionary *d = $mdict(
         @"command", @"entityDamaged",
         @"room", entity.world.room.uuid,
         @"uuid", entity.uuid,
 		@"location", where.rep,
         @"damage", $num(damage)
-    )];
+    );
+	if(killer)
+		[d setObject:killer.uuid forKey:@"killer"];
+	[self broadcast:d];
+}
+#define $isPlayer(x) [x isKindOfClass:[DTEntityPlayer class]]
+-(void)entityWasKilled:(DTEntity*)killed by:(DTEntity*)killer;
+{
+	if($isPlayer(killed) && $isPlayer(killer)) {// PvP
+		[self addPoints:1 forPlayer:[self playerForEntity:killer]];
+		[self msg:$sprintf(@"%@ got vaporized by %@.", [self playerForEntity:killed].name, [self playerForEntity:killer].name)];
+	} else if($isPlayer(killed) && !$isPlayer(killer)) { // EvP
+		[self addPoints:-1 forPlayer:[self playerForEntity:killed]];
+		[self msg:$sprintf(@"%@ got eaten by a %@.", [self playerForEntity:killed].name, killer.typeName)];
+	} else if(!$isPlayer(killed) && $isPlayer(killer)) // PvE
+		[self addPoints:0.1 forPlayer:[self playerForEntity:killer]];
+	
+	[$cast(DTServerRoom, killed.world.room) destroyEntityKeyed:killed.uuid];
 }
 
 -(void)teleportPlayerForEntity:(DTEntity*)playerE
                     toPosition:(Vector2*)pos
                    inRoomNamed:(NSString*)roomName;
 {
-    DTPlayer *player = nil;
-    for(DTPlayer *pl in players) if(pl.entity == playerE) { player = pl; break; }
-    NSAssert(player != nil, @"player entity was missing player");
+    DTPlayer *player = $notNull([self playerForEntity:playerE]);
     
     DTServerRoom *oldRoom = $cast(DTServerRoom, playerE.world.room);
     
@@ -255,10 +307,6 @@ static const int kMaxServerFramerate = 5;
         
         for(DTEntity *entity in entities.allValues)
             [entity tick:delta];
-
-        for(DTEntity *entity in entities.allValues) {
-            if(entity.health <= 0) [room destroyEntityKeyed:entity.uuid];
-        }
     }
 
     secondsSinceLastDelta += delta;
