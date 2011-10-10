@@ -50,69 +50,18 @@
 -(void)tick:(double)delta;
 {
     [super tick:delta];
-    //if(!self.world.server) return;
     
     Vector2 *move = [self.velocity vectorByMultiplyingWithScalar:delta];
     
     if ([self reachedTarget:move]) return;
-    
-    float offsetForward;
-    float offsetSide;
-    Vector2 *from;
-    Vector2 *to;
-    
-    CGPoint newTarget = CGPointMake(-1, -1);
-    
-    if (move.x != 0.0f) {
-        
-        offsetForward = move.x > 0 ? 1 : -1;
-        offsetSide = self.orientation.y > 0 ? 0.5 : 1.5;
-        
-        float posX = move.x > 0 ? floor(self.position.x) : ceil(self.position.x); 
-        
-        from = [Vector2 vectorWithX:posX y:self.position.y+(offsetSide*self.orientation.y)];
-        to = [Vector2 vectorWithX:posX+move.x+offsetForward y:self.position.y+(offsetSide*self.orientation.y)];
-    }
-    else if (move.y != 0.0f) {
-        
-        offsetForward = move.y > 0 ? 1 : -1;
-        offsetSide = self.orientation.x > 0 ? 0.5 : 1.5;
-        
-        float posY = move.y > 0 ? floor(self.position.y) : ceil(self.position.y); 
-        
-        from = [Vector2 vectorWithX:self.position.x+(offsetSide*self.orientation.x) y:posY];
-        to = [Vector2 vectorWithX:self.position.x+(offsetSide*self.orientation.x) y:posY+move.y+offsetForward];
-    }
-    else {
-        return;
-    }
 
-    
+    Vector2 *from = [self getStartVectorWithOffset:YES moveVector:move];
+    Vector2 *to = [self getEndVectorWithOffset:YES moveVector:move];
+
     CGPoint hole = [self findHole:move from:from to:to];
     
-    if (move.x != 0.0f) {
-        
-        offsetForward = move.x > 0 ? 1 : -1;
-        offsetSide = 0;
-        
-        float posX = move.x > 0 ? floor(self.position.x) : ceil(self.position.x); 
-        
-        from = [Vector2 vectorWithX:posX y:self.position.y+(offsetSide*self.orientation.y)];
-        to = [Vector2 vectorWithX:posX+move.x+offsetForward y:self.position.y+(offsetSide*self.orientation.y)];
-    }
-    else if (move.y != 0.0f) {
-        
-        offsetForward = move.y > 0 ? 1 : -1;
-        offsetSide = 0;
-        
-        float posY = move.y > 0 ? floor(self.position.y) : ceil(self.position.y); 
-        
-        from = [Vector2 vectorWithX:self.position.x+(offsetSide*self.orientation.x) y:posY];
-        to = [Vector2 vectorWithX:self.position.x+(offsetSide*self.orientation.x) y:posY+move.y+offsetForward];
-    }
-    else {
-        return;
-    }
+    from = [self getStartVectorWithOffset:NO moveVector:move];
+    to = [self getEndVectorWithOffset:NO moveVector:move];
     
     CGPoint wall = [self findWall:move from:from to:to];
     
@@ -127,7 +76,46 @@
 
 }
 
-- (CGPoint) findHole:(Vector2*)move from:(Vector2*)from to:(Vector2*)to {
+- (Vector2*) getStartVectorWithOffset:(BOOL)offset moveVector:(Vector2*)move {
+    return [self getVectorWithOffset:offset moveVector:move isStart:YES];
+}
+
+- (Vector2*) getEndVectorWithOffset:(BOOL)offset moveVector:(Vector2*)move  {
+    return [self getVectorWithOffset:offset moveVector:move isStart:NO];
+}
+
+- (Vector2*) getVectorWithOffset:(BOOL)offset moveVector:(Vector2*)move isStart:(BOOL)isStart {
+    
+    float offsetForward;
+    float offsetSide = 0;
+    
+    Vector2 *vector;
+    
+    if (move.x != 0.0f) {
+        
+        offsetForward = move.x > 0 ? 1 : -1;
+        if (offset) offsetSide = self.orientation.y > 0 ? 0.5 : 1.5;
+        
+        float posX = move.x > 0 ? floor(self.position.x) : ceil(self.position.x); 
+        
+        if (isStart) vector = [Vector2 vectorWithX:posX y:self.position.y+(offsetSide*self.orientation.y)];
+        else vector = [Vector2 vectorWithX:posX+move.x+offsetForward y:self.position.y+(offsetSide*self.orientation.y)];
+    }
+    else if (move.y != 0.0f) {
+        
+        offsetForward = move.y > 0 ? 1 : -1;
+        if (offset) offsetSide = self.orientation.x > 0 ? 0.5 : 1.5;
+        
+        float posY = move.y > 0 ? floor(self.position.y) : ceil(self.position.y); 
+        
+        if (isStart) vector = [Vector2 vectorWithX:self.position.x+(offsetSide*self.orientation.x) y:posY];
+        else vector = [Vector2 vectorWithX:self.position.x+(offsetSide*self.orientation.x) y:posY+move.y+offsetForward];
+    }
+    
+    return vector;
+}
+
+- (CGPoint) findTarget:(Vector2*)move from:(Vector2*)from to:(Vector2*)to inverted:(BOOL)inverted {
     
     CGPoint newTarget = CGPointMake(-1, -1);
     
@@ -136,7 +124,7 @@
                                            to:to 
                                       exclude:self
                                ignoreEntities:YES
-                                     inverted:YES];
+                                     inverted:inverted];
     
     if(res && (res.x || res.y)) {
         
@@ -157,71 +145,27 @@
 //            NSLog(@"Current pos: %.2f, %.2f", self.position.x, self.position.y);
 //            NSLog(@"From: %@, to: %@", from, to);
 //        
-//            // Found a hole
-//            NSLog(@"Found hole at %.2f, %.2f", res.collisionPosition.x, res.collisionPosition.y);
+//            if (!inverted) NSLog(@"Found hole at %.2f, %.2f", res.collisionPosition.x, res.collisionPosition.y);
+//            else NSLog(@"Found wall at %.2f, %.2f", res.collisionPosition.x, res.collisionPosition.y);
 //        
 //            NSLog(@"Setting target to %f %f", newTarget.x, newTarget.y); 
 //            NSLog(@"----------");
 //            NSLog(@"\n\n");
 //        }
-
+        
     }
     
     return newTarget;
 
+    
+}
+
+- (CGPoint) findHole:(Vector2*)move from:(Vector2*)from to:(Vector2*)to {
+    return [self findTarget:move from:from to:to inverted:YES];
 }
 
 - (CGPoint) findWall:(Vector2*)move from:(Vector2*)from to:(Vector2*)to {
-    
-    CGPoint newTarget = CGPointMake(-1, -1);
-    
-    DTTraceResult *res = [self.world traceBox:self.size 
-                                         from:from
-                                           to:to 
-                                      exclude:self
-                               ignoreEntities:YES
-                                     inverted:NO];
-    
-    if(res && (res.x || res.y)) {
-        
-        if (move.x > 0)
-            newTarget = CGPointMake(ceil(res.collisionPosition.x), self.position.y);
-        else if (move.x < 0)
-            newTarget = CGPointMake(floor(res.collisionPosition.x), self.position.y);
-        else if (move.y > 0)
-            newTarget = CGPointMake(self.position.x, ceil(res.collisionPosition.y));
-        else if (move.y < 0)
-            newTarget = CGPointMake(self.position.x, floor(res.collisionPosition.y));
-        
-//        if (newTarget.x != self.target.x && newTarget.y != self.target.y) {
-//            NSLog(@"\n\n");
-//            if(self.world.server) NSLog(@"--- SERVER --\n");
-//            else NSLog(@"--- CLIENT --\n");
-//            
-//            NSLog(@"Current pos: %.2f, %.2f", self.position.x, self.position.y);
-//            NSLog(@"From: %@, to: %@", from, to);
-//            
-//            // Found a hole
-//            NSLog(@"Found wall at %.2f, %.2f", res.collisionPosition.x, res.collisionPosition.y);
-//            
-//            NSLog(@"Setting target to %f %f", newTarget.x, newTarget.y); 
-//            NSLog(@"----------");
-//            NSLog(@"\n\n");
-//        }
-        
-    }
-    
-    return newTarget;
-    
-}
-
-- (CGPoint) findWall:(Vector2*)move {
-    
-    CGPoint newTarget = CGPointMake(-1, -1);
-    
-    // TODO: Add stuff here!
-    
-    return newTarget;
+    return [self findTarget:move from:from to:to inverted:NO];
 }
 
 - (BOOL) reachedTarget:(Vector2*) move {
@@ -280,7 +224,7 @@
                 self.orientation.y *= -1;
             }
                         
-//            NSLog(@"New velocity: %f %f", newVelocity.x, newVelocity.y);
+            // NSLog(@"New velocity: %f %f", newVelocity.x, newVelocity.y);
             self.velocity = newVelocity;
                         
             // NSLog(@"Direction is now (%f, %f)", self.direction.x, self.direction.y);

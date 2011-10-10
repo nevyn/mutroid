@@ -27,10 +27,14 @@ typedef enum {
 -(id)init;
 - (BOOL) reachedTarget:(Vector2*) move;
 - (BOOL) hasPassedTarget:(Vector2*) move;
+- (CGPoint) findTarget:(Vector2*)move from:(Vector2*)from to:(Vector2*)to inverted:(BOOL)inverted;
 - (CGPoint) findHole:(Vector2*)move from:(Vector2*)from to:(Vector2*)to;
 - (CGPoint) findWall:(Vector2*)move from:(Vector2*)from to:(Vector2*)to;
 - (void) updateLookDirection;
 - (void) updateRotation;
+- (Vector2*) getStartVectorWithOffset:(BOOL)offset moveVector:(Vector2*)move;
+- (Vector2*) getEndVectorWithOffset:(BOOL)offset moveVector:(Vector2*)move;
+- (Vector2*) getVectorWithOffset:(BOOL)offset moveVector:(Vector2*)move isStart:(BOOL)isStart;
 
 @property (nonatomic) ZoomerPosition crawlPosition;
 @property (nonatomic, retain) MutableVector2 *orientation;
