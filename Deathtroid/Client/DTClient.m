@@ -147,24 +147,36 @@
     }
 	//glDisable(GL_TEXTURE_2D);
 	
-	DTSpriteMap *sprite = [resources spriteMapNamed:@"sten.spritemap"];
-	[sprite.texture use];
-	DTSpriteMapFrame frame = [sprite frameAtIndex:0];
+    
+	DTSpriteMap *defaultSprite = [resources spriteMapNamed:@"sten.spritemap"];
+	//[defaultSprite.texture use];
+	//DTSpriteMapFrame frame = [defaultSprite frameAtIndex:0];
 	
     glTranslatef(-camera.position.x, -camera.position.y, 0);
-        
+            
     for(DTEntity *entity in currentRoom.entities.allValues) {
-	
+        
 		if([$castIf(DTEntityPlayer, entity) immune] && (frameCount/2)%2)
 			continue;
 		
+        DTSpriteMap *sprite = entity.walkSprite;
+        if (sprite == nil) sprite = defaultSprite;
+        [sprite.texture use];
+        DTSpriteMapFrame frame = [sprite frameAtIndex:0];
+        
         glPushMatrix();
         glTranslatef(entity.position.x, entity.position.y, 0);
+        glTranslatef(entity.size.x/2, entity.size.y/2, 0);
+        glRotatef(entity.rotation, 0, 0, 1);
+        glTranslatef(-entity.size.x/2, -entity.size.y/2, 0);
         glBegin(GL_QUADS);
+        
         if(entity.damageFlashTimer > 0)
-            frame = [sprite frameAtIndex:1];
-		else
-			frame = [sprite frameAtIndex:0];
+            frame = [sprite frameAtIndex:1]; // TODO: set a correct sprite frame here...
+		else {
+			//frame = [sprite frameAtIndex:0];
+            frame = [sprite frameAtIndex:entity.currentWalkSpriteFrame];
+        }
             
 		glColor3f(1., 1., 1.);
         glTexCoord2fv(&frame.coords[0]); glVertex3f(entity.size.x, 0., 0.);

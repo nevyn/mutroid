@@ -95,7 +95,8 @@
                  "size": {
                  "x": 1,
                  "y": 1
-                 }
+                 },
+                 "walkSprite": "zoomer.spritemap"
                  },
                  {
                  "class": "DTEntityZoomer",
@@ -106,7 +107,20 @@
                  "size": {
                  "x": 1,
                  "y": 1
-                 }
+                 },
+                 "walkSprite": "zoomer.spritemap"
+                 },
+                 {
+                 "class": "DTEntityZoomer",
+                 "position": {
+                 "x": 4,
+                 "y": 13
+                 },
+                 "size": {
+                 "x": 1,
+                 "y": 1
+                 },
+                 "walkSprite": "zoomer.spritemap"
                  },
         {
             "class": "DTEntitySidehopper",

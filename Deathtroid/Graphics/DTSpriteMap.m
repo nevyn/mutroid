@@ -12,6 +12,7 @@
 @interface DTSpriteMap ()
 @property (nonatomic) CGSize imageSize;
 @property (nonatomic) CGSize frameSize;
+@property (nonatomic, readwrite) NSInteger frameCount;
 
 @property (nonatomic, strong) DTTexture *texture;
 @end
@@ -22,12 +23,13 @@
 @synthesize imageSize, frameSize;
 @synthesize texture;
 
--(id)initWithResourceId:(NSString *)resourceId Texture:(DTTexture *)_texture frameSize:(CGSize)_frameSize;
+-(id)initWithResourceId:(NSString *)resourceId Texture:(DTTexture *)_texture frameSize:(CGSize)_frameSize frameCount:(int)_frameCount;
 {
 	if(![self initWithResourceId:resourceId]) return nil;
 	
 	self.texture = _texture;
 	self.frameSize = _frameSize;
+    self.frameCount = _frameCount;
 	self.imageSize = texture.pixelSize;
 	return self;
 }
@@ -71,10 +73,12 @@
 	[super loadResourceAtURL:url usingManager:manager];
 	NSArray *sizes = [self.definition objectForKey:@"frameSize"];
 	CGSize frameSize = CGSizeMake([[sizes objectAtIndex:0] floatValue], [[sizes objectAtIndex:1] floatValue]);
+    NSString* numFrames = [self.definition objectForKey:@"frameCount"];
+
 	DTTexture *texture = [manager textureNamed:[self.definition objectForKey:@"texture"]];
 	
-	DTSpriteMap *spritemap = [[DTSpriteMap alloc] initWithResourceId:url.dt_resourceId Texture:texture frameSize:frameSize];
-	
+	DTSpriteMap *spritemap = [[DTSpriteMap alloc] initWithResourceId:url.dt_resourceId Texture:texture frameSize:frameSize frameCount:[numFrames intValue]];
+	    
 	return spritemap;
 }
 
