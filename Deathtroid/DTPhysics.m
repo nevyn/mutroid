@@ -50,12 +50,12 @@
     
     pairs = [NSMutableArray array];
     
-    [pairs addObject:[[DTCollisionPair alloc] initWithClassA:[DTEntityPlayer class] b:[DTEntityRipper class] action:^(DTEntity *a, DTEntity *b){
+    [pairs addObject:[[DTCollisionPair alloc] initWithClassA:[DTEntityPlayer class] b:[DTEntityEnemyBase class] action:^(DTEntity *a, DTEntity *b){
         [a damage:((DTEntityRipper*)b).touchDamage from:b.position killer:b];
     }]];
         
     [pairs addObject:[[DTCollisionPair alloc] initWithClassA:[DTEntityPlayer class] b:[DTEntity class] action:^(DTEntity *a, DTEntity *b) {
-        NSLog(@"Hej.");
+        NSLog(@"Kollision av nåt slag.");
     }]];
     
     [pairs addObject:[[DTCollisionPair alloc] initWithClassA:[DTEntityBullet class] b:[DTEntity class] action:^(DTEntity *a, DTEntity *b) {
