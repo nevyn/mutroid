@@ -6,4 +6,5 @@
     #import <Cocoa/Cocoa.h>
     #import "DTConstants.h"
 	#import "SPLowVerbosity.h"
+	#import "NSString+UUID.h"
 #endif

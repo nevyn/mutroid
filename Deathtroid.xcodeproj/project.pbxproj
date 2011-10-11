@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		052650DC1444FFAF00A881C5 /* NSString+UUID.m in Sources */ = {isa = PBXBuildFile; fileRef = 052650DB1444FFAF00A881C5 /* NSString+UUID.m */; };
 		0554598D1441383400E94DB2 /* DTServerRoom.m in Sources */ = {isa = PBXBuildFile; fileRef = 0554598C1441383400E94DB2 /* DTServerRoom.m */; };
 		055459A81441659000E94DB2 /* DTEntityDoor.m in Sources */ = {isa = PBXBuildFile; fileRef = 055459A71441659000E94DB2 /* DTEntityDoor.m */; };
 		055459AC1441DC3500E94DB2 /* BlackBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 055459AB1441DC3400E94DB2 /* BlackBackgroundView.m */; };
@@ -69,6 +70,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		052650DA1444FFAE00A881C5 /* NSString+UUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+UUID.h"; sourceTree = "<group>"; };
+		052650DB1444FFAF00A881C5 /* NSString+UUID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+UUID.m"; sourceTree = "<group>"; };
 		0554598B1441383300E94DB2 /* DTServerRoom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTServerRoom.h; sourceTree = "<group>"; };
 		0554598C1441383400E94DB2 /* DTServerRoom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTServerRoom.m; sourceTree = "<group>"; };
 		055459A61441659000E94DB2 /* DTEntityDoor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTEntityDoor.h; sourceTree = "<group>"; };
@@ -301,6 +304,8 @@
 				D896A3C6143F761F005F440F /* DTInput.h */,
 				D8B05704143F7697002CE09B /* DTInput.m */,
 				D8B05706143F77E6002CE09B /* DTCore.h */,
+				052650DA1444FFAE00A881C5 /* NSString+UUID.h */,
+				052650DB1444FFAF00A881C5 /* NSString+UUID.m */,
 				05B60AD21440E56F00CFFCE9 /* DTLevelRepository.h */,
 				055459AA1441DC3400E94DB2 /* BlackBackgroundView.h */,
 				055459AB1441DC3400E94DB2 /* BlackBackgroundView.m */,
@@ -531,6 +536,7 @@
 				055459AC1441DC3500E94DB2 /* BlackBackgroundView.m in Sources */,
 				994E56171441CB3C009EC13C /* DTSpriteMap.m in Sources */,
 				05CC7BA61441FC9F00052D06 /* DTEntityEnemyBase.m in Sources */,
+				052650DC1444FFAF00A881C5 /* NSString+UUID.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

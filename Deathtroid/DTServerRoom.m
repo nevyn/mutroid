@@ -17,9 +17,7 @@
 {
     if(!(self = [super initWithPath:path])) return nil;
     
-    CFUUIDRef uuid = CFUUIDCreate(NULL);
-    self.uuid = (__bridge_transfer NSString*)CFUUIDCreateString(NULL, uuid);
-    CFRelease(uuid);
+    self.uuid = [NSString dt_uuid];
     
     return self;
 }
@@ -28,12 +26,9 @@
     DTEntity *ent = [[class alloc] init];
     ent.world = self.world;
     
-    CFUUIDRef uuid = CFUUIDCreate(NULL);
-    NSString *uuidS = (__bridge_transfer NSString*)CFUUIDCreateString(NULL, uuid);
-    CFRelease(uuid);
-    ent.uuid = uuidS;
+    ent.uuid = [NSString dt_uuid];
     
-    [self.entities setObject:ent forKey:uuidS];
+    [self.entities setObject:ent forKey:ent.uuid];
     
     if(setItUp) setItUp(ent);
 
