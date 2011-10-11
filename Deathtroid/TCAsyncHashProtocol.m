@@ -87,4 +87,8 @@ enum {
 {
 	[_socket readDataToLength:4 withTimeout:-1 tag:kTagLength];
 }
+-(NSString*)description;
+{
+	return $sprintf(@"<TCAsyncHashProtocol@%p over %@>", self, _socket);
+}
 @end

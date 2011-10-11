@@ -14,4 +14,8 @@
 @synthesize entity;
 @synthesize proto;
 @synthesize room;
+-(NSString*)description;
+{
+	return $sprintf(@"<DTPlayer '%@' in %@ running %@ over %@>", name, room, entity, proto);
+}
 @end
