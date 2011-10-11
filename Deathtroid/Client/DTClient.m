@@ -220,12 +220,13 @@
     if([command isEqual:@"updateEntityDeltas"]) {
         NSDictionary *reps = $notNull([hash objectForKey:@"reps"]);
         NSString *roomName = $notNull([hash objectForKey:@"room"]);
-        DTRoom *room = $notNull([rooms objectForKey:roomName]);
-        
-        for(NSString *key in reps) {
-            DTEntity *ent = $notNull([room.entities objectForKey:key]);
-            [ent updateFromRep:[reps objectForKey:key]];
-        }
+        DTRoom *room = [rooms objectForKey:roomName];
+        if(room) {
+			for(NSString *key in reps) {
+				DTEntity *ent = $notNull([room.entities objectForKey:key]);
+				[ent updateFromRep:[reps objectForKey:key]];
+			}
+		}
         
     } else if([command isEqual:@"addEntity"]) {
         NSString *roomName = $notNull([hash objectForKey:@"room"]);

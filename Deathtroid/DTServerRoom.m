@@ -59,10 +59,12 @@
 
 -(NSDictionary*)optimizeDelta:(NSDictionary*)new;
 {
-    // todo: Save old delta, remove any attrs that haven't changed
     NSDictionary *old = previousDelta;
     previousDelta = new;
-    
+	return [self diffFromState:old toState:new];
+}
+-(NSDictionary*)diffFromState:(NSDictionary*)old toState:(NSDictionary*)new;
+{
     if(!old) return new;
     
     NSMutableDictionary *slimmed = [NSMutableDictionary dictionaryWithCapacity:new.count];

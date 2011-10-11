@@ -25,5 +25,6 @@ typedef void(^EntCtor)(DTEntity*);
 -(void)addEntityToRoom:(DTEntity*)ent;
 -(void)destroyEntityKeyed:(NSString*)key;
 
+-(NSDictionary*)diffFromState:(NSDictionary*)old toState:(NSDictionary*)new;
 -(NSDictionary*)optimizeDelta:(NSDictionary*)new;
 @end

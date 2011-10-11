@@ -33,6 +33,7 @@ static const int kMaxServerFramerate = 5;
 -(void)sendRoom:(DTRoom*)room toPlayer:(DTPlayer*)player;
 -(void)addPoints:(float)pts forPlayer:(DTPlayer*)who;
 -(void)msg:(NSString*)msg;
+-(void)sendSnapshotDiff:(void(^)())forThing forRoom:(DTServerRoom*)room;
 @end
 
 @implementation DTServer {
@@ -179,20 +180,24 @@ static const int kMaxServerFramerate = 5;
         return;
     }
 	
-	if([action isEqual:@"walk"]) {
-		NSString *direction = [hash objectForKey:@"direction"];
-        if([direction isEqual:@"left"]) { player.entity.moving = true; player.entity.moveDirection = EntityDirectionLeft; }
-        else if([direction isEqual:@"right"]) { player.entity.moving = true; player.entity.moveDirection = EntityDirectionRight; }
-        else if([direction isEqual:@"stop"]) { player.entity.moving = false; }
-	} else if([action isEqual:@"jump"]) {
-        [(DTEntityPlayer*)player.entity jump];
-    } else if([action isEqual:@"shoot"]) {
-        [player.room createEntity:[DTEntityBullet class] setup:(EntCtor)^(DTEntityBullet *e) {
-            e.position = [MutableVector2 vectorWithVector2:player.entity.position];
-            e.moveDirection = e.lookDirection = player.entity.lookDirection;
-            e.owner = (DTEntityPlayer*)player.entity;
-        }];
-    } else NSLog(@"Unknown command %@", hash);
+	[self sendSnapshotDiff:^{
+
+		if([action isEqual:@"walk"]) {
+			NSString *direction = [hash objectForKey:@"direction"];
+			if([direction isEqual:@"left"]) { player.entity.moving = true; player.entity.moveDirection = EntityDirectionLeft; }
+			else if([direction isEqual:@"right"]) { player.entity.moving = true; player.entity.moveDirection = EntityDirectionRight; }
+			else if([direction isEqual:@"stop"]) { player.entity.moving = false; }
+		} else if([action isEqual:@"jump"]) {
+			[(DTEntityPlayer*)player.entity jump];
+		} else if([action isEqual:@"shoot"]) {
+			[player.room createEntity:[DTEntityBullet class] setup:(EntCtor)^(DTEntityBullet *e) {
+				e.position = [MutableVector2 vectorWithVector2:player.entity.position];
+				e.moveDirection = e.lookDirection = player.entity.lookDirection;
+				e.owner = (DTEntityPlayer*)player.entity;
+			}];
+		} else NSLog(@"Unknown command %@", hash);
+		
+	} forRoom:player.room];
 	
 	[proto readHash];
 }
@@ -294,21 +299,39 @@ static const int kMaxServerFramerate = 5;
     }];
 }
 
+-(void)sendSnapshotDiff:(void(^)())forThing forRoom:(DTServerRoom*)room;
+{
+	NSDictionary *rep = [room.entities sp_map: ^(NSString *k, id v) { return [v rep]; }];
+	forThing();
+	NSDictionary *rep2 = [room.entities sp_map: ^(NSString *k, id v) { return [v rep]; }];
+	
+	NSDictionary *diff = [room diffFromState:rep toState:rep2];
+	
+	if(diff.count)
+		[self broadcast:$dict(
+			@"command", @"updateEntityDeltas",
+			@"room", room.uuid,
+			@"reps", diff
+		)];
+}
+
 -(void)tick:(double)delta;
 {
-    // Physics!
-    //for(DTPlayer *player in players) {
-    //}
-    
-    for(DTServerRoom *room in rooms.allValues) {
-        NSDictionary *entities = room.entities;
-        
-        [physics runWithEntities:entities.allValues world:room.world delta:delta];
-        
-        for(DTEntity *entity in entities.allValues)
-            [entity tick:delta];
-    }
+    // Physics    
+    for(DTServerRoom *room in rooms.allValues)
+        [physics runWithEntities:room.entities.allValues world:room.world delta:delta];
+	
+	
+	// Game logic
+    for(DTServerRoom *room in rooms.allValues)
+		// If game logic changes an important attribute, send it.
+		[self sendSnapshotDiff:^{
+			for(DTEntity *entity in room.entities.allValues)
+				[entity tick:delta];
+		} forRoom:room];
 
+	
+	// Interval deltas, to sync physics etc.
     secondsSinceLastDelta += delta;
     if(secondsSinceLastDelta > 1./kMaxServerFramerate) { // push 5 times/sec
         for(DTServerRoom *room in rooms.allValues) {
