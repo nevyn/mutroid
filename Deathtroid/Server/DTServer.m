@@ -295,7 +295,7 @@ static const int kMaxServerFramerate = 5;
 }
 
 -(void)tick:(double)delta;
-{   
+{
     // Physics!
     //for(DTPlayer *player in players) {
     //}
