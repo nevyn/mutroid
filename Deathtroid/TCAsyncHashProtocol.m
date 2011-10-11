@@ -3,14 +3,18 @@
 enum {
 	kTagLength,
 	kTagData,
-	
 };
+
+static const NSString *kTCAsyncHashProtocolRequestKey = @"__tcahp-requestKey";
+static const NSString *kTCAsyncHashProtocolResponseKey = @"__tcahp-responseKey";
 
 @interface TCAsyncHashProtocol ()
 @property(nonatomic,strong,readwrite) AsyncSocket *socket;
 @end
 
-@implementation TCAsyncHashProtocol
+@implementation TCAsyncHashProtocol {
+	NSMutableDictionary *requests;
+}
 @synthesize socket = _socket, delegate = _delegate;
 -(id)initWithSocket:(AsyncSocket*)sock delegate:(id<TCAsyncHashProtocolDelegate>)delegate;
 {
@@ -19,6 +23,7 @@ enum {
 	self.socket = sock;
 	_socket.delegate = self;
 	_delegate = delegate;
+	requests = [NSMutableDictionary dictionary];
 	
 	return self;
 }
@@ -65,10 +70,27 @@ enum {
 		
 		[_socket readDataToLength:readLength withTimeout:-1 tag:kTagData];
 	} else if(tag == kTagData) {
-		id data = [self unserialize:inData];
-		NSAssert(data, @"really should be unserializable");
+		NSDictionary *hash = [self unserialize:inData];
+		NSAssert(hash, @"really should be unserializable");
 		
-		[_delegate protocol:self receivedHash:data];
+		NSString *reqKey = [hash objectForKey:kTCAsyncHashProtocolRequestKey];
+		NSString *respKey = [hash objectForKey:kTCAsyncHashProtocolResponseKey];
+		if(reqKey) {
+			[_delegate protocol:self receivedRequest:hash responder:^(NSDictionary *response) {
+				NSMutableDictionary *resp2 = [response mutableCopy];
+				[resp2 setObject:reqKey forKey:kTCAsyncHashProtocolResponseKey];
+				[self sendHash:resp2];
+			}];
+		}
+		if(respKey) {
+			TCAsyncHashProtocolResponseCallback cb = [requests objectForKey:respKey];
+			if(cb) cb(hash);
+			else NSLog(@"Discarded response: %@", hash);
+			[requests removeObjectForKey:respKey];
+			[self readHash];
+		} 
+		if(!reqKey && !respKey)
+			[_delegate protocol:self receivedHash:hash];
 		
 	} else if([_delegate respondsToSelector:@selector(_cmd)])
 		[_delegate onSocket:sock didReadData:inData withTag:tag];
@@ -82,6 +104,19 @@ enum {
 	[_socket writeData:lengthD withTimeout:-1 tag:kTagLength];
 	
 	[_socket writeData:unthing withTimeout:-1 tag:kTagData];
+}
+-(TCAsyncHashProtocolRequestCanceller)requestHash:(NSDictionary*)hash response:(TCAsyncHashProtocolResponseCallback)response;
+{
+	NSString *uuid = [NSString dt_uuid];
+	[requests setObject:[response copy] forKey:uuid];
+	TCAsyncHashProtocolRequestCanceller canceller = ^{ [requests removeObjectForKey:uuid]; };
+	
+	NSMutableDictionary *hash2 = [hash mutableCopy];
+	[hash2 setObject:uuid forKey:kTCAsyncHashProtocolRequestKey];
+	
+	[self sendHash:hash2];
+	
+	return canceller;
 }
 -(void)readHash;
 {

@@ -235,6 +235,18 @@
     [proto readHash];
 }
 
+-(void)protocol:(TCAsyncHashProtocol*)proto receivedRequest:(NSDictionary*)hash responder:(TCAsyncHashProtocolResponseCallback)responder;
+{
+	if([hash objectForKey:@"test"]) {
+		responder($dict(@"this is what you said:", [hash objectForKey:@"test"]));
+	} else {
+		NSLog(@"Unknown request %@", hash);
+		responder($dict(@"error", @"wtf"));
+	}
+	
+	[proto readHash];
+}
+
 #pragma mark Entities
 -(void)command:(id)proto updateEntityDeltas:(NSDictionary*)hash;
 {

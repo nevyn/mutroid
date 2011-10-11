@@ -140,6 +140,10 @@ static const int kMaxServerFramerate = 5;
     [self sendRoom:player.room toPlayer:player];
 	[self spawnPlayer:player];
 	
+	[clientProto requestHash:$dict(@"test", @"whee") response:^(NSDictionary *response) {
+		NSLog(@"We got a response! %@", response);
+	}];
+	
 	[clientProto readHash];
 }
 -(void)onSocketDidDisconnect:(AsyncSocket *)sock;
@@ -182,6 +186,12 @@ static const int kMaxServerFramerate = 5;
         NSLog(@"Unknown command from %@: %@", player, hash);
         
     [proto readHash];
+}
+-(void)protocol:(TCAsyncHashProtocol*)proto receivedRequest:(NSDictionary*)hash responder:(TCAsyncHashProtocolResponseCallback)responder;
+{
+	NSLog(@"Unknown request %@", hash);
+	responder($dict(@"error", @"wtf"));
+	[proto readHash];
 }
 
 -(void)player:(DTPlayer*)player hello:(NSDictionary*)hash;
