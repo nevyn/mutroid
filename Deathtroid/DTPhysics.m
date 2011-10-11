@@ -8,11 +8,73 @@
 
 #import "DTPhysics.h"
 
+#import "DTServer.h"
 #import "DTWorld.h"
 #import "DTEntity.h"
 #import "Vector2.h"
 
+#import "DTEntityPlayer.h"
+#import "DTEntityRipper.h"
+#import "DTEntityZoomer.h"
+#import "DTEntitySidehopper.h"
+#import "DTEntityBullet.h"
+#import "DTEntityDoor.h"
+
+@implementation DTCollisionPair
+
+-(id)initWithClassA:(Class)a b:(Class)b action:(CollisionAction)_action;
+{
+    if(!(self = [super init])) return nil;
+
+    classA = a;
+    classB = b;
+    action = _action;
+    
+    return self;
+}
+
+-(void)runWithEntityA:(DTEntity*)a b:(DTEntity*)b;
+{
+    if([a isKindOfClass:classA] && [b isKindOfClass:classB]) action(a,b);
+}
+
+@end
+
 @implementation DTPhysics
+
+@synthesize pairs;
+
+-(id)init;
+{
+    if(!(self = [super init])) return nil;
+    
+    pairs = [NSMutableArray array];
+    
+    [pairs addObject:[[DTCollisionPair alloc] initWithClassA:[DTEntityPlayer class] b:[DTEntityRipper class] action:^(DTEntity *a, DTEntity *b){
+        [a damage:((DTEntityRipper*)b).touchDamage from:b.position killer:b];
+    }]];
+        
+    [pairs addObject:[[DTCollisionPair alloc] initWithClassA:[DTEntityPlayer class] b:[DTEntity class] action:^(DTEntity *a, DTEntity *b) {
+        NSLog(@"Hej.");
+    }]];
+    
+    [pairs addObject:[[DTCollisionPair alloc] initWithClassA:[DTEntityBullet class] b:[DTEntity class] action:^(DTEntity *a, DTEntity *b) {
+        if(b == ((DTEntityBullet*)a).owner) return;
+
+        [a remove];
+        
+        if(b.destructible)
+            [b damage:4 from:a.position killer:((DTEntityBullet*)a).owner];
+    
+    }]];
+    
+    [pairs addObject:[[DTCollisionPair alloc] initWithClassA:[DTEntityPlayer class] b:[DTEntityDoor class] action:^(DTEntity *a, DTEntity *b) {
+        if(b.world.server)
+            [b.world.server teleportPlayerForEntity:a toPosition:((DTEntityDoor*)b).destinationPosition inRoomNamed:((DTEntityDoor*)b).destinationRoom];
+    }]];
+        
+    return self;
+}
 
 -(void)runWithEntities:(NSArray*)entities world:(DTWorld*)world delta:(double)delta;
 {
@@ -53,8 +115,9 @@
     
     if(!info.entity && (info.x || info.y)) [entity didCollideWithWorld:info];
     else if(info.entity) {
-        [entity didCollideWithEntity:info.entity];
-        [info.entity didCollideWithEntity:entity];
+        for(DTCollisionPair *pair in pairs) {
+            [pair runWithEntityA:entity b:info.entity];
+        }
     }
 }
 

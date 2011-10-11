@@ -50,11 +50,11 @@ typedef struct {
 -(NSDictionary*)rep;
 
 -(void)didCollideWithWorld:(DTTraceResult*)info;
--(void)didCollideWithEntity:(DTEntity*)other;
 
 -(void)tick:(double)delta;
 
 -(BOOL)damage:(int)damage from:(Vector2*)damagerLocation killer:(DTEntity*)killer;
+-(void)remove;
 
 - (void) animateWalk:(double)delta;
 

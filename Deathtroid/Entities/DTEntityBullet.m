@@ -42,15 +42,4 @@
         [$cast(DTServerRoom, self.world.room) destroyEntityKeyed:self.uuid];
 }
 
--(void)didCollideWithEntity:(DTEntity *)other;
-{
-    if(other == (DTEntity*)owner) return;
-
-    if(self.world.server)
-        [$cast(DTServerRoom, self.world.room) destroyEntityKeyed:self.uuid];
-    
-    if(other.destructible)
-        [other damage:4 from:self.position killer:owner];
-}
-
 @end

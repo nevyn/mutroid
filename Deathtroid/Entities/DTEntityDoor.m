@@ -40,7 +40,5 @@
 }
 -(void)didCollideWithEntity:(DTEntity *)other;
 {
-    if(self.world.server && [other isKindOfClass:[DTEntityPlayer class]])
-        [self.world.server teleportPlayerForEntity:other toPosition:destinationPosition inRoomNamed:destinationRoom];
 }
 @end

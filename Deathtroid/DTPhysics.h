@@ -16,9 +16,22 @@
 
 @class DTWorld, DTEntity;
 
+typedef void(^CollisionAction)(DTEntity*,DTEntity*);
+
+@interface DTCollisionPair : NSObject {
+    Class           classA;
+    Class           classB;
+    CollisionAction action;
+}
+-(id)initWithClassA:(Class)a b:(Class)b action:(CollisionAction)_action;
+-(void)runWithEntityA:(DTEntity*)a b:(DTEntity*)b;
+@end
+
 @interface DTPhysics : NSObject
 
 -(void)runWithEntities:(NSArray*)entities world:(DTWorld*)world delta:(double)delta;
 -(void)moveEntity:(DTEntity*)entity world:(DTWorld*)world delta:(double)delta;
+
+@property (nonatomic,strong) NSMutableArray *pairs;
 
 @end

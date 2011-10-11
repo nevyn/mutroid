@@ -37,9 +37,4 @@
     else self.velocity.x = speed;
 }
 
--(void)didCollideWithEntity:(DTEntity*)other;
-{
-    [super didCollideWithEntity:other];
-}
-
 @end

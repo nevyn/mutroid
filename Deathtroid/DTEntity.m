@@ -12,6 +12,7 @@
 #import "DTWorld.h"
 #import "DTServer.h"
 #import "DTRoom.h"
+#import "DTServerRoom.h"
 #import "DTSpriteMap.h"
 
 @implementation DTEntity
@@ -128,7 +129,6 @@
 }
 
 -(void)didCollideWithWorld:(DTTraceResult*)info; {}
--(void)didCollideWithEntity:(DTEntity*)other; {}
 
 -(BOOL)damage:(int)damage from:(Vector2*)damagerLocation killer:(DTEntity *)killer;
 {
@@ -139,6 +139,12 @@
 	if(health < 0)
 		[world.server entityWasKilled:self by:killer];
 	return YES;
+}
+
+-(void)remove;
+{
+    if(self.world.server)
+        [$cast(DTServerRoom, self.world.room) destroyEntityKeyed:self.uuid];
 }
 
 -(NSString*)description;
