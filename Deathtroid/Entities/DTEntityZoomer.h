@@ -43,4 +43,6 @@ typedef enum {
 @property (nonatomic) BOOL targetIsWall;
 @property (nonatomic) float speed;
 
+@property (nonatomic) float deltaCounter; // debug
+
 @end

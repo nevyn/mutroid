@@ -19,6 +19,8 @@
 @synthesize speed;
 @synthesize targetIsWall;
 
+@synthesize deltaCounter; // debug
+
 -(id)init;
 {
     if(!(self = [super init])) return nil;
@@ -44,12 +46,16 @@
     self.orientation = [MutableVector2 vectorWithX:0 y:1];
     self.target = CGPointMake(-1, -1);
     
+    self.deltaCounter = 0.0; // debug
+    
     return self;
 }
 
 -(void)tick:(double)delta;
 {
     [super tick:delta];
+    
+    self.deltaCounter += delta;
     
     Vector2 *move = [self.velocity vectorByMultiplyingWithScalar:delta];
     
@@ -58,18 +64,65 @@
     Vector2 *from = [self getStartVectorWithOffset:YES moveVector:move];
     Vector2 *to = [self getEndVectorWithOffset:YES moveVector:move];
 
+//    if (self.deltaCounter > 1.0) {
+//        if(self.world.server) NSLog(@"--- SERVER --\n");
+//        else NSLog(@"--- CLIENT --\n");
+//        NSLog(@"Looking for hole from: %@, to: %@", from, to);
+//        NSLog(@"----------");
+//        NSLog(@"\n\n");
+//    }
+    
     CGPoint hole = [self findHole:move from:from to:to];
     
     from = [self getStartVectorWithOffset:NO moveVector:move];
     to = [self getEndVectorWithOffset:NO moveVector:move];
     
+//    if (self.deltaCounter > 1.0) {
+//        if(self.world.server) NSLog(@"--- SERVER --\n");
+//        else NSLog(@"--- CLIENT --\n");
+//        NSLog(@"Looking for wall from: %@, to: %@", from, to);
+//        NSLog(@"----------");
+//        NSLog(@"\n\n");
+//        
+//        self.deltaCounter = 0.0;
+//    }
+    
     CGPoint wall = [self findWall:move from:from to:to];
     
     if (hole.x >= 0 && hole.y >= 0) {
+        
+//        if (hole.x != self.target.x && hole.y != self.target.y) {
+//            NSLog(@"\n\n");
+//            if(self.world.server) NSLog(@"--- SERVER --\n");
+//            else NSLog(@"--- CLIENT --\n");
+//            
+//            NSLog(@"Current pos: %.2f, %.2f", self.position.x, self.position.y);
+//            NSLog(@"From: %@, to: %@", from, to);
+//            
+//            NSLog(@"Setting hole target to %f %f", hole.x, hole.y); 
+//            NSLog(@"----------");
+//            NSLog(@"\n\n");        
+//        }
+        
         self.target = hole;
         self.targetIsWall = NO;
     }
     else if (wall.x >= 0 && wall.y >= 0) {
+        
+//        if (wall.x != self.target.x && wall.y != self.target.y) {
+//            NSLog(@"\n\n");
+//            if(self.world.server) NSLog(@"--- SERVER --\n");
+//            else NSLog(@"--- CLIENT --\n");
+//            
+//            NSLog(@"Current pos: %.2f, %.2f", self.position.x, self.position.y);
+//            NSLog(@"From: %@, to: %@", from, to);
+//            
+//            NSLog(@"Setting wall target to %f %f", wall.x, wall.y); 
+//            NSLog(@"----------");
+//            NSLog(@"\n\n");        
+//        }
+        
+        
         self.target = wall;
         self.targetIsWall = YES;
     }
@@ -93,8 +146,8 @@
     
     if (move.x != 0.0f) {
         
-        offsetForward = move.x > 0 ? 1 : -1;
-        if (offset) offsetSide = self.orientation.y > 0 ? 0.5 : 1.5;
+        offsetForward = move.x > 0 ? 1.3 : -1.3;        
+        if (offset) offsetSide = 0.5;
         
         float posX = move.x > 0 ? floor(self.position.x) : ceil(self.position.x); 
         
@@ -103,9 +156,9 @@
     }
     else if (move.y != 0.0f) {
         
-        offsetForward = move.y > 0 ? 1 : -1;
-        if (offset) offsetSide = self.orientation.x > 0 ? 0.5 : 1.5;
-        
+        offsetForward = move.y > 0 ? 1.3 : -1.3;        
+        if (offset) offsetSide = 0.5;
+
         float posY = move.y > 0 ? floor(self.position.y) : ceil(self.position.y); 
         
         if (isStart) vector = [Vector2 vectorWithX:self.position.x+(offsetSide*self.orientation.x) y:posY];
@@ -137,22 +190,6 @@
         else if (move.y < 0)
             newTarget = CGPointMake(self.position.x, floor(res.collisionPosition.y));
         
-//        if (newTarget.x != self.target.x && newTarget.y != self.target.y) {
-//            NSLog(@"\n\n");
-//            if(self.world.server) NSLog(@"--- SERVER --\n");
-//            else NSLog(@"--- CLIENT --\n");
-//        
-//            NSLog(@"Current pos: %.2f, %.2f", self.position.x, self.position.y);
-//            NSLog(@"From: %@, to: %@", from, to);
-//        
-//            if (!inverted) NSLog(@"Found hole at %.2f, %.2f", res.collisionPosition.x, res.collisionPosition.y);
-//            else NSLog(@"Found wall at %.2f, %.2f", res.collisionPosition.x, res.collisionPosition.y);
-//        
-//            NSLog(@"Setting target to %f %f", newTarget.x, newTarget.y); 
-//            NSLog(@"----------");
-//            NSLog(@"\n\n");
-//        }
-        
     }
     
     return newTarget;
@@ -174,7 +211,7 @@
         
         if ([self hasPassedTarget:move]) {
             
-            // NSLog(@"Reached target!");
+//            NSLog(@"Reached target!");
 //            if(self.world.server) NSLog(@"--- SERVER: REACHED TARGET --\n");
 //            else NSLog(@"--- CLIENT: REACHED TARGET --\n");
             
@@ -245,49 +282,7 @@
 }
 
 
-//- (BOOL) reachedTarget:(Vector2*) move {
-//    
-//    if (self.target.x >= 0 && self.target.y >= 0) {
-//        
-//        if ([self hasPassedTarget:move]) {
-//            
-//            // NSLog(@"Reached target!");
-//            if(self.world.server) NSLog(@"--- SERVER: REACHED TARGET --\n");
-//            else NSLog(@"--- CLIENT: REACHED TARGET --\n");
-//            
-//            self.position.x = target.x;
-//            self.position.y = target.y;
-//            
-//            float dirX = self.velocity.y > 0 ? 1 : -1;
-//            float dirY = self.velocity.x > 0 ? 1 : -1;
-//            
-//            NSLog(@"Old velocity: %f %f",  self.velocity.x,  self.velocity.y);
-//
-//            MutableVector2 *newVelocity = [MutableVector2 vectorWithX:self.velocity.y*(self.orientation.x*dirX) y:self.velocity.x*(self.orientation.y*dirY)];
-//            
-//            NSLog(@"New velocity: %f %f", newVelocity.x, newVelocity.y);
-//            self.velocity = newVelocity;
-//            
-//            float tempX = self.orientation.x;
-//            self.orientation.x = self.orientation.y != 0 ? dirY * -1 : 0;
-//            self.orientation.y = tempX != 0 ? dirX * -1 : 0;
-//            
-//            // NSLog(@"Direction is now (%f, %f)", self.direction.x, self.direction.y);
-//            
-//            // Set look direction...
-//            [self updateLookDirection];
-//            
-//            [self updateRotation];
-//            
-//            // Reset target
-//            self.target = CGPointMake(-1, -1);
-//            
-//            return YES;
-//        }
-//    }
-//    
-//    return NO;
-//}
+
 
 - (BOOL) hasPassedTarget:(Vector2*) move {
     
@@ -315,42 +310,6 @@
     else if (self.orientation.y < 0) self.rotation = 180.0;
     else if (self.orientation.x > 0) self.rotation = 270.0;
 }
-
-//-(void)tick:(double)delta;
-//{
-//    Vector2 *move = [self.velocity vectorByMultiplyingWithScalar:delta];
-//    
-//    /*
-//     
-//        JAG VILL ATT DET SKA VARA SÅHÄR ENKELT:
-//     
-//        if(onGround) {
-//            if(FUCK YOU
-//        }
-//     
-//     
-//    */
-//    
-//    if(move.x != 0.0f) {
-//        float offset = move.x > 0 ? -self.size.x : self.size.x;
-//        
-//        DTTraceResult *res = [self.world traceBox:self.size from:[Vector2 vectorWithX:self.position.x+offset y:self.position.y+0.5] to:[Vector2 vectorWithX:self.position.x+offset+move.x y:self.position.y+0.5] exclude:self inverted:YES];
-//        
-//        if(res && res.x) { 
-//            NSLog(@"Res X: %.2f %.2f", res.collisionPosition.x, res.collisionPosition.y);
-//
-//            self.velocity.x = 0; self.position.x = res.collisionPosition.x; self.velocity.y = speed; }
-//        
-//    } else if(move.y != 0.0f) {
-//        float offset = move.y > 0 ? -self.size.y : self.size.y;
-//        DTTraceResult *res = [self.world traceBox:self.size from:[Vector2 vectorWithX:self.position.x-0.5 y:self.position.y+offset] to:[Vector2 vectorWithX:self.position.x-0.5 y:self.position.y+move.y+offset] exclude:self inverted:YES];
-//        if(res && res.y) { 
-//            
-//            NSLog(@"Res X: %.2f %.2f", res.collisionPosition.x, res.collisionPosition.y);
-//            self.velocity.y = 0; self.position.y = res.collisionPosition.y; self.velocity.x = -speed; }
-//
-//    }
-//}
 
        
 -(id)updateFromRep:(NSDictionary*)rep;
