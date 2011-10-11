@@ -196,12 +196,13 @@
 }
 
 
+#pragma mark -
 #pragma mark Network
 - (void)onSocket:(AsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port;
 {
 	NSLog(@"Connected to server: %@", sock);
 	[_proto sendHash:$dict(
-		@"hello", $num(1),
+		@"command", @"hello",
 		@"playerName", [[NSUserDefaults standardUserDefaults] objectForKey:@"playerName"]
 	)];
 	[_proto readHash];
@@ -212,127 +213,166 @@
 	NSLog(@"Lost connection to server: %@", sock);
 }
 
-#define done() { 	[_proto readHash]; return; }
+
+
+
+
+
+#pragma mark -
+#pragma mark Server commands
+
 -(void)protocol:(TCAsyncHashProtocol*)proto receivedHash:(NSDictionary*)hash;
 {
     NSString *command = [hash objectForKey:@"command"];
     
-    if([command isEqual:@"updateEntityDeltas"]) {
-        NSDictionary *reps = $notNull([hash objectForKey:@"reps"]);
-        NSString *roomName = $notNull([hash objectForKey:@"room"]);
-        DTRoom *room = [rooms objectForKey:roomName];
-        if(room) {
-			for(NSString *key in reps) {
-				DTEntity *ent = $notNull([room.entities objectForKey:key]);
-				[ent updateFromRep:[reps objectForKey:key]];
-			}
-		}
+    NSString *selNs = $sprintf(@"command:%@:", command);
+    SEL sel = NSSelectorFromString(selNs);
+    if([self respondsToSelector:sel])
+        ((void(*)(id, SEL, id, id))[self methodForSelector:sel])(self, sel, proto, hash);
+    else
+        NSLog(@"Unknown command: %@", hash);
         
-    } else if([command isEqual:@"addEntity"]) {
-        NSString *roomName = $notNull([hash objectForKey:@"room"]);
-        DTRoom *room = [rooms objectForKey:roomName];
-        if(!room)
-            done();
-        
-        NSString *key = $notNull([hash objectForKey:@"uuid"]);
-        NSDictionary *rep = $notNull([hash objectForKey:@"rep"]);
-        
-        DTEntity *ent = [[DTEntity alloc] initWithRep:rep];
-        ent.uuid = key;
-        ent.world = room.world;
-        
-        [room.entities setObject:ent forKey:key];
-        
-    } else if([command isEqual:@"playerEntity"]) {
-        NSString *key = $notNull([hash objectForKey:@"uuid"]);
-        NSString *roomName = $notNull([hash objectForKey:@"room"]);
-        DTRoom *room = $notNull([rooms objectForKey:roomName]);
-        
-        currentRoom = room;
-        playerEntity = [room.entities objectForKey:key];
-        
-    }else if([command isEqual:@"removeEntity"]) {
-        NSString *key = $notNull([hash objectForKey:@"uuid"]);
-        NSString *roomName = $notNull([hash objectForKey:@"room"]);
-        DTRoom *room = [rooms objectForKey:roomName];
-        if(!room) done();
-        
-        [room.entities removeObjectForKey:key];
+    [proto readHash];
+}
+
+#pragma mark Entities
+-(void)command:(id)proto updateEntityDeltas:(NSDictionary*)hash;
+{
+    NSDictionary *reps = $notNull([hash objectForKey:@"reps"]);
+    NSString *roomName = $notNull([hash objectForKey:@"room"]);
+    DTRoom *room = [rooms objectForKey:roomName];
+    if(!room) return;
     
-    } else if([command isEqual:@"cameraFollow"]) {
+    for(NSString *key in reps) {
+        DTEntity *ent = $notNull([room.entities objectForKey:key]);
+        [ent updateFromRep:[reps objectForKey:key]];
+    }
+}
+-(void)command:(id)proto addEntity:(NSDictionary*)hash;
+{
+    NSString *roomName = $notNull([hash objectForKey:@"room"]);
+    DTRoom *room = [rooms objectForKey:roomName];
+    if(!room) return;
+    
+    NSString *key = $notNull([hash objectForKey:@"uuid"]);
+    NSDictionary *rep = $notNull([hash objectForKey:@"rep"]);
+    
+    DTEntity *ent = [[DTEntity alloc] initWithRep:rep];
+    ent.uuid = key;
+    ent.world = room.world;
+    
+    [room.entities setObject:ent forKey:key];
+}
+-(void)command:(id)proto removeEntity:(NSDictionary*)hash;
+{
+    NSString *key = $notNull([hash objectForKey:@"uuid"]);
+    NSString *roomName = $notNull([hash objectForKey:@"room"]);
+    DTRoom *room = [rooms objectForKey:roomName];
+    if(!room) return;
+    
+    [room.entities removeObjectForKey:key];
+}
+
+#pragma mark about this player
+-(void)command:(id)proto playerEntity:(NSDictionary*)hash;
+{
+    NSString *key = $notNull([hash objectForKey:@"uuid"]);
+    NSString *roomName = $notNull([hash objectForKey:@"room"]);
+    DTRoom *room = $notNull([rooms objectForKey:roomName]);
+    
+    currentRoom = room;
+    playerEntity = [room.entities objectForKey:key];
+}
+
+-(void)command:(id)proto cameraFollow:(NSDictionary*)hash;
+{
         NSString *roomName = $notNull([hash objectForKey:@"room"]);
         DTRoom *room = $notNull([rooms objectForKey:roomName]);
         
         DTEntity *f = $notNull([room.entities objectForKey:[hash objectForKey:@"uuid"]]);
         followThis = f; // silence stupid warning :/
-        
-    } else if([command isEqual:@"loadRoom"]) {
-        NSString *uuid = $notNull([hash objectForKey:@"uuid"]);
-        
-        // TODO<nevyn>: reuse loaded room instance
-        
-        [levelRepo fetchRoomNamed:$notNull([hash objectForKey:@"name"]) ofClass:[DTRoom class] whenDone:^(DTRoom *room, NSError *err) {
-            if(!room) {
-                [NSApp presentError:err];
-                return;
-            }
-            [rooms setObject:room forKey:uuid];
-            room.uuid = uuid;
-            
-            for(NSString *key in $notNull([hash objectForKey:@"entities"])) {
-                NSDictionary *rep = [[hash objectForKey:@"entities"] objectForKey:key];
-                DTEntity *ent = [[DTEntity alloc] initWithRep:rep];
-                ent.uuid = key;
-                ent.world = room.world;
-                [room.entities setObject:ent forKey:key];
-            }
-        }];
-    } else if([command isEqual:@"entityDamaged"]) {
-        NSString *roomName = $notNull([hash objectForKey:@"room"]);
-        DTRoom *room = [rooms objectForKey:roomName];
-        if(!room) done();
-        
-        DTEntity *e = $notNull([room.entities objectForKey:[hash objectForKey:@"uuid"]]);
-		DTEntity *other = [room.entities objectForKey:[hash objectForKey:@"killer"]];
-        
-        int d = [$notNull([hash objectForKey:@"damage"]) intValue];
-		Vector2 *location = [[Vector2 alloc] initWithRep:$notNull([hash objectForKey:@"location"])];
-        [e damage:d from:location killer:other];
-	} else if([command isEqual:@"updateScoreboard"]) {
-		if(self.scoresCallback) self.scoresCallback([hash objectForKey:@"scoreboard"]);
-	} else if([command isEqual:@"displayMessage"]) {
-		if(self.messageCallback) self.messageCallback([hash objectForKey:@"message"]);
-    } else NSLog(@"Unknown server command: %@", hash);
-    
-    done()
 }
 
-#pragma mark Dunno
+#pragma mark rooms
+-(void)command:(id)proto loadRoom:(NSDictionary*)hash;
+{
+    NSString *uuid = $notNull([hash objectForKey:@"uuid"]);
+    
+    // TODO<nevyn>: reuse loaded room instance
+    
+    [levelRepo fetchRoomNamed:$notNull([hash objectForKey:@"name"]) ofClass:[DTRoom class] whenDone:^(DTRoom *room, NSError *err) {
+        if(!room) {
+            [NSApp presentError:err];
+            return;
+        }
+        [rooms setObject:room forKey:uuid];
+        room.uuid = uuid;
+        
+        for(NSString *key in $notNull([hash objectForKey:@"entities"])) {
+            NSDictionary *rep = [[hash objectForKey:@"entities"] objectForKey:key];
+            DTEntity *ent = [[DTEntity alloc] initWithRep:rep];
+            ent.uuid = key;
+            ent.world = room.world;
+            [room.entities setObject:ent forKey:key];
+        }
+    }];
+}
+-(void)command:(id)proto entityDamaged:(NSDictionary*)hash;
+{
+    NSString *roomName = $notNull([hash objectForKey:@"room"]);
+    DTRoom *room = [rooms objectForKey:roomName];
+    if(!room) return;
+    
+    DTEntity *e = $notNull([room.entities objectForKey:[hash objectForKey:@"uuid"]]);
+    DTEntity *other = [room.entities objectForKey:[hash objectForKey:@"killer"]];
+    
+    int d = [$notNull([hash objectForKey:@"damage"]) intValue];
+    Vector2 *location = [[Vector2 alloc] initWithRep:$notNull([hash objectForKey:@"location"])];
+    [e damage:d from:location killer:other];
+}
+
+#pragma mark meta
+-(void)command:(id)proto updateScoreboard:(NSDictionary*)hash;
+{
+    if(self.scoresCallback) self.scoresCallback([hash objectForKey:@"scoreboard"]);
+}
+-(void)command:(id)proto displayMessage:(NSDictionary*)hash;
+{
+    if(self.messageCallback) self.messageCallback([hash objectForKey:@"message"]);
+}
+
+
+
+
+
+
+#pragma mark -
+#pragma mark Player actions
 -(void)walkLeft;
 {
     playerEntity.moving = true;
     playerEntity.moveDirection = EntityDirectionLeft;
-	[_proto sendHash:$dict(@"action", @"walk",   @"direction", @"left")];
+	[_proto sendHash:$dict(@"command", @"action", @"action", @"walk",   @"direction", @"left")];
 }
 -(void)stopWalk;
 {
     playerEntity.moving = false;
-	[_proto sendHash:$dict(@"action", @"walk",   @"direction", @"stop")];
+	[_proto sendHash:$dict(@"command", @"action", @"action", @"walk",   @"direction", @"stop")];
 }
 -(void)walkRight;
 {
     playerEntity.moving = true;
     playerEntity.moveDirection = EntityDirectionRight;
-	[_proto sendHash:$dict(@"action", @"walk",   @"direction", @"right")];
+	[_proto sendHash:$dict(@"command", @"action", @"action", @"walk",   @"direction", @"right")];
 }
 -(void)jump;
 {
     [(DTEntityPlayer*)playerEntity jump];
-    [_proto sendHash:$dict(@"action", @"jump")];
+    [_proto sendHash:$dict(@"command", @"action", @"action", @"jump")];
 }
 -(void)shoot;
 {
-    [_proto sendHash:$dict(@"action",@"shoot")];
+    [_proto sendHash:$dict(@"command", @"action", @"action",@"shoot")];
 }
 
 

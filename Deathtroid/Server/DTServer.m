@@ -155,6 +155,16 @@ static const int kMaxServerFramerate = 5;
 		}
 }
 
+-(void)broadcast:(NSDictionary*)d;
+{
+    for(DTPlayer *player in players) {
+        //NSString *ruid = [d objectForKey:@"room"];
+        //if(ruid && ![ruid isEqual:player.room.uuid]) continue;
+        [player.proto sendHash:d];
+    }
+}
+
+
 -(void)protocol:(TCAsyncHashProtocol*)proto receivedHash:(NSDictionary*)hash;
 {
 	DTPlayer *player = nil;
@@ -163,52 +173,59 @@ static const int kMaxServerFramerate = 5;
 			player = pl; break;
 		}
 	NSAssert(player, @"Unknown player sent us stuff");
-	
-	if([hash objectForKey:@"hello"]) {
-		player.name = [hash objectForKey:@"playerName"];
-		[self addPoints:0 forPlayer:player];
-		[self msg:$sprintf(@"%@ joined.", player.name)];
-        [proto readHash];
-		return;
-	}
-	
-	NSString *action = [hash objectForKey:@"action"];
     
-    if(action && !player.entity) {
-        [self spawnPlayer:player];
-        [proto readHash];
-        return;
-    }
-	
-	[self sendSnapshotDiff:^{
-
-		if([action isEqual:@"walk"]) {
-			NSString *direction = [hash objectForKey:@"direction"];
-			if([direction isEqual:@"left"]) { player.entity.moving = true; player.entity.moveDirection = EntityDirectionLeft; }
-			else if([direction isEqual:@"right"]) { player.entity.moving = true; player.entity.moveDirection = EntityDirectionRight; }
-			else if([direction isEqual:@"stop"]) { player.entity.moving = false; }
-		} else if([action isEqual:@"jump"]) {
-			[(DTEntityPlayer*)player.entity jump];
-		} else if([action isEqual:@"shoot"]) {
-			[player.room createEntity:[DTEntityBullet class] setup:(EntCtor)^(DTEntityBullet *e) {
-				e.position = [MutableVector2 vectorWithVector2:player.entity.position];
-				e.moveDirection = e.lookDirection = player.entity.lookDirection;
-				e.owner = (DTEntityPlayer*)player.entity;
-			}];
-		} else NSLog(@"Unknown command %@", hash);
-		
-	} forRoom:player.room];
-	
-	[proto readHash];
+    NSString *selNs = $sprintf(@"player:%@:", [hash objectForKey:@"command"]);
+    SEL sel = NSSelectorFromString(selNs);
+    if([self respondsToSelector:sel])
+        ((void(*)(id, SEL, id, id))[self methodForSelector:sel])(self, sel, player, hash);
+    else
+        NSLog(@"Unknown command from %@: %@", player, hash);
+        
+    [proto readHash];
 }
 
--(void)broadcast:(NSDictionary*)d;
+-(void)player:(DTPlayer*)player hello:(NSDictionary*)hash;
 {
-    for(DTPlayer *player in players) {
-        //NSString *ruid = [d objectForKey:@"room"];
-        //if(ruid && ![ruid isEqual:player.room.uuid]) continue;
-        [player.proto sendHash:d];
-    }
+    player.name = [hash objectForKey:@"playerName"];
+    [self addPoints:0 forPlayer:player];
+    [self msg:$sprintf(@"%@ joined.", player.name)];
+}
+
+#pragma mark Incoming player actions
+
+-(void)player:(DTPlayer*)player action:(NSDictionary*)hash;
+{
+    NSString *selNs = $sprintf(@"playerAction:%@:", [hash objectForKey:@"action"]);
+    
+    if(!player.entity)
+        return [self spawnPlayer:player];
+
+    SEL sel = NSSelectorFromString(selNs);
+    if([self respondsToSelector:sel])
+        [self sendSnapshotDiff:^{
+            ((void(*)(id, SEL, id, id))[self methodForSelector:sel])(self, sel, player, hash);
+        } forRoom:player.room];
+    else
+        NSLog(@"Unknown action from %@: %@", player, hash);
+}
+
+-(void)playerAction:(DTPlayer*)player walk:(NSDictionary*)hash;
+{
+    NSString *direction = [hash objectForKey:@"direction"];
+    if([direction isEqual:@"left"]) { player.entity.moving = true; player.entity.moveDirection = EntityDirectionLeft; }
+    else if([direction isEqual:@"right"]) { player.entity.moving = true; player.entity.moveDirection = EntityDirectionRight; }
+    else if([direction isEqual:@"stop"]) { player.entity.moving = false; }
+}
+-(void)playerAction:(DTPlayer*)player jump:(NSDictionary*)hash; {
+    [(DTEntityPlayer*)player.entity jump];
+}
+-(void)playerAction:(DTPlayer*)player shoot:(NSDictionary*)hash;
+{
+    [player.room createEntity:[DTEntityBullet class] setup:(EntCtor)^(DTEntityBullet *e) {
+        e.position = [MutableVector2 vectorWithVector2:player.entity.position];
+        e.moveDirection = e.lookDirection = player.entity.lookDirection;
+        e.owner = (DTEntityPlayer*)player.entity;
+    }];
 }
 
 #pragma mark Game logic
