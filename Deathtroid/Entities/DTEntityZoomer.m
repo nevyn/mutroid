@@ -7,9 +7,10 @@
 //
 
 #import "DTEntityZoomer.h"
-
+#import "DTResourceManager.h"
 #import "Vector2.h"
 #import "DTWorld.h"
+#import "DTAnimation.h"
 
 @implementation DTEntityZoomer
 @synthesize crawlPosition;
@@ -24,7 +25,7 @@
 -(id)init;
 {
     if(!(self = [super init])) return nil;
-    
+        
     self.size.x = 1;
     self.size.y = 1;
     self.maxHealth = self.health = 2;
@@ -48,6 +49,9 @@
     
     self.deltaCounter = 0.0; // debug
     
+    DTResourceManager *resourceManager = [[DTResourceManager alloc] initWithBaseURL:[[NSBundle mainBundle] URLForResource:@"resources" withExtension:nil]];
+
+    self.animation = [resourceManager animationNamed:@"zoomer.animation"];
     return self;
 }
 
@@ -63,65 +67,20 @@
 
     Vector2 *from = [self getStartVectorWithOffset:YES moveVector:move];
     Vector2 *to = [self getEndVectorWithOffset:YES moveVector:move];
-
-//    if (self.deltaCounter > 1.0) {
-//        if(self.world.server) NSLog(@"--- SERVER --\n");
-//        else NSLog(@"--- CLIENT --\n");
-//        NSLog(@"Looking for hole from: %@, to: %@", from, to);
-//        NSLog(@"----------");
-//        NSLog(@"\n\n");
-//    }
     
     CGPoint hole = [self findHole:move from:from to:to];
     
     from = [self getStartVectorWithOffset:NO moveVector:move];
     to = [self getEndVectorWithOffset:NO moveVector:move];
     
-//    if (self.deltaCounter > 1.0) {
-//        if(self.world.server) NSLog(@"--- SERVER --\n");
-//        else NSLog(@"--- CLIENT --\n");
-//        NSLog(@"Looking for wall from: %@, to: %@", from, to);
-//        NSLog(@"----------");
-//        NSLog(@"\n\n");
-//        
-//        self.deltaCounter = 0.0;
-//    }
-    
     CGPoint wall = [self findWall:move from:from to:to];
     
     if (hole.x >= 0 && hole.y >= 0) {
-        
-//        if (hole.x != self.target.x && hole.y != self.target.y) {
-//            NSLog(@"\n\n");
-//            if(self.world.server) NSLog(@"--- SERVER --\n");
-//            else NSLog(@"--- CLIENT --\n");
-//            
-//            NSLog(@"Current pos: %.2f, %.2f", self.position.x, self.position.y);
-//            NSLog(@"From: %@, to: %@", from, to);
-//            
-//            NSLog(@"Setting hole target to %f %f", hole.x, hole.y); 
-//            NSLog(@"----------");
-//            NSLog(@"\n\n");        
-//        }
         
         self.target = hole;
         self.targetIsWall = NO;
     }
     else if (wall.x >= 0 && wall.y >= 0) {
-        
-//        if (wall.x != self.target.x && wall.y != self.target.y) {
-//            NSLog(@"\n\n");
-//            if(self.world.server) NSLog(@"--- SERVER --\n");
-//            else NSLog(@"--- CLIENT --\n");
-//            
-//            NSLog(@"Current pos: %.2f, %.2f", self.position.x, self.position.y);
-//            NSLog(@"From: %@, to: %@", from, to);
-//            
-//            NSLog(@"Setting wall target to %f %f", wall.x, wall.y); 
-//            NSLog(@"----------");
-//            NSLog(@"\n\n");        
-//        }
-        
         
         self.target = wall;
         self.targetIsWall = YES;
@@ -211,17 +170,10 @@
         
         if ([self hasPassedTarget:move]) {
             
-//            NSLog(@"Reached target!");
-//            if(self.world.server) NSLog(@"--- SERVER: REACHED TARGET --\n");
-//            else NSLog(@"--- CLIENT: REACHED TARGET --\n");
-            
             self.position.x = target.x;
             self.position.y = target.y;
             
-            
             MutableVector2 *newVelocity = [MutableVector2 vectorWithX:0 y:0];
-            
-            
                 
             // Top
             if (self.orientation.y > 0) {
@@ -261,17 +213,11 @@
                 self.orientation.y *= -1;
             }
                         
-            // NSLog(@"New velocity: %f %f", newVelocity.x, newVelocity.y);
             self.velocity = newVelocity;
                         
-            // NSLog(@"Direction is now (%f, %f)", self.direction.x, self.direction.y);
-            
-            // Set look direction...
             [self updateLookDirection];
-            
             [self updateRotation];
             
-            // Reset target
             self.target = CGPointMake(-1, -1);
             
             return YES;
@@ -280,9 +226,6 @@
     
     return NO;
 }
-
-
-
 
 - (BOOL) hasPassedTarget:(Vector2*) move {
     

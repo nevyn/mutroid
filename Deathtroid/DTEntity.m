@@ -14,13 +14,15 @@
 #import "DTRoom.h"
 #import "DTServerRoom.h"
 #import "DTSpriteMap.h"
+#import "DTResourceManager.h"
+#import "DTAnimation.h"
 
 @implementation DTEntity
 
 @synthesize world, uuid;
 @synthesize position, velocity, size, moveDirection, lookDirection, collisionType, gravity, moving, onGround, health, destructible;
 @synthesize damageFlashTimer, maxHealth;
-@synthesize walkSprite, currentWalkSpriteFrame, walkAnimationCounter, rotation;
+@synthesize animation, rotation, currentState;
 
 -(id)init;
 {
@@ -42,9 +44,11 @@
     moveDirection = EntityDirectionRight;
     lookDirection = EntityDirectionRight;
     
-    self.currentWalkSpriteFrame = 0;
-    self.walkAnimationCounter = 0.0;
+    DTResourceManager *resourceManager = [[DTResourceManager alloc] initWithBaseURL:[[NSBundle mainBundle] URLForResource:@"resources" withExtension:nil]];
+
+    self.animation = [resourceManager animationNamed:@"sten.animation"];
     self.rotation = 0.0;
+    self.currentState = @"walking-right"; // This is used to specify what animation to use
     
     return self;
 }
@@ -72,9 +76,6 @@
     $doif(@"lookDirection", lookDirection = [o intValue]);
     $doif(@"collisionType", collisionType = [o intValue]);
     
-    DTResourceManager *resources = [[DTResourceManager alloc] initWithBaseURL:[[NSBundle mainBundle] URLForResource:@"resources" withExtension:nil]];
-    $doif(@"walkSprite", walkSprite = [resources spriteMapNamed:o]);
-    
     return self;
 }
 -(NSDictionary*)rep;
@@ -96,36 +97,14 @@
         @"lookDirection", $num(lookDirection),
         @"collisionType", $num(collisionType)
     );
-    if(self.walkSprite) [rep setObject:self.walkSprite.resourceId forKey:@"walkSprite"];
     
     return rep;
 }
 
 -(void)tick:(double)delta;
-{
-    [self animateWalk:delta];
-    
+{    
     if(damageFlashTimer > 0)
         damageFlashTimer -= delta;
-}
-
-- (void) animateWalk:(double)delta {
-    
-    if (walkSprite) {
-    
-        self.walkAnimationCounter += delta;
-    
-        int fps = 2; // TODO: get this value from DTResource
-        float totalNumFrames = self.walkSprite.frameCount;
-    
-        if (self.walkAnimationCounter >= 1.0/fps) {
-            
-            self.currentWalkSpriteFrame++;
-            if (self.currentWalkSpriteFrame >= totalNumFrames) self.currentWalkSpriteFrame = 0;
-        
-            self.walkAnimationCounter = 0.0;
-        }
-    }
 }
 
 -(void)didCollideWithWorld:(DTTraceResult*)info; {}

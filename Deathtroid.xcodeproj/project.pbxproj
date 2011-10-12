@@ -23,6 +23,8 @@
 		05CC7B81143FCE3400052D06 /* DTServer.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B05725143FA20F002CE09B /* DTServer.m */; };
 		05CC7B82143FCE3900052D06 /* DTPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B05723143FA20F002CE09B /* DTPlayer.m */; };
 		05CC7BA61441FC9F00052D06 /* DTEntityEnemyBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 05CC7BA51441FC9F00052D06 /* DTEntityEnemyBase.m */; };
+		3809AC331444E57500B0C9AF /* DTRenderEntities.m in Sources */ = {isa = PBXBuildFile; fileRef = 3809AC321444E57500B0C9AF /* DTRenderEntities.m */; };
+		3809AC3614460AFC00B0C9AF /* DTAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3809AC3514460AFC00B0C9AF /* DTAnimation.m */; };
 		994E55F3144115DF009EC13C /* DTResourceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 994E55F2144115DF009EC13C /* DTResourceManager.m */; };
 		994E55F614411609009EC13C /* DTTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = 994E55F514411609009EC13C /* DTTexture.m */; };
 		994E55F914411645009EC13C /* DTResource.m in Sources */ = {isa = PBXBuildFile; fileRef = 994E55F814411645009EC13C /* DTResource.m */; };
@@ -95,6 +97,10 @@
 		05CC7B73143FC4BB00052D06 /* SPLowVerbosity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPLowVerbosity.m; sourceTree = "<group>"; };
 		05CC7BA41441FC9F00052D06 /* DTEntityEnemyBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTEntityEnemyBase.h; sourceTree = "<group>"; };
 		05CC7BA51441FC9F00052D06 /* DTEntityEnemyBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTEntityEnemyBase.m; sourceTree = "<group>"; };
+		3809AC311444E57500B0C9AF /* DTRenderEntities.h */ = {isa = PBXFileReference; fileEncoding = 4; path = DTRenderEntities.h; sourceTree = "<group>"; };
+		3809AC321444E57500B0C9AF /* DTRenderEntities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTRenderEntities.m; sourceTree = "<group>"; };
+		3809AC3414460AFC00B0C9AF /* DTAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTAnimation.h; sourceTree = "<group>"; };
+		3809AC3514460AFC00B0C9AF /* DTAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTAnimation.m; sourceTree = "<group>"; };
 		994E55F1144115DF009EC13C /* DTResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTResourceManager.h; path = Graphics/DTResourceManager.h; sourceTree = "<group>"; };
 		994E55F2144115DF009EC13C /* DTResourceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTResourceManager.m; path = Graphics/DTResourceManager.m; sourceTree = "<group>"; };
 		994E55F414411609009EC13C /* DTTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTTexture.h; path = Graphics/DTTexture.h; sourceTree = "<group>"; };
@@ -219,6 +225,8 @@
 				994E55FE14412A30009EC13C /* DTImage.m */,
 				994E56151441CB3C009EC13C /* DTSpriteMap.h */,
 				994E56161441CB3C009EC13C /* DTSpriteMap.m */,
+				3809AC3414460AFC00B0C9AF /* DTAnimation.h */,
+				3809AC3514460AFC00B0C9AF /* DTAnimation.m */,
 			);
 			name = Graphics;
 			sourceTree = "<group>";
@@ -385,6 +393,8 @@
 				D8B05720143FA202002CE09B /* DTClient.m */,
 				D822B7C0143FDDF80097FC9E /* DTCamera.h */,
 				D822B7C1143FDDF80097FC9E /* DTCamera.m */,
+				3809AC311444E57500B0C9AF /* DTRenderEntities.h */,
+				3809AC321444E57500B0C9AF /* DTRenderEntities.m */,
 			);
 			name = Client;
 			sourceTree = "<group>";
@@ -537,6 +547,8 @@
 				994E56171441CB3C009EC13C /* DTSpriteMap.m in Sources */,
 				05CC7BA61441FC9F00052D06 /* DTEntityEnemyBase.m in Sources */,
 				052650DC1444FFAF00A881C5 /* NSString+UUID.m in Sources */,
+				3809AC331444E57500B0C9AF /* DTRenderEntities.m in Sources */,
+				3809AC3614460AFC00B0C9AF /* DTAnimation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

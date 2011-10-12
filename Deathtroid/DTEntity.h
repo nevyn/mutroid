@@ -13,6 +13,7 @@
 @class DTWorld;
 @class DTTraceResult;
 @class DTSpriteMap;
+@class DTAnimation;
 
 #define $doif(key, then) ({id o = [rep objectForKey:key]; if(o) { then; } });
 
@@ -56,8 +57,6 @@ typedef struct {
 -(BOOL)damage:(int)damage from:(Vector2*)damagerLocation killer:(DTEntity*)killer;
 -(void)remove;
 
-- (void) animateWalk:(double)delta;
-
 @property (nonatomic) int health;
 @property (nonatomic) int maxHealth;
 @property (nonatomic) BOOL destructible;
@@ -77,11 +76,11 @@ typedef struct {
 @property (nonatomic,strong) NSString *uuid;
 @property (nonatomic,readonly) NSString *typeName;
 
+@property (nonatomic, retain) NSString *currentState;
+
 // protected
 
-@property (nonatomic, retain) DTSpriteMap *walkSprite;
-@property (nonatomic, assign) int currentWalkSpriteFrame;
-@property (nonatomic, assign) float walkAnimationCounter;
+@property (nonatomic, retain) DTAnimation* animation;
 @property (nonatomic, assign) float rotation;
 
 @end
