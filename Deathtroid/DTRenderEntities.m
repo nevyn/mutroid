@@ -35,10 +35,10 @@
 
 - (void) setEntitiesToDraw:(NSArray*)entities_ {
     
-    for (DTEntity *entity in entities_) {
-        
+    [entities removeAllObjects];
+    
+    for (DTEntity *entity in entities_)
         [self addEntity:entity];
-    }
 }
 
 - (void) addEntity:(DTEntity*)entity {

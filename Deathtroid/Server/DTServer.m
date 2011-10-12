@@ -30,7 +30,6 @@ static const int kMaxServerFramerate = 5;
 @interface DTServer () <DTServerRoomDelegate>
 -(void)broadcast:(NSDictionary*)d;
 
--(void)sendRoom:(DTRoom*)room toPlayer:(DTPlayer*)player;
 -(void)addPoints:(float)pts forPlayer:(DTPlayer*)who;
 -(void)msg:(NSString*)msg;
 -(void)sendSnapshotDiff:(void(^)())forThing forRoom:(DTServerRoom*)room;
@@ -72,27 +71,14 @@ static const int kMaxServerFramerate = 5;
     return self;
 }
 
--(void)spawnPlayer:(DTPlayer*)player;
+-(void)spawnPlayer:(DTPlayer*)player inRoom:(DTServerRoom*)room;
 {
-    DTServerRoom *room = player.room;
     if(player.entity)
         [room destroyEntityKeyed:player.entity.uuid];
     
     player.entity = [room createEntity:[DTEntityPlayer class] setup:nil];
     
-    [self teleportPlayerForEntity:player.entity toPosition:player.entity.position inRoomNamed:player.room.name];
-}
-
--(void)sendRoom:(DTRoom*)room toPlayer:(DTPlayer*)player;
-{
-    NSDictionary *entReps = [room.entities sp_map: ^(NSString *k, id v) { return [v rep]; }];
-
-    [player.proto sendHash:$dict(
-        @"command", @"loadRoom",
-        @"uuid", room.uuid,
-        @"name", room.name,
-        @"entities", entReps
-    )];
+    [self teleportPlayerForEntity:player.entity toPosition:player.entity.position inRoomNamed:room.name];
 }
 
 -(void)loadLevel:(NSString*)roomName then:(void(^)(DTServerRoom*))then;
@@ -136,13 +122,9 @@ static const int kMaxServerFramerate = 5;
 	player.proto = clientProto;
 	[players addObject:player];
     
-    player.room = [[rooms allValues] objectAtIndex:random()%rooms.allValues.count];
-    [self sendRoom:player.room toPlayer:player];
-	[self spawnPlayer:player];
-	
-	[clientProto requestHash:$dict(@"test", @"whee") response:^(NSDictionary *response) {
-		NSLog(@"We got a response! %@", response);
-	}];
+    DTRoom *room = [[rooms allValues] objectAtIndex:random()%rooms.allValues.count];
+	[self spawnPlayer:player inRoom:$cast(DTServerRoom, room)];
+
 	
 	[clientProto readHash];
 }
@@ -162,8 +144,8 @@ static const int kMaxServerFramerate = 5;
 -(void)broadcast:(NSDictionary*)d;
 {
     for(DTPlayer *player in players) {
-        //NSString *ruid = [d objectForKey:@"room"];
-        //if(ruid && ![ruid isEqual:player.room.uuid]) continue;
+        NSString *ruid = [d objectForKey:@"room"];
+        if(ruid && ![ruid isEqual:player.room.uuid]) continue;
         [player.proto sendHash:d];
     }
 }
@@ -189,8 +171,21 @@ static const int kMaxServerFramerate = 5;
 }
 -(void)protocol:(TCAsyncHashProtocol*)proto receivedRequest:(NSDictionary*)hash responder:(TCAsyncHashProtocolResponseCallback)responder;
 {
-	NSLog(@"Unknown request %@", hash);
-	responder($dict(@"error", @"wtf"));
+	DTPlayer *player = nil;
+	for(DTPlayer *pl in players)
+		if(pl.proto == proto) {
+			player = pl; break;
+		}
+	NSAssert(player, @"Unknown player sent us stuff");
+
+    SEL sel = NSSelectorFromString($sprintf(@"playerRequest:%@:responder:", [hash objectForKey:@"question"]));
+    if([self respondsToSelector:sel])
+            ((void(*)(id, SEL, id, id, TCAsyncHashProtocolResponseCallback))[self methodForSelector:sel])(self, sel, player, hash, responder);
+    else {
+        responder($dict(@"error", @"Unknown request"));
+        NSLog(@"Unknown request from %@: %@", player, hash);
+    }
+
 	[proto readHash];
 }
 
@@ -207,8 +202,8 @@ static const int kMaxServerFramerate = 5;
 {
     NSString *selNs = $sprintf(@"playerAction:%@:", [hash objectForKey:@"action"]);
     
-    if(!player.entity)
-        return [self spawnPlayer:player];
+    if(!player.entity && player.room)
+        return [self spawnPlayer:player inRoom:$cast(DTServerRoom, player.room)];
 
     SEL sel = NSSelectorFromString(selNs);
     if([self respondsToSelector:sel])
@@ -236,6 +231,21 @@ static const int kMaxServerFramerate = 5;
         e.moveDirection = e.lookDirection = player.entity.lookDirection;
         e.owner = (DTEntityPlayer*)player.entity;
     }];
+}
+
+#pragma mark Incoming player requests
+-(void)playerRequest:(DTPlayer*)player getRoom:(NSDictionary*)hash responder:(TCAsyncHashProtocolResponseCallback)responder;
+{
+    DTRoom *room = [rooms objectForKey:$notNull([hash objectForKey:@"uuid"])];
+    if(!room) return responder($dict(@"error", @"no such room"));
+    
+    NSDictionary *entReps = [room.entities sp_map: ^(NSString *k, id v) { return [v rep]; }];
+
+    responder($dict(
+        @"uuid", room.uuid,
+        @"name", room.name,
+        @"entities", entReps
+    ));
 }
 
 #pragma mark Game logic
@@ -300,29 +310,30 @@ static const int kMaxServerFramerate = 5;
     DTServerRoom *oldRoom = $cast(DTServerRoom, playerE.world.room);
     
     [self loadLevel:roomName then:^(DTServerRoom *newRoom) {
-    
-        [self sendRoom:newRoom toPlayer:player];
-        
         player.entity.position = [MutableVector2 vectorWithVector2:pos];
         
-        if(oldRoom != newRoom) {
-            [oldRoom destroyEntityKeyed:playerE.uuid];
+        [oldRoom destroyEntityKeyed:playerE.uuid];
+        player.room = nil;
+        
+        [player.proto requestHash:$dict(
+            @"question", @"joinRoom",
+            @"name", newRoom.name,
+            @"uuid", newRoom.uuid
+        ) response:^(NSDictionary *response) {
+            // client's room is now loaded, and its state is all set up.
+            player.room = newRoom;
             [newRoom addEntityToRoom:playerE];
-        }
-        
-        player.room = newRoom;
-        
-        [player.proto sendHash:$dict(
-            @"command", @"cameraFollow",
-            @"room", newRoom.uuid,
-            @"uuid", player.entity.uuid
-        )];
-        [player.proto sendHash:$dict(
-            @"command", @"playerEntity",
-            @"room", newRoom.uuid,
-            @"uuid", player.entity.uuid
-        )];
-        
+            [player.proto sendHash:$dict(
+                @"command", @"playerEntity",
+                @"room", newRoom.uuid,
+                @"uuid", player.entity.uuid
+            )];
+            [player.proto sendHash:$dict(
+                @"command", @"cameraFollow",
+                @"room", newRoom.uuid,
+                @"uuid", player.entity.uuid
+            )];
+        }];
     }];
 }
 
