@@ -124,9 +124,6 @@ static const int kMaxServerFramerate = 5;
     
     DTRoom *room = [[rooms allValues] objectAtIndex:random()%rooms.allValues.count];
 	[self spawnPlayer:player inRoom:$cast(DTServerRoom, room)];
-
-	
-	[clientProto readHash];
 }
 -(void)onSocketDidDisconnect:(AsyncSocket *)sock;
 {
@@ -166,8 +163,6 @@ static const int kMaxServerFramerate = 5;
         ((void(*)(id, SEL, id, id))[self methodForSelector:sel])(self, sel, player, hash);
     else
         NSLog(@"Unknown command from %@: %@", player, hash);
-        
-    [proto readHash];
 }
 -(void)protocol:(TCAsyncHashProtocol*)proto receivedRequest:(NSDictionary*)hash responder:(TCAsyncHashProtocolResponseCallback)responder;
 {
@@ -185,8 +180,6 @@ static const int kMaxServerFramerate = 5;
         responder($dict(@"error", @"Unknown request"));
         NSLog(@"Unknown request from %@: %@", player, hash);
     }
-
-	[proto readHash];
 }
 
 -(void)player:(DTPlayer*)player hello:(NSDictionary*)hash;

@@ -15,12 +15,13 @@ static const NSString *kTCAsyncHashProtocolResponseKey = @"__tcahp-responseKey";
 @implementation TCAsyncHashProtocol {
 	NSMutableDictionary *requests;
 }
-@synthesize socket = _socket, delegate = _delegate;
+@synthesize socket = _socket, delegate = _delegate, autoReadHash = _autoReadHash;
 -(id)initWithSocket:(AsyncSocket*)sock delegate:(id<TCAsyncHashProtocolDelegate>)delegate;
 {
 	if(!(self = [super init])) return nil;
 	
 	self.socket = sock;
+	_autoReadHash = YES;
 	_socket.delegate = self;
 	_delegate = delegate;
 	requests = [NSMutableDictionary dictionary];
@@ -61,6 +62,12 @@ static const NSString *kTCAsyncHashProtocolResponseKey = @"__tcahp-responseKey";
 }
 
 #pragma mark AsyncSocket
+- (void)onSocket:(AsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port;
+{
+	if([self.delegate respondsToSelector:_cmd]) [self.delegate onSocket:sock didConnectToHost:host port:port];
+	
+	if(self.autoReadHash) [self readHash];
+}
 - (void)onSocket:(AsyncSocket *)sock didReadData:(NSData *)inData withTag:(long)tag;
 {
 	if(tag == kTagLength) {
@@ -81,16 +88,19 @@ static const NSString *kTCAsyncHashProtocolResponseKey = @"__tcahp-responseKey";
 				[resp2 setObject:reqKey forKey:kTCAsyncHashProtocolResponseKey];
 				[self sendHash:resp2];
 			}];
+			if(self.autoReadHash) [self readHash];
 		}
 		if(respKey) {
 			TCAsyncHashProtocolResponseCallback cb = [requests objectForKey:respKey];
 			if(cb) cb(hash);
 			else NSLog(@"Discarded response: %@", hash);
 			[requests removeObjectForKey:respKey];
-			[self readHash];
+			[self readHash]; // we're not calling delegate at all, so MUST readHash here
 		} 
-		if(!reqKey && !respKey)
+		if(!reqKey && !respKey) {
 			[_delegate protocol:self receivedHash:hash];
+			if(self.autoReadHash) [self readHash];
+		}
 		
 	} else if([_delegate respondsToSelector:@selector(_cmd)])
 		[_delegate onSocket:sock didReadData:inData withTag:tag];

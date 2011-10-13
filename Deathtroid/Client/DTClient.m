@@ -165,7 +165,6 @@
 		@"command", @"hello",
 		@"playerName", [[NSUserDefaults standardUserDefaults] objectForKey:@"playerName"]
 	)];
-	[_proto readHash];
 	
 }
 -(void)onSocketDidDisconnect:(AsyncSocket *)sock;
@@ -191,8 +190,6 @@
         ((void(*)(id, SEL, id, id))[self methodForSelector:sel])(self, sel, proto, hash);
     else
         NSLog(@"Unknown command: %@", hash);
-        
-    [proto readHash];
 }
 
 -(void)protocol:(TCAsyncHashProtocol*)proto receivedRequest:(NSDictionary*)hash responder:(TCAsyncHashProtocolResponseCallback)responder;
@@ -204,8 +201,6 @@
         responder($dict(@"error", @"Unknown request"));
         NSLog(@"Unknown request %@", hash);
     }
-
-	[proto readHash];
 
 }
 
