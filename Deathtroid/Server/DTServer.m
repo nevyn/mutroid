@@ -148,7 +148,7 @@ static const int kMaxServerFramerate = 5;
 }
 
 
--(void)protocol:(TCAsyncHashProtocol*)proto receivedHash:(NSDictionary*)hash;
+-(void)protocol:(TCAsyncHashProtocol*)proto receivedHash:(NSDictionary*)hash payload:(NSData*)payload;
 {
 	DTPlayer *player = nil;
 	for(DTPlayer *pl in players)
@@ -164,7 +164,7 @@ static const int kMaxServerFramerate = 5;
     else
         NSLog(@"Unknown command from %@: %@", player, hash);
 }
--(void)protocol:(TCAsyncHashProtocol*)proto receivedRequest:(NSDictionary*)hash responder:(TCAsyncHashProtocolResponseCallback)responder;
+-(void)protocol:(TCAsyncHashProtocol*)proto receivedRequest:(NSDictionary*)hash payload:(NSData*)payload responder:(TCAsyncHashProtocolResponseCallback)responder;
 {
 	DTPlayer *player = nil;
 	for(DTPlayer *pl in players)

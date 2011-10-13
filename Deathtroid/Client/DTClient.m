@@ -180,7 +180,7 @@
 #pragma mark -
 #pragma mark Server commands
 
--(void)protocol:(TCAsyncHashProtocol*)proto receivedHash:(NSDictionary*)hash;
+-(void)protocol:(TCAsyncHashProtocol*)proto receivedHash:(NSDictionary*)hash payload:(NSData*)payload;
 {
     NSString *command = [hash objectForKey:@"command"];
     
@@ -192,7 +192,7 @@
         NSLog(@"Unknown command: %@", hash);
 }
 
--(void)protocol:(TCAsyncHashProtocol*)proto receivedRequest:(NSDictionary*)hash responder:(TCAsyncHashProtocolResponseCallback)responder;
+-(void)protocol:(TCAsyncHashProtocol*)proto receivedRequest:(NSDictionary*)hash payload:(NSData*)payload responder:(TCAsyncHashProtocolResponseCallback)responder;
 {
     SEL sel = NSSelectorFromString($sprintf(@"request:%@:responder:", [hash objectForKey:@"question"]));
     if([self respondsToSelector:sel])

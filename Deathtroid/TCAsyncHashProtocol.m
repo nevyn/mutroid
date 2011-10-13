@@ -3,10 +3,12 @@
 enum {
 	kTagLength,
 	kTagData,
+	kTagPayload,
 };
 
 static const NSString *kTCAsyncHashProtocolRequestKey = @"__tcahp-requestKey";
 static const NSString *kTCAsyncHashProtocolResponseKey = @"__tcahp-responseKey";
+static const NSString *kTCAsyncHashProtocolPayloadSizeKey = @"__tcahp-payloadSize";
 
 @interface TCAsyncHashProtocol ()
 @property(nonatomic,strong,readwrite) AsyncSocket *socket;
@@ -14,6 +16,7 @@ static const NSString *kTCAsyncHashProtocolResponseKey = @"__tcahp-responseKey";
 
 @implementation TCAsyncHashProtocol {
 	NSMutableDictionary *requests;
+	NSDictionary *savedHash;
 }
 @synthesize socket = _socket, delegate = _delegate, autoReadHash = _autoReadHash;
 -(id)initWithSocket:(AsyncSocket*)sock delegate:(id<TCAsyncHashProtocolDelegate>)delegate;
@@ -68,7 +71,30 @@ static const NSString *kTCAsyncHashProtocolResponseKey = @"__tcahp-responseKey";
 	
 	if(self.autoReadHash) [self readHash];
 }
-- (void)onSocket:(AsyncSocket *)sock didReadData:(NSData *)inData withTag:(long)tag;
+-(BOOL)needsReadHashAfterDelegating:(NSDictionary*)hash payload:(NSData*)payload;
+{
+	NSString *reqKey = [hash objectForKey:kTCAsyncHashProtocolRequestKey];
+	NSString *respKey = [hash objectForKey:kTCAsyncHashProtocolResponseKey];
+	if(reqKey) {
+		[_delegate protocol:self receivedRequest:hash payload:payload responder:^(NSDictionary *response) {
+			NSMutableDictionary *resp2 = [response mutableCopy];
+			[resp2 setObject:reqKey forKey:kTCAsyncHashProtocolResponseKey];
+			[self sendHash:resp2];
+		}];
+	}
+	if(respKey) {
+		TCAsyncHashProtocolResponseCallback cb = [requests objectForKey:respKey];
+		if(cb) cb(hash);
+		else NSLog(@"Discarded response: %@", hash);
+		[requests removeObjectForKey:respKey];
+		return YES; // we're not calling delegate at all, so MUST readHash here
+	} 
+	if(!reqKey && !respKey)
+		[_delegate protocol:self receivedHash:hash payload:payload];
+		
+	return NO;
+}
+-(void)onSocket:(AsyncSocket *)sock didReadData:(NSData *)inData withTag:(long)tag;
 {
 	if(tag == kTagLength) {
 		uint32_t readLength = 0;
@@ -80,33 +106,33 @@ static const NSString *kTCAsyncHashProtocolResponseKey = @"__tcahp-responseKey";
 		NSDictionary *hash = [self unserialize:inData];
 		NSAssert(hash, @"really should be unserializable");
 		
-		NSString *reqKey = [hash objectForKey:kTCAsyncHashProtocolRequestKey];
-		NSString *respKey = [hash objectForKey:kTCAsyncHashProtocolResponseKey];
-		if(reqKey) {
-			[_delegate protocol:self receivedRequest:hash responder:^(NSDictionary *response) {
-				NSMutableDictionary *resp2 = [response mutableCopy];
-				[resp2 setObject:reqKey forKey:kTCAsyncHashProtocolResponseKey];
-				[self sendHash:resp2];
-			}];
-			if(self.autoReadHash) [self readHash];
+		NSNumber *payloadSize = [hash objectForKey:kTCAsyncHashProtocolPayloadSizeKey];
+		if(payloadSize) {
+			savedHash = hash;
+			[sock readDataToLength:payloadSize.longValue withTimeout:-1 tag:kTagPayload];
 		}
-		if(respKey) {
-			TCAsyncHashProtocolResponseCallback cb = [requests objectForKey:respKey];
-			if(cb) cb(hash);
-			else NSLog(@"Discarded response: %@", hash);
-			[requests removeObjectForKey:respKey];
-			[self readHash]; // we're not calling delegate at all, so MUST readHash here
-		} 
-		if(!reqKey && !respKey) {
-			[_delegate protocol:self receivedHash:hash];
-			if(self.autoReadHash) [self readHash];
-		}
+		else if([self needsReadHashAfterDelegating:hash payload:nil] || self.autoReadHash)
+			[self readHash];
+			
+	} else if(tag == kTagPayload) {
+		NSDictionary *hash = savedHash; savedHash = nil;
+		
+		if([self needsReadHashAfterDelegating:hash payload:inData] || self.autoReadHash)
+			[self readHash];
 		
 	} else if([_delegate respondsToSelector:@selector(_cmd)])
 		[_delegate onSocket:sock didReadData:inData withTag:tag];
 }
 -(void)sendHash:(NSDictionary*)hash;
 {
+	[self sendHash:hash payload:nil];
+}
+-(void)sendHash:(NSDictionary*)hash payload:(NSData*)payload;
+{
+	if(payload) {
+		hash = [hash mutableCopy];
+		[(NSMutableDictionary*)hash setObject:[NSNumber numberWithUnsignedLong:payload.length] forKey:kTCAsyncHashProtocolPayloadSizeKey];
+	}
 	NSData *unthing = [self serialize:hash];
 	
 	uint32_t writeLength = htonl(unthing.length);
@@ -114,6 +140,7 @@ static const NSString *kTCAsyncHashProtocolResponseKey = @"__tcahp-responseKey";
 	[_socket writeData:lengthD withTimeout:-1 tag:kTagLength];
 	
 	[_socket writeData:unthing withTimeout:-1 tag:kTagData];
+	if(payload) [_socket writeData:payload withTimeout:-1 tag:kTagPayload];
 }
 -(TCAsyncHashProtocolRequestCanceller)requestHash:(NSDictionary*)hash response:(TCAsyncHashProtocolResponseCallback)response;
 {

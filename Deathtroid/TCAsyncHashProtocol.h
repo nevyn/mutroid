@@ -9,8 +9,8 @@ typedef void(^TCAsyncHashProtocolRequestCanceller)();
 /// If you have set autoReadHash to NO, call readHash some time after receiving any of these
 /// callbacks in order to continue receiving hashes.
 @protocol TCAsyncHashProtocolDelegate <NSObject, AsyncSocketDelegate>
--(void)protocol:(TCAsyncHashProtocol*)proto receivedHash:(NSDictionary*)hash;
--(void)protocol:(TCAsyncHashProtocol*)proto receivedRequest:(NSDictionary*)hash responder:(TCAsyncHashProtocolResponseCallback)responder;
+-(void)protocol:(TCAsyncHashProtocol*)proto receivedHash:(NSDictionary*)hash payload:(NSData*)payload;
+-(void)protocol:(TCAsyncHashProtocol*)proto receivedRequest:(NSDictionary*)hash payload:(NSData*)payload responder:(TCAsyncHashProtocolResponseCallback)responder;
 @end
 
 @interface TCAsyncHashProtocol : NSObject <AsyncSocketDelegate>
@@ -19,7 +19,9 @@ typedef void(^TCAsyncHashProtocolRequestCanceller)();
 -(id)initWithSocket:(AsyncSocket*)sock delegate:(id<TCAsyncHashProtocolDelegate>)delegate;
 
 /// Send any dictionary containing plist-safe types
--(void)sendHash:(NSDictionary*)hash; 
+-(void)sendHash:(NSDictionary*)hash;
+/// Like above, but also attach an arbitrary payload.
+-(void)sendHash:(NSDictionary*)hash payload:(NSData*)payload;
 /// like above, but you can define a callback for when the other side responds.
 -(TCAsyncHashProtocolRequestCanceller)requestHash:(NSDictionary*)hash response:(TCAsyncHashProtocolResponseCallback)response;
 
