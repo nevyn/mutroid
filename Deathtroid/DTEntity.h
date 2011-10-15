@@ -57,6 +57,9 @@ typedef struct {
 -(BOOL)damage:(int)damage from:(Vector2*)damagerLocation killer:(DTEntity*)killer;
 -(void)remove;
 
+-(void)sendToCounterpart:(NSDictionary*)hash; // from server, send to all clients' counterpart entities
+-(void)receivedFromCounterpart:(NSDictionary*)hash; // override this
+
 @property (nonatomic) int health;
 @property (nonatomic) int maxHealth;
 @property (nonatomic) BOOL destructible;

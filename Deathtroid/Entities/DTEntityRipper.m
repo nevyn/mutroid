@@ -9,6 +9,7 @@
 #import "DTEntityRipper.h"
 
 #import "Vector2.h"
+#import "DTWorld.h"
 
 @implementation DTEntityRipper
 

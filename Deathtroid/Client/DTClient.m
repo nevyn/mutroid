@@ -331,6 +331,16 @@
     [e damage:d from:location killer:other];
 }
 
+-(void)command:(id)proto entityCounterpartMessage:(NSDictionary*)hash;
+{
+    NSString *roomName = $notNull([hash objectForKey:@"room"]);
+    DTRoom *room = $notNull([rooms objectForKey:roomName]);
+	
+	DTEntity *ent = $notNull([room.entities objectForKey:[hash objectForKey:@"uuid"]]);
+	
+	[ent receivedFromCounterpart:$notNull([hash objectForKey:@"message"])];
+}
+
 
 #pragma mark meta
 -(void)command:(id)proto updateScoreboard:(NSDictionary*)hash;

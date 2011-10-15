@@ -43,7 +43,13 @@
         self.velocity.x = rand()%2 < 1 ? -5 : 5;
         
         self.onGround = false;
+		if(self.world.server) [self sendToCounterpart:$dict(@"hey", @"I jumped like a white dude yo")];
+
     }
+}
+-(void)receivedFromCounterpart:(NSDictionary *)hash;
+{
+	NSLog(@"Counterpart message!g %@", [hash objectForKey:@"hey"]);
 }
 
 -(void)didCollideWithWorld:(DTTraceResult *)info;

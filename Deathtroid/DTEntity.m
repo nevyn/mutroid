@@ -122,8 +122,19 @@
 
 -(void)remove;
 {
-    if(self.world.server)
-        [$cast(DTServerRoom, self.world.room) destroyEntityKeyed:self.uuid];
+	NSAssert(self.world.server, @"May only be called on a server entity");
+	[$cast(DTServerRoom, self.world.room) destroyEntityKeyed:self.uuid];
+}
+
+-(void)sendToCounterpart:(NSDictionary*)hash;
+{
+	NSAssert(self.world.server, @"May only be called on a server entity");
+	DTServerRoom *serverRoom = $cast(DTServerRoom, self.world.room);
+	[serverRoom.delegate room:serverRoom sendsHash:hash toCounterpartsOf:self];
+}
+-(void)receivedFromCounterpart:(NSDictionary*)hash;
+{
+	NSLog(@"Unhandled counterpart message: %@", hash);
 }
 
 -(NSString*)description;

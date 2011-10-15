@@ -14,6 +14,7 @@
 @protocol DTServerRoomDelegate <NSObject>
 -(void)room:(DTServerRoom*)room createdEntity:(DTEntity*)ent;
 -(void)room:(DTServerRoom*)room destroyedEntity:(DTEntity*)ent;
+-(void)room:(DTServerRoom*)room sendsHash:(NSDictionary*)hash toCounterpartsOf:(DTEntity*)ent;
 @end
 
 

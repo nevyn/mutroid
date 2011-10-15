@@ -407,7 +407,15 @@ static const int kMaxServerFramerate = 5;
         @"room", room.uuid,
         @"uuid", ent.uuid
     )];
-
+}
+-(void)room:(DTServerRoom*)room sendsHash:(NSDictionary*)hash toCounterpartsOf:(DTEntity*)ent;
+{
+	[self broadcast:$dict(
+		@"command", @"entityCounterpartMessage",
+		@"room", room.uuid,
+		@"uuid", ent.uuid,
+		@"message", hash
+	)];
 }
 
 @end
