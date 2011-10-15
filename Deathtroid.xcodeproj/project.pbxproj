@@ -97,7 +97,7 @@
 		05CC7B73143FC4BB00052D06 /* SPLowVerbosity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPLowVerbosity.m; sourceTree = "<group>"; };
 		05CC7BA41441FC9F00052D06 /* DTEntityEnemyBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTEntityEnemyBase.h; sourceTree = "<group>"; };
 		05CC7BA51441FC9F00052D06 /* DTEntityEnemyBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTEntityEnemyBase.m; sourceTree = "<group>"; };
-		3809AC311444E57500B0C9AF /* DTRenderEntities.h */ = {isa = PBXFileReference; fileEncoding = 4; path = DTRenderEntities.h; sourceTree = "<group>"; };
+		3809AC311444E57500B0C9AF /* DTRenderEntities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTRenderEntities.h; sourceTree = "<group>"; };
 		3809AC321444E57500B0C9AF /* DTRenderEntities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTRenderEntities.m; sourceTree = "<group>"; };
 		3809AC3414460AFC00B0C9AF /* DTAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTAnimation.h; sourceTree = "<group>"; };
 		3809AC3514460AFC00B0C9AF /* DTAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTAnimation.m; sourceTree = "<group>"; };
@@ -274,6 +274,9 @@
 		D8548F2C143F45D7005D7DC0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0587E520143F8DB200EA9CBF /* AsyncSocket.h */,
+				0587E521143F8DB200EA9CBF /* AsyncSocket.m */,
+				05CC7B6C143FC4BB00052D06 /* SPSuccinct */,
 				D8548F2D143F45D7005D7DC0 /* Cocoa.framework */,
 				D8548F4B143F45D7005D7DC0 /* SenTestingKit.framework */,
 				D8548F2F143F45D7005D7DC0 /* Other Frameworks */,
@@ -296,9 +299,17 @@
 			isa = PBXGroup;
 			children = (
 				994E55EF144115B5009EC13C /* Graphics */,
+				D8B05710143F840B002CE09B /* DTEntity.h */,
+				D8B05711143F840B002CE09B /* DTEntity.m */,
 				D822B7C3143FE1880097FC9E /* Entities */,
 				D8B0571E143FA0E3002CE09B /* Client */,
 				D8B0571D143FA0D1002CE09B /* Server */,
+				D8B05730143FB2AA002CE09B /* DTRoom.h */,
+				D8B05731143FB2AA002CE09B /* DTRoom.m */,
+				D822B7DB14407E1F0097FC9E /* DTWorld.h */,
+				D822B7DC14407E1F0097FC9E /* DTWorld.m */,
+				0554598B1441383300E94DB2 /* DTServerRoom.h */,
+				0554598C1441383400E94DB2 /* DTServerRoom.m */,
 				D8B05713143F8569002CE09B /* Vector2.h */,
 				D8B05714143F8569002CE09B /* Vector2.m */,
 				D8548F3F143F45D7005D7DC0 /* DTAppDelegate.h */,
@@ -309,11 +320,11 @@
 				D8548F34143F45D7005D7DC0 /* Supporting Files */,
 				05C35703143F9F53001FE29E /* TCAsyncHashProtocol.h */,
 				05C35704143F9F53001FE29E /* TCAsyncHashProtocol.m */,
+				052650DA1444FFAE00A881C5 /* NSString+UUID.h */,
+				052650DB1444FFAF00A881C5 /* NSString+UUID.m */,
 				D896A3C6143F761F005F440F /* DTInput.h */,
 				D8B05704143F7697002CE09B /* DTInput.m */,
 				D8B05706143F77E6002CE09B /* DTCore.h */,
-				052650DA1444FFAE00A881C5 /* NSString+UUID.h */,
-				052650DB1444FFAF00A881C5 /* NSString+UUID.m */,
 				05B60AD21440E56F00CFFCE9 /* DTLevelRepository.h */,
 				055459AA1441DC3400E94DB2 /* BlackBackgroundView.h */,
 				055459AB1441DC3400E94DB2 /* BlackBackgroundView.m */,
@@ -321,18 +332,10 @@
 				D8B05707143F77E6002CE09B /* DTCore.m */,
 				0587E523143F8FB100EA9CBF /* DTConstants.h */,
 				0587E524143F8FB200EA9CBF /* DTConstants.m */,
-				D8B05710143F840B002CE09B /* DTEntity.h */,
-				D8B05711143F840B002CE09B /* DTEntity.m */,
 				D8B0572B143FB22F002CE09B /* DTMap.h */,
 				D8B0572C143FB22F002CE09B /* DTMap.m */,
 				D8B0572E143FB2AA002CE09B /* DTLayer.h */,
 				D8B0572F143FB2AA002CE09B /* DTLayer.m */,
-				D8B05730143FB2AA002CE09B /* DTRoom.h */,
-				0554598B1441383300E94DB2 /* DTServerRoom.h */,
-				0554598C1441383400E94DB2 /* DTServerRoom.m */,
-				D8B05731143FB2AA002CE09B /* DTRoom.m */,
-				D822B7DB14407E1F0097FC9E /* DTWorld.h */,
-				D822B7DC14407E1F0097FC9E /* DTWorld.m */,
 				D891F80F1440D98800B489CA /* DTPhysics.h */,
 				D891F8101440D98800B489CA /* DTPhysics.m */,
 				994E560F144146A8009EC13C /* resources */,
@@ -344,9 +347,6 @@
 		D8548F34143F45D7005D7DC0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				0587E520143F8DB200EA9CBF /* AsyncSocket.h */,
-				0587E521143F8DB200EA9CBF /* AsyncSocket.m */,
-				05CC7B6C143FC4BB00052D06 /* SPSuccinct */,
 				D8548F35143F45D7005D7DC0 /* Deathtroid-Info.plist */,
 				D8548F36143F45D7005D7DC0 /* InfoPlist.strings */,
 				D8548F39143F45D7005D7DC0 /* main.m */,
