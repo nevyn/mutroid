@@ -43,6 +43,4 @@ typedef void(^DTClientMessageCallback)(NSString *message);
 @property(nonatomic,copy) DTClientHealthCallback healthCallback;
 @property(nonatomic,copy) DTClientScoresCallback scoresCallback;
 @property(nonatomic,copy) DTClientMessageCallback messageCallback;
-
-@property (nonatomic, retain) DTRenderEntities *entityRenderer;
 @end

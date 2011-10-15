@@ -26,6 +26,7 @@
 #import "DTTexture.h"
 #import "DTSpriteMap.h"
 #import "DTRenderEntities.h"
+#import "DTRenderTilemap.h"
 
 @interface DTClient () <TCAsyncHashProtocolDelegate>
 @property (nonatomic, strong) DTResourceManager *resources;
@@ -35,12 +36,14 @@
 	TCAsyncHashProtocol *_proto;
     __weak DTEntity *followThis;
 	uint64_t frameCount;
+	
+	DTRenderEntities *entityRenderer;
+	DTRenderTilemap *tilemapRenderer;
 }
 @synthesize physics;
 @synthesize rooms, playerEntity, levelRepo, currentRoom;
 @synthesize camera;
 @synthesize resources, healthCallback, scoresCallback, messageCallback;
-@synthesize entityRenderer;
 
 -(id)init;
 {
@@ -51,7 +54,9 @@
     if(!(self = [super init])) return nil;
 	
 	self.resources = [[DTResourceManager alloc] initWithBaseURL:[[NSBundle mainBundle] URLForResource:@"resources" withExtension:nil]];
-    self.entityRenderer = [[DTRenderEntities alloc] init];
+	
+    entityRenderer = [DTRenderEntities new];
+	tilemapRenderer = [DTRenderTilemap new];
 	
 	AsyncSocket *socket = [[AsyncSocket alloc] initWithDelegate:self];
 	socket.delegate = _proto = [[TCAsyncHashProtocol alloc] initWithSocket:socket delegate:self];
@@ -108,7 +113,7 @@
         
     if(self.healthCallback) self.healthCallback(followThis.maxHealth, followThis.health);
     
-    [self.entityRenderer tick:delta];
+    [entityRenderer tick:delta];
 }
 
 -(void)draw;
@@ -118,41 +123,13 @@
     glClear(GL_COLOR_BUFFER_BIT);
     glLoadIdentity();
 	glEnable(GL_TEXTURE_2D);
+	
+	for(DTLayer *layer in currentRoom.layers)
+		[tilemapRenderer drawLayer:layer camera:camera];
     	
-    for(DTLayer *layer in currentRoom.layers) {
-        DTTexture *texture = [resources resourceNamed:$sprintf(@"%@.texture", layer.tilemapName)];
-        [texture use];
-        glPushMatrix();
-        glTranslatef(-camera.position.x * layer.depth, -camera.position.y * layer.depth, 0);
-        glBegin(GL_QUADS);
-        glColor3f(1,1,1);
-        DTMap *map = layer.map;
-        for(int i=0; i<(layer.repeatX?2:1); i++) {
-            for(int h=0; h<map.height; h++) {
-                for(int w=0; w<map.width; w++) {
-                
-                    int x = i*map.width + w;
-                    int y = h;
-                
-                    int tile = map.tiles[h*map.width+w];
-                    if(tile == 0) continue;
-                    tile--;
-                    float r = 0.125;
-                    float u = r * (int)(tile % 8);
-                    float v = r * (int)(tile / 8);
-                    glTexCoord2f(u, v); glVertex2f(x, y);
-                    glTexCoord2f(u+r, v); glVertex2f(x+1, y);
-                    glTexCoord2f(u+r, v+r); glVertex2f(x+1, y+1);
-                    glTexCoord2f(u, v+r); glVertex2f(x, y+1);
-                }
-            }
-        }
-        glEnd();
-        glPopMatrix();
-    }
 	//glDisable(GL_TEXTURE_2D);
 	
-    [self.entityRenderer draw:camera frameCount:frameCount];
+    [entityRenderer draw:camera frameCount:frameCount];
 }
 
 
@@ -228,7 +205,7 @@
     ent.uuid = key;
     ent.world = room.world;
     
-    [self.entityRenderer addEntity:ent];
+    [entityRenderer addEntity:ent];
     [room.entities setObject:ent forKey:key];
 }
 -(void)command:(id)proto removeEntity:(NSDictionary*)hash;
@@ -238,7 +215,7 @@
     DTRoom *room = [rooms objectForKey:roomName];
     if(!room) return;
     
-    [self.entityRenderer removeEntity:[room.entities objectForKey:key]];
+    [entityRenderer removeEntity:[room.entities objectForKey:key]];
     [room.entities removeObjectForKey:key];
 }
 
@@ -268,7 +245,7 @@
     NSString *uuid = $notNull([hash objectForKey:@"uuid"]);
     
     currentRoom = nil;
-    [self.entityRenderer setEntitiesToDraw:[NSArray array]];
+    [entityRenderer setEntitiesToDraw:[NSArray array]];
     
     __block DTRoom *room = [rooms objectForKey:uuid];
     void(^then)() = ^ {
@@ -294,7 +271,7 @@
             [toDelete minusSet:[NSSet setWithArray:reps.allKeys]];
             for(NSArray *key in toDelete) [room.entities removeObjectForKey:key];
             
-            [self.entityRenderer setEntitiesToDraw:room.entities.allValues];
+            [entityRenderer setEntitiesToDraw:room.entities.allValues];
         
             responder($dict(@"status", @"done"));        
         }];

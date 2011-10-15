@@ -23,6 +23,7 @@
 		05CC7B81143FCE3400052D06 /* DTServer.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B05725143FA20F002CE09B /* DTServer.m */; };
 		05CC7B82143FCE3900052D06 /* DTPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B05723143FA20F002CE09B /* DTPlayer.m */; };
 		05CC7BA61441FC9F00052D06 /* DTEntityEnemyBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 05CC7BA51441FC9F00052D06 /* DTEntityEnemyBase.m */; };
+		05F49DFB1449FB4600974FF9 /* DTRenderTilemap.m in Sources */ = {isa = PBXBuildFile; fileRef = 05F49DFA1449FB4600974FF9 /* DTRenderTilemap.m */; };
 		3809AC331444E57500B0C9AF /* DTRenderEntities.m in Sources */ = {isa = PBXBuildFile; fileRef = 3809AC321444E57500B0C9AF /* DTRenderEntities.m */; };
 		3809AC3614460AFC00B0C9AF /* DTAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3809AC3514460AFC00B0C9AF /* DTAnimation.m */; };
 		994E55F3144115DF009EC13C /* DTResourceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 994E55F2144115DF009EC13C /* DTResourceManager.m */; };
@@ -97,6 +98,8 @@
 		05CC7B73143FC4BB00052D06 /* SPLowVerbosity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPLowVerbosity.m; sourceTree = "<group>"; };
 		05CC7BA41441FC9F00052D06 /* DTEntityEnemyBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTEntityEnemyBase.h; sourceTree = "<group>"; };
 		05CC7BA51441FC9F00052D06 /* DTEntityEnemyBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTEntityEnemyBase.m; sourceTree = "<group>"; };
+		05F49DF91449FB4600974FF9 /* DTRenderTilemap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTRenderTilemap.h; path = Client/DTRenderTilemap.h; sourceTree = "<group>"; };
+		05F49DFA1449FB4600974FF9 /* DTRenderTilemap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTRenderTilemap.m; path = Client/DTRenderTilemap.m; sourceTree = "<group>"; };
 		3809AC311444E57500B0C9AF /* DTRenderEntities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTRenderEntities.h; sourceTree = "<group>"; };
 		3809AC321444E57500B0C9AF /* DTRenderEntities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTRenderEntities.m; sourceTree = "<group>"; };
 		3809AC3414460AFC00B0C9AF /* DTAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTAnimation.h; sourceTree = "<group>"; };
@@ -395,6 +398,8 @@
 				D822B7C1143FDDF80097FC9E /* DTCamera.m */,
 				3809AC311444E57500B0C9AF /* DTRenderEntities.h */,
 				3809AC321444E57500B0C9AF /* DTRenderEntities.m */,
+				05F49DF91449FB4600974FF9 /* DTRenderTilemap.h */,
+				05F49DFA1449FB4600974FF9 /* DTRenderTilemap.m */,
 			);
 			name = Client;
 			sourceTree = "<group>";
@@ -549,6 +554,7 @@
 				052650DC1444FFAF00A881C5 /* NSString+UUID.m in Sources */,
 				3809AC331444E57500B0C9AF /* DTRenderEntities.m in Sources */,
 				3809AC3614460AFC00B0C9AF /* DTAnimation.m in Sources */,
+				05F49DFB1449FB4600974FF9 /* DTRenderTilemap.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
