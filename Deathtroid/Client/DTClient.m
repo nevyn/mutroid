@@ -84,9 +84,15 @@
     glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
     
     //glEnable(GL_TEXTURE_2D);
+    
+    glActiveTexture(GL_TEXTURE0);
+    
     glPointSize(5.0f);
     
     glClearColor(0.0, 0.0, 0.0, 1.0);
+    
+    // Build shader programs
+    [resources resourceNamed:@"main.program"];
     
     camera = [[DTCamera alloc] init];
     
@@ -104,6 +110,9 @@
 {
     // Ticka de som ska tickas?
     camera.position.x = followThis.position.x - 10;
+    
+    for(DTLayer *layer in currentRoom.layers)
+        [layer tick:delta];
     
     for(DTEntity *entity in currentRoom.entities.allValues)
         [entity tick:delta];
@@ -127,7 +136,7 @@
 	for(DTLayer *layer in currentRoom.layers)
 		[tilemapRenderer drawLayer:layer camera:camera];
     	
-	//glDisable(GL_TEXTURE_2D);
+    //glDisable(GL_TEXTURE_2D);
 	
     [entityRenderer draw:camera frameCount:frameCount];
 }

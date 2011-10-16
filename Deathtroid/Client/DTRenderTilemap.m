@@ -11,6 +11,7 @@
 #import "DTCamera.h"
 #import "DTLayer.h"
 #import "DTMap.h"
+#import "DTProgram.h"
 #import <OpenGL/gl.h>
 
 @implementation DTRenderTilemap {
@@ -26,6 +27,19 @@
 }
 -(void)drawLayer:(DTLayer*)layer camera:(DTCamera*)camera;
 {
+    DTProgram *p = [resources resourceNamed:@"main.program"];
+    GLint scl = glGetUniformLocation(p.programName, "cycleSourceColor");
+    GLint dcl = glGetUniformLocation(p.programName, "cycleDestColor");
+    	
+    if(layer.cycleColors) {
+        DTColor *c = [layer.cycleColors objectAtIndex:layer.cycleCurrent];
+        glUniform4f(scl, layer.cycleSource.r, layer.cycleSource.g, layer.cycleSource.b, layer.cycleSource.a);
+        glUniform4f(dcl, c.r, c.g, c.b, c.a);            
+    } else {
+        // Set to some other value, like -1, or maybe don't use shader?
+    }
+    
+
 	DTTexture *texture = [resources resourceNamed:$sprintf(@"%@.texture", layer.tilemapName)];
 	[texture use];
 	glPushMatrix();
