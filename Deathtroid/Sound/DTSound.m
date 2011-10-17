@@ -18,7 +18,11 @@
 @synthesize sample;
 -(FISound*)newVoice;
 {
-    return [[FISound alloc] initWithSample:sample error:NULL];
+    NSError *err = nil;
+    FISound *voice = [[FISound alloc] initWithSample:sample error:&err];
+    if(!voice)
+        NSLog(@"Couldn't create voice: %@", err);
+    return voice;
 }
 @end
 

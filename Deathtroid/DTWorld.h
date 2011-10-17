@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class DTMap, DTRoom, Vector2, DTEntity, DTServer;
+@class DTMap, DTRoom, Vector2, DTEntity, DTServer, DTServerRoom, DTResourceManager;
 
 @interface DTTraceResult : NSObject
 -(id)initWithX:(BOOL)_x y:(BOOL)_y entity:(DTEntity*)_entity collisionPosition:(Vector2*)colPos velocity:(Vector2*)_velocity;
@@ -17,6 +17,7 @@
 @property (nonatomic,strong) Vector2 *collisionPosition;
 @property (nonatomic,strong) Vector2 *velocity;   // Entity's velocity at impact
 @end
+
 
 @interface DTWorld : NSObject
 
@@ -30,5 +31,9 @@
 
 @property (nonatomic,weak) DTServer *server; // nil if world is on client
 @property (nonatomic,weak) DTRoom *room;
-
+@property (nonatomic,readonly) DTServerRoom *sroom; // nil if on client
+// for entities to find new resources if needed. This is probably a bad idea; want to 
+// pull all client-side work out of the entities (see: DTRenderEntities), but not sure
+// how to do sound yet.
+@property (nonatomic,strong) DTResourceManager *resources;
 @end

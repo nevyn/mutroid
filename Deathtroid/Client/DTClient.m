@@ -27,6 +27,8 @@
 #import "DTRenderEntities.h"
 #import "DTRenderTilemap.h"
 
+#import "FISoundEngine.h"
+
 @interface DTClient () <TCAsyncHashProtocolDelegate>
 @property (nonatomic, strong) DTResourceManager *resources;
 @end
@@ -38,6 +40,7 @@
 	
 	DTRenderEntities *entityRenderer;
 	DTRenderTilemap *tilemapRenderer;
+    FISoundEngine *finch;
 }
 @synthesize physics;
 @synthesize rooms, playerEntity, currentRoom;
@@ -51,6 +54,9 @@
 -(id)initConnectingTo:(NSString *)host port:(NSUInteger)port;
 {
     if(!(self = [super init])) return nil;
+    
+    finch = [FISoundEngine new];
+    [finch openAudioDevice];
 	
 	self.resources = [[DTResourceManager alloc] initWithBaseURL:[[NSBundle mainBundle] URLForResource:@"resources" withExtension:nil]];
 	
@@ -289,6 +295,8 @@
             }
             room = newRoom;
             room.uuid = uuid;
+            room.world.resources = resources;
+
             [rooms setObject:room forKey:uuid];
             then();
         }];

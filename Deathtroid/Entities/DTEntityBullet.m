@@ -13,9 +13,13 @@
 #import "DTServer.h"
 #import "DTServerRoom.h"
 #import "DTEntityPlayer.h"
+#import "DTSound.h"
+#import "DTResourceManager.h"
 
-@implementation DTEntityBullet
 
+@implementation DTEntityBullet {
+    FISound *_shootVoice;
+}
 @synthesize owner;
 
 -(id)init;
@@ -24,6 +28,13 @@
     
     self.gravity = false;
     self.size.x = self.size.y = 0.4;
+    
+    if(!self.world.server) {
+        DTSound *snd = [self.world.resources resourceNamed:@"baseshot.sound"];
+        _shootVoice = [snd newVoice];
+        [_shootVoice play];
+    }
+    
     
     return self;
 }

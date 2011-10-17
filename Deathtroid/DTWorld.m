@@ -32,13 +32,19 @@
 
 @implementation DTWorld
 
-@synthesize room, server;
+@synthesize room, server, resources;
 
 -(id)initWithRoom:(DTRoom*)_room;
 {
     if(!(self = [super init])) return nil;
     room = _room;
     return self;
+}
+
+-(DTServerRoom*)sroom;
+{
+    if(!self.server) return nil;
+    return (id)self.room;
 }
 
 -(DTTraceResult*)traceBox:(Vector2*)box from:(Vector2*)from to:(Vector2*)to exclude:(DTEntity*)exclude ignoreEntities:(BOOL)ignore;
