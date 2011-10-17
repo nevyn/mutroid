@@ -47,7 +47,7 @@
             return;
         }
         
-        done([(DTRoom*)[cls alloc] initWithPath:levelURL], nil);
+        done([(DTRoom*)[cls alloc] initWithPath:levelURL resourceId:levelURL.dt_resourceId], nil);
     };
     if(self.parentRepo) [self.parentRepo fetchRoomNamed:name ofClass:cls whenDone:^(DTRoom *newLevel, NSError *err) {
         if(newLevel) {

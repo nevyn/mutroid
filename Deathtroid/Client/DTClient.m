@@ -20,7 +20,6 @@
 #import "DTWorld.h"
 #import "DTEntity.h"
 #import "DTEntityPlayer.h"
-#import "DTLevelRepository.h"
 
 #import "DTResourceManager.h"
 #import "DTTexture.h"
@@ -41,7 +40,7 @@
 	DTRenderTilemap *tilemapRenderer;
 }
 @synthesize physics;
-@synthesize rooms, playerEntity, levelRepo, currentRoom;
+@synthesize rooms, playerEntity, currentRoom;
 @synthesize camera;
 @synthesize resources, healthCallback, scoresCallback, messageCallback;
 
@@ -287,9 +286,9 @@
     };
     
     if(!room) {
-        [levelRepo fetchRoomNamed:name ofClass:[DTRoom class] whenDone:^(DTRoom *newRoom, NSError *err) {
+		[resources resourceNamed:$sprintf(@"%@.room",name) loaded:(void(^)(id<DTResource>))^(DTRoom* newRoom) {
             if(!newRoom) {
-                [NSApp presentError:err];
+				// todo<nevyn>: reintroduce errors into resource loader
                 return;
             }
             room = newRoom;

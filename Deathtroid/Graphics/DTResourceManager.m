@@ -22,7 +22,7 @@ static NSMutableDictionary *resourceLoaders = nil;
 
 @implementation DTResourceManager
 
-@synthesize loadedResources, pathURL;
+@synthesize loadedResources, pathURL, isServerSide;
 
 
 +(void)registerResourceLoader:(id)klass withTypeName:(NSString *)name;
@@ -103,9 +103,55 @@ static NSMutableDictionary *resourceLoaders = nil;
 	if(!resource) NSLog(@"Failed to load resource named %@", name);
 	return resource;
 }
+-(void)resourceNamed:(NSString *)name loaded:(void(^)(id<DTResource>))whenLoaded;
+{
+	// todo: implement the loader chain in levelrepository
+	whenLoaded([self resourceNamed:name]);
+}
 
 @end
 
 
 
 
+
+@implementation NSString (DTResourceManager)
+-(BOOL)dt_isValidResourceIdentifier;{
+	NSArray *parts = [self componentsSeparatedByString:@"."];
+	return parts.count == 3 && [[parts objectAtIndex:2] isEqualToString:@"resource"];
+}
+-(NSArray *)dt_resourceIdParts;{
+	check([self dt_isValidResourceIdentifier]);
+	return [self componentsSeparatedByString:@"."];
+}
+-(NSString *)dt_resourceName;{
+	return [[self dt_resourceIdParts] objectAtIndex:0];
+}
+-(NSString *)dt_resourceType;{
+	return [[self dt_resourceIdParts] objectAtIndex:1];
+}
+
+/// The id excluding the .resource part
+-(NSString *)dt_resourceId{
+	return [[[self dt_resourceIdParts] objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 2)]] componentsJoinedByString:@"."];
+}
+@end
+
+
+@implementation NSURL (DTResourceManager)
+-(BOOL)dt_isValidResourceIdentifier;{
+	return [[self lastPathComponent] dt_isValidResourceIdentifier];
+}
+-(NSArray *)dt_resourceIdParts;{
+	return [[self lastPathComponent] dt_resourceIdParts];
+}
+-(NSString *)dt_resourceName;{
+	return [[self lastPathComponent] dt_resourceName];
+}
+-(NSString *)dt_resourceType;{
+	return [[self lastPathComponent] dt_resourceType];
+}
+-(NSString *)dt_resourceId{
+	return [[self lastPathComponent] dt_resourceId];
+}
+@end

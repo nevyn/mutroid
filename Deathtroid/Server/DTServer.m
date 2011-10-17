@@ -18,7 +18,6 @@
 #import "DTEntityBullet.h"
 #import "Vector2.h"
 #import "DTPhysics.h"
-#import "DTLevelRepository.h"
 #import "DTServerRoom.h"
 
 #if DUMB_CLIENT
@@ -28,6 +27,8 @@ static const int kMaxServerFramerate = 5;
 #endif
 
 @interface DTServer () <DTServerRoomDelegate>
+@property(nonatomic,strong) DTResourceManager *resources;
+
 -(void)broadcast:(NSDictionary*)d;
 
 -(void)addPoints:(float)pts forPlayer:(DTPlayer*)who;
@@ -44,7 +45,7 @@ static const int kMaxServerFramerate = 5;
 }
 
 @synthesize physics;
-@synthesize levelRepo, rooms;
+@synthesize rooms, resources;
 
 -(id)init;
 {
@@ -53,6 +54,10 @@ static const int kMaxServerFramerate = 5;
 -(id)initListeningOnPort:(NSUInteger)port;
 {
     if(!(self = [super init])) return nil;
+	
+	self.resources = [[DTResourceManager alloc] initWithBaseURL:[[NSBundle mainBundle] URLForResource:@"resources" withExtension:nil]];
+	resources.isServerSide = YES;
+
     
     physics = [[DTPhysics alloc] init];
     
@@ -90,7 +95,7 @@ static const int kMaxServerFramerate = 5;
         return;
     }
 
-    [levelRepo fetchRoomNamed:roomName ofClass:[DTServerRoom class] whenDone:^(DTRoom *newLevel, NSError *err) {
+	[resources resourceNamed:$sprintf(@"%@.room",roomName) loaded:(void(^)(id<DTResource>))^(DTRoom* newLevel) {
         DTServerRoom *sroom = (id)newLevel;
         
         sroom.delegate = self;

@@ -47,7 +47,7 @@
 	NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
 	if(error){
 		NSLog(@"Error: %@", error);
-		[NSException raise:error.description format:nil];
+		[NSException raise:NSInvalidArgumentException format:@"%@", error];
 	}
 	self.definition = dict;
 	return nil;

@@ -13,7 +13,7 @@ typedef void(^DTClientScoresCallback)(NSDictionary *scores);
 typedef void(^DTClientMessageCallback)(NSString *message);
 
 @class DTPhysics;
-@class DTServer, DTRoom, DTWorld, DTEntityPlayer, DTLevelRepository;
+@class DTServer, DTRoom, DTWorld, DTEntityPlayer;
 @class DTCamera;
 @class DTRenderEntities;
 
@@ -36,7 +36,6 @@ typedef void(^DTClientMessageCallback)(NSString *message);
 
 @property (nonatomic,strong) NSMutableDictionary *rooms;
 @property (nonatomic,weak) DTRoom *currentRoom;
-@property (nonatomic,strong) DTLevelRepository *levelRepo;
 
 @property (nonatomic,strong) DTCamera *camera;
 

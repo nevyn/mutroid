@@ -24,11 +24,11 @@
 @synthesize world;
 @synthesize entities;
 
--(id)initWithPath:(NSURL*)path;
+-(id)initWithPath:(NSURL*)path resourceId:(NSString*)rid;
 {
-	if(!(self = [super init])) return nil;
+	if(!(self = [super initWithResourceId:rid])) return nil;
 	
-    _name = [[path lastPathComponent] stringByDeletingPathExtension];
+    _name = [path dt_resourceName];
 	_layers = [NSMutableArray array];
     entities = [NSMutableDictionary dictionary];
     
@@ -78,4 +78,25 @@
 {
     return $sprintf(@"<%@ %@/0x%x '%@'>", NSStringFromClass([self class]), self.uuid, self, self.name);
 }
+@end
+
+@interface DTRoomLoader : DTResourceLoader
+@end
+
+@implementation DTRoomLoader
+
++(void)load{
+	[DTResourceManager registerResourceLoader:self withTypeName:@"room"];
+}
+
+-(id<DTResource>)loadResourceAtURL:(NSURL *)url usingManager:(DTResourceManager *)manager;
+{
+	[super loadResourceAtURL:url usingManager:manager];
+	Class klass = manager.isServerSide ? NSClassFromString(@"DTServerRoom") : [DTRoom class];
+	
+	DTRoom *room = [[klass alloc] initWithPath:url resourceId:url.dt_resourceId];
+	
+	return room;
+}
+
 @end

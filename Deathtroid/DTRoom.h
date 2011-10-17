@@ -7,10 +7,11 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "DTResource.h"
 
 @class DTWorld;
 
-@interface DTRoom : NSObject
+@interface DTRoom : DTResource
 
 @property (nonatomic,strong) NSMutableArray *layers;
 @property (nonatomic) NSUInteger entityLayerIndex;
@@ -21,7 +22,7 @@
 @property (nonatomic,strong) NSArray *initialEntityReps;
 @property (nonatomic,strong) NSMutableDictionary *entities;
 
--(id)initWithPath:(NSURL*)path;
+-(id)initWithPath:(NSURL*)path resourceId:(NSString*)rid;
 
 -(void)tick:(float)delta;
 

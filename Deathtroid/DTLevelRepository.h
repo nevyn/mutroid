@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#error Deprecated, use resource loader. Haven't killed the file because I want to reuse some concepts from this file first.
+
 @class DTRoom;
 
 typedef void(^DTLevelFetchedCallback)(DTRoom *newLevel, NSError *err);

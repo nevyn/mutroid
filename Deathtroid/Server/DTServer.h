@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 
 @class DTPhysics;
-@class DTWorld, DTRoom, DTEntity, DTMap, DTLevelRepository;
+@class DTWorld, DTRoom, DTEntity, DTMap;
 @class DTTraceResult;
 @class Vector2;
 
@@ -22,8 +22,6 @@
 @property (nonatomic,strong) DTPhysics *physics;
 
 @property (nonatomic,strong) NSMutableDictionary *rooms;
-
-@property (nonatomic,strong) DTLevelRepository *levelRepo;
 
 -(void)entityWasKilled:(DTEntity*)killed by:(DTEntity*)killer;
 
