@@ -102,6 +102,7 @@ static const int kMaxServerFramerate = 5;
         [rooms setObject:sroom forKey:sroom.uuid];
         
         sroom.world.server = self;
+        sroom.world.resources = resources;
         
         for(NSDictionary *entRep in sroom.initialEntityReps)
             [sroom createEntity:NSClassFromString([entRep objectForKey:@"class"]) setup:^(DTEntity *e) {
@@ -224,11 +225,7 @@ static const int kMaxServerFramerate = 5;
 }
 -(void)playerAction:(DTPlayer*)player shoot:(NSDictionary*)hash;
 {
-    [player.room createEntity:[DTEntityBullet class] setup:(EntCtor)^(DTEntityBullet *e) {
-        e.position = [MutableVector2 vectorWithVector2:player.entity.position];
-        e.moveDirection = e.lookDirection = player.entity.lookDirection;
-        e.owner = (DTEntityPlayer*)player.entity;
-    }];
+    [(DTEntityPlayer*)player.entity shoot];
 }
 
 #pragma mark Incoming player requests

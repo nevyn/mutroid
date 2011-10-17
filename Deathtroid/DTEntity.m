@@ -52,13 +52,16 @@
     
     return self;
 }
--(id)initWithRep:(NSDictionary*)rep;
+-(id)initWithRep:(NSDictionary*)rep world:(DTWorld*)world_ uuid:(NSString*)uuid_;
 {
     Class klass = NSClassFromString([rep objectForKey:@"class"]);
     if(klass && ![klass isEqual:[self class]])
         self = [klass alloc];
-    
-    return [[self init] updateFromRep:rep];
+    self.world = world_;
+    self.uuid = uuid_;
+    self = [self init];
+    if(rep) [self updateFromRep:rep];
+    return self;
 }
 
 -(id)updateFromRep:(NSDictionary*)rep;

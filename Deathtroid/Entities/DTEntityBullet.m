@@ -38,8 +38,7 @@
 
 -(void)didCollideWithWorld:(DTTraceResult *)info;
 {
-    if(self.world.server)
-        [$cast(DTServerRoom, self.world.room) destroyEntityKeyed:self.uuid];
+    [self.world.sroom destroyEntityKeyed:self.uuid];
 }
 
 @end

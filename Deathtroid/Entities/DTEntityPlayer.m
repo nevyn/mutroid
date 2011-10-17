@@ -10,6 +10,8 @@
 
 #import "Vector2.h"
 #import "DTWorld.h"
+#import "DTEntityBullet.h"
+#import "DTServerRoom.h"
 
 @implementation DTEntityPlayer {
     float   acceleration;
@@ -77,6 +79,14 @@
 	
     self.onGround = false;
     self.velocity.y = -15;
+}
+-(void)shoot;
+{
+    [self.world.sroom createEntity:[DTEntityBullet class] setup:(EntCtor)^(DTEntityBullet *e) {
+        e.position = [MutableVector2 vectorWithVector2:self.position];
+        e.moveDirection = e.lookDirection = self.lookDirection;
+        e.owner = self;
+    }];
 }
 
 -(BOOL)damage:(int)damage from:(Vector2*)damagerLocation killer:(DTEntity *)killer;

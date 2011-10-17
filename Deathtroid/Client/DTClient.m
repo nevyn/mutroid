@@ -209,9 +209,7 @@
     NSString *key = $notNull([hash objectForKey:@"uuid"]);
     NSDictionary *rep = $notNull([hash objectForKey:@"rep"]);
     
-    DTEntity *ent = [[DTEntity alloc] initWithRep:rep];
-    ent.uuid = key;
-    ent.world = room.world;
+    DTEntity *ent = [[DTEntity alloc] initWithRep:rep world:room.world uuid:key];
     
     [entityRenderer addEntity:ent];
     [room.entities setObject:ent forKey:key];
@@ -268,9 +266,7 @@
                 if(existing)
                     [existing updateFromRep:rep];
                 else {
-                    DTEntity *ent = [[DTEntity alloc] initWithRep:rep];
-                    ent.uuid = key;
-                    ent.world = room.world;
+                    DTEntity *ent = [[DTEntity alloc] initWithRep:rep world:room.world uuid:key];
                     [room.entities setObject:ent forKey:key];
                 }
             }

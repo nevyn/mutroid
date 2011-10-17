@@ -15,5 +15,6 @@
 -(void)tick:(double)delta;
 
 -(void)jump;
+-(void)shoot;
 
 @end

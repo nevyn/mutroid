@@ -45,10 +45,10 @@ typedef struct {
 
 
 @interface DTEntity : NSObject
--(id)init;
--(id)initWithRep:(NSDictionary*)rep;
--(id)updateFromRep:(NSDictionary*)rep;
--(NSDictionary*)rep;
+-(id)init; // overload, but don't call. Set up default state. 'world' and 'uuid' are set.
+-(id)initWithRep:(NSDictionary*)rep world:(DTWorld*)world uuid:(NSString*)uuid; // call, but don't overload
+-(id)updateFromRep:(NSDictionary*)rep; // overload, update with state from server
+-(NSDictionary*)rep; // overload, returning state the client wants from server
 
 -(void)didCollideWithWorld:(DTTraceResult*)info;
 

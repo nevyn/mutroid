@@ -23,10 +23,7 @@
 }
 -(id)createEntity:(Class)class setup:(EntCtor)setItUp;
 {
-    DTEntity *ent = [[class alloc] init];
-    ent.world = self.world;
-    
-    ent.uuid = [NSString dt_uuid];
+    DTEntity *ent = [[class alloc] initWithRep:nil world:self.world uuid:[NSString dt_uuid]];
     
     [self.entities setObject:ent forKey:ent.uuid];
     
