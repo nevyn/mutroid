@@ -18,121 +18,110 @@
 #import "DTAnimation.h"
 #import "DTEntityZoomer.h"
 
-@implementation DTRenderEntities
+@interface DTEntityGfxState : NSObject
+-(id)initWithEntity:(DTEntity*)ent;
+@property(nonatomic,strong) NSString *uuid;
+@property(nonatomic) uint64_t currentFrame;
+@property(nonatomic) NSTimeInterval secondsSinceLastFrame;
+@end
+@implementation DTEntityGfxState
+@synthesize uuid, currentFrame, secondsSinceLastFrame;
+-(id)initWithEntity:(DTEntity *)ent;
+{
+    if(!(self = [super init])) return nil;
+    self.uuid = ent.uuid;
+    return self;
+}
+@end
 
-@synthesize entities;
+@implementation DTRenderEntities {
+    NSMutableDictionary *gfxState;
+}
+
 @synthesize resources;
 
 - (id) init {
     
-    self = [super init];
-    if (self) {
-        self.entities = [NSMutableArray array];
-        self.resources = [[DTResourceManager alloc] initWithBaseURL:[[NSBundle mainBundle] URLForResource:@"resources" withExtension:nil]];
-    }
+    if(!(self = [super init])) return nil;
+
+    gfxState = [NSMutableDictionary dictionary];
+    self.resources = [[DTResourceManager alloc] initWithBaseURL:[[NSBundle mainBundle] URLForResource:@"resources" withExtension:nil]];
+    
     return self;
 }
 
-- (void) setEntitiesToDraw:(NSArray*)entities_ {
+-(DTEntityGfxState*)stateForEntity:(DTEntity*)entity;
+{
+    return [gfxState objectForKey:entity.uuid] ?: ({
+        id data = [[DTEntityGfxState alloc] initWithEntity:entity];
+        [gfxState setObject:data forKey:entity.uuid];
+        data;
+    });
+}
+- (void) tick:(float)delta forEntity:(DTEntity*)entity;
+{
+    DTEntityGfxState *entityData = [self stateForEntity:entity];
     
-    [entities removeAllObjects];
+    float secondsSinceLastFrame = entityData.secondsSinceLastFrame;
+    int fps = (int)[entity.animation framesPerSecondForAnimation:entity.currentState];
+    int frameCount = (int)[entity.animation frameCountForAnimation:entity.currentState];
     
-    for (DTEntity *entity in entities_)
-        [self addEntity:entity];
+    float timeBetweenFrames = 1.0/fps;
+    
+    if (secondsSinceLastFrame >= timeBetweenFrames) {
+        entityData.secondsSinceLastFrame = 0.;
+        entityData.currentFrame++;
+        if(entityData.currentFrame >= frameCount)
+            entityData.currentFrame = 0;
+    } else
+        entityData.secondsSinceLastFrame += delta;
 }
 
-- (void) addEntity:(DTEntity*)entity {
+- (void) drawEntity:(DTEntity*)entity camera:(DTCamera*)camera frameCount:(uint64_t)frameCount;
+{
+    DTEntityGfxState *entityData = [self stateForEntity:entity];
     
-    NSMutableDictionary *entityData = [NSMutableDictionary dictionary];
-    [entityData setObject:entity forKey:@"entity"];
-    [entityData setObject:[NSNumber numberWithInt:0] forKey:@"currentFrame"];
-    [entityData setObject:[NSNumber numberWithFloat:0.0] forKey:@"secondsSinceLastFrame"];
+    if([$castIf(DTEntityPlayer, entity) immune] && (frameCount/2)%2)
+        return;
     
-    [self.entities addObject:entityData];
-}
-
-- (void) removeEntity:(DTEntity *)entity {
-        
-    NSMutableDictionary *entityToRemove = nil;
+    [entity.animation.spriteMap.texture use];
+    DTSpriteMapFrame frame = [entity.animation frameAtIndex:entityData.currentFrame forAnimation:entity.currentState];
     
-    for (NSMutableDictionary *entityData in self.entities) {
-        if ([[entityData objectForKey:@"entity"] isEqual:entity]) {
-            entityToRemove = entityData;
-            break;
-        }
-    }
+    glPushMatrix();
+    glTranslatef(entity.position.x, entity.position.y, 0);
+    glTranslatef(entity.size.x/2, entity.size.y/2, 0);
+    glRotatef(entity.rotation, 0, 0, 1);
+    glTranslatef(-entity.size.x/2, -entity.size.y/2, 0);
+    glBegin(GL_QUADS);
     
-    if (entityToRemove != nil) [self.entities removeObject:entityToRemove];
-}
-
-- (void) tick:(float)delta {
-    
-    for(NSMutableDictionary *entityData in self.entities) {
-        
-        DTEntity *entity = [entityData objectForKey:@"entity"];
-        
-        float secondsSinceLastFrame = [[entityData objectForKey:@"secondsSinceLastFrame"] floatValue];
-        int fps = (int)[entity.animation framesPerSecondForAnimation:entity.currentState];
-        int frameCount = (int)[entity.animation frameCountForAnimation:entity.currentState];
-        
-        float timeBetweenFrames = 1.0/fps;
-        
-        if (secondsSinceLastFrame >= timeBetweenFrames) {
-            [entityData setObject:[NSNumber numberWithFloat:0.0] forKey:@"secondsSinceLastFrame"];
-            int currentFrame = [[entityData objectForKey:@"currentFrame"] intValue];
-            currentFrame++;
-            if (currentFrame >= frameCount) currentFrame = 0;
-            [entityData setObject:[NSNumber numberWithInt:currentFrame] forKey:@"currentFrame"];
-        }
-        else {
-            [entityData setObject:[NSNumber numberWithFloat:secondsSinceLastFrame+delta] forKey:@"secondsSinceLastFrame"];
-        }
-    }
-    
-}
-
-- (void) draw:(DTCamera*)camera frameCount:(uint64_t)frameCount {
-	
-    glTranslatef(-camera.position.x, -camera.position.y, 0);
-    
-    for(NSMutableDictionary *entityData in self.entities) {
-        
-        DTEntity *entity = [entityData objectForKey:@"entity"];
-        
-		if([$castIf(DTEntityPlayer, entity) immune] && (frameCount/2)%2)
-			continue;
-		
-        [entity.animation.spriteMap.texture use];
-        DTSpriteMapFrame frame = [entity.animation frameAtIndex:[[entityData objectForKey:@"currentFrame"] intValue] forAnimation:entity.currentState];
-        
-        glPushMatrix();
-        glTranslatef(entity.position.x, entity.position.y, 0);
-        glTranslatef(entity.size.x/2, entity.size.y/2, 0);
-        glRotatef(entity.rotation, 0, 0, 1);
-        glTranslatef(-entity.size.x/2, -entity.size.y/2, 0);
-        glBegin(GL_QUADS);
-        
 //      if(entity.damageFlashTimer > 0)
 //          DO SOMETHING HERE!?!?
 //      }
-        
-		glColor3f(1., 1., 1.);
-        glTexCoord2fv(&frame.coords[0]); glVertex3f(entity.size.x, 0., 0.);
-        glTexCoord2fv(&frame.coords[2]); glVertex3f(entity.size.x, entity.size.y, 0.);
-        glTexCoord2fv(&frame.coords[4]); glVertex3f(0., entity.size.y, 0);
-        glTexCoord2fv(&frame.coords[6]); glVertex3f(0., 0., 0.);
-        glEnd();
-        glColor3f(0,0,1.);
-        glBegin(GL_POINTS);
-        if(entity.lookDirection == EntityDirectionLeft)
-            glVertex3f(0, entity.size.y/3, 0);
-        else if(entity.lookDirection == EntityDirectionRight)
-            glVertex3f(entity.size.x, entity.size.y/3, 0);
-        glEnd();
-        glPopMatrix();
-    }
-
     
+    glColor3f(1., 1., 1.);
+    glTexCoord2fv(&frame.coords[0]); glVertex3f(entity.size.x, 0., 0.);
+    glTexCoord2fv(&frame.coords[2]); glVertex3f(entity.size.x, entity.size.y, 0.);
+    glTexCoord2fv(&frame.coords[4]); glVertex3f(0., entity.size.y, 0);
+    glTexCoord2fv(&frame.coords[6]); glVertex3f(0., 0., 0.);
+    glEnd();
+    glColor3f(0,0,1.);
+    glBegin(GL_POINTS);
+    if(entity.lookDirection == EntityDirectionLeft)
+        glVertex3f(0, entity.size.y/3, 0);
+    else if(entity.lookDirection == EntityDirectionRight)
+        glVertex3f(entity.size.x, entity.size.y/3, 0);
+    glEnd();
+    glPopMatrix();
+    
+}
+
+- (void) deleteGfxStateForEntity:(DTEntity*)entity;
+{
+    [gfxState removeObjectForKey:entity.uuid];
+}
+- (void) emptyGfxState;
+{
+    [gfxState removeAllObjects];
 }
 
 @end

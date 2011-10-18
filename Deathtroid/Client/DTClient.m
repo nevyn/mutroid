@@ -127,7 +127,8 @@
         
     if(self.healthCallback) self.healthCallback(followThis.maxHealth, followThis.health);
     
-    [entityRenderer tick:delta];
+    for(DTEntity *entity in currentRoom.entities.allValues)
+        [entityRenderer tick:delta forEntity:entity];
 }
 
 -(void)draw;
@@ -143,7 +144,9 @@
     	
     //glDisable(GL_TEXTURE_2D);
 	
-    [entityRenderer draw:camera frameCount:frameCount];
+    glTranslatef(-camera.position.x, -camera.position.y, 0);
+    for(DTEntity *entity in currentRoom.entities.allValues)
+        [entityRenderer drawEntity:entity camera:camera frameCount:frameCount];
 }
 
 
@@ -217,7 +220,6 @@
     
     DTEntity *ent = [[DTEntity alloc] initWithRep:rep world:room.world uuid:key];
     
-    [entityRenderer addEntity:ent];
     [room.entities setObject:ent forKey:key];
 }
 -(void)command:(id)proto removeEntity:(NSDictionary*)hash;
@@ -227,7 +229,7 @@
     DTRoom *room = [rooms objectForKey:roomName];
     if(!room) return;
     
-    [entityRenderer removeEntity:[room.entities objectForKey:key]];
+    [entityRenderer deleteGfxStateForEntity:[room.entities objectForKey:key]];
     [room.entities removeObjectForKey:key];
 }
 
@@ -257,7 +259,7 @@
     NSString *uuid = $notNull([hash objectForKey:@"uuid"]);
     
     currentRoom = nil;
-    [entityRenderer setEntitiesToDraw:[NSArray array]];
+    [entityRenderer emptyGfxState];
     
     __block DTRoom *room = [rooms objectForKey:uuid];
     void(^then)() = ^ {
@@ -280,8 +282,6 @@
             NSMutableSet *toDelete = [NSMutableSet setWithArray:[room.entities allKeys]];
             [toDelete minusSet:[NSSet setWithArray:reps.allKeys]];
             for(NSArray *key in toDelete) [room.entities removeObjectForKey:key];
-            
-            [entityRenderer setEntitiesToDraw:room.entities.allValues];
         
             responder($dict(@"status", @"done"));        
         }];

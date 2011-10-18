@@ -13,14 +13,11 @@
 @class DTEntity;
 
 @interface DTRenderEntities : NSObject
-
-@property (nonatomic, retain) NSMutableArray *entities;
 @property (nonatomic, retain) DTResourceManager *resources;
 
-- (void) setEntitiesToDraw:(NSArray*)entities_;
-- (void) addEntity:(DTEntity*)entity;
-- (void) removeEntity:(DTEntity*)entity;
-- (void) tick:(float)delta;
-- (void) draw:(DTCamera*)camera frameCount:(uint64_t)frameCount;
+- (void) tick:(float)delta forEntity:(DTEntity*)entity;
+- (void) drawEntity:(DTEntity*)entity camera:(DTCamera*)camera frameCount:(uint64_t)frameCount;
 
+- (void) deleteGfxStateForEntity:(DTEntity*)entity;
+- (void) emptyGfxState;
 @end
