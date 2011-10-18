@@ -17,9 +17,7 @@
 #import "DTResourceManager.h"
 
 
-@implementation DTEntityBullet {
-    FISound *_shootVoice;
-}
+@implementation DTEntityBullet
 @synthesize owner;
 
 -(id)init;
@@ -30,9 +28,7 @@
     self.size.x = self.size.y = 0.4;
     
     if(!self.world.server) {
-        DTSound *snd = [self.world.resources resourceNamed:@"baseshot.sound"];
-        _shootVoice = [snd newVoice];
-        [_shootVoice play];
+        [[(DTSound*)[self.world.resources resourceNamed:@"baseshot.sound"] newVoice] playUntilFinished];
     }
     
     
