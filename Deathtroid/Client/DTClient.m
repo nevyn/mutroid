@@ -28,6 +28,8 @@
 #import "DTRenderTilemap.h"
 
 #import "FISoundEngine.h"
+#import <OpenAL/al.h>
+#import <OpenAL/alc.h>
 
 @interface DTClient () <TCAsyncHashProtocolDelegate>
 @property (nonatomic, strong) DTResourceManager *resources;
@@ -114,7 +116,9 @@
 -(void)tick:(double)delta;
 {
     // Ticka de som ska tickas?
+    
     camera.position.x = followThis.position.x - 10;
+    finch.listenerPosition = [FIVector vectorWithX:camera.position.x+10 Y:camera.position.y+7.5 Z:1];
     
     for(DTLayer *layer in currentRoom.layers)
         [layer tick:delta];

@@ -16,6 +16,7 @@
 #import "DTSpriteMap.h"
 #import "DTResourceManager.h"
 #import "DTAnimation.h"
+#import "DTSound.h"
 
 @implementation DTEntity
 
@@ -139,6 +140,15 @@
 {
 	NSLog(@"Unhandled counterpart message: %@", hash);
 }
+
+-(FISound*)makeVoice:(NSString*)soundName;
+{
+    DTSound *resource = [self.world.resources resourceNamed:$sprintf(@"%@.sound",soundName)];
+    FISound *voice = [resource newVoice];
+    voice.position = [FIVector vectorWithX:self.position.x Y:self.position.y Z:0];
+    return voice;
+}
+
 
 -(NSString*)description;
 {

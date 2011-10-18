@@ -14,6 +14,7 @@
 @class DTTraceResult;
 @class DTSpriteMap;
 @class DTAnimation;
+#import "FISound.h"
 
 #define $doif(key, then) ({id o = [rep objectForKey:key]; if(o) { then; } });
 
@@ -59,6 +60,8 @@ typedef struct {
 
 -(void)sendToCounterpart:(NSDictionary*)hash; // from server, send to all clients' counterpart entities
 -(void)receivedFromCounterpart:(NSDictionary*)hash; // override this
+
+-(FISound*)makeVoice:(NSString*)soundName; // bound to entity's location
 
 @property (nonatomic) int health;
 @property (nonatomic) int maxHealth;

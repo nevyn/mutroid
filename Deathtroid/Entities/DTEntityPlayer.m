@@ -99,6 +99,10 @@
 	float strength = damage*2;
 	self.velocity = [MutableVector2 vectorWithX:damagerLocation.x < self.position.x ? strength : -strength y:5];
 	self.onGround = NO;
+    
+    if(!self.world.server)
+        [[self makeVoice:@"injured"] playUntilFinished];
+
 	
 	return YES;
 }

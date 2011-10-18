@@ -17,7 +17,7 @@
 #import "DTResourceManager.h"
 
 
-@implementation DTEntityBullet
+@implementation DTEntityBullet { BOOL playedSound; }
 @synthesize owner;
 
 -(id)init;
@@ -26,11 +26,7 @@
     
     self.gravity = false;
     self.size.x = self.size.y = 0.4;
-    
-    if(!self.world.server) {
-        [[(DTSound*)[self.world.resources resourceNamed:@"baseshot.sound"] newVoice] playUntilFinished];
-    }
-    
+        
     
     return self;
 }
@@ -38,6 +34,12 @@
 -(void)tick:(double)delta;
 {
     [super tick:delta];
+    
+    if(!playedSound && !self.world.server) {
+        [[self makeVoice:@"baseshot"] playUntilFinished];
+        playedSound = YES;
+    }
+
     
     if(self.moveDirection == EntityDirectionLeft) self.velocity.x = -10;
     else self.velocity.x = 10;
