@@ -58,12 +58,12 @@
 -(void)tick:(double)delta;
 {
     [super tick:delta];
-    
+        
     self.deltaCounter += delta;
     
     Vector2 *move = [self.velocity vectorByMultiplyingWithScalar:delta];
     
-    if ([self reachedTarget:move]) return;
+    if (self.world.server && [self reachedTarget:move]) return;
 
     Vector2 *from = [self getStartVectorWithOffset:YES moveVector:move];
     Vector2 *to = [self getEndVectorWithOffset:YES moveVector:move];
@@ -246,7 +246,7 @@
 }
 
 - (void) updateRotation {
-    if(self.world.server) return;
+    //if(self.world.server) return;
     
     if (self.orientation.y > 0) self.rotation = 0.0;
     else if (self.orientation.x < 0) self.rotation = 90.0;
@@ -259,13 +259,16 @@
 {
     [super updateFromRep:rep];
     $doif(@"crawlPosition", crawlPosition = [o intValue]);
+    $doif(@"orientation", orientation = [[MutableVector2 alloc] initWithRep:o]);
+
     return self;
 }
        
 -(NSDictionary*)rep;
 {
     NSMutableDictionary *rep = $mdict(
-      @"crawlPosition", $num(crawlPosition)
+      @"crawlPosition", $num(crawlPosition),
+      @"orientation", [orientation rep]
     );
     [rep addEntriesFromDictionary:[super rep]];
     return rep;

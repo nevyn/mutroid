@@ -79,6 +79,7 @@
     $doif(@"moveDirection", moveDirection = [o intValue]);
     $doif(@"lookDirection", lookDirection = [o intValue]);
     $doif(@"collisionType", collisionType = [o intValue]);
+    $doif(@"rotation", rotation = [o floatValue]);
     
     return self;
 }
@@ -99,7 +100,8 @@
         
         @"moveDirection", $num(moveDirection),
         @"lookDirection", $num(lookDirection),
-        @"collisionType", $num(collisionType)
+        @"collisionType", $num(collisionType),
+        @"rotation", $num(rotation)
     );
     
     return rep;
