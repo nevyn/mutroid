@@ -8,3 +8,6 @@
 	path = Vendor/Finch
 	url = git://github.com/nevyn/Finch.git
 
+[submodule "Vendor/SCEvents"]
+	path = Vendor/SCEvents
+	url = https://github.com/mz2/SCEvents.git
