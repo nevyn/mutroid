@@ -55,16 +55,17 @@
 	[DTResourceManager registerResourceLoader:self withTypeName:@"image"];
 }
 
--(id<DTResource>)loadResourceAtURL:(NSURL *)url usingManager:(DTResourceManager *)manager;
+- (id<DTResource>)createResourceWithManager:(DTResourceManager *)manager
 {
-	[super loadResourceAtURL:url usingManager:manager];
-	
+    return [[DTImage alloc] initWithResourceId:self.path.dt_resourceId];
+}
+
+-(void)loadResource:(DTImage *)image usingManager:(DTResourceManager *)manager error:(NSError *__autoreleasing *)error
+{
 	NSString *imagePath = [self.definition objectForKey:@"file"];
-	NSURL *imageURL = [NSURL URLWithString:imagePath relativeToURL:url];
+	NSURL *imageURL = [manager absolutePathForFileName:imagePath];
 	
-	DTImage *image = [[DTImage alloc] initWithResourceId:url.dt_resourceId];
 	[image loadFromURL:imageURL];
-	return image;
 }
 
 @end

@@ -87,14 +87,16 @@
 	[DTResourceManager registerResourceLoader:self withTypeName:@"room"];
 }
 
--(id<DTResource>)loadResourceAtURL:(NSURL *)url usingManager:(DTResourceManager *)manager;
+- (id<DTResource>)createResourceWithManager:(DTResourceManager *)manager
 {
-	[super loadResourceAtURL:url usingManager:manager];
 	Class klass = manager.isServerSide ? NSClassFromString(@"DTServerRoom") : [DTRoom class];
 	
-	DTRoom *room = [[klass alloc] initWithPath:url resourceId:url.dt_resourceId];
-	
-	return room;
+	return [[klass alloc] initWithPath:self.path resourceId:self.path.dt_resourceId];
+}
+
+- (void)loadResource:(DTRoom *)room usingManager:(DTResourceManager *)manager error:(NSError *__autoreleasing *)error
+{
+    
 }
 
 @end

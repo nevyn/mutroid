@@ -47,20 +47,20 @@
 	[DTResourceManager registerResourceLoader:self withTypeName:@"program"];
 }
 
--(id<DTResource>)loadResourceAtURL:(NSURL *)url usingManager:(DTResourceManager *)manager;
+- (id<DTResource>)createResourceWithManager:(DTResourceManager *)manager
 {
-	[super loadResourceAtURL:url usingManager:manager];
-    
-    DTProgram *prg = [[DTProgram alloc] initWithResourceId:url.dt_resourceId];
-    
+    return [[DTProgram alloc] initWithResourceId:self.path.dt_resourceId];
+}
+
+- (void)loadResource:(DTProgram *)prog usingManager:(DTResourceManager *)manager error:(NSError *__autoreleasing *)error
+{
     NSArray *shaderNames = [self.definition objectForKey:@"shaders"];
     NSMutableArray *shaders = [NSMutableArray array];
     for(NSString *name in shaderNames) {
         [shaders addObject:[manager resourceNamed:name]];
     }
     
-    [prg loadWithShaders:shaders];
-    
-	return prg;
+    [prog loadWithShaders:shaders];
 }
+
 @end

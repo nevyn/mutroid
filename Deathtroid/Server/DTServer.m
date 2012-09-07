@@ -23,7 +23,7 @@
 #if DUMB_CLIENT
 static const int kMaxServerFramerate = 60;
 #else
-static const int kMaxServerFramerate = 5;
+static const int kMaxServerFramerate = 10;
 #endif
 
 @interface DTServer () <DTServerRoomDelegate>

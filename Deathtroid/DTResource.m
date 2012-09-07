@@ -33,23 +33,42 @@
 
 @interface DTResourceLoader ()
 @property (nonatomic, strong) NSDictionary *definition;
+@property (nonatomic, strong) NSURL *path;
 @end
 
 @implementation DTResourceLoader
 @synthesize definition;
+@synthesize path;
 
-/// Must be overridden
+- (id<DTResource>)createResourceWithManager:(DTResourceManager *)manager
+{
+    [NSException raise:@"Resource" format:@"%@ needs to override %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd)];
+    return nil;
+}
+
+- (void)loadResource:(id<DTResource>)resource usingManager:(DTResourceManager *)manager error:(NSError **)error
+{
+    [NSException raise:@"Resource" format:@"Need to override %@", NSStringFromSelector(_cmd)];
+}
+
 -(id<DTResource>)loadResourceAtURL:(NSURL *)url usingManager:(DTResourceManager *)manager;
 {
+    self.path = url;
 	//Load definition file
 	NSData *data = [NSData dataWithContentsOfURL:url];
-	NSError *error = nil;
-	NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
-	if(error){
-		NSLog(@"Error: %@", error);
-		[NSException raise:NSInvalidArgumentException format:@"%@", error];
+	NSError *jsonError = nil;
+	NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonError];
+	if(jsonError){
+		NSLog(@"Error: %@", jsonError);
+		[NSException raise:NSInvalidArgumentException format:@"%@", jsonError];
 	}
 	self.definition = dict;
-	return nil;
+    
+    id<DTResource> resource = [self createResourceWithManager:manager];
+    
+    NSError *error = nil;
+    [self loadResource:resource usingManager:manager error:&error];
+    
+	return resource;
 }
 @end

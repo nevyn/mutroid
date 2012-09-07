@@ -68,18 +68,23 @@
 	[DTResourceManager registerResourceLoader:self withTypeName:@"spritemap"];
 }
 
--(id<DTResource>)loadResourceAtURL:(NSURL *)url usingManager:(DTResourceManager *)manager
+- (id<DTResource>)createResourceWithManager:(DTResourceManager *)manager
 {
-	[super loadResourceAtURL:url usingManager:manager];
+    return [[DTSpriteMap alloc] initWithResourceId:self.path.dt_resourceId];
+}
+
+- (void)loadResource:(DTSpriteMap *)map usingManager:(DTResourceManager *)manager error:(NSError *__autoreleasing *)error
+{
 	NSArray *sizes = [self.definition objectForKey:@"frameSize"];
 	CGSize frameSize = CGSizeMake([[sizes objectAtIndex:0] floatValue], [[sizes objectAtIndex:1] floatValue]);
     NSString* numFrames = [self.definition objectForKey:@"frameCount"];
-
+    
 	DTTexture *texture = [manager textureNamed:[self.definition objectForKey:@"texture"]];
-	
-	DTSpriteMap *spritemap = [[DTSpriteMap alloc] initWithResourceId:url.dt_resourceId Texture:texture frameSize:frameSize frameCount:[numFrames intValue]];
-	    
-	return spritemap;
+    
+    map.texture = texture;
+    map.frameSize = frameSize;
+    map.frameCount = [numFrames intValue];
+    map.imageSize = texture.pixelSize;
 }
 
 @end

@@ -34,5 +34,9 @@
 @interface DTResourceLoader : NSObject <DTResourceLoader>
 
 @property (nonatomic, strong, readonly) NSDictionary *definition;
+@property (nonatomic, strong, readonly) NSURL *path;
 -(id<DTResource>)loadResourceAtURL:(NSURL *)url usingManager:(DTResourceManager *)manager;
+
+- (id<DTResource>)createResourceWithManager:(DTResourceManager *)manager;
+- (void)loadResource:(id<DTResource>)resource usingManager:(DTResourceManager *)manager error:(NSError **)error;
 @end

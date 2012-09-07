@@ -53,10 +53,30 @@ static NSMutableDictionary *resourceLoaders = nil;
 	return self;
 }
 
+- (NSURL *)absolutePathForFileName:(NSString *)filename
+{
+	NSFileManager *fm = [NSFileManager defaultManager];
+	NSArray *props = @[NSURLNameKey, NSURLIsDirectoryKey];
+	NSDirectoryEnumerator *dirEnumerator = [fm enumeratorAtURL:self.pathURL includingPropertiesForKeys:props options:NSDirectoryEnumerationSkipsHiddenFiles errorHandler:nil];
+	
+	for(NSURL *url in dirEnumerator){
+		NSNumber *isDirectory;
+		
+		[url getResourceValue:&isDirectory forKey:NSURLIsDirectoryKey error:NULL];
+        
+        if ([isDirectory boolValue])
+            continue;
+        
+        if ([[url lastPathComponent] isEqualToString:filename])
+            return url;
+	}
+    return nil;
+}
+
 -(NSURL *)pathForResourceId:(NSString *)resource_id
 {
 	if(!resource_id.dt_isValidResourceIdentifier){
-		[NSException raise:@"Invalid resource id: '%@'. Resources identifiers must have the format '[name].[type].resource'." format:resource_id];
+		[NSException raise:@"Resource" format:@"Invalid resource id: '%@'. Resources identifiers must have the format '[name].[type].resource'.", resource_id];
 	}
 	NSFileManager *fm = [NSFileManager defaultManager];
 	NSArray *props = @[NSURLNameKey, NSURLIsDirectoryKey, NSURLContentModificationDateKey];
@@ -66,8 +86,6 @@ static NSMutableDictionary *resourceLoaders = nil;
 		NSNumber *isDirectory;
 		
 		[url getResourceValue:&isDirectory forKey:NSURLIsDirectoryKey error:NULL];
-		
-//		if(![isDirectory boolValue]) continue;
 		
 		if([[url pathExtension] isEqualToString:@"resource"]){
 			NSString *this_id = [url lastPathComponent];

@@ -62,6 +62,25 @@
 	[DTResourceManager registerResourceLoader:self withTypeName:@"animation"];
 }
 
+- (id<DTResource>)createResourceWithManager:(DTResourceManager *)manager
+{
+    return [[DTAnimation alloc] initWithResourceId:self.path.dt_resourceId];
+}
+
+- (void)loadResource:(DTAnimation *)anim usingManager:(DTResourceManager *)manager error:(NSError *__autoreleasing *)error
+{
+    DTSpriteMap *spriteMap = [manager spriteMapNamed:[self.definition objectForKey:@"spriteMap"]];
+    
+    NSMutableDictionary *animations = [NSMutableDictionary dictionary];
+    NSArray *listOfAnimations = [self.definition objectForKey:@"animations"];
+    for (NSDictionary *animation in listOfAnimations) {
+        [animations setObject:[animation objectForKey:@"data"] forKey:(NSString*)[animation objectForKey:@"name"]];
+    }
+    
+    anim.spriteMap = spriteMap;
+    anim.animations = animations;
+}
+
 -(id<DTResource>)loadResourceAtURL:(NSURL *)url usingManager:(DTResourceManager *)manager
 {
 	[super loadResourceAtURL:url usingManager:manager];

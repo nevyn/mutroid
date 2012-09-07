@@ -73,19 +73,19 @@
 	[DTResourceManager registerResourceLoader:self withTypeName:@"texture"];
 }
 
--(id<DTResource>)loadResourceAtURL:(NSURL *)url usingManager:(DTResourceManager *)manager;
+- (id<DTResource>)createResourceWithManager:(DTResourceManager *)manager
 {
-	[super loadResourceAtURL:url usingManager:manager];
-	
-	DTTexture *tex = [[DTTexture alloc] initWithResourceId:url.dt_resourceId];
-	
-	NSString *imageName = [self.definition objectForKey:@"image"];
+    return [[DTTexture alloc] initWithResourceId:self.path.dt_resourceId];
+}
+
+- (void)loadResource:(DTTexture *)tex usingManager:(DTResourceManager *)manager error:(NSError **)error
+{
+    NSString *imageName = [self.definition objectForKey:@"image"];
 	DTImage *image = [manager imageNamed:imageName];
 	
 	[tex loadWithImage:image];
-	
-	return tex;
 }
+
 @end
 
 
