@@ -1,9 +1,10 @@
 [submodule "Vendor/cocoaasyncsocket"]
 	path = Vendor/cocoaasyncsocket
-	url = https://code.google.com/p/cocoaasyncsocket
+	url = https://github.com/robbiehanson/CocoaAsyncSocket.git
 [submodule "Vendor/SPSuccinct"]
 	path = Vendor/SPSuccinct
 	url = git://github.com/nevyn/SPSuccinct.git
 [submodule "Vendor/Finch"]
 	path = Vendor/Finch
 	url = git://github.com/nevyn/Finch.git
+
