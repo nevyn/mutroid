@@ -15,7 +15,7 @@
 		0554598D1441383400E94DB2 /* DTServerRoom.m in Sources */ = {isa = PBXBuildFile; fileRef = 0554598C1441383400E94DB2 /* DTServerRoom.m */; };
 		055459A81441659000E94DB2 /* DTEntityDoor.m in Sources */ = {isa = PBXBuildFile; fileRef = 055459A71441659000E94DB2 /* DTEntityDoor.m */; };
 		055459AC1441DC3500E94DB2 /* BlackBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 055459AB1441DC3400E94DB2 /* BlackBackgroundView.m */; };
-		0587E522143F8DB200EA9CBF /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 0587E521143F8DB200EA9CBF /* AsyncSocket.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0587E522143F8DB200EA9CBF /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 0587E521143F8DB200EA9CBF /* AsyncSocket.m */; };
 		0587E525143F8FB200EA9CBF /* DTConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0587E524143F8FB200EA9CBF /* DTConstants.m */; };
 		05C35705143F9F53001FE29E /* TCAsyncHashProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 05C35704143F9F53001FE29E /* TCAsyncHashProtocol.m */; };
 		05CC7B77143FC4BB00052D06 /* SPDepends.m in Sources */ = {isa = PBXBuildFile; fileRef = 05CC7B6F143FC4BB00052D06 /* SPDepends.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -487,7 +487,6 @@
 		D8B0571D143FA0D1002CE09B /* Server */ = {
 			isa = PBXGroup;
 			children = (
-				D8B05722143FA20F002CE09B /* DTPlayer.h */,
 				D8B05723143FA20F002CE09B /* DTPlayer.m */,
 				D8B05724143FA20F002CE09B /* DTServer.h */,
 				D8B05725143FA20F002CE09B /* DTServer.m */,
@@ -510,6 +509,7 @@
 				3809AC321444E57500B0C9AF /* DTRenderEntities.m */,
 				05F49DF91449FB4600974FF9 /* DTRenderTilemap.h */,
 				05F49DFA1449FB4600974FF9 /* DTRenderTilemap.m */,
+				D8B05722143FA20F002CE09B /* DTPlayer.h */,
 			);
 			name = Client;
 			sourceTree = "<group>";

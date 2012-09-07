@@ -154,7 +154,7 @@
 
 -(NSString*)description;
 {
-    return $sprintf(@"<%@ %@/0x%x in %@>", NSStringFromClass([self class]), self.uuid, self, self.world.room);
+    return $sprintf(@"<%@ %@/0x%p in %@>", NSStringFromClass([self class]), self.uuid, self, self.world.room);
 }
 -(NSString*)typeName;
 {
