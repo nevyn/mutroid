@@ -233,8 +233,11 @@
     DTRoom *room = [rooms objectForKey:roomName];
     if(!room) return;
     
-    [entityRenderer deleteGfxStateForEntity:[room.entities objectForKey:key]];
-    [room.entities removeObjectForKey:key];
+    DTEntity *entity = [room.entities objectForKey:key];
+    if (entity) {
+        [entityRenderer deleteGfxStateForEntity:entity];
+        [room.entities removeObjectForKey:key];
+    }
 }
 
 #pragma mark about this player
