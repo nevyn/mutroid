@@ -30,7 +30,9 @@ typedef void(^CollisionAction)(DTEntity*,DTEntity*);
 @interface DTPhysics : NSObject
 
 -(void)runWithEntities:(NSArray*)entities world:(DTWorld*)world delta:(double)delta;
--(void)moveEntity:(DTEntity*)entity world:(DTWorld*)world delta:(double)delta;
+
+-(void)moveEntityGround:(DTEntity*)entity world:(DTWorld*)world delta:(double)delta;
+-(void)moveEntityAir:(DTEntity*)entity world:(DTWorld*)world delta:(double)delta;
 
 @property (nonatomic,strong) NSMutableArray *pairs;
 

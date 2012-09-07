@@ -1,0 +1,3 @@
+{
+  "image":"brinstarredbg.image"
+}

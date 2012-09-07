@@ -18,6 +18,27 @@
 #import "DTAnimation.h"
 #import "DTSound.h"
 
+@implementation DTBBox
+@synthesize min, max;
+-(id)initWithMin:(MutableVector2*)_min max:(MutableVector2*)_max; {
+    if(!(self = [super init])) return nil;
+    min = _min;
+    max = _max;
+    return self;
+}
+-(id)initWithRep:(NSDictionary*)rep; {
+    NSDictionary *minRep = [rep objectForKey:@"min"];
+    NSDictionary *maxRep = [rep objectForKey:@"max"];
+    MutableVector2 *_min = [MutableVector2 vectorWithX:[[minRep objectForKey:@"x"] floatValue] y:[[minRep objectForKey:@"y"] floatValue]];
+    MutableVector2 *_max = [MutableVector2 vectorWithX:[[maxRep objectForKey:@"x"] floatValue] y:[[maxRep objectForKey:@"y"] floatValue]];
+    return [self initWithMin:_min max:_max];
+}
+-(NSDictionary*)rep;
+{
+    return $dict(@"min", [min rep], @"max", [max rep]);
+}
+@end
+
 @implementation DTEntity
 
 @synthesize world, uuid;
@@ -32,13 +53,13 @@
         
     _position = [MutableVector2 vectorWithX:5 y:1];
     _velocity = [MutableVector2 vectorWithX:0 y:0];
-    _size = [MutableVector2 vectorWithX:0.8 y:1.75];
+    _size = [[DTBBox alloc] initWithMin:[MutableVector2 vectorWithX:-0.4 y:-0.875] max:[MutableVector2 vectorWithX:0.4 y:0.875]];
     
     _collisionType = EntityCollisionTypeStop;
     _gravity = true;
     _moving = false;
     _onGround = false;
-    
+
     _moveDirection = EntityDirectionRight;
     _lookDirection = EntityDirectionRight;
     
@@ -66,7 +87,7 @@
 {
     $doif(@"position", _position = [[MutableVector2 alloc] initWithRep:o]);
     $doif(@"velocity", _velocity = [[MutableVector2 alloc] initWithRep:o]);
-    $doif(@"size", _size = [[MutableVector2 alloc] initWithRep:o]);
+    $doif(@"size", _size = [[DTBBox alloc] initWithRep:o]);
     
     $doif(@"gravity", _gravity = [o boolValue]);
     $doif(@"moving", _moving = [o boolValue]);

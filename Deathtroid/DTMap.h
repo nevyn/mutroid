@@ -16,12 +16,13 @@
 
 @interface DTMap : NSObject {
 	int		*tiles;
+    int     *attr;
 	
 	// In tiles
 	int		width, height;
 }
 
-@property (nonatomic,assign) int *tiles;
+@property (nonatomic,assign) int *tiles, *attr;
 @property (nonatomic,assign) int width, height;
 
 -(id)initWithRep:(NSDictionary*)rep;

@@ -26,8 +26,10 @@
 {
     if(!(self = [super init])) return nil;
         
-    self.size.x = 1;
-    self.size.y = 1;
+    self.size.min.x = -0.5;
+    self.size.min.y = -0.5;
+    self.size.max.x = 0.5;
+    self.size.max.y = 0.5;
     self.maxHealth = self.health = 2;
     
     self.gravity = NO;

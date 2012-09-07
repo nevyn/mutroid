@@ -5,7 +5,7 @@ uniform vec4 cycleDestColor;
 void main()
 {
     // Shouldn't be needing this... hmm..
-    float eps = 0.1;
+    float eps = 0.01;
 
     gl_FragColor = texture2D(tex, gl_TexCoord[0].st);
     if(gl_FragColor.r > cycleSourceColor.r-eps && gl_FragColor.r < cycleSourceColor.r+eps &&

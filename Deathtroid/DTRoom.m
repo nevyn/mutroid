@@ -8,6 +8,7 @@
 
 #import "DTRoom.h"
 #import "DTLayer.h"
+#import "DTMap.h"
 #import "DTWorld.h"
 
 @interface DTRoom ()
@@ -17,7 +18,7 @@
 @implementation DTRoom
 
 @synthesize layers = _layers;
-@synthesize entityLayerIndex;
+@synthesize collisionLayer;
 @synthesize name = _name;
 @synthesize initialEntityReps;
 @synthesize uuid;
@@ -46,9 +47,10 @@
     NSArray *layerReps = $notNull([rep objectForKey:@"layers"]);
 	for(NSDictionary *layerRep in layerReps)
         [_layers addObject:[[DTLayer alloc] initWithRep:layerRep]];
-    
-    entityLayerIndex = _layers.count-1;
-    
+        
+    NSDictionary *collisionRep = $notNull([rep objectForKey:@"collision"]);
+    collisionLayer = [[DTMap alloc] initWithRep:collisionRep];
+        
     initialEntityReps = [rep objectForKey:@"entities"];
     
     world = [[DTWorld alloc] initWithRoom:self];

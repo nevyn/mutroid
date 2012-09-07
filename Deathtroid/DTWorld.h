@@ -8,14 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
-@class DTMap, DTRoom, Vector2, DTEntity, DTServer, DTServerRoom, DTResourceManager;
+@class DTMap, DTRoom, Vector2, DTEntity, DTServer, DTServerRoom, DTResourceManager, DTBBox;
 
 @interface DTTraceResult : NSObject
--(id)initWithX:(BOOL)_x y:(BOOL)_y entity:(DTEntity*)_entity collisionPosition:(Vector2*)colPos velocity:(Vector2*)_velocity;
+-(id)initWithX:(BOOL)_x y:(BOOL)_y slope:(BOOL)_slope collisionPosition:(Vector2*)colPos entity:(DTEntity*)_entity velocity:(Vector2*)_velocity;
 @property (nonatomic) BOOL x, y;
 @property (nonatomic,strong) DTEntity *entity;
 @property (nonatomic,strong) Vector2 *collisionPosition;
 @property (nonatomic,strong) Vector2 *velocity;   // Entity's velocity at impact
+@property (nonatomic) BOOL slope;
 @end
 
 
@@ -23,9 +24,9 @@
 
 -(id)initWithRoom:(DTRoom*)_room;
 
--(DTTraceResult*)traceBox:(Vector2*)box from:(Vector2*)from to:(Vector2*)to exclude:(DTEntity*)exclude ignoreEntities:(BOOL)ignore;
--(DTTraceResult*)traceBox:(Vector2*)box from:(Vector2*)from to:(Vector2*)to exclude:(DTEntity*)exclude ignoreEntities:(BOOL)ignore inverted:(BOOL)inverted;
--(DTTraceResult*)traceBoxStep:(Vector2*)position size:(Vector2*)size vx:(float)vx vy:(float)vy map:(DTMap*)map exclude:(DTEntity*)exclude ignore:(BOOL)ignore inverted:(BOOL)inverted;
+-(DTTraceResult*)traceBox:(DTBBox*)box from:(Vector2*)from to:(Vector2*)to exclude:(DTEntity*)exclude ignoreEntities:(BOOL)ignore;
+-(DTTraceResult*)traceBox:(DTBBox*)box from:(Vector2*)from to:(Vector2*)to exclude:(DTEntity*)exclude ignoreEntities:(BOOL)ignore inverted:(BOOL)inverted;
+-(DTTraceResult*)traceBoxStep:(DTBBox*)box origin:(Vector2*)origin dx:(float)dx dy:(float)dy map:(DTMap*)map exclude:(DTEntity*)exclude ignore:(BOOL)ignore inverted:(BOOL)inverted;
 
 -(BOOL)boxCollideBoxA:(Vector2*)boxA sizeA:(Vector2*)sizeA boxB:(Vector2*)boxB sizeB:(Vector2*)sizeB;
 

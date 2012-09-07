@@ -25,8 +25,8 @@
     if(!(self = [super init])) return nil;
     
     self.gravity = false;
-    self.size.x = self.size.y = 0.4;
-        
+    self.size.min.x = self.size.min.y = -0.4;
+    self.size.max.x = self.size.max.y = 0.4;        
     
     return self;
 }

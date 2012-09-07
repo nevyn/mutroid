@@ -12,6 +12,7 @@
 #import "DTEntityPlayer.h"
 #import "DTResourceManager.h"
 #import "DTTexture.h"
+#import "DTProgram.h"
 #import "DTSpriteMap.h"
 #import "Vector2.h"
 #import <OpenGL/gl.h>
@@ -89,9 +90,8 @@
     
     glPushMatrix();
     glTranslatef(entity.position.x, entity.position.y, 0);
-    glTranslatef(entity.size.x/2, entity.size.y/2, 0);
     glRotatef(entity.rotation, 0, 0, 1);
-    glTranslatef(-entity.size.x/2, -entity.size.y/2, 0);
+  
     glBegin(GL_QUADS);
     
 //      if(entity.damageFlashTimer > 0)
@@ -99,19 +99,38 @@
 //      }
     
     glColor3f(1., 1., 1.);
-    glTexCoord2fv(&frame.coords[0]); glVertex3f(entity.size.x, 0., 0.);
-    glTexCoord2fv(&frame.coords[2]); glVertex3f(entity.size.x, entity.size.y, 0.);
-    glTexCoord2fv(&frame.coords[4]); glVertex3f(0., entity.size.y, 0);
-    glTexCoord2fv(&frame.coords[6]); glVertex3f(0., 0., 0.);
+    glTexCoord2fv(&frame.coords[0]); glVertex3f(entity.size.max.x, entity.size.min.y, 0.);
+    glTexCoord2fv(&frame.coords[2]); glVertex3f(entity.size.max.x, entity.size.max.y, 0.);
+    glTexCoord2fv(&frame.coords[4]); glVertex3f(entity.size.min.x, entity.size.max.y, 0);
+    glTexCoord2fv(&frame.coords[6]); glVertex3f(entity.size.min.x, entity.size.min.y, 0.);
     glEnd();
+    
+    
     glColor3f(0,0,1.);
     glBegin(GL_POINTS);
     if(entity.lookDirection == EntityDirectionLeft)
-        glVertex3f(0, entity.size.y/3, 0);
+        glVertex3f(0, 0.5, 0);
     else if(entity.lookDirection == EntityDirectionRight)
-        glVertex3f(entity.size.x, entity.size.y/3, 0);
+        glVertex3f(entity.size.max.x, 0.5, 0);
     glEnd();
+    
+    
+    DTProgram *p = [resources resourceNamed:@"main.program"];
+    [p unuse];
+
+    glColor3f(1., 1., 1.);
+    glBegin(GL_LINE_LOOP);
+    glTexCoord2f(0.0, 0.0);
+    glVertex3f(entity.size.max.x, entity.size.min.y, 0.);
+    glVertex3f(entity.size.max.x, entity.size.max.y, 0.);
+    glVertex3f(entity.size.min.x, entity.size.max.y, 0);
+    glVertex3f(entity.size.min.x, entity.size.min.y, 0.);
+    glEnd();
+    
+    [p use];
+    
     glPopMatrix();
+    
     
 }
 

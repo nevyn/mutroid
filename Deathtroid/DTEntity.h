@@ -45,6 +45,13 @@ typedef struct {
 */
 
 
+@interface DTBBox : NSObject {}
+-(id)initWithRep:(NSDictionary*)rep;
+@property (nonatomic,strong) MutableVector2 *min, *max;
+@end
+
+
+
 @interface DTEntity : NSObject
 -(id)init; // overload, but don't call. Set up default state. 'world' and 'uuid' are set.
 -(id)initWithRep:(NSDictionary*)rep world:(DTWorld*)world uuid:(NSString*)uuid; // call, but don't overload
@@ -68,7 +75,7 @@ typedef struct {
 @property (nonatomic) BOOL destructible;
 @property (nonatomic,strong) MutableVector2 *position;
 @property (nonatomic,strong) MutableVector2 *velocity;
-@property (nonatomic,strong) MutableVector2 *size;
+@property (nonatomic,strong) DTBBox *size;
 @property (nonatomic) EntityDirection moveDirection;
 @property (nonatomic) EntityDirection lookDirection;
 @property (nonatomic) EntityCollisionType collisionType;

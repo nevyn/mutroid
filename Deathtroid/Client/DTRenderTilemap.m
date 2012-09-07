@@ -39,36 +39,51 @@
         // Set to some other value, like -1, or maybe don't use shader?
     }
     
-
 	DTTexture *texture = [resources resourceNamed:$sprintf(@"%@.texture", layer.tilemapName)];
 	[texture use];
 	glPushMatrix();
 	glTranslatef(-camera.position.x * layer.depth, -camera.position.y * layer.depth, 0);
+   	//for(int i=0; i<(layer.repeatX?2:1); i++) {
+        [self drawMap:layer.map camera:camera];
+    //}
+	glPopMatrix();
+}
+
+-(void)drawCollision:(DTMap*)map camera:(DTCamera*)camera; 
+{
+	DTTexture *texture = [resources resourceNamed:@"collision.texture"];
+	[texture use];
+	glPushMatrix();
+	glTranslatef(-camera.position.x, -camera.position.y, 0);
+    [self drawMap:map camera:camera];
+	glPopMatrix();
+
+}
+
+-(void)drawMap:(DTMap*)map camera:(DTCamera *)camera;
+{
 	glBegin(GL_QUADS);
 	glColor3f(1,1,1);
-	DTMap *map = layer.map;
-	for(int i=0; i<(layer.repeatX?2:1); i++) {
-		for(int h=0; h<map.height; h++) {
-			for(int w=0; w<map.width; w++) {
-			
-				int x = i*map.width + w;
-				int y = h;
-			
-				int tile = map.tiles[h*map.width+w];
-				if(tile == 0) continue;
-				tile--;
-				float r = 0.125;
-				float u = r * (int)(tile % 8);
-				float v = r * (int)(tile / 8);
-				glTexCoord2f(u, v); glVertex2f(x, y);
-				glTexCoord2f(u+r, v); glVertex2f(x+1, y);
-				glTexCoord2f(u+r, v+r); glVertex2f(x+1, y+1);
-				glTexCoord2f(u, v+r); glVertex2f(x, y+1);
-			}
-		}
-	}
+    for(int h=0; h<map.height; h++) {
+        for(int w=0; w<map.width; w++) {
+            int x = w;
+            int y = h;
+        
+            int tile = map.tiles[h*map.width+w];
+            int attr = map.attr[h*map.width+w];
+            if(tile == 0) continue;
+            tile--;
+            float ru = (attr & 1)?-0.125:0.125;
+            float rv = (attr & 2)?-0.125:0.125;
+            float u = 0.125 * (int)(tile % 8) + ((attr&1)?0.125:0);
+            float v = 0.125 * (int)(tile / 8) + ((attr&2)?0.125:0);
+            glTexCoord2f(u, v); glVertex2f(x, y);
+            glTexCoord2f(u+ru, v); glVertex2f(x+1, y);
+            glTexCoord2f(u+ru, v+rv); glVertex2f(x+1, y+1);
+            glTexCoord2f(u, v+rv); glVertex2f(x, y+1);
+        }
+    }
 	glEnd();
-	glPopMatrix();
 }
 
 @end

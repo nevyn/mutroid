@@ -11,6 +11,7 @@
 @interface DTProgram : DTResource
 
 -(void)use;
+-(void)unuse;
 
 @property (nonatomic) GLuint programName;
 

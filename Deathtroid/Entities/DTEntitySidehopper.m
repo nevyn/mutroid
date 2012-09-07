@@ -17,7 +17,10 @@
 {
     if(!(self = [super init])) return nil;
     
-    self.size.x = 1.5;
+    self.size.min.x = -0.75;
+    self.size.min.y = -0.5;
+    self.size.max.x = 0.75;
+    self.size.max.y = 0.5;
     
     self.maxHealth = self.health = 5;
     self.destructible = YES;

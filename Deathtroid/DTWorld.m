@@ -16,15 +16,18 @@
 #import "DTServer.h"
 
 @implementation DTTraceResult
-@synthesize x,y,entity,collisionPosition,velocity;
--(id)initWithX:(BOOL)_x y:(BOOL)_y entity:(DTEntity*)_entity collisionPosition:(Vector2*)colPos velocity:(Vector2*)_velocity;
+@synthesize x,y,entity,collisionPosition,velocity,slope;
+-(id)initWithX:(BOOL)_x y:(BOOL)_y slope:(BOOL)_slope collisionPosition:(Vector2*)colPos entity:(DTEntity*)_entity velocity:(Vector2*)_velocity;
 {
     if(!(self = [super init])) return nil;
+    
     x = _x;
     y = _y;
     entity = _entity;
     collisionPosition = colPos;
     velocity = _velocity;
+    slope = _slope;
+    
     return self;
 }
 @end
@@ -47,12 +50,12 @@
     return (id)self.room;
 }
 
--(DTTraceResult*)traceBox:(Vector2*)box from:(Vector2*)from to:(Vector2*)to exclude:(DTEntity*)exclude ignoreEntities:(BOOL)ignore;
+-(DTTraceResult*)traceBox:(DTBBox*)box from:(Vector2*)from to:(Vector2*)to exclude:(DTEntity*)exclude ignoreEntities:(BOOL)ignore;
 {
     return [self traceBox:box from:from to:to exclude:exclude ignoreEntities:ignore inverted:false];
 }
 
--(DTTraceResult*)traceBox:(Vector2*)box from:(Vector2*)from to:(Vector2*)to exclude:(DTEntity*)exclude ignoreEntities:(BOOL)ignore inverted:(BOOL)inverted;
+-(DTTraceResult*)traceBox:(DTBBox*)box from:(Vector2*)from to:(Vector2*)to exclude:(DTEntity*)exclude ignoreEntities:(BOOL)ignore inverted:(BOOL)inverted;
 {
     Vector2 *move = [to vectorBySubtractingVector:from];
     
@@ -61,82 +64,133 @@
     
     float stepX = move.x / steps;
     float stepY = move.y / steps;
-    
-    DTMap *map = ((DTLayer*)[room.layers objectAtIndex:room.entityLayerIndex]).map;
+        
+    DTMap *map = [room collisionLayer];
 
     for(int i=1; i<=steps; i++) {
-        DTTraceResult *result = [self traceBoxStep:from size:box vx:i*stepX vy:i*stepY map:map exclude:exclude ignore:ignore inverted:inverted];
-
-        if(result != nil) return result;
+        // Remember that we essentially send in a single position here.
+        // i == 0 can be skipped, we assume that the current position is a valid one.
+        DTTraceResult *result = [self traceBoxStep:box origin:(Vector2*)from dx:i*stepX dy:i*stepY map:map exclude:exclude ignore:ignore inverted:inverted];
+        if(result.x || result.y) return result;
     }
     
-    return nil;
+    return [[DTTraceResult alloc] initWithX:NO y:NO slope:NO collisionPosition:nil entity:nil velocity:nil];
 }
 
--(DTTraceResult*)traceBoxStep:(Vector2*)position size:(Vector2*)size vx:(float)vx vy:(float)vy map:(DTMap*)map exclude:(DTEntity*)exclude ignore:(BOOL)ignore inverted:(BOOL)inverted;
+// Checks a position. Knows direction. If there's a collision, can calculate a valid position.
+// Assumes that previous position was valid
+-(DTTraceResult*)traceBoxStep:(DTBBox*)box origin:(Vector2*)origin dx:(float)dx dy:(float)dy map:(DTMap*)map exclude:(DTEntity*)exclude ignore:(BOOL)ignore inverted:(BOOL)inverted;
 {
     int *tiles = map.tiles;
     
-    BOOL collidedX = NO;
-    BOOL collidedY = NO;
+    BOOL collidedLeft = NO;
+    BOOL collidedRight = NO;
+    BOOL collidedTop = NO;
+    BOOL collidedBottom = NO;
     
-    float gx = position.x;
-    float gy = position.y;
+    float goalX = origin.x;
+    float goalY = origin.y;
+
+    float delta = 0.001;
+
+    int midTile = 0;
+                
+    // Move in x
+    if(dx != 0.0) {
+        goalX += dx;
+        
+        int xtopY = (int)(goalY + box.min.y + delta);
+        int xbotY = (int)(goalY + box.max.y - delta);
+    
+        float xrightX = goalX + box.max.x - delta;
+        float xleftX = goalX + box.min.x + delta;
+        
+        midTile = tiles[xbotY * map.width + (int)origin.x];
+                
+        for(int y=xtopY; y <= xbotY; y++) {
+            if((midTile == 3 || midTile == 4) && y == xbotY)
+                break;
+        
+            int tileRight = tiles[y * map.width + (int)xrightX];
+            int tileLeft = tiles[y * map.width + (int)xleftX];
+                              
+            if(dx > 0.0 && tileRight == 1) {
+                collidedRight = YES;
+                goalX = floor(xrightX) - box.max.x - delta;
+                break;
+            }
+            if(dx < 0.0 && tileLeft == 1) {
+                collidedLeft = YES;
+                goalX = ceil(xleftX) - box.min.x + delta;
+                break;
+            }
+        }
+    }
+        
+    // Then Y
+    if(dy != 0.0) {
+        goalY += dy;
+        
+        float ytopY = goalY + box.min.y + delta;
+        float ybotY = goalY + box.max.y - delta;
+        
+        int yleftX = (int)(goalX + box.min.x + delta);
+        int yrightX = (int)(goalX + box.max.x - delta);
+        
+        midTile = tiles[(int)ybotY * map.width + (int)goalX];
+                
+        for(int x = yleftX; x <= yrightX; x++) {    
+            int tileTop = tiles[(int)ytopY * map.width + x];
+            int tileBot = tiles[(int)ybotY * map.width + x];
             
-    if(vx != 0.0f) {
-        gx += vx;
-        float coordx = vx < 0 ? gx : gx + size.x - 0.0001;
-        int from = (int)gy;
-        int to = (int)(gy + size.y - 0.0001);
-        for(int y=from; y<=to; ++y) {
-            int tile = tiles[y*map.width+(int)coordx];
-            if(tile>0) {                
-                gx = vx < 0 ? ceil(coordx) : floor(coordx) - size.x;
-                collidedX = YES;
+            if(dy < 0.0 && tileTop == 1) {
+                collidedTop = YES;
+                goalY = ceil(ytopY) - box.min.y + delta;
+                break;
+            }
+            if(dy > 0.0 && tileBot == 1 && (midTile != 3 && midTile != 4)) {
+                collidedBottom = YES;
+                goalY = floor(ybotY) - box.max.y - delta;
                 break;
             }
         }
-        
-        if(inverted) {
-            collidedX = !collidedX;
-            gx = vx < 0 ? ceil(coordx)-size.x : floor(coordx);
-        }        
     }
     
-    if(vy != 0.0f) {
-        gy += vy;
-        float coordy = vy < 0 ? gy : gy + size.y - 0.0001;
-        int from = (int)gx;
-        int to = (int)(gx + size.x - 0.0001);
-        for(int x=from; x<=to; ++x) {
-            int tile = tiles[(int)coordy*map.width+x];
-            if(tile>0) {
-                gy = vy < 0 ? ceil(coordy) : floor(coordy) - size.y;
-                collidedY = YES;
-                break;
-            }
-        }
+    // Check for slopes at the valid position
+    float bottom = goalY + box.max.y - delta;
+    midTile = tiles[(int)bottom * map.width + (int)goalX];
+    BOOL slope = NO;
+    
+    if(midTile == 3) {
+        float penX = goalX - floor(goalX);
+        float penY = bottom - floor(bottom);
         
-        if(inverted) {
-            collidedY = !collidedY;
-            gy = vy < 0 ? ceil(coordy)-size.y : floor(coordy);
+        // On (inside) slope
+        if(penX + penY > 1.0) {
+            goalY = ceil(bottom) - penX - box.max.y;
+            collidedBottom = YES;
+            slope = YES;
         }
-    }
+    } else if(midTile == 4) {
+        float penX = 1 - (goalX - floor(goalX));
+        float penY = bottom - floor(bottom);
         
-    if(collidedX || collidedY) {
-        return [[DTTraceResult alloc] initWithX:collidedX y:collidedY entity:nil collisionPosition:[Vector2 vectorWithX:gx y:gy] velocity:[Vector2 vectorWithX:vx y:vy]];
-    }
-
-    if(server && !ignore) {
-        for(DTEntity *entity in room.entities.allValues) {
-            if(entity == exclude) continue;
-            if([self boxCollideBoxA:position sizeA:size boxB:entity.position sizeB:entity.size]) {
-                return [[DTTraceResult alloc] initWithX:YES y:YES entity:entity collisionPosition:[Vector2 vectorWithVector2:position] velocity:nil];
-            }
+        if(penX + penY > 1.0) {
+            goalY = ceil(bottom) - penX - box.max.y;
+            collidedBottom = YES;
+            slope = YES;
         }
     }
+    
+    DTTraceResult *result = [[DTTraceResult alloc]
+                    initWithX:(collidedLeft || collidedRight)
+                            y:(collidedBottom || collidedTop)
+                        slope:slope
+            collisionPosition:[Vector2 vectorWithX:goalX y:goalY]
+                       entity:nil
+                     velocity:nil];
 
-    return nil;
+    return result;
 }
 
 -(BOOL)boxCollideBoxA:(Vector2*)boxA sizeA:(Vector2*)sizeA boxB:(Vector2*)boxB sizeB:(Vector2*)sizeB;

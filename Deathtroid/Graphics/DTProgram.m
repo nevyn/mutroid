@@ -28,10 +28,14 @@
 
 -(void)use;
 {
-    NSLog(@"USE ME!");
     glUseProgram(programName);
     GLint l = glGetUniformLocation(programName, "tex");
     glUniform1i(l, 0);
+}
+
+-(void)unuse;
+{
+    glUseProgram(0);
 }
 
 @end

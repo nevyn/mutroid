@@ -76,7 +76,6 @@
     rooms = [NSMutableDictionary dictionary];
     
     // Insert code here to initialize your application
-    glViewport(0, 0, 640, 480);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glOrtho(0., 20.0f, 15.f, 0., -1., 1.);
@@ -90,11 +89,11 @@
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
     
-    //glEnable(GL_TEXTURE_2D);
-    
     glActiveTexture(GL_TEXTURE0);
     
     glPointSize(5.0f);
+    
+    glLineWidth(1);
     
     glClearColor(0.0, 0.0, 0.0, 1.0);
     
@@ -141,13 +140,12 @@
 	
     glClear(GL_COLOR_BUFFER_BIT);
     glLoadIdentity();
-	glEnable(GL_TEXTURE_2D);
 	
 	for(DTLayer *layer in currentRoom.layers)
 		[tilemapRenderer drawLayer:layer camera:camera];
-    	
-    //glDisable(GL_TEXTURE_2D);
-	
+        
+    [tilemapRenderer drawCollision:currentRoom.collisionLayer camera:camera];
+    		
     glTranslatef(-camera.position.x, -camera.position.y, 0);
     for(DTEntity *entity in currentRoom.entities.allValues)
         [entityRenderer drawEntity:entity camera:camera frameCount:frameCount];
