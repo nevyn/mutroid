@@ -59,7 +59,7 @@ static NSMutableDictionary *resourceLoaders = nil;
 		[NSException raise:@"Invalid resource id: '%@'. Resources identifiers must have the format '[name].[type].resource'." format:resource_id];
 	}
 	NSFileManager *fm = [NSFileManager defaultManager];
-	NSArray *props = [NSArray arrayWithObjects:NSURLNameKey, NSURLIsDirectoryKey, nil];
+	NSArray *props = @[NSURLNameKey, NSURLIsDirectoryKey, NSURLContentModificationDateKey];
 	NSDirectoryEnumerator *dirEnumerator = [fm enumeratorAtURL:self.pathURL includingPropertiesForKeys:props options:NSDirectoryEnumerationSkipsHiddenFiles errorHandler:nil];
 	
 	for(NSURL *url in dirEnumerator){
@@ -67,7 +67,7 @@ static NSMutableDictionary *resourceLoaders = nil;
 		
 		[url getResourceValue:&isDirectory forKey:NSURLIsDirectoryKey error:NULL];
 		
-		if(![isDirectory boolValue]) continue;
+//		if(![isDirectory boolValue]) continue;
 		
 		if([[url pathExtension] isEqualToString:@"resource"]){
 			NSString *this_id = [url lastPathComponent];
@@ -77,6 +77,8 @@ static NSMutableDictionary *resourceLoaders = nil;
 			}
 		}
 	}
+    
+    [NSException raise:@"Resource" format:@"Resource not found: %@", resource_id];
 	return nil;
 }
 

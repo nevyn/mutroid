@@ -60,7 +60,7 @@
     finch = [FISoundEngine new];
     [finch openAudioDevice];
 	
-	self.resources = [[DTResourceManager alloc] initWithBaseURL:[[NSBundle mainBundle] URLForResource:@"resources" withExtension:nil]];
+	self.resources = [[DTResourceManager alloc] initWithBaseURL:[[NSBundle mainBundle] URLForResource:@DT_RESOURCE_DIR withExtension:nil]];
 	
     entityRenderer = [DTRenderEntities new];
 	tilemapRenderer = [DTRenderTilemap new];

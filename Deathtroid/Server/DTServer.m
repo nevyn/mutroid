@@ -55,7 +55,7 @@ static const int kMaxServerFramerate = 5;
 {
     if(!(self = [super init])) return nil;
 	
-	self.resources = [[DTResourceManager alloc] initWithBaseURL:[[NSBundle mainBundle] URLForResource:@"resources" withExtension:nil]];
+	self.resources = [[DTResourceManager alloc] initWithBaseURL:[[NSBundle mainBundle] URLForResource:@DT_RESOURCE_DIR withExtension:nil]];
 	resources.isServerSide = YES;
 
     

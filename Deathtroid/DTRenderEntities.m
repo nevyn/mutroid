@@ -45,7 +45,7 @@
     if(!(self = [super init])) return nil;
 
     gfxState = [NSMutableDictionary dictionary];
-    self.resources = [[DTResourceManager alloc] initWithBaseURL:[[NSBundle mainBundle] URLForResource:@"resources" withExtension:nil]];
+    self.resources = [[DTResourceManager alloc] initWithBaseURL:[[NSBundle mainBundle] URLForResource:@DT_RESOURCE_DIR withExtension:nil]];
     
     return self;
 }

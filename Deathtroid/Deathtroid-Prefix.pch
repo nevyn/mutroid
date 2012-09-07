@@ -8,3 +8,5 @@
 	#import "SPLowVerbosity.h"
 	#import "NSString+UUID.h"
 #endif
+
+#define DT_RESOURCE_DIR "resources"

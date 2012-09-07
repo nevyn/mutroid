@@ -32,9 +32,7 @@
 	_layers = [NSMutableArray array];
     entities = [NSMutableDictionary dictionary];
     
-    NSURL *repFile = [path URLByAppendingPathComponent:@"room.json"];
-    
-    NSData *d = [NSData dataWithContentsOfURL:repFile];
+    NSData *d = [NSData dataWithContentsOfURL:path];
     if(!d)
         return self = nil;
 

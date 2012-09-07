@@ -49,7 +49,7 @@
     
     self.deltaCounter = 0.0; // debug
     
-    DTResourceManager *resourceManager = [[DTResourceManager alloc] initWithBaseURL:[[NSBundle mainBundle] URLForResource:@"resources" withExtension:nil]];
+    DTResourceManager *resourceManager = [[DTResourceManager alloc] initWithBaseURL:[[NSBundle mainBundle] URLForResource:@DT_RESOURCE_DIR withExtension:nil]];
 
     self.animation = [resourceManager animationNamed:@"zoomer.animation"];
     return self;

@@ -21,7 +21,7 @@
 {
 	if(!(self = [super init])) return nil;
 	
-	resources = [[DTResourceManager alloc] initWithBaseURL:[[NSBundle mainBundle] URLForResource:@"resources" withExtension:nil]];
+	resources = [[DTResourceManager alloc] initWithBaseURL:[[NSBundle mainBundle] URLForResource:@DT_RESOURCE_DIR withExtension:nil]];
 	
 	return self;
 }

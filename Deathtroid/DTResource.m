@@ -42,7 +42,7 @@
 -(id<DTResource>)loadResourceAtURL:(NSURL *)url usingManager:(DTResourceManager *)manager;
 {
 	//Load definition file
-	NSData *data = [NSData dataWithContentsOfURL:[url URLByAppendingPathComponent:@"definition"]];
+	NSData *data = [NSData dataWithContentsOfURL:url];
 	NSError *error = nil;
 	NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
 	if(error){
