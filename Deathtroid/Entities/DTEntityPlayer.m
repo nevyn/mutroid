@@ -33,6 +33,11 @@
     
     self.maxHealth = self.health = 99;
     
+    self.size.min.x = -0.49;
+    self.size.max.x = 0.49;
+    self.size.min.y = -3;
+    self.size.max.y = 0;
+    
     DTResourceManager *resourceManager = [[DTResourceManager alloc] initWithBaseURL:[[NSBundle mainBundle] URLForResource:@DT_RESOURCE_DIR withExtension:nil]];
     self.animation = [resourceManager animationNamed:@"samus.animation"];
             
