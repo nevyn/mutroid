@@ -44,9 +44,6 @@ static const int kMaxServerFramerate = 10;
 	NSMutableDictionary *scoreBoard;
 }
 
-@synthesize physics;
-@synthesize rooms, resources;
-
 -(id)init;
 {
     return [self initListeningOnPort:kDTServerDefaultPort];
@@ -56,13 +53,13 @@ static const int kMaxServerFramerate = 10;
     if(!(self = [super init])) return nil;
 	
 	self.resources = [[DTResourceManager alloc] initWithBaseURL:[[NSBundle mainBundle] URLForResource:@DT_RESOURCE_DIR withExtension:nil]];
-	resources.isServerSide = YES;
+	_resources.isServerSide = YES;
 
     
-    physics = [[DTPhysics alloc] init];
+    _physics = [[DTPhysics alloc] init];
     
     players = [NSMutableArray array];
-    rooms = [NSMutableDictionary dictionary];
+    _rooms = [NSMutableDictionary dictionary];
 	scoreBoard = [NSMutableDictionary dictionary];
 
     _sock = [[AsyncSocket alloc] initWithDelegate:self];
@@ -89,20 +86,20 @@ static const int kMaxServerFramerate = 10;
 -(void)loadLevel:(NSString*)roomName then:(void(^)(DTServerRoom*))then;
 {
     DTServerRoom *existing = nil;
-    for(DTServerRoom *r in rooms.allValues) if([r.name isEqual:roomName]) { existing = r; break; }
+    for(DTServerRoom *r in _rooms.allValues) if([r.name isEqual:roomName]) { existing = r; break; }
     if(existing) {
         then(existing);
         return;
     }
 
-	[resources resourceNamed:$sprintf(@"%@.room",roomName) loaded:(void(^)(id<DTResource>))^(DTRoom* newLevel) {
+	[_resources resourceNamed:$sprintf(@"%@.room",roomName) loaded:(void(^)(id<DTResource>))^(DTRoom* newLevel) {
         DTServerRoom *sroom = (id)newLevel;
         
         sroom.delegate = self;
-        [rooms setObject:sroom forKey:sroom.uuid];
+        [_rooms setObject:sroom forKey:sroom.uuid];
         
         sroom.world.server = self;
-        sroom.world.resources = resources;
+        sroom.world.resources = _resources;
         
         for(NSDictionary *entRep in sroom.initialEntityReps)
             [sroom createEntity:NSClassFromString([entRep objectForKey:@"class"]) setup:^(DTEntity *e) {
@@ -128,7 +125,7 @@ static const int kMaxServerFramerate = 10;
 	player.proto = clientProto;
 	[players addObject:player];
     
-    DTRoom *room = [[rooms allValues] objectAtIndex:random()%rooms.allValues.count];
+    DTRoom *room = [[_rooms allValues] objectAtIndex:random()%_rooms.allValues.count];
 	[self spawnPlayer:player inRoom:$cast(DTServerRoom, room)];
 }
 -(void)onSocketDidDisconnect:(AsyncSocket *)sock;
@@ -231,7 +228,7 @@ static const int kMaxServerFramerate = 10;
 #pragma mark Incoming player requests
 -(void)playerRequest:(DTPlayer*)player getRoom:(NSDictionary*)hash responder:(TCAsyncHashProtocolResponseCallback)responder;
 {
-    DTRoom *room = [rooms objectForKey:$notNull([hash objectForKey:@"uuid"])];
+    DTRoom *room = [_rooms objectForKey:$notNull([hash objectForKey:@"uuid"])];
     if(!room) return responder($dict(@"error", @"no such room"));
     
     NSDictionary *entReps = [room.entities sp_map: ^(NSString *k, id v) { return [v rep]; }];
@@ -351,12 +348,12 @@ static const int kMaxServerFramerate = 10;
 -(void)tick:(double)delta;
 {
     // Physics    
-    for(DTServerRoom *room in rooms.allValues)
-        [physics runWithEntities:room.entities.allValues world:room.world delta:delta];
+    for(DTServerRoom *room in _rooms.allValues)
+        [_physics runWithEntities:room.entities.allValues world:room.world delta:delta];
 	
 	
 	// Game logic
-    for(DTServerRoom *room in rooms.allValues)
+    for(DTServerRoom *room in _rooms.allValues)
 		// If game logic changes an important attribute, send it.
 		[self sendSnapshotDiff:^{
 			for(DTEntity *entity in room.entities.allValues)
@@ -367,7 +364,7 @@ static const int kMaxServerFramerate = 10;
 	// Interval deltas, to sync physics etc.
     secondsSinceLastDelta += delta;
     if(secondsSinceLastDelta > 1./kMaxServerFramerate) { // push 5 times/sec
-        for(DTServerRoom *room in rooms.allValues) {
+        for(DTServerRoom *room in _rooms.allValues) {
         
             NSDictionary *reps = [room optimizeDelta:[room.entities sp_map: ^(NSString *k, id v) {
                 return [v rep];
