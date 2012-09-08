@@ -16,7 +16,8 @@
       "size" : [2.0, 2.0],
       "center" : [1.0, 2.0],
       "fps" : 30.0,
-      "spriteMap" : "samus_jump_roll.spritemap"
+      "spriteMap" : "samus_jump_roll.spritemap",
+      "flip" : [true, false]
     },
     "jump-roll-right" : {
       "size" : [2.0, 2.0],
