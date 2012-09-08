@@ -15,7 +15,7 @@
 #import "DTEntityPlayer.h"
 #import "DTSound.h"
 #import "DTResourceManager.h"
-
+#import "DTAnimation.h"
 
 @implementation DTEntityBullet { BOOL playedSound; }
 @synthesize owner;

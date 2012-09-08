@@ -78,12 +78,6 @@
     
     rooms = [NSMutableDictionary dictionary];
     
-    // Insert code here to initialize your application
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glOrtho(0., 20.0f, 15.f, 0., -1., 1.);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
     
     glDisable(GL_DEPTH_TEST);
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_FASTEST);
@@ -101,7 +95,7 @@
     glClearColor(0.0, 0.0, 0.0, 1.0);
     
     // Build shader programs
-    [resources resourceNamed:@"main.program"];
+    //[resources resourceNamed:@"main.program"];
     
     camera = [[DTCamera alloc] init];
     
