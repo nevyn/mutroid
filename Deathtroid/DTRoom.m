@@ -75,6 +75,7 @@
 
 - (void)loadResource:(DTRoom *)room usingManager:(DTResourceManager *)manager error:(NSError *__autoreleasing *)error
 {
+    [room.layers removeAllObjects];
     NSArray *layerReps = $notNull([self.definition objectForKey:@"layers"]);
 	for(NSDictionary *layerRep in layerReps)
         [room.layers addObject:[[DTLayer alloc] initWithRep:layerRep]];
@@ -83,7 +84,9 @@
     NSDictionary *collisionRep = $notNull([self.definition objectForKey:@"collision"]);
     room.collisionLayer = [[DTMap alloc] initWithRep:collisionRep];
     room.initialEntityReps = $notNull([self.definition objectForKey:@"entities"]);
-    room.world = [[DTWorld alloc] initWithRoom:room];
+    if(!room.world) {
+        room.world = [[DTWorld alloc] initWithRoom:room];
+    }
 }
 
 @end
