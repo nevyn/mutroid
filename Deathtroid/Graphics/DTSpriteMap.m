@@ -11,7 +11,7 @@
 
 @interface DTSpriteMap ()
 @property (nonatomic) CGSize imageSize;
-@property (nonatomic) CGSize frameSize;
+@property (nonatomic, readwrite) CGSize frameSize;
 @property (nonatomic, readwrite) NSInteger frameCount;
 
 @property (nonatomic, strong) DTTexture *texture;

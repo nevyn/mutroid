@@ -19,6 +19,8 @@
 #import "DTAnimation.h"
 #import "DTEntityZoomer.h"
 
+static const CGSize kTileSizeInPixels = {16, 16};
+
 @interface DTEntityGfxState : NSObject
 -(id)initWithEntity:(DTEntity*)ent;
 @property(nonatomic,strong) NSString *uuid;
@@ -85,7 +87,8 @@
     if([$castIf(DTEntityPlayer, entity) immune] && (frameCount/2)%2)
         return;
     
-    [[entity.animation spriteMapForAnimation:entity.currentState].texture use];
+    DTSpriteMap *spriteMap = [entity.animation spriteMapForAnimation:entity.currentState];
+    [spriteMap.texture use];
     DTSpriteMapFrame frame = [entity.animation frameAtIndex:entityData.currentFrame forAnimation:entity.currentState];
     
     glPushMatrix();
@@ -98,11 +101,14 @@
 //          DO SOMETHING HERE!?!?
 //      }
     
+    CGSize sizeInPixels = spriteMap.frameSize;
+    CGSize sizeInTiles = {sizeInPixels.width/kTileSizeInPixels.width, sizeInPixels.height/kTileSizeInPixels.height};
+    float w = sizeInTiles.width, h = sizeInTiles.height;
     glColor3f(1., 1., 1.);
-    glTexCoord2fv(&frame.coords[0]); glVertex3f(entity.size.max.x, entity.size.min.y, 0.);
-    glTexCoord2fv(&frame.coords[2]); glVertex3f(entity.size.max.x, entity.size.max.y, 0.);
-    glTexCoord2fv(&frame.coords[4]); glVertex3f(entity.size.min.x, entity.size.max.y, 0);
-    glTexCoord2fv(&frame.coords[6]); glVertex3f(entity.size.min.x, entity.size.min.y, 0.);
+    glTexCoord2fv(&frame.coords[0]); glVertex3f(+w/2, -h + entity.size.max.y, 0.);
+    glTexCoord2fv(&frame.coords[2]); glVertex3f(+w/2, entity.size.max.y, 0.);
+    glTexCoord2fv(&frame.coords[4]); glVertex3f(-w/2, entity.size.max.y, 0);
+    glTexCoord2fv(&frame.coords[6]); glVertex3f(-w/2, -h + entity.size.max.y, 0.);
     glEnd();
     
     

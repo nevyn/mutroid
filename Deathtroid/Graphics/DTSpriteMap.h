@@ -18,6 +18,7 @@ typedef struct {
 @interface DTSpriteMap : DTResource
 @property (nonatomic, readonly) NSInteger frameCount;
 @property (nonatomic, strong, readonly) DTTexture *texture;
+@property (nonatomic, readonly) CGSize frameSize;
 
 -(DTSpriteMapFrame)frameAtIndex:(NSInteger)frameIndex;
 @end
