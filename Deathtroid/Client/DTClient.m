@@ -30,6 +30,9 @@
 #import "FISoundEngine.h"
 #import <OpenAL/al.h>
 #import <OpenAL/alc.h>
+#ifndef CLAMP
+#define CLAMP(v, mi, ma) MAX(MIN(v, ma), mi)
+#endif
 
 @interface DTClient () <TCAsyncHashProtocolDelegate>
 @property (nonatomic, strong) DTResourceManager *resources;
@@ -112,11 +115,13 @@
     return self;
 }
 
+static const int kScreenWidthInTiles = 20;
+
 -(void)tick:(double)delta;
 {
     // Ticka de som ska tickas?
     
-    camera.position.x = followThis.position.x - 10;
+    camera.position.x = CLAMP(followThis.position.x - 10, 0, [currentRoom.layers.lastObject map].width-kScreenWidthInTiles);
     finch.listenerPosition = [FIVector vectorWithX:camera.position.x+10 Y:camera.position.y+7.5 Z:1];
     
     for(DTLayer *layer in currentRoom.layers)
