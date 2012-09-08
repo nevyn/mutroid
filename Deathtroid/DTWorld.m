@@ -15,7 +15,7 @@
 #import "DTRoom.h"
 #import "DTServer.h"
 
-int gettile(int *tiles, int x, int y, int width, int height) {
+static int gettile(int *tiles, int x, int y, int width, int height) {
     if(x < 0 || x >= width || y < 0 || y >= height) return 0;
     else return tiles[y * width + x];
 }
@@ -77,7 +77,6 @@ int gettile(int *tiles, int x, int y, int width, int height) {
         
     DTMap *map = [room collisionLayer];
 
-    for(int i=1; i<=steps; i++) {
     for(int i=0; i<=steps; i++) {
         // Remember that we essentially send in a single position here.
         // i == 0 can be skipped, we assume that the current position is a valid one.
