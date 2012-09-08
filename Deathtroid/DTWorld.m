@@ -15,6 +15,11 @@
 #import "DTRoom.h"
 #import "DTServer.h"
 
+int gettile(int *tiles, int x, int y, int width, int height) {
+    if(x < 0 || x >= width || y < 0 || y >= height) return 0;
+    else return tiles[y * width + x];
+}
+
 @implementation DTTraceResult
 @synthesize x,y,entity,collisionPosition,velocity,slope;
 -(id)initWithX:(BOOL)_x y:(BOOL)_y slope:(BOOL)_slope collisionPosition:(Vector2*)colPos entity:(DTEntity*)_entity velocity:(Vector2*)_velocity;
@@ -60,6 +65,11 @@
     Vector2 *move = [to vectorBySubtractingVector:from];
     
     float length = [move length];
+    
+    if(length == 0.0) {
+        return [[DTTraceResult alloc] initWithX:NO y:NO slope:NO collisionPosition:nil entity:nil velocity:nil];
+    }
+    
     int   steps = ceil(length);
     
     float stepX = move.x / steps;
@@ -68,6 +78,7 @@
     DTMap *map = [room collisionLayer];
 
     for(int i=1; i<=steps; i++) {
+    for(int i=0; i<=steps; i++) {
         // Remember that we essentially send in a single position here.
         // i == 0 can be skipped, we assume that the current position is a valid one.
         DTTraceResult *result = [self traceBoxStep:box origin:(Vector2*)from dx:i*stepX dy:i*stepY map:map exclude:exclude ignore:ignore inverted:inverted];
@@ -82,6 +93,8 @@
 -(DTTraceResult*)traceBoxStep:(DTBBox*)box origin:(Vector2*)origin dx:(float)dx dy:(float)dy map:(DTMap*)map exclude:(DTEntity*)exclude ignore:(BOOL)ignore inverted:(BOOL)inverted;
 {
     int *tiles = map.tiles;
+    int width = map.width;
+    int height = map.height;
     
     BOOL collidedLeft = NO;
     BOOL collidedRight = NO;
@@ -111,8 +124,8 @@
             if((midTile == 3 || midTile == 4) && y == xbotY)
                 break;
         
-            int tileRight = tiles[y * map.width + (int)xrightX];
-            int tileLeft = tiles[y * map.width + (int)xleftX];
+            int tileRight = gettile(tiles, (int)xrightX, y, width, height);
+            int tileLeft = gettile(tiles, (int)xleftX, y, width, height);
                               
             if(dx > 0.0 && tileRight == 1) {
                 collidedRight = YES;
@@ -140,8 +153,8 @@
         midTile = tiles[(int)ybotY * map.width + (int)goalX];
                 
         for(int x = yleftX; x <= yrightX; x++) {    
-            int tileTop = tiles[(int)ytopY * map.width + x];
-            int tileBot = tiles[(int)ybotY * map.width + x];
+            int tileTop = gettile(tiles, x, (int)ytopY, width, height);
+            int tileBot = gettile(tiles, x, (int)ybotY, width, height);
             
             if(dy < 0.0 && tileTop == 1) {
                 collidedTop = YES;
@@ -158,7 +171,7 @@
     
     // Check for slopes at the valid position
     float bottom = goalY + box.max.y - delta;
-    midTile = tiles[(int)bottom * map.width + (int)goalX];
+    midTile = gettile(tiles, (int)goalX, (int)bottom, width, height);
     BOOL slope = NO;
     
     if(midTile == 3) {
@@ -166,7 +179,7 @@
         float penY = bottom - floor(bottom);
         
         // On (inside) slope
-        if(penX + penY > 1.0) {
+        if(penX + penY > 1.0 - delta) {
             goalY = ceil(bottom) - penX - box.max.y;
             collidedBottom = YES;
             slope = YES;
@@ -175,8 +188,50 @@
         float penX = 1 - (goalX - floor(goalX));
         float penY = bottom - floor(bottom);
         
-        if(penX + penY > 1.0) {
+        if(penX + penY > 1.0 - delta) {
             goalY = ceil(bottom) - penX - box.max.y;
+            collidedBottom = YES;
+            slope = YES;
+        }
+    } else if(midTile == 5) {
+        float penX = goalX - floor(goalX);
+        float penY = bottom - (floor(bottom) + 0.5);
+        
+        if(penY > 0.0) {
+            penY *= 2.0f;
+            if(penX + penY > 1.0 - delta) {
+                goalY = ceil(bottom) - (penX / 2.0) - box.max.y;
+                collidedBottom = YES;
+                slope = YES;
+            }
+        }
+    } else if(midTile == 6) {
+        float penX = 1 - (goalX - floor(goalX));
+        float penY = bottom - (floor(bottom) + 0.5);
+        
+        if(penY > 0.0) {
+            penY *= 2.0f;
+            if(penX + penY > 1.0 - delta) {
+                goalY = ceil(bottom) - (penX / 2.0) - box.max.y;
+                collidedBottom = YES;
+                slope = YES;
+            }
+        }
+    } else if(midTile == 7) {
+        float penX = goalX - floor(goalX);
+        float penY = bottom - floor(bottom);
+        
+        if(penX + penY > 1.0 - delta) {
+            goalY = ceil(bottom) - (penX / 2.0) - box.max.y - 0.5;
+            collidedBottom = YES;
+            slope = YES;
+        }
+    } else if(midTile == 8) {
+        float penX = 1 - (goalX - floor(goalX));
+        float penY = bottom - floor(bottom);
+        
+        if(penX + penY > 1.0 - delta) {
+            goalY = ceil(bottom) - (penX / 2.0) - box.max.y - 0.5;
             collidedBottom = YES;
             slope = YES;
         }

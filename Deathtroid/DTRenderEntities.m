@@ -133,6 +133,14 @@ static const CGSize kTileSizeInPixels = {16, 16};
     glVertex3f(entity.size.min.x, entity.size.min.y, 0.);
     glEnd();
     
+    glBegin(GL_QUADS);
+    glColor3f(entity.onGround ? 1.0 : 0.0, entity.onGround ? 0.0 : 1.0, 0.0);
+    glVertex2f(-1, -1);
+    glVertex2f(-0.5, -1);
+    glVertex2f(-0.5, -0.5);
+    glVertex2f(-1, -0.5);
+    glEnd();
+    
     [p use];
     
     glPopMatrix();
