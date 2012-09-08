@@ -31,7 +31,15 @@
     [core draw];
 	[[self openGLContext] flushBuffer];
 }
-
+- (void)reshape
+{
+    glViewport(0, 0, self.frame.size.width, self.frame.size.height);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(0., 20.0f, 15.f, 0., -1., 1.);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+}
 -(void)keyDown:(NSEvent *)theEvent {
     [core.input pressedKey:[theEvent keyCode] repeated:[theEvent isARepeat]];
 }
