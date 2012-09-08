@@ -13,6 +13,8 @@
 
 @interface DTResourceManager : NSObject
 
++ (DTResourceManager *)sharedManager;
+
 +(void)registerResourceLoader:(Class)klass withTypeName:(NSString *)name;
 
 

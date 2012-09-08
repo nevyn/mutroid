@@ -13,9 +13,9 @@
     NSDictionary *previousDelta;
 }
 @synthesize delegate;
--(id)initWithPath:(NSURL*)path resourceId:(NSString*)rid;
+-(id)initWithResourceId:(NSString*)rid;
 {
-    if(!(self = [super initWithPath:path resourceId:rid])) return nil;
+    if(!(self = [super initWithResourceId:rid])) return nil;
     
     self.uuid = [NSString dt_uuid];
     

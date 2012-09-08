@@ -63,7 +63,7 @@
     _moveDirection = EntityDirectionRight;
     _lookDirection = EntityDirectionRight;
     
-    DTResourceManager *resourceManager = [[DTResourceManager alloc] initWithBaseURL:[[NSBundle mainBundle] URLForResource:@DT_RESOURCE_DIR withExtension:nil]];
+    DTResourceManager *resourceManager = [DTResourceManager sharedManager];
 
     self.animation = [resourceManager animationNamed:@"sten.animation"];
     self.rotation = 0.0;

@@ -51,10 +51,10 @@
     [NSException raise:@"Resource" format:@"Need to override %@", NSStringFromSelector(_cmd)];
 }
 
--(id<DTResource>)loadResourceAtURL:(NSURL *)url usingManager:(DTResourceManager *)manager;
+
+- (void)loadDefinitionAtURL:(NSURL *)url usingManager:(DTResourceManager *)manager;
 {
-    self.path = url;
-	//Load definition file
+    //Load definition file
 	NSData *data = [NSData dataWithContentsOfURL:url];
 	NSError *jsonError = nil;
 	NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonError];
@@ -63,6 +63,19 @@
 		[NSException raise:NSInvalidArgumentException format:@"%@", jsonError];
 	}
 	self.definition = dict;
+}
+
+- (void)reloadResource:(id<DTResource>)resource atURL:(NSURL *)url usingManager:(DTResourceManager *)manager error:(NSError **)error;
+{
+    self.path = url;
+    [self loadDefinitionAtURL:url usingManager:manager];
+    [self loadResource:resource usingManager:manager error:error];
+}
+
+-(id<DTResource>)loadResourceAtURL:(NSURL *)url usingManager:(DTResourceManager *)manager;
+{
+    self.path = url;
+    [self loadDefinitionAtURL:url usingManager:manager];
     
     id<DTResource> resource = [self createResourceWithManager:manager];
     
@@ -71,4 +84,5 @@
     
 	return resource;
 }
+
 @end

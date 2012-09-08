@@ -8,6 +8,7 @@
 
 #import "DTLevelRepository.h"
 #import "DTRoom.h"
+#import "DTResourceManager.h"
 
 @implementation DTLevelRepository
 @synthesize parentRepo;
@@ -47,7 +48,8 @@
             return;
         }
         
-        done([(DTRoom*)[cls alloc] initWithPath:levelURL resourceId:levelURL.dt_resourceId], nil);
+        DTRoom *room = [[DTResourceManager sharedManager] resourceNamed:levelURL.dt_resourceName];
+        done(room, nil);
     };
     if(self.parentRepo) [self.parentRepo fetchRoomNamed:name ofClass:cls whenDone:^(DTRoom *newLevel, NSError *err) {
         if(newLevel) {

@@ -23,8 +23,6 @@
 @property (nonatomic,strong) NSArray *initialEntityReps;
 @property (nonatomic,strong) NSMutableDictionary *entities;
 
--(id)initWithPath:(NSURL*)path resourceId:(NSString*)rid;
-
 -(void)tick:(float)delta;
 
 // Moves or adds an entity to a specific layer.

@@ -26,6 +26,10 @@
 
 -(void)loadWithImage:(DTImage *)image;
 {
+    if (textureId > 0)
+        glDeleteTextures(1, (GLuint*)&textureId);
+    
+    
 	NSBitmapImageRep *bitmap = image.NSBitmapImageRep;
 	
 	unsigned char *data = [bitmap bitmapData];
@@ -40,7 +44,6 @@
 	glBindTexture(GL_TEXTURE_2D, texId);
 	textureId = texId;
 
-	
 	glTexImage2D(GL_TEXTURE_2D, 0, hasAlpha?GL_RGBA:GL_RGB,
 				 width, height, 0, 
 				 hasAlpha?GL_RGBA:GL_RGB, GL_UNSIGNED_BYTE,

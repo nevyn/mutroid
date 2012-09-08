@@ -9,21 +9,30 @@
 #import "DTResourceManager.h"
 #import "DTResource.h"
 #import <AssertMacros.h>
+#import "SCEvents.h"
 
 
 static NSMutableDictionary *resourceLoaders = nil;
 
-@interface DTResourceManager ()
+@interface DTResourceManager () <SCEventListenerProtocol>
 
 @property (nonatomic, strong) NSMutableDictionary *loadedResources;
 @property (nonatomic, copy) NSURL *pathURL;
-
+@property (nonatomic, strong) SCEvents *pathObserver;
 @end
 
 @implementation DTResourceManager
 
 @synthesize loadedResources, pathURL, isServerSide;
 
+
++ (DTResourceManager *)sharedManager
+{
+    static DTResourceManager *__shared = nil;
+    if (!__shared)
+        __shared = [[DTResourceManager alloc] initWithBaseURL:[[NSBundle mainBundle] URLForResource:@DT_RESOURCE_DIR withExtension:nil]];
+    return __shared;
+}
 
 +(void)registerResourceLoader:(id)klass withTypeName:(NSString *)name;
 {
@@ -49,8 +58,17 @@ static NSMutableDictionary *resourceLoaders = nil;
 	if(![self init]) return nil;
 	
 	self.pathURL = rootPath;
+    self.pathObserver = [[SCEvents alloc] init];
+    self.pathObserver.delegate = self;
+    [self.pathObserver startWatchingPaths:@[rootPath.path]];
 	
 	return self;
+}
+
+- (void)pathWatcher:(SCEvents *)pathWatcher eventOccurred:(SCEvent *)event;
+{
+    for (id<DTResource> resource in [self.loadedResources allValues])
+        [self reloadResource:resource];
 }
 
 - (NSURL *)absolutePathForFileName:(NSString *)filename
@@ -127,6 +145,21 @@ static NSMutableDictionary *resourceLoaders = nil;
 {
 	// todo: implement the loader chain in levelrepository
 	whenLoaded([self resourceNamed:name]);
+}
+
+- (void)reloadResourceNamed:(NSString *)name
+{
+    id<DTResource> resource = self.loadedResources[name];
+    if (resource)
+        [self reloadResource:resource];
+}
+
+- (void)reloadResource:(id<DTResource>)resource
+{
+    NSURL *path = [self pathForResourceNamed:resource.resourceId];
+    id<DTResourceLoader> loader = [DTResourceManager resourceLoaderForTypeName:path.dt_resourceType];
+    NSError *error = nil;
+    [loader reloadResource:resource atURL:path usingManager:self error:&error];
 }
 
 @end

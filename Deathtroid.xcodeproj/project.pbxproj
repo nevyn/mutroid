@@ -35,6 +35,8 @@
 		994E55FF14412A30009EC13C /* DTImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 994E55FE14412A30009EC13C /* DTImage.m */; };
 		994E5610144146A8009EC13C /* resources in Resources */ = {isa = PBXBuildFile; fileRef = 994E560F144146A8009EC13C /* resources */; };
 		994E56171441CB3C009EC13C /* DTSpriteMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 994E56161441CB3C009EC13C /* DTSpriteMap.m */; };
+		99E5010115FAB7AE0031F34D /* SCEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 99E500FB15FAB7AE0031F34D /* SCEvent.m */; };
+		99E5010215FAB7AE0031F34D /* SCEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 99E500FE15FAB7AE0031F34D /* SCEvents.m */; };
 		D815B9E81449DCAE003EE259 /* DTShader.m in Sources */ = {isa = PBXBuildFile; fileRef = D815B9E71449DCAE003EE259 /* DTShader.m */; };
 		D822B7C2143FDDF80097FC9E /* DTCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = D822B7C1143FDDF80097FC9E /* DTCamera.m */; };
 		D822B7C6143FE1AC0097FC9E /* DTEntityRipper.m in Sources */ = {isa = PBXBuildFile; fileRef = D822B7C5143FE1AC0097FC9E /* DTEntityRipper.m */; };
@@ -153,6 +155,12 @@
 		994E560F144146A8009EC13C /* resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = resources; sourceTree = SOURCE_ROOT; };
 		994E56151441CB3C009EC13C /* DTSpriteMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTSpriteMap.h; path = Graphics/DTSpriteMap.h; sourceTree = "<group>"; };
 		994E56161441CB3C009EC13C /* DTSpriteMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTSpriteMap.m; path = Graphics/DTSpriteMap.m; sourceTree = "<group>"; };
+		99E500F915FAB7AE0031F34D /* SCConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCConstants.h; sourceTree = "<group>"; };
+		99E500FA15FAB7AE0031F34D /* SCEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCEvent.h; sourceTree = "<group>"; };
+		99E500FB15FAB7AE0031F34D /* SCEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCEvent.m; sourceTree = "<group>"; };
+		99E500FC15FAB7AE0031F34D /* SCEventListenerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCEventListenerProtocol.h; sourceTree = "<group>"; };
+		99E500FD15FAB7AE0031F34D /* SCEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCEvents.h; sourceTree = "<group>"; };
+		99E500FE15FAB7AE0031F34D /* SCEvents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCEvents.m; sourceTree = "<group>"; };
 		D815B9E61449DCAE003EE259 /* DTShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTShader.h; path = Graphics/DTShader.h; sourceTree = "<group>"; };
 		D815B9E71449DCAE003EE259 /* DTShader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTShader.m; path = Graphics/DTShader.m; sourceTree = "<group>"; };
 		D822B7C0143FDDF80097FC9E /* DTCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTCamera.h; path = Client/DTCamera.h; sourceTree = "<group>"; };
@@ -368,6 +376,20 @@
 			name = Graphics;
 			sourceTree = "<group>";
 		};
+		99E500F615FAB7AE0031F34D /* SCEvents */ = {
+			isa = PBXGroup;
+			children = (
+				99E500F915FAB7AE0031F34D /* SCConstants.h */,
+				99E500FA15FAB7AE0031F34D /* SCEvent.h */,
+				99E500FB15FAB7AE0031F34D /* SCEvent.m */,
+				99E500FC15FAB7AE0031F34D /* SCEventListenerProtocol.h */,
+				99E500FD15FAB7AE0031F34D /* SCEvents.h */,
+				99E500FE15FAB7AE0031F34D /* SCEvents.m */,
+			);
+			name = SCEvents;
+			path = Vendor/SCEvents;
+			sourceTree = "<group>";
+		};
 		D822B7C3143FE1880097FC9E /* Entities */ = {
 			isa = PBXGroup;
 			children = (
@@ -415,6 +437,7 @@
 		D8548F2C143F45D7005D7DC0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				99E500F615FAB7AE0031F34D /* SCEvents */,
 				0587E520143F8DB200EA9CBF /* AsyncSocket.h */,
 				0587E521143F8DB200EA9CBF /* AsyncSocket.m */,
 				052A5E97144CBBDB005C12AC /* Finch.xcodeproj */,
@@ -703,6 +726,8 @@
 				D815B9E81449DCAE003EE259 /* DTShader.m in Sources */,
 				D8EEC3E41449DE8F0073DA57 /* DTProgram.m in Sources */,
 				052A5EC3144CC63B005C12AC /* DTSound.m in Sources */,
+				99E5010115FAB7AE0031F34D /* SCEvent.m in Sources */,
+				99E5010215FAB7AE0031F34D /* SCEvents.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
