@@ -69,7 +69,6 @@
     NSString *direction = self.lookDirection == EntityDirectionLeft ? @"left" : @"right";
     
     self.currentState = [NSString stringWithFormat:@"%@-%@", doing, direction];
-    NSLog(@"%@", self.currentState);
 }
 
 -(id)updateFromRep:(NSDictionary*)rep;
