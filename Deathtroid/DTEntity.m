@@ -21,35 +21,32 @@
 @implementation DTEntity
 
 @synthesize world, uuid;
-@synthesize position, velocity, size, moveDirection, lookDirection, collisionType, gravity, moving, onGround, health, destructible;
-@synthesize damageFlashTimer, maxHealth;
-@synthesize animation, rotation, currentState;
 
 -(id)init;
 {
     if(!(self = [super init])) return nil;
     
-    health = 1;
-    maxHealth = 1;
-    destructible = NO;
+    _health = 1;
+    _maxHealth = 1;
+    _destructible = NO;
         
-    position = [MutableVector2 vectorWithX:5 y:1];
-    velocity = [MutableVector2 vectorWithX:0 y:0];
-    size = [MutableVector2 vectorWithX:0.8 y:1.75];
+    _position = [MutableVector2 vectorWithX:5 y:1];
+    _velocity = [MutableVector2 vectorWithX:0 y:0];
+    _size = [MutableVector2 vectorWithX:0.8 y:1.75];
     
-    collisionType = EntityCollisionTypeStop;
-    gravity = true;
-    moving = false;
-    onGround = false;
+    _collisionType = EntityCollisionTypeStop;
+    _gravity = true;
+    _moving = false;
+    _onGround = false;
     
-    moveDirection = EntityDirectionRight;
-    lookDirection = EntityDirectionRight;
+    _moveDirection = EntityDirectionRight;
+    _lookDirection = EntityDirectionRight;
     
     DTResourceManager *resourceManager = [[DTResourceManager alloc] initWithBaseURL:[[NSBundle mainBundle] URLForResource:@DT_RESOURCE_DIR withExtension:nil]];
 
-    self.animation = [resourceManager animationNamed:@"samus.animation"];
+    self.animation = [resourceManager animationNamed:@"sten.animation"];
     self.rotation = 0.0;
-    self.currentState = @"stand-left"; // This is used to specify what animation to use
+    // currentState is used to specify what animation to use
     
     return self;
 }
@@ -67,19 +64,19 @@
 
 -(id)updateFromRep:(NSDictionary*)rep;
 {
-    $doif(@"position", position = [[MutableVector2 alloc] initWithRep:o]);
-    $doif(@"velocity", velocity = [[MutableVector2 alloc] initWithRep:o]);
-    $doif(@"size", size = [[MutableVector2 alloc] initWithRep:o]);
+    $doif(@"position", _position = [[MutableVector2 alloc] initWithRep:o]);
+    $doif(@"velocity", _velocity = [[MutableVector2 alloc] initWithRep:o]);
+    $doif(@"size", _size = [[MutableVector2 alloc] initWithRep:o]);
     
-    $doif(@"gravity", gravity = [o boolValue]);
-    $doif(@"moving", moving = [o boolValue]);
-    $doif(@"onGround", onGround = [o boolValue]);
-    $doif(@"maxHealth", maxHealth = [o intValue]);
+    $doif(@"gravity", _gravity = [o boolValue]);
+    $doif(@"moving", _moving = [o boolValue]);
+    $doif(@"onGround", _onGround = [o boolValue]);
+    $doif(@"maxHealth", _maxHealth = [o intValue]);
     
-    $doif(@"moveDirection", moveDirection = [o intValue]);
-    $doif(@"lookDirection", lookDirection = [o intValue]);
-    $doif(@"collisionType", collisionType = [o intValue]);
-    $doif(@"rotation", rotation = [o floatValue]);
+    $doif(@"moveDirection", _moveDirection = [o intValue]);
+    $doif(@"lookDirection", _lookDirection = [o intValue]);
+    $doif(@"collisionType", _collisionType = [o intValue]);
+    $doif(@"rotation", _rotation = [o floatValue]);
     
     return self;
 }
@@ -88,20 +85,20 @@
     NSMutableDictionary *rep = $mdict(
         @"class", NSStringFromClass([self class]),
         
-        @"position", [position rep],
-        @"velocity", [velocity rep],
-        @"size", [size rep],
+        @"position", [_position rep],
+        @"velocity", [_velocity rep],
+        @"size", [_size rep],
         
-        @"gravity", $num(gravity),
-        @"moving", $num(moving),
-        @"onGround", $num(onGround),
+        @"gravity", $num(_gravity),
+        @"moving", $num(_moving),
+        @"onGround", $num(_onGround),
         
-        @"maxHealth", $num(maxHealth),
+        @"maxHealth", $num(_maxHealth),
         
-        @"moveDirection", $num(moveDirection),
-        @"lookDirection", $num(lookDirection),
-        @"collisionType", $num(collisionType),
-        @"rotation", $num(rotation)
+        @"moveDirection", $num(_moveDirection),
+        @"lookDirection", $num(_lookDirection),
+        @"collisionType", $num(_collisionType),
+        @"rotation", $num(_rotation)
     );
     
     return rep;
@@ -109,19 +106,26 @@
 
 -(void)tick:(double)delta;
 {    
-    if(damageFlashTimer > 0)
-        damageFlashTimer -= delta;
+    if(_damageFlashTimer > 0)
+        _damageFlashTimer -= delta;
+}
+
+- (NSString*)currentState
+{
+    if(!_currentState)
+        self.currentState = self.animation.animationNames[0];
+    return _currentState;
 }
 
 -(void)didCollideWithWorld:(DTTraceResult*)info; {}
 
 -(BOOL)damage:(int)damage from:(Vector2*)damagerLocation killer:(DTEntity *)killer;
 {
-    if(!destructible) return NO;
-    health -= damage;
-    damageFlashTimer = 0.2;
+    if(!_destructible) return NO;
+    _health -= damage;
+    _damageFlashTimer = 0.2;
     [world.server entityDamaged:self damage:damage location:damagerLocation killer:killer];
-	if(health < 0)
+	if(_health < 0)
 		[world.server entityWasKilled:self by:killer];
 	return YES;
 }

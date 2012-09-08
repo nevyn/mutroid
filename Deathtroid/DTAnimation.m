@@ -56,7 +56,10 @@
 {
     return [self.animations[animation] spriteMap];
 }
-
+- (NSArray*)animationNames
+{
+    return self.animations.allKeys;
+}
 @end
 
 @interface DTAnimationLoader : DTResourceLoader

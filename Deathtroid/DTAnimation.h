@@ -15,6 +15,7 @@
 - (NSUInteger) frameCountForAnimation:(NSString*)animationName;
 - (NSUInteger) framesPerSecondForAnimation:(NSString*)animationName;
 - (DTSpriteMap*) spriteMapForAnimation:(NSString*)animation;
+- (NSArray*)animationNames;
 @end
 
 @interface DTResourceManager (DTAnimation)

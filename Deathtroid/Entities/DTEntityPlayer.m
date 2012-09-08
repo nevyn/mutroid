@@ -12,6 +12,8 @@
 #import "DTWorld.h"
 #import "DTEntityBullet.h"
 #import "DTServerRoom.h"
+#import "DTResourceManager.h"
+#import "DTAnimation.h"
 
 @implementation DTEntityPlayer {
     float   acceleration;
@@ -30,6 +32,9 @@
     self.destructible = YES;
     
     self.maxHealth = self.health = 99;
+    
+    DTResourceManager *resourceManager = [[DTResourceManager alloc] initWithBaseURL:[[NSBundle mainBundle] URLForResource:@DT_RESOURCE_DIR withExtension:nil]];
+    self.animation = [resourceManager animationNamed:@"samus.animation"];
             
     return self;
 }
