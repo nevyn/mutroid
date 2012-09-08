@@ -13,6 +13,9 @@
 #import "DTCore.h"
 #import "DTInput.h"
 
+#define GAME_WIDTH 320
+#define GAME_HEIGHT 240
+
 @implementation DTView
 {
     GLuint FramebufferName;
@@ -42,8 +45,9 @@
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glBindTexture(GL_TEXTURE_2D, renderedTexture);
-    
-    glColor3f(1, 1, 0);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glColor3f(1, 1, 1);
     glBegin(GL_QUADS);
     glTexCoord2f(0, 1);
     glVertex3f(-1, -1, 0);
@@ -66,7 +70,7 @@
 - (void)setupFrameRenderbuffer
 {
     //set up a texture buffer at game size
-    glViewport(0, 0, 320, 240);
+    glViewport(0, 0, GAME_WIDTH, GAME_HEIGHT);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glOrtho(0., 20.0f, 15.f, 0., -1., 1.);
@@ -84,7 +88,7 @@
     glBindTexture(GL_TEXTURE_2D, renderedTexture);
     
     // Give an empty image to OpenGL ( the last "0" )
-    glTexImage2D(GL_TEXTURE_2D, 0,GL_RGB, 320, 240, 0,GL_RGB, GL_UNSIGNED_BYTE, 0);
+    glTexImage2D(GL_TEXTURE_2D, 0,GL_RGB, GAME_WIDTH, GAME_HEIGHT, 0,GL_RGB, GL_UNSIGNED_BYTE, 0);
     
     // Poor filtering. Needed !
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -106,7 +110,7 @@
 {
     glBindFramebuffer(GL_FRAMEBUFFER, FramebufferName);
     //set up a texture buffer at game size
-    glViewport(0, 0, 320, 240);
+    glViewport(0, 0, GAME_WIDTH, GAME_HEIGHT);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glOrtho(0., 20.0f, 15.f, 0., -1., 1.);
@@ -124,6 +128,7 @@
     glOrtho(-1, 1, 1, -1, -1., 1.);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
+    
 }
 
 -(void)keyDown:(NSEvent *)theEvent {
