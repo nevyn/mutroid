@@ -33,6 +33,8 @@
     
     self.maxHealth = self.health = 99;
     
+    self.size = [MutableVector2 vectorWithX:2.4 y:3];
+    
     DTResourceManager *resourceManager = [[DTResourceManager alloc] initWithBaseURL:[[NSBundle mainBundle] URLForResource:@DT_RESOURCE_DIR withExtension:nil]];
     self.animation = [resourceManager animationNamed:@"samus.animation"];
             
@@ -61,6 +63,12 @@
     
     if(self.velocity.x < 0) self.lookDirection = EntityDirectionLeft;
     else if(self.velocity.x > 0) self.lookDirection = EntityDirectionRight;
+    
+    id states = @[
+        @[@"stand-left", @"stand-right"],
+        @[@"walking-left", @"walking-right"]
+    ];
+    self.currentState = states[abs(self.velocity.x) > 0][self.lookDirection == EntityDirectionLeft];
 }
 
 -(id)updateFromRep:(NSDictionary*)rep;
