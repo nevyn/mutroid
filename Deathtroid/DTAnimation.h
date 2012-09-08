@@ -11,13 +11,10 @@
 #import "DTSpriteMap.h"
 
 @interface DTAnimation : DTResource
-
-@property (nonatomic, retain) DTSpriteMap *spriteMap;
-
 - (DTSpriteMapFrame)frameAtIndex:(NSInteger)frameIndex forAnimation:(NSString*)animationName;
 - (NSUInteger) frameCountForAnimation:(NSString*)animationName;
 - (NSUInteger) framesPerSecondForAnimation:(NSString*)animationName;
-
+- (DTSpriteMap*) spriteMapForAnimation:(NSString*)animation;
 @end
 
 @interface DTResourceManager (DTAnimation)

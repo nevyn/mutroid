@@ -11,45 +11,50 @@
 #import "DTTexture.h"
 #import "DTResource.h"
 
-@interface DTAnimation () 
-
+@interface DTAnimation ()
 @property (nonatomic, retain) NSMutableDictionary *animations;
+@end
 
+@interface DTSingleAnimation : NSObject
+@property NSArray *tiles;
+@property int fps;
+@property DTSpriteMap *spriteMap;
+@end
+@implementation DTSingleAnimation
 @end
 
 
 @implementation DTAnimation
 
-@synthesize spriteMap;
-@synthesize animations;
-
--(id)initWithResourceId:(NSString *)resourceId spriteMap:(DTSpriteMap*)spriteMap_ animations:(NSMutableDictionary*)animations_
+-(id)initWithResourceId:(NSString *)resourceId animations:(NSMutableDictionary*)animations_
 {
 	if(![self initWithResourceId:resourceId]) return nil;
 	
-	self.spriteMap = spriteMap_;
     self.animations = animations_;
     
 	return self;
 }
 
 -(DTSpriteMapFrame)frameAtIndex:(NSInteger)frameIndex forAnimation:(NSString*)animationName {
+    NSArray *tiles = [self.animations[animationName] tiles];
+    DTSpriteMap *map = [self spriteMapForAnimation:animationName];
+    NSInteger destinationFrame = frameIndex;
+    if(tiles)
+        destinationFrame = [tiles[frameIndex] intValue];
     
-    NSDictionary *animation = [self.animations objectForKey:animationName];
-    NSArray *frames = [animation objectForKey:@"tiles"];
-    return [self.spriteMap frameAtIndex:[[frames objectAtIndex:frameIndex] intValue]];
+    return [map frameAtIndex:destinationFrame];
 }
 
 - (NSUInteger) frameCountForAnimation:(NSString*)animationName {
-    
-    NSDictionary *animation = [self.animations objectForKey:animationName];
-    return [(NSArray*)[animation objectForKey:@"tiles"] count];
+    return [[self.animations[animationName] spriteMap] frameCount];
 }
 
 - (NSUInteger) framesPerSecondForAnimation:(NSString*)animationName {
-    
-    NSDictionary *animation = [self.animations objectForKey:animationName];
-    return [[animation objectForKey:@"fps"] intValue];
+    return [self.animations[animationName] fps];
+}
+- (DTSpriteMap*) spriteMapForAnimation:(NSString*)animation
+{
+    return [self.animations[animation] spriteMap];
 }
 
 @end
@@ -69,33 +74,18 @@
 
 - (void)loadResource:(DTAnimation *)anim usingManager:(DTResourceManager *)manager error:(NSError *__autoreleasing *)error
 {
-    DTSpriteMap *spriteMap = [manager spriteMapNamed:[self.definition objectForKey:@"spriteMap"]];
-    
     NSMutableDictionary *animations = [NSMutableDictionary dictionary];
-    NSArray *listOfAnimations = [self.definition objectForKey:@"animations"];
-    for (NSDictionary *animation in listOfAnimations) {
-        [animations setObject:[animation objectForKey:@"data"] forKey:(NSString*)[animation objectForKey:@"name"]];
+    NSDictionary *listOfAnimations = self.definition[@"animations"];
+    for (NSString *key in listOfAnimations) {
+        NSDictionary *values = listOfAnimations[key];
+        DTSingleAnimation *single = [DTSingleAnimation new];
+        single.fps = [values[@"fps"] floatValue];
+        single.spriteMap = [manager spriteMapNamed:values[@"spriteMap"]];
+        single.tiles = values[@"tiles"];
+        animations[key] = single;
     }
     
-    anim.spriteMap = spriteMap;
     anim.animations = animations;
-}
-
--(id<DTResource>)loadResourceAtURL:(NSURL *)url usingManager:(DTResourceManager *)manager
-{
-	[super loadResourceAtURL:url usingManager:manager];
-        
-	DTSpriteMap *spriteMap = [manager spriteMapNamed:[self.definition objectForKey:@"spriteMap"]];
-    
-    NSMutableDictionary *animations = [NSMutableDictionary dictionary];
-    NSArray *listOfAnimations = [self.definition objectForKey:@"animations"];
-    for (NSDictionary *animation in listOfAnimations) {
-        [animations setObject:[animation objectForKey:@"data"] forKey:(NSString*)[animation objectForKey:@"name"]];
-    }
-    
-    DTAnimation *animation = [[DTAnimation alloc] initWithResourceId:url.dt_resourceId spriteMap:spriteMap animations:animations];
-    
-	return animation;
 }
 
 @end

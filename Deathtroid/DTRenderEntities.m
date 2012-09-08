@@ -84,7 +84,7 @@
     if([$castIf(DTEntityPlayer, entity) immune] && (frameCount/2)%2)
         return;
     
-    [entity.animation.spriteMap.texture use];
+    [[entity.animation spriteMapForAnimation:entity.currentState].texture use];
     DTSpriteMapFrame frame = [entity.animation frameAtIndex:entityData.currentFrame forAnimation:entity.currentState];
     
     glPushMatrix();
