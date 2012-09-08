@@ -47,9 +47,9 @@
     
     DTResourceManager *resourceManager = [[DTResourceManager alloc] initWithBaseURL:[[NSBundle mainBundle] URLForResource:@DT_RESOURCE_DIR withExtension:nil]];
 
-    self.animation = [resourceManager animationNamed:@"sten.animation"];
+    self.animation = [resourceManager animationNamed:@"samus.animation"];
     self.rotation = 0.0;
-    self.currentState = @"walking-right"; // This is used to specify what animation to use
+    self.currentState = @"stand-left"; // This is used to specify what animation to use
     
     return self;
 }
