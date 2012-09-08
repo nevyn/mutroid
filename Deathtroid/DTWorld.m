@@ -40,20 +40,14 @@ static int gettile(int *tiles, int x, int y, int width, int height) {
 
 @implementation DTWorld
 
-@synthesize room, server, resources;
-
--(id)initWithRoom:(DTRoom*)_room;
+-(id)initWithRoom:(DTRoom*)room
 {
     if(!(self = [super init])) return nil;
-    room = _room;
+    _room = room;
     return self;
 }
 
--(DTServerRoom*)sroom;
-{
-    if(!self.server) return nil;
-    return (id)self.room;
-}
+
 
 -(DTTraceResult*)traceBox:(DTBBox*)box from:(Vector2*)from to:(Vector2*)to exclude:(DTEntity*)exclude ignoreEntities:(BOOL)ignore;
 {
@@ -75,7 +69,7 @@ static int gettile(int *tiles, int x, int y, int width, int height) {
     float stepX = move.x / steps;
     float stepY = move.y / steps;
         
-    DTMap *map = [room collisionLayer];
+    DTMap *map = [_room collisionLayer];
 
     for(int i=0; i<=steps; i++) {
         // Remember that we essentially send in a single position here.

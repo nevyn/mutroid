@@ -20,6 +20,7 @@
 #import "DTWorld.h"
 #import "DTEntity.h"
 #import "DTEntityPlayer.h"
+#import "DTWorldRoom.h"
 
 #import "DTResourceManager.h"
 #import "DTTexture.h"
@@ -48,7 +49,7 @@
     FISoundEngine *finch;
 }
 @synthesize physics;
-@synthesize rooms, playerEntity, currentRoom;
+@synthesize rooms, playerEntity;
 @synthesize camera;
 @synthesize resources, healthCallback, scoresCallback, messageCallback;
 
@@ -115,21 +116,20 @@ static const int kScreenWidthInTiles = 20;
 {
     // Ticka de som ska tickas?
     
-    camera.position.x = CLAMP(followThis.position.x - 10, 0, [currentRoom.layers.lastObject map].width-kScreenWidthInTiles);
+    camera.position.x = CLAMP(followThis.position.x - 10, 0, [_currentRoom.room.layers.lastObject map].width-kScreenWidthInTiles);
     finch.listenerPosition = [FIVector vectorWithX:camera.position.x+10 Y:camera.position.y+7.5 Z:1];
     
-    for(DTLayer *layer in currentRoom.layers)
-        [layer tick:delta];
+    [_currentRoom tick:delta];
     
-    for(DTEntity *entity in currentRoom.entities.allValues)
+    for(DTEntity *entity in _currentRoom.entities.allValues)
         [entity tick:delta];
     
-    if(currentRoom.world)
-        [physics runWithEntities:currentRoom.entities.allValues world:currentRoom.world delta:delta];
+    if(_currentRoom.world)
+        [physics runWithEntities:_currentRoom.entities.allValues world:_currentRoom.world delta:delta];
         
     if(self.healthCallback) self.healthCallback(followThis.maxHealth, followThis.health);
     
-    for(DTEntity *entity in currentRoom.entities.allValues)
+    for(DTEntity *entity in _currentRoom.entities.allValues)
         [entityRenderer tick:delta forEntity:entity];
 }
 
@@ -140,13 +140,13 @@ static const int kScreenWidthInTiles = 20;
     glClear(GL_COLOR_BUFFER_BIT);
     glLoadIdentity();
 	
-	for(DTLayer *layer in currentRoom.layers)
-		[tilemapRenderer drawLayer:layer camera:camera];
+	for(DTLayer *layer in _currentRoom.room.layers)
+		[tilemapRenderer drawLayer:layer camera:camera fromWorldRoom:_currentRoom];
         
-    [tilemapRenderer drawCollision:currentRoom.collisionLayer camera:camera];
-    		
+    [tilemapRenderer drawCollision:_currentRoom.room.collisionLayer camera:camera];
+    
     glTranslatef(-camera.position.x, -camera.position.y, 0);
-    for(DTEntity *entity in currentRoom.entities.allValues)
+    for(DTEntity *entity in _currentRoom.entities.allValues)
         [entityRenderer drawEntity:entity camera:camera frameCount:frameCount];
 }
 
@@ -204,7 +204,7 @@ static const int kScreenWidthInTiles = 20;
 {
     NSDictionary *reps = $notNull([hash objectForKey:@"reps"]);
     NSString *roomName = $notNull([hash objectForKey:@"room"]);
-    DTRoom *room = $notNull([rooms objectForKey:roomName]);
+    DTWorldRoom *room = $notNull([rooms objectForKey:roomName]);
     
     for(NSString *key in reps) {
         DTEntity *ent = $notNull([room.entities objectForKey:key]);
@@ -214,7 +214,7 @@ static const int kScreenWidthInTiles = 20;
 -(void)command:(id)proto addEntity:(NSDictionary*)hash;
 {
     NSString *roomName = $notNull([hash objectForKey:@"room"]);
-    DTRoom *room = $notNull([rooms objectForKey:roomName]);
+    DTWorldRoom *room = $notNull([rooms objectForKey:roomName]);
     
     NSString *key = $notNull([hash objectForKey:@"uuid"]);
     NSDictionary *rep = $notNull([hash objectForKey:@"rep"]);
@@ -227,7 +227,7 @@ static const int kScreenWidthInTiles = 20;
 {
     NSString *key = $notNull([hash objectForKey:@"uuid"]);
     NSString *roomName = $notNull([hash objectForKey:@"room"]);
-    DTRoom *room = [rooms objectForKey:roomName];
+    DTWorldRoom *room = [rooms objectForKey:roomName];
     if(!room) return;
     
     DTEntity *entity = [room.entities objectForKey:key];
@@ -242,7 +242,7 @@ static const int kScreenWidthInTiles = 20;
 {
     NSString *key = $notNull([hash objectForKey:@"uuid"]);
     NSString *roomName = $notNull([hash objectForKey:@"room"]);
-    DTRoom *room = $notNull([rooms objectForKey:roomName]);
+    DTWorldRoom *room = $notNull([rooms objectForKey:roomName]);
     
     playerEntity = [room.entities objectForKey:key];
 }
@@ -250,7 +250,7 @@ static const int kScreenWidthInTiles = 20;
 -(void)command:(id)proto cameraFollow:(NSDictionary*)hash;
 {
     NSString *roomName = $notNull([hash objectForKey:@"room"]);
-    DTRoom *room = $notNull([rooms objectForKey:roomName]);
+    DTWorldRoom *room = $notNull([rooms objectForKey:roomName]);
     
     DTEntity *f = $notNull([room.entities objectForKey:[hash objectForKey:@"uuid"]]);
     followThis = f; // silence stupid warning :/
@@ -262,12 +262,12 @@ static const int kScreenWidthInTiles = 20;
     NSString *name = $notNull([hash objectForKey:@"name"]);
     NSString *uuid = $notNull([hash objectForKey:@"uuid"]);
     
-    currentRoom = nil;
+    _currentRoom = nil;
     [entityRenderer emptyGfxState];
     
-    __block DTRoom *room = [rooms objectForKey:uuid];
+    __block DTWorldRoom *room = [rooms objectForKey:uuid];
     void(^then)() = ^ {
-        currentRoom = room;
+        _currentRoom = room;
         
         [proto requestHash:$dict(@"question", @"getRoom", @"uuid", uuid) response:^(NSDictionary *hash2) {
             NSDictionary *reps = $notNull([hash2 objectForKey:@"entities"]);
@@ -297,8 +297,8 @@ static const int kScreenWidthInTiles = 20;
 				// todo<nevyn>: reintroduce errors into resource loader
                 return;
             }
-            room = newRoom;
-            room.uuid = uuid;
+            room = [[DTWorldRoom alloc] initWithRoom:newRoom];
+            room.room.uuid = uuid;
             room.world.resources = resources;
 
             [rooms setObject:room forKey:uuid];
@@ -309,7 +309,7 @@ static const int kScreenWidthInTiles = 20;
 -(void)command:(id)proto entityDamaged:(NSDictionary*)hash;
 {
     NSString *roomName = $notNull([hash objectForKey:@"room"]);
-    DTRoom *room = $notNull([rooms objectForKey:roomName]);
+    DTWorldRoom *room = $notNull([rooms objectForKey:roomName]);
     
     DTEntity *e = $notNull([room.entities objectForKey:[hash objectForKey:@"uuid"]]);
     DTEntity *other = [room.entities objectForKey:[hash objectForKey:@"killer"]];
@@ -322,7 +322,7 @@ static const int kScreenWidthInTiles = 20;
 -(void)command:(id)proto entityCounterpartMessage:(NSDictionary*)hash;
 {
     NSString *roomName = $notNull([hash objectForKey:@"room"]);
-    DTRoom *room = $notNull([rooms objectForKey:roomName]);
+    DTWorldRoom *room = $notNull([rooms objectForKey:roomName]);
 	
 	DTEntity *ent = $notNull([room.entities objectForKey:[hash objectForKey:@"uuid"]]);
 	

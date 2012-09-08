@@ -8,16 +8,18 @@
 
 #import "DTServerRoom.h"
 #import "DTEntity.h"
+#import "DTWorld.h"
 
 @implementation DTServerRoom {
     NSDictionary *previousDelta;
 }
 @synthesize delegate;
--(id)initWithResourceId:(NSString*)rid;
+-(id)initWithRoom:(DTRoom*)room;
 {
-    if(!(self = [super initWithResourceId:rid])) return nil;
+    if(!(self = [super initWithRoom:room])) return nil;
     
-    self.uuid = [NSString dt_uuid];
+    self.world.sroom = self;
+    room.uuid = [NSString dt_uuid];
     
     return self;
 }

@@ -22,7 +22,7 @@
 
 @interface DTWorld : NSObject
 
--(id)initWithRoom:(DTRoom*)_room;
+-(id)initWithRoom:(DTRoom*)room;
 
 -(DTTraceResult*)traceBox:(DTBBox*)box from:(Vector2*)from to:(Vector2*)to exclude:(DTEntity*)exclude ignoreEntities:(BOOL)ignore;
 -(DTTraceResult*)traceBox:(DTBBox*)box from:(Vector2*)from to:(Vector2*)to exclude:(DTEntity*)exclude ignoreEntities:(BOOL)ignore inverted:(BOOL)inverted;
@@ -30,9 +30,9 @@
 
 -(BOOL)boxCollideBoxA:(Vector2*)boxA sizeA:(Vector2*)sizeA boxB:(Vector2*)boxB sizeB:(Vector2*)sizeB;
 
-@property (nonatomic,weak) DTServer *server; // nil if world is on client
-@property (nonatomic,weak) DTRoom *room;
-@property (nonatomic,readonly) DTServerRoom *sroom; // nil if on client
+@property (weak) DTServer *server; // nil if world is on client
+@property (weak) DTRoom *room;
+@property (weak) DTServerRoom *sroom; // nil if on client
 // for entities to find new resources if needed. This is probably a bad idea; want to 
 // pull all client-side work out of the entities (see: DTRenderEntities), but not sure
 // how to do sound yet.

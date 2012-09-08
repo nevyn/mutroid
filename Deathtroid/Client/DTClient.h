@@ -16,6 +16,7 @@ typedef void(^DTClientMessageCallback)(NSString *message);
 @class DTServer, DTRoom, DTWorld, DTEntityPlayer;
 @class DTCamera;
 @class DTRenderEntities;
+@class DTWorldRoom;
 
 @interface DTClient : NSObject
 -(id)init; // to local
@@ -35,7 +36,7 @@ typedef void(^DTClientMessageCallback)(NSString *message);
 @property (nonatomic,strong) DTEntityPlayer *playerEntity;
 
 @property (nonatomic,strong) NSMutableDictionary *rooms;
-@property (nonatomic,weak) DTRoom *currentRoom;
+@property (nonatomic,weak) DTWorldRoom *currentRoom;
 
 @property (nonatomic,strong) DTCamera *camera;
 

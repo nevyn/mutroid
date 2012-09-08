@@ -22,10 +22,6 @@ static NSMutableDictionary *resourceLoaders = nil;
 @end
 
 @implementation DTResourceManager
-
-@synthesize loadedResources, pathURL, isServerSide;
-
-
 + (DTResourceManager *)sharedManager
 {
     static DTResourceManager *__shared = nil;

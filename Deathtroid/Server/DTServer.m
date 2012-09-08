@@ -52,8 +52,7 @@ static const int kMaxServerFramerate = 10;
 {
     if(!(self = [super init])) return nil;
 	
-	self.resources = [[DTResourceManager alloc] initWithBaseURL:[[NSBundle mainBundle] URLForResource:@DT_RESOURCE_DIR withExtension:nil]];
-	_resources.isServerSide = YES;
+	self.resources = [DTResourceManager sharedManager];
 
     
     _physics = [[DTPhysics alloc] init];
@@ -80,28 +79,28 @@ static const int kMaxServerFramerate = 10;
     
     player.entity = [room createEntity:[DTEntityPlayer class] setup:nil];
     
-    [self teleportPlayerForEntity:player.entity toPosition:player.entity.position inRoomNamed:room.name];
+    [self teleportPlayerForEntity:player.entity toPosition:player.entity.position inRoomNamed:room.room.name];
 }
 
 -(void)loadLevel:(NSString*)roomName then:(void(^)(DTServerRoom*))then;
 {
     DTServerRoom *existing = nil;
-    for(DTServerRoom *r in _rooms.allValues) if([r.name isEqual:roomName]) { existing = r; break; }
+    for(DTServerRoom *r in _rooms.allValues) if([r.room.name isEqual:roomName]) { existing = r; break; }
     if(existing) {
         then(existing);
         return;
     }
 
 	[_resources resourceNamed:$sprintf(@"%@.room",roomName) loaded:(void(^)(id<DTResource>))^(DTRoom* newLevel) {
-        DTServerRoom *sroom = (id)newLevel;
+        DTServerRoom *sroom = [[DTServerRoom alloc] initWithRoom:newLevel];
         
         sroom.delegate = self;
-        [_rooms setObject:sroom forKey:sroom.uuid];
+        [_rooms setObject:sroom forKey:sroom.room.uuid];
         
         sroom.world.server = self;
         sroom.world.resources = _resources;
         
-        for(NSDictionary *entRep in sroom.initialEntityReps)
+        for(NSDictionary *entRep in sroom.room.initialEntityReps)
             [sroom createEntity:NSClassFromString([entRep objectForKey:@"class"]) setup:^(DTEntity *e) {
                 [e updateFromRep:entRep];
             }];
@@ -145,7 +144,7 @@ static const int kMaxServerFramerate = 10;
 {
     for(DTPlayer *player in players) {
         NSString *ruid = [d objectForKey:@"room"];
-        if(ruid && ![ruid isEqual:player.room.uuid]) continue;
+        if(ruid && ![ruid isEqual:player.room.room.uuid]) continue;
         [player.proto sendHash:d];
     }
 }
@@ -228,14 +227,14 @@ static const int kMaxServerFramerate = 10;
 #pragma mark Incoming player requests
 -(void)playerRequest:(DTPlayer*)player getRoom:(NSDictionary*)hash responder:(TCAsyncHashProtocolResponseCallback)responder;
 {
-    DTRoom *room = [_rooms objectForKey:$notNull([hash objectForKey:@"uuid"])];
+    DTServerRoom *room = [_rooms objectForKey:$notNull([hash objectForKey:@"uuid"])];
     if(!room) return responder($dict(@"error", @"no such room"));
     
     NSDictionary *entReps = [room.entities sp_map: ^(NSString *k, id v) { return [v rep]; }];
 
     responder($dict(
-        @"uuid", room.uuid,
-        @"name", room.name,
+        @"uuid", room.room.uuid,
+        @"name", room.room.name,
         @"entities", entReps
     ));
 }
@@ -269,7 +268,7 @@ static const int kMaxServerFramerate = 10;
 {
 	NSMutableDictionary *d = $mdict(
         @"command", @"entityDamaged",
-        @"room", entity.world.room.uuid,
+        @"room", entity.world.sroom.room.uuid,
         @"uuid", entity.uuid,
 		@"location", where.rep,
         @"damage", $num(damage)
@@ -290,7 +289,7 @@ static const int kMaxServerFramerate = 10;
 	} else if(!$isPlayer(killed) && $isPlayer(killer)) // PvE
 		[self addPoints:0.1 forPlayer:[self playerForEntity:killer]];
 	
-	[$cast(DTServerRoom, killed.world.room) destroyEntityKeyed:killed.uuid];
+	[killed.world.sroom destroyEntityKeyed:killed.uuid];
 }
 
 -(void)teleportPlayerForEntity:(DTEntity*)playerE
@@ -299,7 +298,7 @@ static const int kMaxServerFramerate = 10;
 {
     DTPlayer *player = $notNull([self playerForEntity:playerE]);
     
-    DTServerRoom *oldRoom = $cast(DTServerRoom, playerE.world.room);
+    DTServerRoom *oldRoom = playerE.world.sroom;
     
     [self loadLevel:roomName then:^(DTServerRoom *newRoom) {
         player.entity.position = [MutableVector2 vectorWithVector2:pos];
@@ -309,20 +308,20 @@ static const int kMaxServerFramerate = 10;
         
         [player.proto requestHash:$dict(
             @"question", @"joinRoom",
-            @"name", newRoom.name,
-            @"uuid", newRoom.uuid
+            @"name", newRoom.room.name,
+            @"uuid", newRoom.room.uuid
         ) response:^(NSDictionary *response) {
             // client's room is now loaded, and its state is all set up.
             player.room = newRoom;
             [newRoom addEntityToRoom:playerE];
             [player.proto sendHash:$dict(
                 @"command", @"playerEntity",
-                @"room", newRoom.uuid,
+                @"room", newRoom.room.uuid,
                 @"uuid", player.entity.uuid
             )];
             [player.proto sendHash:$dict(
                 @"command", @"cameraFollow",
-                @"room", newRoom.uuid,
+                @"room", newRoom.room.uuid,
                 @"uuid", player.entity.uuid
             )];
         }];
@@ -340,7 +339,7 @@ static const int kMaxServerFramerate = 10;
 	if(diff.count)
 		[self broadcast:$dict(
 			@"command", @"updateEntityDeltas",
-			@"room", room.uuid,
+			@"room", room.room.uuid,
 			@"reps", diff
 		)];
 }
@@ -373,7 +372,7 @@ static const int kMaxServerFramerate = 10;
             
             [self broadcast:$dict(
                 @"command", @"updateEntityDeltas",
-                @"room", room.uuid,
+                @"room", room.room.uuid,
                 @"reps", reps
             )];
         }
@@ -388,7 +387,7 @@ static const int kMaxServerFramerate = 10;
     [self broadcast:$dict(
         @"command", @"addEntity",
         @"uuid", ent.uuid,
-        @"room", room.uuid,
+        @"room", room.room.uuid,
         @"rep", [ent rep]
     )];
 }
@@ -396,7 +395,7 @@ static const int kMaxServerFramerate = 10;
 {
     [self broadcast:$dict(
         @"command", @"removeEntity",
-        @"room", room.uuid,
+        @"room", room.room.uuid,
         @"uuid", ent.uuid
     )];
 }
@@ -404,7 +403,7 @@ static const int kMaxServerFramerate = 10;
 {
 	[self broadcast:$dict(
 		@"command", @"entityCounterpartMessage",
-		@"room", room.uuid,
+		@"room", room.room.uuid,
 		@"uuid", ent.uuid,
 		@"message", hash
 	)];

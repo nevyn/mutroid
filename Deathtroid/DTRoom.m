@@ -22,22 +22,14 @@
 @synthesize name = _name;
 @synthesize initialEntityReps;
 @synthesize uuid;
-@synthesize world;
-@synthesize entities;
 
 - (id)initWithResourceId:(NSString *)rid
 {
     if(!(self = [super initWithResourceId:rid])) return nil;
     
     _layers = [[NSMutableArray alloc] init];
-    entities = [[NSMutableDictionary alloc] init];
     
     return self;
-}
-
--(void)tick:(float)delta {
-	for(DTLayer *lay in _layers)
-		[lay tick:delta];
 }
 
 /*
@@ -67,10 +59,8 @@
 }
 
 - (id<DTResource>)createResourceWithManager:(DTResourceManager *)manager
-{
-	Class klass = manager.isServerSide ? NSClassFromString(@"DTServerRoom") : [DTRoom class];
-	
-	return [[klass alloc] initWithResourceId:self.path.dt_resourceId];
+{	
+	return [[DTRoom alloc] initWithResourceId:self.path.dt_resourceId];
 }
 
 - (void)loadResource:(DTRoom *)room usingManager:(DTResourceManager *)manager error:(NSError *__autoreleasing *)error
@@ -84,9 +74,6 @@
     NSDictionary *collisionRep = $notNull([self.definition objectForKey:@"collision"]);
     room.collisionLayer = [[DTMap alloc] initWithRep:collisionRep];
     room.initialEntityReps = $notNull([self.definition objectForKey:@"entities"]);
-    if(!room.world) {
-        room.world = [[DTWorld alloc] initWithRoom:room];
-    }
 }
 
 @end

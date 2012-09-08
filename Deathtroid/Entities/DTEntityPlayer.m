@@ -38,9 +38,9 @@
     self.size.min.y = -3;
     self.size.max.y = 0;
     
-    DTResourceManager *resourceManager = [[DTResourceManager alloc] initWithBaseURL:[[NSBundle mainBundle] URLForResource:@DT_RESOURCE_DIR withExtension:nil]];
+    DTResourceManager *resourceManager = [DTResourceManager sharedManager];
     self.animation = [resourceManager animationNamed:@"samus.animation"];
-            
+    
     return self;
 }
 

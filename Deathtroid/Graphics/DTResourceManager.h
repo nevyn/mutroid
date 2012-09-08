@@ -26,9 +26,6 @@
 -(void)resourceNamed:(NSString *)name loaded:(void(^)(id<DTResource>))whenLoaded;
 
 - (NSURL *)absolutePathForFileName:(NSString *)filename;
-
-// This resource manager is for server resources?
-@property(nonatomic) BOOL isServerSide;
 @end
 
 

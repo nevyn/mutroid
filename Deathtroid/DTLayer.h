@@ -10,7 +10,7 @@
 
 #import "Vector2.h"
 
-@class DTMap;
+@class DTMap, DTLayerState;
 
 @interface DTColor : NSObject
 @property (nonatomic) float r,g,b,a;
@@ -29,18 +29,14 @@
     DTColor         *cycleSource;
     NSMutableArray  *cycleColors;
     float           cycleFPS;
-    float           cycleCounter;
-    int             cycleCurrent;
 	
 	// Make sure to clamp.
-	MutableVector2	*currentPosition;
 	Vector2			*startPosition;
 }
 
 @property (nonatomic,strong) NSString *tilemapName;
 
 @property (nonatomic,strong) DTMap *map;
-@property (nonatomic,strong) MutableVector2 *currentPosition;
 
 @property (nonatomic) float depth;
 @property (nonatomic) CGPoint autoScrollSpeed;
@@ -50,12 +46,12 @@
 @property (nonatomic,strong) DTColor *cycleSource;
 @property (nonatomic,strong) NSMutableArray *cycleColors;
 @property (nonatomic) float cycleFPS;
-@property (nonatomic) int cycleCurrent;
 
 -(id)initWithRep:(NSDictionary*)rep;
 
--(void)tick:(float)delta;
+-(void)tick:(float)delta inState:(DTLayerState*)state;
+@end
 
--(void)clampPosition;
-
+@interface DTLayerState : NSObject
+@property (nonatomic) int cycleCurrent;
 @end

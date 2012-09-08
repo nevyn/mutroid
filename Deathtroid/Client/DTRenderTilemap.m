@@ -10,6 +10,7 @@
 #import "DTTexture.h"
 #import "DTCamera.h"
 #import "DTLayer.h"
+#import "DTWorldRoom.h"
 #import "DTMap.h"
 #import "DTProgram.h"
 #import <OpenGL/gl.h>
@@ -25,14 +26,14 @@
 	
 	return self;
 }
--(void)drawLayer:(DTLayer*)layer camera:(DTCamera*)camera;
+-(void)drawLayer:(DTLayer*)layer camera:(DTCamera*)camera fromWorldRoom:(DTWorldRoom*)worldRoom
 {
     DTProgram *p = [resources resourceNamed:@"main.program"];
     GLint scl = glGetUniformLocation(p.programName, "cycleSourceColor");
     GLint dcl = glGetUniformLocation(p.programName, "cycleDestColor");
     	
     if(layer.cycleColors) {
-        DTColor *c = [layer.cycleColors objectAtIndex:layer.cycleCurrent];
+        DTColor *c = [worldRoom cyclingColorForLayer:layer];
         glUniform4f(scl, layer.cycleSource.r, layer.cycleSource.g, layer.cycleSource.b, layer.cycleSource.a);
         glUniform4f(dcl, c.r, c.g, c.b, c.a);            
     } else {

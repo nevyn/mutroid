@@ -154,13 +154,13 @@
 -(void)remove;
 {
 	NSAssert(self.world.server, @"May only be called on a server entity");
-	[$cast(DTServerRoom, self.world.room) destroyEntityKeyed:self.uuid];
+	[self.world.sroom destroyEntityKeyed:self.uuid];
 }
 
 -(void)sendToCounterpart:(NSDictionary*)hash;
 {
 	NSAssert(self.world.server, @"May only be called on a server entity");
-	DTServerRoom *serverRoom = $cast(DTServerRoom, self.world.room);
+	DTServerRoom *serverRoom = self.world.sroom;
 	[serverRoom.delegate room:serverRoom sendsHash:hash toCounterpartsOf:self];
 }
 -(void)receivedFromCounterpart:(NSDictionary*)hash;
@@ -179,7 +179,7 @@
 
 -(NSString*)description;
 {
-    return $sprintf(@"<%@ %@/0x%p in %@>", NSStringFromClass([self class]), self.uuid, self, self.world.room);
+    return $sprintf(@"<%@ %@/0x%p in %@>", NSStringFromClass([self class]), self.uuid, self, self.world.sroom.room);
 }
 -(NSString*)typeName;
 {

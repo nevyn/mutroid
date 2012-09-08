@@ -6,7 +6,7 @@
 //  Copyright (c) 2011 Third Cog Software. All rights reserved.
 //
 
-#import "DTRoom.h"
+#import "DTWorldRoom.h"
 
 @class DTEntity;
 @class DTServerRoom;
@@ -20,8 +20,9 @@
 
 typedef void(^EntCtor)(DTEntity*);
 
-@interface DTServerRoom : DTRoom
+@interface DTServerRoom : DTWorldRoom
 @property(nonatomic,weak) id<DTServerRoomDelegate> delegate;
+-(id)initWithRoom:(DTRoom*)room;
 -(id)createEntity:(Class)class setup:(EntCtor)setItUp;
 -(void)addEntityToRoom:(DTEntity*)ent;
 -(void)destroyEntityKeyed:(NSString*)key;

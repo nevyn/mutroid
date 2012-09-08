@@ -13,16 +13,20 @@
 @implementation DTColor
 @synthesize r,g,b,a;
 @end
+@interface DTLayerState ()
+@property float cycleCounter;
+@end
+@implementation DTLayerState
+@end
 
 @implementation DTLayer
 
 @synthesize tilemapName;
 @synthesize map;
 @synthesize depth;
-@synthesize currentPosition;
 @synthesize autoScrollSpeed;
 @synthesize repeatX, repeatY;
-@synthesize cycleSource, cycleColors, cycleFPS, cycleCurrent;
+@synthesize cycleSource, cycleColors, cycleFPS;
 
 -(id)initWithRep:(NSDictionary*)rep;
 {
@@ -30,7 +34,6 @@
     
     tilemapName = [rep objectForKey:@"tilemap"];
 
-	currentPosition = [MutableVector2 vector];
 	startPosition = [Vector2 vectorWithX:0. y:0.];
 	
     depth = [[rep objectForKey:@"depth"]?:$num(1) floatValue];
@@ -67,25 +70,17 @@
     return self;
 }
 
--(void)tick:(float)delta {
+-(void)tick:(float)delta inState:(DTLayerState*)state
+{
     if(cycleColors) {
-        cycleCounter += delta;
-        if(cycleCounter > 1.0/cycleFPS) {
-            cycleCounter = 0.0f;
-            cycleCurrent++;
-            if(cycleCurrent >= [cycleColors count]) cycleCurrent = 0;
+        state.cycleCounter += delta;
+        if(state.cycleCounter > 1.0/cycleFPS) {
+            state.cycleCounter = 0.0f;
+            state.cycleCurrent++;
+            if(state.cycleCurrent >= [cycleColors count]) state.cycleCurrent = 0;
         }
     }
-    
-
-
-	//currentPosition.x += autoScrollSpeed.x * delta;
-	//currentPosition.y += autoScrollSpeed.y * delta;
-    	
-	//[self clampPosition];
 }
 
--(void)clampPosition {
-}
 
 @end
