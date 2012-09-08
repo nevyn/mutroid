@@ -59,6 +59,7 @@ static NSMutableDictionary *resourceLoaders = nil;
 	
 	self.pathURL = rootPath;
     self.pathObserver = [[SCEvents alloc] init];
+    self.pathObserver.notificationLatency = 0.5;
     self.pathObserver.delegate = self;
     [self.pathObserver startWatchingPaths:@[rootPath.path]];
 	
