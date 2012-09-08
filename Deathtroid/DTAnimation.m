@@ -11,6 +11,10 @@
 #import "DTTexture.h"
 #import "DTResource.h"
 
+#ifndef SWAP
+#define SWAP(x, y) ({ __typeof(x) tmp = (x); (x) = (y); (y) = (tmp); })
+#endif
+
 @interface DTAnimation ()
 @property (nonatomic, retain) NSMutableDictionary *animations;
 @end
@@ -19,6 +23,7 @@
 @property NSArray *tiles;
 @property int fps;
 @property DTSpriteMap *spriteMap;
+@property BOOL flipX, flipY;
 @end
 @implementation DTSingleAnimation
 @end
@@ -36,13 +41,27 @@
 }
 
 -(DTSpriteMapFrame)frameAtIndex:(NSInteger)frameIndex forAnimation:(NSString*)animationName {
-    NSArray *tiles = [self.animations[animationName] tiles];
-    DTSpriteMap *map = [self spriteMapForAnimation:animationName];
-    NSInteger destinationFrame = frameIndex;
-    if(tiles)
-        destinationFrame = [tiles[frameIndex] intValue];
+    DTSingleAnimation *animation = self.animations[animationName];
     
-    return [map frameAtIndex:destinationFrame];
+    NSArray *tiles = animation.tiles;
+    DTSpriteMap *map = [self spriteMapForAnimation:animationName];
+    
+    NSInteger destinationFrameIndex = frameIndex;
+    if(tiles)
+        destinationFrameIndex = [tiles[frameIndex] intValue];
+    
+    DTSpriteMapFrame frame = [map frameAtIndex:destinationFrameIndex];
+    
+    if(animation.flipX) {
+        SWAP(frame.coords[0], frame.coords[3]);
+        SWAP(frame.coords[1], frame.coords[2]);
+    }
+    if(animation.flipY) {
+        SWAP(frame.coords[0], frame.coords[1]);
+        SWAP(frame.coords[2], frame.coords[3]);
+    }
+    
+    return frame;
 }
 
 - (NSUInteger) frameCountForAnimation:(NSString*)animationName {
@@ -85,6 +104,9 @@
         single.fps = [values[@"fps"] floatValue];
         single.spriteMap = [manager spriteMapNamed:values[@"spriteMap"]];
         single.tiles = values[@"tiles"];
+        single.flipX = [values[@"flip"][0] boolValue];
+        single.flipY = [values[@"flip"][1] boolValue];
+        
         animations[key] = single;
     }
     

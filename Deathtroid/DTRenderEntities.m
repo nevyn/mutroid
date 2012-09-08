@@ -105,10 +105,10 @@ static const CGSize kTileSizeInPixels = {16, 16};
     CGSize sizeInTiles = {sizeInPixels.width/kTileSizeInPixels.width, sizeInPixels.height/kTileSizeInPixels.height};
     float w = sizeInTiles.width, h = sizeInTiles.height;
     glColor3f(1., 1., 1.);
-    glTexCoord2fv(&frame.coords[0]); glVertex3f(+w/2, -h + entity.size.max.y, 0.);
-    glTexCoord2fv(&frame.coords[2]); glVertex3f(+w/2, entity.size.max.y, 0.);
-    glTexCoord2fv(&frame.coords[4]); glVertex3f(-w/2, entity.size.max.y, 0);
-    glTexCoord2fv(&frame.coords[6]); glVertex3f(-w/2, -h + entity.size.max.y, 0.);
+    glTexCoord2fv((float*)&frame.coords[0]); glVertex3f(-w/2, -h + entity.size.max.y, 0.);
+    glTexCoord2fv((float*)&frame.coords[1]); glVertex3f(-w/2, entity.size.max.y, 0.);
+    glTexCoord2fv((float*)&frame.coords[2]); glVertex3f(+w/2, entity.size.max.y, 0);
+    glTexCoord2fv((float*)&frame.coords[3]); glVertex3f(+w/2, -h + entity.size.max.y, 0.);
     glEnd();
     
     

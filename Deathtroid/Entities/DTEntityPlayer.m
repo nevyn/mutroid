@@ -62,11 +62,14 @@
     if(self.velocity.x < 0) self.lookDirection = EntityDirectionLeft;
     else if(self.velocity.x > 0) self.lookDirection = EntityDirectionRight;
     
-    id states = @[
-        @[@"stand-left", @"stand-right"],
-        @[@"walking-left", @"walking-right"]
-    ];
-    self.currentState = states[abs(self.velocity.x) > 0][self.lookDirection == EntityDirectionLeft];
+    NSString *doing =
+        !self.onGround ? @"jump-roll" :
+        abs(self.velocity.x) > 0 ? @"walking" :
+        @"stand";
+    NSString *direction = self.lookDirection == EntityDirectionLeft ? @"left" : @"right";
+    
+    self.currentState = [NSString stringWithFormat:@"%@-%@", doing, direction];
+    NSLog(@"%@", self.currentState);
 }
 
 -(id)updateFromRep:(NSDictionary*)rep;

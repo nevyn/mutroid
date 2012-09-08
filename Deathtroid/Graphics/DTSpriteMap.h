@@ -7,10 +7,11 @@
 //
 
 #import "DTResource.h"
+#import "Vector2.h"
 
 typedef struct {
 	int nr;			 // the frame number
-	float coords[8]; // texture coords for each corner in counter clockwise order
+	Vec2 coords[4]; // texture coords for each corner in counter clockwise order
 } DTSpriteMapFrame;
 
 @class DTTexture;

@@ -46,14 +46,14 @@
 	DTSpriteMapFrame frame;
 	
 	frame.nr = (int)frameIndex;
-	frame.coords[0] = left;
-	frame.coords[1] = top;
-	frame.coords[2] = left;
-	frame.coords[3] = bottom;
-	frame.coords[4] = right;
-	frame.coords[5] = bottom;
-	frame.coords[6] = right;
-	frame.coords[7] = top;
+	frame.coords[0].x = left;
+	frame.coords[0].y = top;
+	frame.coords[1].x = left;
+	frame.coords[1].y = bottom;
+	frame.coords[2].x = right;
+	frame.coords[2].y = bottom;
+	frame.coords[3].x = right;
+	frame.coords[3].y = top;
 	return frame;
 }
 
