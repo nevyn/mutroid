@@ -58,23 +58,25 @@
         
 	glTranslatef(camx, camy, 0);
     
-    [self drawMap:layer.map camera:camera];
+    float scale = 16. / texture.pixelSize.width;
+    
+    [self drawMap:layer.map textureScale:scale];
     if(layer.repeatX) {
         glPushMatrix();
         glTranslatef(layer.map.width, 0, 0);
-        [self drawMap:layer.map camera:camera];
+        [self drawMap:layer.map textureScale:scale];
         glPopMatrix();
     }
     if(layer.repeatY) {
         glPushMatrix();
         glTranslatef(0, layer.map.height, 0);
-        [self drawMap:layer.map camera:camera];
+        [self drawMap:layer.map textureScale:scale];
         glPopMatrix();
     }
     if(layer.repeatX && layer.repeatY) {
         glPushMatrix();
         glTranslatef(layer.map.width, layer.map.height, 0);
-        [self drawMap:layer.map camera:camera];
+        [self drawMap:layer.map textureScale:scale];
         glPopMatrix();
     }
     
@@ -87,13 +89,13 @@
 	[texture use];
 	glPushMatrix();
 	glTranslatef(-camera.position.x, -camera.position.y, 0);
-    [self drawMap:map camera:camera];
+    [self drawMap:map textureScale:16 / texture.pixelSize.width];
 	glPopMatrix();
 
 }
 
--(void)drawMap:(DTMap*)map camera:(DTCamera *)camera;
-{
+-(void)drawMap:(DTMap*)map textureScale:(float)scale;
+{    
 	glBegin(GL_QUADS);
 	glColor3f(1,1,1);
     for(int h=0; h<map.height; h++) {
@@ -105,10 +107,10 @@
             int attr = map.attr != NULL ? map.attr[h*map.width+w] : 0;
             if(tile == 0) continue;
             tile--;
-            float ru = (attr & 1)?-0.125:0.125;
-            float rv = (attr & 2)?-0.125:0.125;
-            float u = 0.125 * (int)(tile % 8) + ((attr&1)?0.125:0);
-            float v = 0.125 * (int)(tile / 8) + ((attr&2)?0.125:0);
+            float ru = (attr & 1)?-scale:scale;
+            float rv = (attr & 2)?-scale:scale;
+            float u = scale * (int)(tile % 8) + ((attr&1)?scale:0);
+            float v = scale * (int)(tile / 8) + ((attr&2)?scale:0);
             
             if(!(attr & 4)) {
                 glTexCoord2f(u, v);         glVertex2f(x, y);
