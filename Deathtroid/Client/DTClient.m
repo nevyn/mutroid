@@ -143,17 +143,19 @@ static const int kScreenWidthInTiles = 16;
     
     glTranslatef(0, 2, 0);
 
-//    glPushMatrix();
 	
-  //  glPopMatrix();
 	for(DTLayer *layer in _currentRoom.room.layers)
 		[tilemapRenderer drawLayer:layer camera:camera fromWorldRoom:_currentRoom];
+
+    glPushMatrix();
 
     glTranslatef(-camera.position.x, -camera.position.y, 0);
     for(DTEntity *entity in _currentRoom.entities.allValues)
         [entityRenderer drawEntity:entity camera:camera frameCount:frameCount];
+
+    glPopMatrix();
         
-    //[tilemapRenderer drawCollision:_currentRoom.room.collisionLayer camera:camera];
+    [tilemapRenderer drawCollision:_currentRoom.room.collisionLayer camera:camera];
     
         
     glLoadIdentity();

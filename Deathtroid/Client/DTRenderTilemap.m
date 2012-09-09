@@ -42,11 +42,42 @@
     
 	DTTexture *texture = [resources resourceNamed:$sprintf(@"%@.texture", layer.tilesetName)];
 	[texture use];
-	glPushMatrix();
-	glTranslatef(-camera.position.x * layer.depth, -camera.position.y * layer.depth, 0);
-   	//for(int i=0; i<(layer.repeatX?2:1); i++) {
+	
+    glPushMatrix();
+    
+    // Calc translation from repeat settings
+    float camx = -camera.position.x * layer.depth;
+    float camy = -camera.position.y * layer.depth;
+    
+    while(layer.repeatX && camx < -layer.map.width) {
+        camx += layer.map.width;
+    }
+    while(layer.repeatY && camy < -layer.map.height) {
+        camy += layer.map.height;
+    }
+        
+	glTranslatef(camx, camy, 0);
+    
+    [self drawMap:layer.map camera:camera];
+    if(layer.repeatX) {
+        glPushMatrix();
+        glTranslatef(layer.map.width, 0, 0);
         [self drawMap:layer.map camera:camera];
-    //}
+        glPopMatrix();
+    }
+    if(layer.repeatY) {
+        glPushMatrix();
+        glTranslatef(0, layer.map.height, 0);
+        [self drawMap:layer.map camera:camera];
+        glPopMatrix();
+    }
+    if(layer.repeatX && layer.repeatY) {
+        glPushMatrix();
+        glTranslatef(layer.map.width, layer.map.height, 0);
+        [self drawMap:layer.map camera:camera];
+        glPopMatrix();
+    }
+    
 	glPopMatrix();
 }
 
@@ -69,7 +100,7 @@
         for(int w=0; w<map.width; w++) {
             int x = w;
             int y = h;
-        
+                    
             int tile = map.tiles[h*map.width+w];
             int attr = map.attr != NULL ? map.attr[h*map.width+w] : 0;
             if(tile == 0) continue;
