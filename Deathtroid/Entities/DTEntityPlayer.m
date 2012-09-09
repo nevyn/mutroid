@@ -100,8 +100,11 @@
 }
 -(void)shoot;
 {
+    MutableVector2 *p = self.position.mutableCopy;
+    p.y -= 1.7 ;
+    p.x += self.lookDirection == EntityDirectionLeft ? -.9 : +.9;
     [self.world.sroom createEntity:[DTEntityBullet class] setup:(EntCtor)^(DTEntityBullet *e) {
-        e.position = [MutableVector2 vectorWithVector2:self.position];
+        e.position = p;
         e.moveDirection = e.lookDirection = self.lookDirection;
         e.owner = self;
     }];

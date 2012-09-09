@@ -28,6 +28,8 @@
     self.size.min.x = self.size.min.y = -0.4;
     self.size.max.x = self.size.max.y = 0.4;        
     
+    self.animation = [[DTResourceManager sharedManager] animationNamed:@"power_bullet.animation"];
+    
     return self;
 }
 
@@ -41,8 +43,13 @@
     }
 
     
-    if(self.moveDirection == EntityDirectionLeft) self.velocity.x = -10;
-    else self.velocity.x = 10;
+    if(self.moveDirection == EntityDirectionLeft) {
+        self.velocity.x = -20;
+        self.currentState = @"flying-left";
+    } else {
+        self.velocity.x = 20;
+        self.currentState = @"flying-right";
+    }
 }
 
 -(void)didCollideWithWorld:(DTTraceResult *)info;
