@@ -13,6 +13,8 @@
 #import "DTCore.h"
 #import "DTInput.h"
 #import "DTEditor.h"
+#import "DTMap.h"
+#import <Carbon/Carbon.h>
 
 #define GAME_WIDTH 256
 #define GAME_HEIGHT 224
@@ -25,9 +27,27 @@
 
 @synthesize core;
 
--(void)awakeFromNib {
-	// Hinder drawRect until core is created.
-	//[self setNeedsDisplay:NO];
+- (void)setCore:(DTCore *)core_
+{
+    core = core_;
+    
+    __weak DTCore *weakCore = core;
+	[core.input.mapper registerActionWithName:@"editor.flipX" action:^{
+        NSPoint p = [self convertPoint:[self.window mouseLocationOutsideOfEventStream] fromView:nil];
+        [weakCore.editor toggleAttribute:TileAttributeFlipX at:[self convertPointToGameCoordinate:p]];
+    }];
+	[core.input.mapper registerActionWithName:@"editor.flipY" action:^{
+        NSPoint p = [self convertPoint:[self.window mouseLocationOutsideOfEventStream] fromView:nil];
+        [weakCore.editor toggleAttribute:TileAttributeFlipY at:[self convertPointToGameCoordinate:p]];
+    }];
+	[core.input.mapper registerActionWithName:@"editor.rotate" action:^{
+        NSPoint p = [self convertPoint:[self.window mouseLocationOutsideOfEventStream] fromView:nil];
+        [weakCore.editor toggleAttribute:TileAttributeRotate90 at:[self convertPointToGameCoordinate:p]];
+    }];
+
+    [core.input.mapper mapKey:kVK_ANSI_U toAction:@"editor.flipX"];
+    [core.input.mapper mapKey:kVK_ANSI_I toAction:@"editor.flipY"];
+    [core.input.mapper mapKey:kVK_ANSI_O toAction:@"editor.rotate"];
 }
 
 -(BOOL)acceptsFirstResponder {
@@ -196,6 +216,15 @@
 - (IBAction)saveDocument:(id)sender
 {
     [core.editor save];
+}
+
+- (void)undo:(id)sender
+{
+    [core.editor.undo undo];
+}
+- (void)redo:(id)sender
+{
+    [core.editor.undo redo];
 }
 
 @end

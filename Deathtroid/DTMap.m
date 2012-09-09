@@ -31,10 +31,11 @@
     NSArray *tileRep = hasAttr ? [mapRep objectAtIndex:0] : mapRep;
     NSArray *attrRep;
     tiles = malloc(sizeof(int)*width*height);
-    
+    attr = malloc(sizeof(int)*width*height);
+    memset(attr, 0, sizeof(int)*width*height);
+
     if(hasAttr) {
         attrRep = [mapRep objectAtIndex:1];
-        attr = malloc(sizeof(int)*width*height);
     }
     
     NSAssert(width*height == [tileRep count], @"Incorrect number of tiles");

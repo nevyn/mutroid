@@ -9,6 +9,7 @@
 - (void)leftMouseUp;
 - (void)rightMouseDownOrMoved:(Vector2*)viewCoordInPixels;
 - (void)rightMouseUp;
+- (void)toggleAttribute:(int)flag at:(Vector2*)viewCoordInPixels;
 
 - (void)draw;
 
@@ -16,4 +17,6 @@
 
 @property int currentLayerIndex;
 @property int currentTileIndex;
+
+@property(readonly) NSUndoManager *undo;
 @end

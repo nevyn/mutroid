@@ -105,16 +105,16 @@
             int x = w;
             int y = h;
                     
-            int tile = map.tiles[h*map.width+w];
-            int attr = map.attr != NULL ? map.attr[h*map.width+w] : 0;
+            int tile = *[map tileAtX:x y:y];
+            int attr = [map attrAtX:x y:y] ? *[map attrAtX:x y:y] : 0;
             if(tile == 0) continue;
             tile--;
             float ru = (attr & 1)?-scale:scale;
             float rv = (attr & 2)?-scale:scale;
-            float u = scale * (int)(tile % tilesWidth) + ((attr&1)?scale:0);
-            float v = scale * (int)(tile / tilesWidth) + ((attr&2)?scale:0);
+            float u = scale * (int)(tile % tilesWidth) + ((attr & TileAttributeFlipX)?scale:0);
+            float v = scale * (int)(tile / tilesWidth) + ((attr & TileAttributeFlipY)?scale:0);
             
-            if(!(attr & 4)) {
+            if(!(attr & TileAttributeRotate90)) {
                 glTexCoord2f(u, v);         glVertex2f(x, y);
                 glTexCoord2f(u+ru, v);      glVertex2f(x+1, y);
                 glTexCoord2f(u+ru, v+rv);   glVertex2f(x+1, y+1);

@@ -10,10 +10,9 @@
 
 @class MutableVector2;
 
-// Map
-//
-// A single tilemap
-
+/** @class Map
+    @abstract A single tilemap
+*/
 @interface DTMap : NSObject {
 	int		*tiles;
     int     *attr;
@@ -31,3 +30,9 @@
 -(id)rep;
 
 @end
+
+enum {
+    TileAttributeFlipX = 1 << 0,
+    TileAttributeFlipY = 1 << 1,
+    TileAttributeRotate90 = 1 << 2,
+};

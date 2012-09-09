@@ -19,6 +19,14 @@
 @implementation DTEditor {
     Vector2 *_drawEditorAt;
 }
+- (id)init
+{
+    if(!(self = [super init]))
+        return nil;
+    _undo = [[NSUndoManager alloc] init];
+    return self;
+}
+
 - (Vector2*)tileCoordFromViewCoord:(Vector2*)viewCoord
 {
     MutableVector2 *ret = [viewCoord mutableCopy];
@@ -39,10 +47,8 @@
     Vector2 *tileCoord = [self tileCoordFromViewCoord:viewCoordInPixels];
     
     DTLayer *layer = [self currentLayer];
-    int *tile = [layer.map tileAtX:tileCoord.x y:tileCoord.y];
-    if(!tile) return;
     
-    *tile = _currentTileIndex;
+    [self setTile:_currentTileIndex atCoord:tileCoord onLayer:self.currentLayer];
 }
 
 - (void)leftMouseUp
@@ -84,6 +90,36 @@
 - (void)rightMouseUp
 {
     _drawEditorAt = nil;
+}
+
+- (void)setTile:(int)tileIndex atCoord:(Vector2*)tileCoord onLayer:(DTLayer*)layer
+{
+    int *tile = [layer.map tileAtX:tileCoord.x y:tileCoord.y];
+    if(!tile) return;
+
+    [[_undo prepareWithInvocationTarget:self] _setTile:*tile atCoord:tileCoord onLayer:layer];
+    [self _setTile:tileIndex atCoord:tileCoord onLayer:layer];
+}
+- (void)_setTile:(int)tileIndex atCoord:(Vector2*)tileCoord onLayer:(DTLayer*)layer
+{
+    int *tile = [layer.map tileAtX:tileCoord.x y:tileCoord.y];
+    if(!tile) return;
+    
+    *tile = tileIndex;
+}
+
+- (void)toggleAttribute:(int)flag at:(Vector2*)viewCoordInPixels
+{
+    [[_undo prepareWithInvocationTarget:self] _toggleAttribute:flag at:viewCoordInPixels];
+    [self _toggleAttribute:flag at:viewCoordInPixels];
+}
+- (void)_toggleAttribute:(int)flag at:(Vector2*)viewCoordInPixels
+{
+    Vector2 *tileCoord = [self tileCoordFromViewCoord:viewCoordInPixels];
+    int *attr = [[self currentLayer].map attrAtX:tileCoord.x y:tileCoord.y];
+    if(!attr) return;
+    
+    *attr ^= flag;
 }
 
 - (void)draw
