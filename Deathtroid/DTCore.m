@@ -64,7 +64,7 @@
     server.levelRepo = client.levelRepo = online;
     */
     
-    [server loadLevel:@"norfair"];
+    [server loadLevel:@"brinstar-save"];
 	    
     return self;
 }
