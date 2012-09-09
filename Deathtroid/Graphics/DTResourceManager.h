@@ -19,6 +19,7 @@
 
 
 -(id)initWithBaseURL:(NSURL *)rootPath;
+@property(nonatomic) NSURL *baseURL;
 
 // sync
 -(id<DTResource>)resourceNamed:(NSString *)name;

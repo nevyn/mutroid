@@ -11,6 +11,7 @@
 #import "DTView.h"
 #import "DTCore.h"
 #import "DTClient.h"
+#import "DTResourceManager.h"
 
 #import <OpenGL/gl.h>
 
@@ -27,6 +28,16 @@
 @synthesize tabView;
 @synthesize healthIndicator, healthText, messages, highscores;
 
+- (void)applicationDidFinishLaunching:(NSNotification *)notification
+{
+    NSString *currentPath = [[NSUserDefaults standardUserDefaults] objectForKey:@"resourcePath"];
+    if(!currentPath || [currentPath rangeOfString:@".app"].location != NSNotFound)
+        [[NSUserDefaults standardUserDefaults] setObject:[DTResourceManager sharedManager].baseURL.path forKey:@"resourcePath"];
+}
+- (void)applicationWillTerminate:(NSNotification *)notification
+{
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
 
 -(void)start2;
 {
@@ -65,6 +76,7 @@
 }
 -(void)start;
 {
+    [DTResourceManager sharedManager].baseURL = [NSURL fileURLWithPath:[[NSUserDefaults standardUserDefaults] objectForKey:@"resourcePath"]];
     [tabView selectTabViewItemAtIndex:1];
     [self performSelector:@selector(start2) withObject:nil afterDelay:0.05];
 }
@@ -96,4 +108,25 @@
     [_view setNeedsDisplay:YES];
 }
 
+@end
+
+@interface PathTransformer : NSValueTransformer
+@end
+@implementation PathTransformer
++ (Class)transformedValueClass
+{
+    return [NSURL class];
+}
++ (BOOL)allowsReverseTransformation
+{
+    return YES;
+}
+- (id)transformedValue:(id)value
+{
+   return (value) ? [NSURL fileURLWithPath:value] : nil;
+}
+- (id)reverseTransformedValue:(id)value
+{
+   return [value path];
+}
 @end

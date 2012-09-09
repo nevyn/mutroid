@@ -17,7 +17,6 @@ static NSMutableDictionary *resourceLoaders = nil;
 @interface DTResourceManager () <SCEventListenerProtocol>
 
 @property (nonatomic, strong) NSMutableDictionary *loadedResources;
-@property (nonatomic, copy) NSURL *pathURL;
 @property (nonatomic, strong) SCEvents *pathObserver;
 @end
 
@@ -53,13 +52,23 @@ static NSMutableDictionary *resourceLoaders = nil;
 {
 	if(![self init]) return nil;
 	
-	self.pathURL = rootPath;
+    self.baseURL = rootPath;
+	
+	return self;
+}
+
+- (void)setBaseURL:(NSURL *)baseURL
+{
+    // teardown
+    [self.pathObserver stopWatchingPaths];
+    
+    // setup
+	_baseURL = baseURL;
+
     self.pathObserver = [[SCEvents alloc] init];
     self.pathObserver.notificationLatency = 0.5;
     self.pathObserver.delegate = self;
-    [self.pathObserver startWatchingPaths:@[rootPath.path]];
-	
-	return self;
+    [self.pathObserver startWatchingPaths:@[baseURL.path]];
 }
 
 - (void)pathWatcher:(SCEvents *)pathWatcher eventOccurred:(SCEvent *)event;
@@ -72,7 +81,7 @@ static NSMutableDictionary *resourceLoaders = nil;
 {
 	NSFileManager *fm = [NSFileManager defaultManager];
 	NSArray *props = @[NSURLNameKey, NSURLIsDirectoryKey];
-	NSDirectoryEnumerator *dirEnumerator = [fm enumeratorAtURL:self.pathURL includingPropertiesForKeys:props options:NSDirectoryEnumerationSkipsHiddenFiles errorHandler:nil];
+	NSDirectoryEnumerator *dirEnumerator = [fm enumeratorAtURL:self.baseURL includingPropertiesForKeys:props options:NSDirectoryEnumerationSkipsHiddenFiles errorHandler:nil];
 	
 	for(NSURL *url in dirEnumerator){
 		NSNumber *isDirectory;
@@ -95,7 +104,7 @@ static NSMutableDictionary *resourceLoaders = nil;
 	}
 	NSFileManager *fm = [NSFileManager defaultManager];
 	NSArray *props = @[NSURLNameKey, NSURLIsDirectoryKey, NSURLContentModificationDateKey];
-	NSDirectoryEnumerator *dirEnumerator = [fm enumeratorAtURL:self.pathURL includingPropertiesForKeys:props options:NSDirectoryEnumerationSkipsHiddenFiles errorHandler:nil];
+	NSDirectoryEnumerator *dirEnumerator = [fm enumeratorAtURL:self.baseURL includingPropertiesForKeys:props options:NSDirectoryEnumerationSkipsHiddenFiles errorHandler:nil];
 	
 	for(NSURL *url in dirEnumerator){
 		NSNumber *isDirectory;
