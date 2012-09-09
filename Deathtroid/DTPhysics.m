@@ -100,6 +100,8 @@
     } else {
         entity.position.x += move;
     }
+    
+    [self handleEntityCollisionsInTrace:side forEntity:entity];
 
     // What's under us at our new position? (Air or slope?)
     DTTraceResult *down = [world traceBox:entity.size from:entity.position to:[entity.position vectorByAddingVector:[Vector2 vectorWithX:0 y:0.5]] exclude:entity ignoreEntities:YES];
@@ -132,6 +134,8 @@
     // Do a trace for the move
     DTTraceResult *trace = [world traceBox:entity.size from:entity.position to:[entity.position vectorByAddingVector:move] exclude:entity ignoreEntities:YES];
     
+    [self handleEntityCollisionsInTrace:trace forEntity:entity];
+    
     if(trace.x) {
         entity.velocity.x = 0.0f;
         entity.position.x = trace.collisionPosition.x;
@@ -151,6 +155,17 @@
     }
 }
 
+- (void)handleEntityCollisionsInTrace:(DTTraceResult*)info forEntity:(DTEntity*)entity
+{
+    if(!info.entity && (info.x || info.y)) {
+        [entity didCollideWithWorld:info];
+    } else if(info.entity) {
+        for(DTCollisionPair *pair in pairs) {
+            [pair runWithEntityA:entity b:info.entity];
+        }
+    }
+
+}
 
 /*
 
