@@ -49,17 +49,19 @@
     return [[DTShader alloc] initWithResourceId:self.path.dt_resourceId];
 }
 
-- (void)loadResource:(DTShader *)shader usingManager:(DTResourceManager *)manager error:(NSError *__autoreleasing *)error
+- (BOOL)loadResource:(DTShader *)shader usingManager:(DTResourceManager *)manager error:(NSError *__autoreleasing *)error
 {
     NSString *name = [self.definition objectForKey:@"file"];
     
     NSURL *sourceURL = [NSURL URLWithString:name relativeToURL:self.path];
-    NSString *source = [NSString stringWithContentsOfURL:sourceURL encoding:NSUTF8StringEncoding error:NULL];
+    NSString *source = [NSString stringWithContentsOfURL:sourceURL encoding:NSUTF8StringEncoding error:error];
+    if(!source) return NO;
     
     DTShaderType t = [self.path.dt_resourceType isEqualToString:@"vertexshader"] ? DTShaderTypeVertex : DTShaderTypeFragment;
     
     [shader loadWithSource:source type:t];
     
+    return YES;
 }
 
 @end

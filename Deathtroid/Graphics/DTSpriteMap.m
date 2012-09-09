@@ -25,7 +25,7 @@
 
 -(id)initWithResourceId:(NSString *)resourceId Texture:(DTTexture *)_texture frameSize:(CGSize)_frameSize frameCount:(int)_frameCount;
 {
-	if(![self initWithResourceId:resourceId]) return nil;
+	if(!(self = [self initWithResourceId:resourceId])) return nil;
 	
 	self.texture = _texture;
 	self.frameSize = _frameSize;
@@ -73,7 +73,7 @@
     return [[DTSpriteMap alloc] initWithResourceId:self.path.dt_resourceId];
 }
 
-- (void)loadResource:(DTSpriteMap *)map usingManager:(DTResourceManager *)manager error:(NSError *__autoreleasing *)error
+- (BOOL)loadResource:(DTSpriteMap *)map usingManager:(DTResourceManager *)manager error:(NSError *__autoreleasing *)error
 {
 	NSArray *sizes = [self.definition objectForKey:@"frameSize"];
 	CGSize frameSize = CGSizeMake([[sizes objectAtIndex:0] floatValue], [[sizes objectAtIndex:1] floatValue]);
@@ -85,6 +85,7 @@
     map.frameSize = frameSize;
     map.frameCount = [numFrames intValue];
     map.imageSize = texture.pixelSize;
+    return YES;
 }
 
 @end

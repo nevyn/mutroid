@@ -81,12 +81,13 @@
     return [[DTTexture alloc] initWithResourceId:self.path.dt_resourceId];
 }
 
-- (void)loadResource:(DTTexture *)tex usingManager:(DTResourceManager *)manager error:(NSError **)error
+- (BOOL)loadResource:(DTTexture *)tex usingManager:(DTResourceManager *)manager error:(NSError **)error
 {
     NSString *imageName = [self.definition objectForKey:@"image"];
 	DTImage *image = [manager imageNamed:imageName];
 	
 	[tex loadWithImage:image];
+    return YES;
 }
 
 @end

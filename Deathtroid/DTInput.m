@@ -71,7 +71,7 @@
 @synthesize mapper;
 
 -(id)init {
-	if(![super init]) return nil;
+	if(!(self = [super init])) return nil;
     
     mapper = [[DTInputMapper alloc] init];
     

@@ -81,6 +81,8 @@ static Vector2 *negativeYAxis;
 
 - (id)initWithX:(float)x y:(float)y;
 {
+    if(!(self = [super init])) return nil;
+    
 	float *vals = malloc(sizeof (float) * 2);
 	vals[0] = x;
 	vals[1] = y;

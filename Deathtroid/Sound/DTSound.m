@@ -48,19 +48,16 @@
     return [[DTSound alloc] initWithResourceId:self.path.dt_resourceId];
 }
 
-- (void)loadResource:(DTSound *)sound usingManager:(DTResourceManager *)manager error:(NSError *__autoreleasing *)error
+- (BOOL)loadResource:(DTSound *)sound usingManager:(DTResourceManager *)manager error:(NSError *__autoreleasing *)error
 {
     NSString *soundPath = [self.definition objectForKey:@"file"];
 	NSURL *soundUrl = [manager absolutePathForFileName:soundPath];
     
-    NSError *err = nil;
     id<FISoundDecoder> dec = [factory decoderForFileAtPath:soundUrl.path];
-    sound.sample = [dec decodeFileAtPath:soundUrl.path error:&err];
-    if(!sound.sample) {
-        // TODO<nevyn>: Pass NSError to caller instead; this is not a programmer error.
-        [NSException raise:NSInvalidArgumentException format:@"Decoding error: %@", err];
-    }
-
+    sound.sample = [dec decodeFileAtPath:soundUrl.path error:error];
+    if(!sound.sample)
+        return NO;
+    return YES;
 }
 
 

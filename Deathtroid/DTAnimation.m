@@ -33,7 +33,7 @@
 
 -(id)initWithResourceId:(NSString *)resourceId animations:(NSMutableDictionary*)animations_
 {
-	if(![self initWithResourceId:resourceId]) return nil;
+	if(!(self = [self initWithResourceId:resourceId])) return nil;
 	
     self.animations = animations_;
     
@@ -94,7 +94,7 @@
     return [[DTAnimation alloc] initWithResourceId:self.path.dt_resourceId];
 }
 
-- (void)loadResource:(DTAnimation *)anim usingManager:(DTResourceManager *)manager error:(NSError *__autoreleasing *)error
+- (BOOL)loadResource:(DTAnimation *)anim usingManager:(DTResourceManager *)manager error:(NSError *__autoreleasing *)error
 {
     NSMutableDictionary *animations = [NSMutableDictionary dictionary];
     NSDictionary *listOfAnimations = self.definition[@"animations"];
@@ -111,6 +111,8 @@
     }
     
     anim.animations = animations;
+    
+    return YES;
 }
 
 @end

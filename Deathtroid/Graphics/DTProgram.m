@@ -56,7 +56,7 @@
     return [[DTProgram alloc] initWithResourceId:self.path.dt_resourceId];
 }
 
-- (void)loadResource:(DTProgram *)prog usingManager:(DTResourceManager *)manager error:(NSError *__autoreleasing *)error
+- (BOOL)loadResource:(DTProgram *)prog usingManager:(DTResourceManager *)manager error:(NSError *__autoreleasing *)error
 {
     NSArray *shaderNames = [self.definition objectForKey:@"shaders"];
     NSMutableArray *shaders = [NSMutableArray array];
@@ -65,6 +65,8 @@
     }
     
     [prog loadWithShaders:shaders];
+    
+    return YES;
 }
 
 @end

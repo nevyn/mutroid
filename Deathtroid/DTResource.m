@@ -23,7 +23,7 @@
 
 -(id)initWithResourceId:(NSString *)rid;
 {
-	if(![super init]) return nil;
+	if(!(self = [super init])) return nil;
 	
 	self.resourceId = rid;
 	return self;
@@ -46,9 +46,10 @@
     return nil;
 }
 
-- (void)loadResource:(id<DTResource>)resource usingManager:(DTResourceManager *)manager error:(NSError **)error
+- (BOOL)loadResource:(id<DTResource>)resource usingManager:(DTResourceManager *)manager error:(NSError **)error
 {
     [NSException raise:@"Resource" format:@"Need to override %@", NSStringFromSelector(_cmd)];
+    return NO;
 }
 
 
@@ -65,11 +66,11 @@
 	self.definition = dict;
 }
 
-- (void)reloadResource:(id<DTResource>)resource atURL:(NSURL *)url usingManager:(DTResourceManager *)manager error:(NSError **)error;
+- (BOOL)reloadResource:(id<DTResource>)resource atURL:(NSURL *)url usingManager:(DTResourceManager *)manager error:(NSError **)error;
 {
     self.path = url;
     [self loadDefinitionAtURL:url usingManager:manager];
-    [self loadResource:resource usingManager:manager error:error];
+    return [self loadResource:resource usingManager:manager error:error];
 }
 
 -(id<DTResource>)loadResourceAtURL:(NSURL *)url usingManager:(DTResourceManager *)manager;
@@ -80,7 +81,10 @@
     id<DTResource> resource = [self createResourceWithManager:manager];
     
     NSError *error = nil;
-    [self loadResource:resource usingManager:manager error:&error];
+    if(![self loadResource:resource usingManager:manager error:&error]) {
+        NSLog(@"Failed to load resource at %@", url);
+        Debugger();
+    }
     
 	return resource;
 }

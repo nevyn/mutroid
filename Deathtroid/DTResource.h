@@ -39,6 +39,6 @@
 -(id<DTResource>)loadResourceAtURL:(NSURL *)url usingManager:(DTResourceManager *)manager;
 
 - (id<DTResource>)createResourceWithManager:(DTResourceManager *)manager;
-- (void)loadResource:(id<DTResource>)resource usingManager:(DTResourceManager *)manager error:(NSError **)error;
-- (void)reloadResource:(id<DTResource>)resource atURL:(NSURL *)url usingManager:(DTResourceManager *)manager error:(NSError **)error;
+- (BOOL)loadResource:(id<DTResource>)resource usingManager:(DTResourceManager *)manager error:(NSError **)error;
+- (BOOL)reloadResource:(id<DTResource>)resource atURL:(NSURL *)url usingManager:(DTResourceManager *)manager error:(NSError **)error;
 @end

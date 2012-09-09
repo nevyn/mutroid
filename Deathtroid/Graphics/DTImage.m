@@ -60,12 +60,13 @@
     return [[DTImage alloc] initWithResourceId:self.path.dt_resourceId];
 }
 
--(void)loadResource:(DTImage *)image usingManager:(DTResourceManager *)manager error:(NSError *__autoreleasing *)error
+-(BOOL)loadResource:(DTImage *)image usingManager:(DTResourceManager *)manager error:(NSError *__autoreleasing *)error
 {
 	NSString *imagePath = [self.definition objectForKey:@"file"];
 	NSURL *imageURL = [manager absolutePathForFileName:imagePath];
 	
 	[image loadFromURL:imageURL];
+    return YES;
 }
 
 @end

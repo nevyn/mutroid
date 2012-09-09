@@ -850,6 +850,7 @@
 				);
 				INFOPLIST_FILE = "Deathtroid/Deathtroid-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				RUN_CLANG_STATIC_ANALYZER = YES;
 				USER_HEADER_SEARCH_PATHS = "Vendor/SPSuccinct/SPSuccinct Vendor/cocoaasyncsocket/RunLoop Vendor/Finch/Finch";
 				WRAPPER_EXTENSION = app;
 			};
@@ -862,6 +863,7 @@
 				GCC_PREFIX_HEADER = "Deathtroid/Deathtroid-Prefix.pch";
 				INFOPLIST_FILE = "Deathtroid/Deathtroid-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				RUN_CLANG_STATIC_ANALYZER = YES;
 				USER_HEADER_SEARCH_PATHS = "Vendor/SPSuccinct/SPSuccinct Vendor/cocoaasyncsocket/RunLoop Vendor/Finch/Finch";
 				WRAPPER_EXTENSION = app;
 			};

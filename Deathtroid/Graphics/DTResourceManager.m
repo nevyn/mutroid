@@ -41,18 +41,12 @@ static NSMutableDictionary *resourceLoaders = nil;
 	return [loaderClass new];
 }
 
--(id)init
-{
-	if(![super init]) return nil;
-	self.loadedResources = [NSMutableDictionary new];
-	return self;
-}
-
 -(id)initWithBaseURL:(NSURL *)rootPath
 {
-	if(![self init]) return nil;
+	if(!(self = [self init])) return nil;
 	
     self.baseURL = rootPath;
+	self.loadedResources = [NSMutableDictionary new];
 	
 	return self;
 }

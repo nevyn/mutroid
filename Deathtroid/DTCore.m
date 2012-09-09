@@ -19,6 +19,8 @@
 
 -(id)init;
 {
+    if(!(self = [super init])) return nil;
+    
     input = [[DTInput alloc] init];
     
     [input.mapper registerStateActionWithName:@"WalkLeft" beginAction:^{ [client walkLeft]; } endAction:^{ [client stopWalk]; }];
