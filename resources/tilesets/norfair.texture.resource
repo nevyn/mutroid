@@ -1,3 +1,3 @@
 {
-  "image":"collision.image"
+  "image":"norfair.image"
 }

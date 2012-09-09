@@ -34,7 +34,7 @@
 	Vector2			*startPosition;
 }
 
-@property (nonatomic,strong) NSString *tilemapName;
+@property (nonatomic,strong) NSString *tilesetName;
 
 @property (nonatomic,strong) DTMap *map;
 

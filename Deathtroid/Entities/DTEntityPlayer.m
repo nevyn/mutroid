@@ -27,7 +27,7 @@
     if(!(self = [super init])) return nil;
     
     acceleration = 0.4;
-    maxMoveSpeed = 5;
+    maxMoveSpeed = 16;
     brakeSpeed = 0.2;
     self.destructible = YES;
     

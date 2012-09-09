@@ -24,6 +24,7 @@
 
 #import "DTResourceManager.h"
 #import "DTTexture.h"
+#import "DTProgram.h"
 #import "DTSpriteMap.h"
 #import "DTRenderEntities.h"
 #import "DTRenderTilemap.h"
@@ -110,14 +111,14 @@
     return self;
 }
 
-static const int kScreenWidthInTiles = 20;
+static const int kScreenWidthInTiles = 16;
 
 -(void)tick:(double)delta;
 {
     // Ticka de som ska tickas?
     
-    camera.position.x = CLAMP(followThis.position.x - 10, 0, [_currentRoom.room.layers.lastObject map].width-kScreenWidthInTiles);
-    finch.listenerPosition = [FIVector vectorWithX:camera.position.x+10 Y:camera.position.y+7.5 Z:1];
+    camera.position.x = CLAMP(followThis.position.x - 8, 0, [_currentRoom.room.layers.lastObject map].width-kScreenWidthInTiles);
+    finch.listenerPosition = [FIVector vectorWithX:camera.position.x+8 Y:camera.position.y+7 Z:1];
     
     [_currentRoom tick:delta];
     
@@ -139,15 +140,36 @@ static const int kScreenWidthInTiles = 20;
 	
     glClear(GL_COLOR_BUFFER_BIT);
     glLoadIdentity();
+    
+    glTranslatef(0, 2, 0);
+
+//    glPushMatrix();
 	
+  //  glPopMatrix();
 	for(DTLayer *layer in _currentRoom.room.layers)
 		[tilemapRenderer drawLayer:layer camera:camera fromWorldRoom:_currentRoom];
-        
-    [tilemapRenderer drawCollision:_currentRoom.room.collisionLayer camera:camera];
-    
+
     glTranslatef(-camera.position.x, -camera.position.y, 0);
     for(DTEntity *entity in _currentRoom.entities.allValues)
         [entityRenderer drawEntity:entity camera:camera frameCount:frameCount];
+        
+    //[tilemapRenderer drawCollision:_currentRoom.room.collisionLayer camera:camera];
+    
+        
+    glLoadIdentity();
+    
+    DTProgram *p = [resources resourceNamed:@"main.program"];
+    [p unuse];
+    
+    glBegin(GL_QUADS);
+    glColor3f(0.3, 0.0, 0.0);
+    glVertex2f(0.0, 0.0);
+    glVertex2f(16., 0.);
+    glVertex2f(16., 2.);
+    glVertex2f(0., 2.);
+    glEnd();
+    
+    [p use];
 }
 
 

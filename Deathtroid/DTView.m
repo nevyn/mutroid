@@ -13,8 +13,8 @@
 #import "DTCore.h"
 #import "DTInput.h"
 
-#define GAME_WIDTH 320
-#define GAME_HEIGHT 240
+#define GAME_WIDTH 256
+#define GAME_HEIGHT 224
 
 @implementation DTView
 {
@@ -113,7 +113,7 @@
     glViewport(0, 0, GAME_WIDTH, GAME_HEIGHT);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(0., 20.0f, 15.f, 0., -1., 1.);
+    glOrtho(0., 16.0f, 14.f, 0., -1., 1.);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 }

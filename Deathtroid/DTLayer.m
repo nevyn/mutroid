@@ -21,7 +21,7 @@
 
 @implementation DTLayer
 
-@synthesize tilemapName;
+@synthesize tilesetName;
 @synthesize map;
 @synthesize depth;
 @synthesize autoScrollSpeed;
@@ -32,7 +32,7 @@
 {
     if(!(self = [super init])) return nil;
     
-    tilemapName = [rep objectForKey:@"tilemap"];
+    tilesetName = [rep objectForKey:@"tileset"];
 
 	startPosition = [Vector2 vectorWithX:0. y:0.];
 	

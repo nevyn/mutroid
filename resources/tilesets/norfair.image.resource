@@ -1,3 +1,3 @@
 {
-  "file":"collision.png"
+  "file":"norfair.png"
 }

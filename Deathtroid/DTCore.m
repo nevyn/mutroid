@@ -58,7 +58,7 @@
     server.levelRepo = client.levelRepo = online;
     */
     
-    [server loadLevel:@"test"];
+    [server loadLevel:@"norfair"];
 	    
     return self;
 }

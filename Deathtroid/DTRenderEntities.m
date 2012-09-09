@@ -120,7 +120,7 @@ static const CGSize kTileSizeInPixels = {16, 16};
         glVertex3f(entity.size.max.x, 0.5, 0);
     glEnd();
     
-    
+    /*
     DTProgram *p = [resources resourceNamed:@"main.program"];
     [p unuse];
 
@@ -142,7 +142,7 @@ static const CGSize kTileSizeInPixels = {16, 16};
     glEnd();
     
     [p use];
-    
+    */
     glPopMatrix();
     
     
