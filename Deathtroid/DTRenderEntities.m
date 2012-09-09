@@ -120,29 +120,29 @@ static const CGSize kTileSizeInPixels = {16, 16};
         glVertex3f(entity.size.max.x, 0.5, 0);
     glEnd();
     
-    /*
-    DTProgram *p = [resources resourceNamed:@"main.program"];
-    [p unuse];
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"debug"]) {
+        DTProgram *p = [resources resourceNamed:@"main.program"];
+        [p unuse];
 
-    glColor3f(1., 1., 1.);
-    glBegin(GL_LINE_LOOP);
-    glTexCoord2f(0.0, 0.0);
-    glVertex3f(entity.size.max.x, entity.size.min.y, 0.);
-    glVertex3f(entity.size.max.x, entity.size.max.y, 0.);
-    glVertex3f(entity.size.min.x, entity.size.max.y, 0);
-    glVertex3f(entity.size.min.x, entity.size.min.y, 0.);
-    glEnd();
-    
-    glBegin(GL_QUADS);
-    glColor3f(entity.onGround ? 1.0 : 0.0, entity.onGround ? 0.0 : 1.0, 0.0);
-    glVertex2f(-1, -1);
-    glVertex2f(-0.5, -1);
-    glVertex2f(-0.5, -0.5);
-    glVertex2f(-1, -0.5);
-    glEnd();
-    
-    [p use];
-    */
+        glColor3f(1., 1., 1.);
+        glBegin(GL_LINE_LOOP);
+        glTexCoord2f(0.0, 0.0);
+        glVertex3f(entity.size.max.x, entity.size.min.y, 0.);
+        glVertex3f(entity.size.max.x, entity.size.max.y, 0.);
+        glVertex3f(entity.size.min.x, entity.size.max.y, 0);
+        glVertex3f(entity.size.min.x, entity.size.min.y, 0.);
+        glEnd();
+        
+        glBegin(GL_QUADS);
+        glColor3f(entity.onGround ? 1.0 : 0.0, entity.onGround ? 0.0 : 1.0, 0.0);
+        glVertex2f(-1, -1);
+        glVertex2f(-0.5, -1);
+        glVertex2f(-0.5, -0.5);
+        glVertex2f(-1, -0.5);
+        glEnd();
+        
+        [p use];
+    }
     glPopMatrix();
     
     

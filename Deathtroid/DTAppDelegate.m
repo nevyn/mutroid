@@ -108,6 +108,15 @@
     [_view setNeedsDisplay:YES];
 }
 
+- (IBAction)toggleFullscreen:(id)sender
+{
+
+}
+- (IBAction)toggleDebug:(id)sender
+{
+    [[NSUserDefaults standardUserDefaults] setBool:![[NSUserDefaults standardUserDefaults] boolForKey:@"debug"] forKey:@"debug"];
+}
+
 @end
 
 @interface PathTransformer : NSValueTransformer

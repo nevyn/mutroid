@@ -154,9 +154,9 @@ static const int kScreenWidthInTiles = 16;
         [entityRenderer drawEntity:entity camera:camera frameCount:frameCount];
 
     glPopMatrix();
-        
-    [tilemapRenderer drawCollision:_currentRoom.room.collisionLayer camera:camera];
     
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"debug"])
+        [tilemapRenderer drawCollision:_currentRoom.room.collisionLayer camera:camera];
         
     glLoadIdentity();
     
