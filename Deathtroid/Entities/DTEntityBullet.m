@@ -16,8 +16,12 @@
 #import "DTSound.h"
 #import "DTResourceManager.h"
 #import "DTAnimation.h"
+#import "DTEntityExplosion.h"
 
-@implementation DTEntityBullet { BOOL playedSound; }
+@implementation DTEntityBullet {
+    BOOL _playedSound;
+    BOOL _exploded;
+}
 @synthesize owner;
 
 -(id)init;
@@ -37,12 +41,11 @@
 {
     [super tick:delta];
     
-    if(!playedSound && !self.world.server) {
+    if(!_playedSound && !self.world.server) {
         [[self makeVoice:@"baseshot"] playUntilFinished];
-        playedSound = YES;
+        _playedSound = YES;
     }
 
-    
     if(self.moveDirection == EntityDirectionLeft) {
         self.velocity.x = -20;
         self.currentState = @"flying-left";
@@ -52,9 +55,22 @@
     }
 }
 
+- (void)kaboom
+{
+    if(_exploded) return;
+    _exploded = YES;
+    
+    [self.world.sroom createEntity:[DTEntityExplosion class] setup:(EntCtor)^(DTEntityExplosion *e) {
+        e.position = self.position.mutableCopy;
+    }];
+    
+    [self.world.sroom destroyEntityKeyed:self.uuid];
+
+}
+
 -(void)didCollideWithWorld:(DTTraceResult *)info;
 {
-    [self.world.sroom destroyEntityKeyed:self.uuid];
+    [self kaboom];
 }
 
 @end
