@@ -48,6 +48,7 @@
 @property (nonatomic) float cycleFPS;
 
 -(id)initWithRep:(NSDictionary*)rep;
+-(id)rep;
 
 -(void)tick:(float)delta inState:(DTLayerState*)state;
 @end

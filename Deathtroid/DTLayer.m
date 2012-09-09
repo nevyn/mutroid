@@ -69,6 +69,36 @@
     
     return self;
 }
+-(id)rep
+{
+    NSMutableDictionary *mapRep = [self.map.rep mutableCopy];
+    mapRep[@"tileset"] = tilesetName;
+    mapRep[@"depth"] = @(depth);
+    mapRep[@"repeatX"] = @(repeatX);
+    mapRep[@"repeatY"] = @(repeatY);
+    if(cycleSource) {
+        NSMutableArray *colors = [NSMutableArray arrayWithCapacity:cycleColors.count];
+        for(DTColor *c in cycleColors)
+            [colors addObject:@[
+                @(c.r*256 - 1),
+                @(c.g*256 - 1),
+                @(c.b*256 - 1),
+                @(c.a*256 - 1)
+            ]];
+        mapRep[@"colorCycle"] = @{
+            @"source": @[
+                @(cycleSource.r*256 - 1),
+                @(cycleSource.g*256 - 1),
+                @(cycleSource.b*256 - 1),
+                @(cycleSource.a*256 - 1)
+            ],
+            @"colors": colors,
+            @"fps": @(cycleFPS)
+        };
+    }
+    
+    return mapRep;
+}
 
 -(void)tick:(float)delta inState:(DTLayerState*)state
 {

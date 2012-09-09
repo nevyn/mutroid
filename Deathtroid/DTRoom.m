@@ -32,17 +32,20 @@
     return self;
 }
 
-/*
--(void)moveEntity:(MovingEntity*)anEntity toLayer:(int)layerNum {
-	for(int l=0;l < [layers count];l++) {
-		Layer *layer = [layers objectAtIndex:l];
-		if(l==layerNum)
-			[layer addEntity:anEntity];
-		else
-			[layer removeEntity:anEntity];
-	}
+- (void)saveToDisk
+{
+    id rep = @{
+        @"collision": [self.collisionLayer rep],
+        @"layers": [self.layers valueForKeyPath:@"rep"],
+        @"entities": self.initialEntityReps,
+    };
+    NSError *err;
+    NSData *data = [NSJSONSerialization dataWithJSONObject:rep options:0 error:&err];
+    NSAssert(data != nil, @"Failed serialization: %@", err);
+    
+    [data writeToURL:[[DTResourceManager sharedManager] pathForResourceNamed:self.resourceId] atomically:YES];
 }
-*/
+
 -(NSString*)description;
 {
     return $sprintf(@"<%@ %@/0x%x '%@'>", NSStringFromClass([self class]), self.uuid, (int)self, self.name);

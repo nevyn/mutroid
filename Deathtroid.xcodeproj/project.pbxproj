@@ -18,6 +18,7 @@
 		0587E522143F8DB200EA9CBF /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 0587E521143F8DB200EA9CBF /* AsyncSocket.m */; };
 		0587E525143F8FB200EA9CBF /* DTConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0587E524143F8FB200EA9CBF /* DTConstants.m */; };
 		05AD7F8515FCACCE00E97694 /* DTEntityExplosion.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD7F8415FCACCE00E97694 /* DTEntityExplosion.m */; };
+		05AD7F8815FCDEA600E97694 /* DTEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD7F8715FCDEA600E97694 /* DTEditor.m */; };
 		05ADA1EA15FBFF9C00D4B784 /* DTWorldRoom.m in Sources */ = {isa = PBXBuildFile; fileRef = 05ADA1E915FBFF9C00D4B784 /* DTWorldRoom.m */; };
 		05C35705143F9F53001FE29E /* TCAsyncHashProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 05C35704143F9F53001FE29E /* TCAsyncHashProtocol.m */; };
 		05CC7B77143FC4BB00052D06 /* SPDepends.m in Sources */ = {isa = PBXBuildFile; fileRef = 05CC7B6F143FC4BB00052D06 /* SPDepends.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -128,6 +129,8 @@
 		0587E524143F8FB200EA9CBF /* DTConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTConstants.m; sourceTree = "<group>"; };
 		05AD7F8315FCACCE00E97694 /* DTEntityExplosion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTEntityExplosion.h; sourceTree = "<group>"; };
 		05AD7F8415FCACCE00E97694 /* DTEntityExplosion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTEntityExplosion.m; sourceTree = "<group>"; };
+		05AD7F8615FCDEA600E97694 /* DTEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTEditor.h; path = Client/DTEditor.h; sourceTree = "<group>"; };
+		05AD7F8715FCDEA600E97694 /* DTEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTEditor.m; path = Client/DTEditor.m; sourceTree = "<group>"; };
 		05ADA1E815FBFF9C00D4B784 /* DTWorldRoom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTWorldRoom.h; sourceTree = "<group>"; };
 		05ADA1E915FBFF9C00D4B784 /* DTWorldRoom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTWorldRoom.m; sourceTree = "<group>"; };
 		05B60AD21440E56F00CFFCE9 /* DTLevelRepository.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTLevelRepository.h; sourceTree = "<group>"; };
@@ -520,6 +523,7 @@
 		D8B0571D143FA0D1002CE09B /* Server */ = {
 			isa = PBXGroup;
 			children = (
+				D8B05722143FA20F002CE09B /* DTPlayer.h */,
 				D8B05723143FA20F002CE09B /* DTPlayer.m */,
 				D8B05724143FA20F002CE09B /* DTServer.h */,
 				D8B05725143FA20F002CE09B /* DTServer.m */,
@@ -542,7 +546,8 @@
 				3809AC321444E57500B0C9AF /* DTRenderEntities.m */,
 				05F49DF91449FB4600974FF9 /* DTRenderTilemap.h */,
 				05F49DFA1449FB4600974FF9 /* DTRenderTilemap.m */,
-				D8B05722143FA20F002CE09B /* DTPlayer.h */,
+				05AD7F8615FCDEA600E97694 /* DTEditor.h */,
+				05AD7F8715FCDEA600E97694 /* DTEditor.m */,
 			);
 			name = Client;
 			sourceTree = "<group>";
@@ -740,6 +745,7 @@
 				99E5010215FAB7AE0031F34D /* SCEvents.m in Sources */,
 				05ADA1EA15FBFF9C00D4B784 /* DTWorldRoom.m in Sources */,
 				05AD7F8515FCACCE00E97694 /* DTEntityExplosion.m in Sources */,
+				05AD7F8815FCDEA600E97694 /* DTEditor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

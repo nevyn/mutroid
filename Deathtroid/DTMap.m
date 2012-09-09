@@ -47,5 +47,30 @@
     
 	return self;
 }
-
+-(id)rep
+{
+    NSMutableArray *mapRep = [NSMutableArray arrayWithCapacity:width*height];
+    NSMutableArray *attrRep = [NSMutableArray arrayWithCapacity:width*height];
+    for(int i = 0; i < width*height; i++)
+        [mapRep addObject:@(tiles[i])];
+    for(int i = 0; i < width*height && attr; i++)
+        [attrRep addObject:@(attr[i])];
+    return @{
+        @"width": @(width),
+        @"height": @(height),
+        @"map": attr ? @[mapRep, attrRep] : mapRep
+    };
+}
+- (int*)tileAtX:(int)x y:(int)y
+{
+    if(x < 0 || y < 0 || x >= width || y >= height )
+        return NULL;
+    return &tiles[y*width + x];
+}
+- (int*)attrAtX:(int)x y:(int)y
+{
+    if(x < 0 || y < 0 || x >= width || y >= height )
+        return NULL;
+    return &attr[y*width + x];
+}
 @end

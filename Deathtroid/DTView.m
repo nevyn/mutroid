@@ -12,6 +12,7 @@
 
 #import "DTCore.h"
 #import "DTInput.h"
+#import "DTEditor.h"
 
 #define GAME_WIDTH 256
 #define GAME_HEIGHT 224
@@ -133,11 +134,52 @@
 
 -(void)keyDown:(NSEvent *)theEvent {
     [core.input pressedKey:[theEvent keyCode] repeated:[theEvent isARepeat]];
+    
+    int i = [[theEvent characters] intValue];
+    if(i > 0)
+        core.editor.currentLayerIndex = i - 1;
 }
 
 -(void)keyUp:(NSEvent *)theEvent {
 	[core.input releasedKey:[theEvent keyCode]];
 }
+
+- (Vector2*)convertPointToGameCoordinate:(NSPoint)p
+{
+    MutableVector2 *vec2 = [MutableVector2 vectorWithX:p.x y:p.y];
+    vec2.x *= GAME_WIDTH/self.bounds.size.width;
+    vec2.y *= GAME_HEIGHT/self.bounds.size.height;
+    return vec2;
+}
+
+- (void)mouseDown:(NSEvent *)theEvent
+{
+    [self mouseDragged:theEvent];
+}
+- (void)mouseDragged:(NSEvent *)theEvent
+{
+    NSPoint p = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+    [core.editor leftMouseDownOrMoved:[self convertPointToGameCoordinate:p]];
+}
+- (void)mouseUp:(NSEvent *)theEvent
+{
+    [core.editor leftMouseUp];
+}
+
+- (void)rightMouseDown:(NSEvent *)theEvent
+{
+    [self rightMouseDragged:theEvent];
+}
+- (void)rightMouseDragged:(NSEvent *)theEvent
+{
+    NSPoint p = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+    [core.editor rightMouseDownOrMoved:[self convertPointToGameCoordinate:p]];
+}
+- (void)rightMouseUp:(NSEvent *)theEvent
+{
+    [core.editor rightMouseUp];
+}
+
 
 -(void)flagsChanged:(NSEvent *)theEvent {
 }
@@ -149,6 +191,11 @@
     } else {
         [self exitFullScreenModeWithOptions:nil];
     }
+}
+
+- (IBAction)saveDocument:(id)sender
+{
+    [core.editor save];
 }
 
 @end

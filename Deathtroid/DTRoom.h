@@ -18,4 +18,6 @@
 @property (nonatomic,strong,readonly) NSString *name;
 @property (nonatomic,strong) NSString *uuid;
 @property (nonatomic,strong) NSArray *initialEntityReps;
+
+- (void)saveToDisk;
 @end

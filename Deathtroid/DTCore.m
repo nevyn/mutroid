@@ -11,27 +11,29 @@
 #import "DTClient.h"
 #import "DTServer.h"
 #import "DTInput.h"
+#import "DTEditor.h"
 #import <Carbon/Carbon.h>
 
-@implementation DTCore
-
-@synthesize input;
+@implementation DTCore  {
+    DTClient    *client;
+    DTServer    *server;
+}
 
 -(id)init;
 {
     if(!(self = [super init])) return nil;
     
-    input = [[DTInput alloc] init];
+    _input = [[DTInput alloc] init];
     
-    [input.mapper registerStateActionWithName:@"WalkLeft" beginAction:^{ [client walkLeft]; } endAction:^{ [client stopWalk]; }];
-    [input.mapper registerStateActionWithName:@"WalkRight" beginAction:^{ [client walkRight]; } endAction:^{ [client stopWalk]; }];
-    [input.mapper registerActionWithName:@"Jump" action:^{ [client jump]; }];
-    [input.mapper registerActionWithName:@"Shoot" action:^{ [client shoot]; }];
+    [_input.mapper registerStateActionWithName:@"WalkLeft" beginAction:^{ [client walkLeft]; } endAction:^{ [client stopWalk]; }];
+    [_input.mapper registerStateActionWithName:@"WalkRight" beginAction:^{ [client walkRight]; } endAction:^{ [client stopWalk]; }];
+    [_input.mapper registerActionWithName:@"Jump" action:^{ [client jump]; }];
+    [_input.mapper registerActionWithName:@"Shoot" action:^{ [client shoot]; }];
     
-    [input.mapper mapKey:kVK_ANSI_A toAction:@"WalkLeft"];
-    [input.mapper mapKey:kVK_ANSI_D toAction:@"WalkRight"];
-    [input.mapper mapKey:kVK_Space toAction:@"Jump"];
-    [input.mapper mapKey:kVK_ANSI_K toAction:@"Shoot"];
+    [_input.mapper mapKey:kVK_ANSI_A toAction:@"WalkLeft"];
+    [_input.mapper mapKey:kVK_ANSI_D toAction:@"WalkRight"];
+    [_input.mapper mapKey:kVK_Space toAction:@"Jump"];
+    [_input.mapper mapKey:kVK_ANSI_K toAction:@"Shoot"];
 	
      	
 	NSString *host = [[NSUserDefaults standardUserDefaults] objectForKey:@"host"];
@@ -42,6 +44,8 @@
         server = [[DTServer alloc] init];
 		client = [[DTClient alloc] init];
     }
+    _editor = [[DTEditor alloc] init];
+    _editor.client = client;
     
     
 /*    DTDiskLevelRepository *local = nil;
@@ -68,6 +72,7 @@
 -(void)draw;
 {
     [client draw];
+    [_editor draw];
 }
 
 -(void)tick:(double)delta;

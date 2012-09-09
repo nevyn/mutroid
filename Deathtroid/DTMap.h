@@ -24,7 +24,10 @@
 
 @property (nonatomic,assign) int *tiles, *attr;
 @property (nonatomic,assign) int width, height;
+- (int*)tileAtX:(int)x y:(int)y;
+- (int*)attrAtX:(int)x y:(int)y;
 
 -(id)initWithRep:(NSDictionary*)rep;
+-(id)rep;
 
 @end

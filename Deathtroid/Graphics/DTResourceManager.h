@@ -27,6 +27,7 @@
 -(void)resourceNamed:(NSString *)name loaded:(void(^)(id<DTResource>))whenLoaded;
 
 - (NSURL *)absolutePathForFileName:(NSString *)filename;
+-(NSURL *)pathForResourceNamed:(NSString *)wantedResource_id;
 @end
 
 

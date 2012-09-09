@@ -11,13 +11,11 @@
 @class DTClient;
 @class DTServer;
 @class DTInput;
+@class DTEditor;
 
-@interface DTCore : NSObject {
-    DTClient    *client;
-    DTServer    *server;
-}
-
+@interface DTCore : NSObject
 @property (nonatomic,strong) DTInput *input;
+@property (nonatomic,strong) DTEditor *editor;
 
 -(void)draw;
 -(void)tick:(double)delta;
