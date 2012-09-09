@@ -142,4 +142,13 @@
 -(void)flagsChanged:(NSEvent *)theEvent {
 }
 
+- (IBAction)toggleFullScreen:(id)sender
+{
+    if(!self.isInFullScreenMode) {
+        [self enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
+    } else {
+        [self exitFullScreenModeWithOptions:nil];
+    }
+}
+
 @end
