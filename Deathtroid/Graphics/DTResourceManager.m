@@ -162,6 +162,14 @@ static NSMutableDictionary *resourceLoaders = nil;
     [loader reloadResource:resource atURL:path usingManager:self error:&error];
 }
 
+- (void)reloadResoure:(id<DTResource>)resource usingDefinition:(NSDictionary*)definition
+{
+    NSURL *path = [self pathForResourceNamed:resource.resourceId];
+    id<DTResourceLoader> loader = [DTResourceManager resourceLoaderForTypeName:path.dt_resourceType];
+    NSError *error = nil;
+    [loader reloadResource:resource usingDefinition:definition usingManager:self error:&error];
+}
+
 - (void)saveResource:(id<DTResource>)resource
 {
     NSURL *path = [self pathForResourceNamed:resource.resourceId];

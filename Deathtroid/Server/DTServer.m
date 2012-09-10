@@ -142,7 +142,13 @@ static const int kMaxServerFramerate = 10;
 
 -(void)broadcast:(NSDictionary*)d;
 {
+    [self broadcast:d excluding:nil];
+}
+- (void)broadcast:(NSDictionary *)d excluding:(DTPlayer*)excluded
+{
     for(DTPlayer *player in players) {
+        if(player == excluded)
+            continue;
         NSString *ruid = [d objectForKey:@"room"];
         if(ruid && ![ruid isEqual:player.room.room.uuid]) continue;
         [player.proto sendHash:d];
@@ -222,6 +228,19 @@ static const int kMaxServerFramerate = 10;
 -(void)playerAction:(DTPlayer*)player shoot:(NSDictionary*)hash;
 {
     [(DTEntityPlayer*)player.entity shoot];
+}
+
+- (void)player:(DTPlayer*)player updateRoomFromRep:(NSDictionary*)hash
+{
+    DTServerRoom *room = [_rooms objectForKey:$notNull([hash objectForKey:@"room"])];
+    NSDictionary *rep = $notNull(hash[@"rep"]);
+    [[DTResourceManager sharedManager] reloadResoure:room.room usingDefinition:rep];
+    
+    [self broadcast:@{
+        @"command": @"updateRoomFromRep",
+        @"room": room.room.uuid,
+        @"rep": room.room.rep
+     } excluding:player];
 }
 
 #pragma mark Incoming player requests

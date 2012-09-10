@@ -36,7 +36,7 @@
 #define CLAMP(v, mi, ma) MAX(MIN(v, ma), mi)
 #endif
 
-@interface DTClient () <TCAsyncHashProtocolDelegate>
+@interface DTClient () <TCAsyncHashProtocolDelegate, DTRoomDelegate>
 @property (nonatomic, strong) DTResourceManager *resources;
 @end
 
@@ -337,6 +337,7 @@ static const int kScreenWidthInTiles = 16;
             room = [[DTWorldRoom alloc] initWithRoom:newRoom];
             room.room.uuid = uuid;
             room.world.resources = resources;
+            newRoom.delegate = self;
 
             [rooms setObject:room forKey:uuid];
             then();
@@ -364,6 +365,23 @@ static const int kScreenWidthInTiles = 16;
 	DTEntity *ent = $notNull([room.entities objectForKey:[hash objectForKey:@"uuid"]]);
 	
 	[ent receivedFromCounterpart:$notNull([hash objectForKey:@"message"])];
+}
+
+- (void)roomChanged:(DTRoom *)room
+{
+    [_proto sendHash:@{
+        @"command": @"updateRoomFromRep",
+        @"room": room.uuid,
+        @"rep": room.rep
+    }];
+}
+- (void)command:(id)proto updateRoomFromRep:(NSDictionary*)hash
+{
+    DTWorldRoom *room = [rooms objectForKey:$notNull([hash objectForKey:@"room"])];
+    room.room.delegate = nil;
+    NSDictionary *rep = $notNull(hash[@"rep"]);
+    [[DTResourceManager sharedManager] reloadResoure:room.room usingDefinition:rep];
+    room.room.delegate = self;
 }
 
 

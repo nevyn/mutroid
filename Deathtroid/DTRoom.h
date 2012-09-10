@@ -11,13 +11,19 @@
 
 @class DTWorld;
 @class DTMap;
+@protocol DTRoomDelegate;
 
 @interface DTRoom : DTResource
-@property (nonatomic,strong) NSMutableArray *layers;
+@property (nonatomic,readonly) NSMutableArray *layers;
 @property (nonatomic,strong) DTMap *collisionLayer;
 @property (nonatomic,strong,readonly) NSString *name;
 @property (nonatomic,strong) NSString *uuid;
 @property (nonatomic,strong) NSArray *initialEntityReps;
+@property (nonatomic,weak) id<DTRoomDelegate> delegate;
 
 - (id)rep;
+@end
+
+@protocol DTRoomDelegate <NSObject>
+- (void)roomChanged:(DTRoom*)room;
 @end

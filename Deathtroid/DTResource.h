@@ -30,6 +30,7 @@
 -(id<DTResource>)loadResourceAtURL:(NSURL *)url usingManager:(DTResourceManager *)manager;
 - (void)loadResource:(id<DTResource>)resource usingManager:(DTResourceManager *)manager error:(NSError **)error;
 - (void)reloadResource:(id<DTResource>)resource atURL:(NSURL *)url usingManager:(DTResourceManager *)manager error:(NSError **)error;
+- (BOOL)reloadResource:(id<DTResource>)resource usingDefinition:(NSDictionary *)def usingManager:(DTResourceManager *)manager error:(NSError *__autoreleasing *)error;
 - (void)saveResource:(id<DTResource>)resource toURL:(NSURL *)url usingManager:(DTResourceManager *)manager;
 @optional
 - (void)saveResource:(id<DTResource>)resource;
@@ -44,6 +45,7 @@
 - (id<DTResource>)createResourceWithManager:(DTResourceManager *)manager;
 - (BOOL)loadResource:(id<DTResource>)resource usingManager:(DTResourceManager *)manager error:(NSError **)error;
 - (BOOL)reloadResource:(id<DTResource>)resource atURL:(NSURL *)url usingManager:(DTResourceManager *)manager error:(NSError **)error;
+- (BOOL)reloadResource:(id<DTResource>)resource usingDefinition:(NSDictionary *)def usingManager:(DTResourceManager *)manager error:(NSError *__autoreleasing *)error;
 
 - (void)writeDefinition:(NSDictionary*)def;
 @end

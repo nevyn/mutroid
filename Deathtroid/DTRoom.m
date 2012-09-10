@@ -11,13 +11,14 @@
 #import "DTMap.h"
 #import "DTWorld.h"
 
-@interface DTRoom ()
+@interface DTRoom () <DTMapDelegate>
 @property (nonatomic,strong,readwrite) NSString *name;
 @end
 
-@implementation DTRoom
+@implementation DTRoom {
+    NSMutableArray *_layerArray;
+}
 
-@synthesize layers = _layers;
 @synthesize collisionLayer;
 @synthesize name = _name;
 @synthesize initialEntityReps;
@@ -27,7 +28,7 @@
 {
     if(!(self = [super initWithResourceId:rid])) return nil;
     
-    _layers = [[NSMutableArray alloc] init];
+    _layerArray = [[NSMutableArray alloc] init];
     
     return self;
 }
@@ -44,6 +45,44 @@
 -(NSString*)description;
 {
     return $sprintf(@"<%@ %@/0x%x '%@'>", NSStringFromClass([self class]), self.uuid, (int)self, self.name);
+}
+
+#pragma mark Layers KVOable
+@dynamic layers;
+-(void)forwardInvocation:(NSInvocation *)invocation {
+  if ([invocation selector] == @selector(layers)) {
+    id value = [self mutableArrayValueForKey:@"layers"];
+    [invocation setReturnValue:&value];
+  }
+}
+-(NSMethodSignature *)methodSignatureForSelector:(SEL)sel {
+  if (sel == @selector(layers)) {
+    return [super methodSignatureForSelector:@selector(valueForKey:)];
+  } else {
+    return [super methodSignatureForSelector:sel];
+  }
+}
+- (NSUInteger)countOfLayers
+{
+    return [_layerArray count];
+}
+- (DTLayer*)objectInLayersAtIndex:(NSUInteger)index
+{
+    return _layerArray[index];
+}
+- (void)insertObject:(DTLayer *)layer inLayersAtIndex:(NSUInteger)index
+{
+    [_layerArray insertObject:layer atIndex:index];
+    layer.map.delegate = self;
+}
+- (void)removeObjectFromLayersAtIndex:(NSUInteger)index
+{
+    [_layerArray[index] map].delegate = nil;
+    [_layerArray removeObjectAtIndex:index];
+}
+- (void)attrOrTileChangedInMap:(DTMap *)map
+{
+    [_delegate roomChanged:self];
 }
 @end
 

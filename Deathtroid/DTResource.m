@@ -88,6 +88,12 @@
     
 	return resource;
 }
+- (BOOL)reloadResource:(id<DTResource>)resource usingDefinition:(NSDictionary *)def usingManager:(DTResourceManager *)manager error:(NSError *__autoreleasing *)error;
+{
+    self.definition = def;
+    return [self loadResource:resource usingManager:manager error:error];
+}
+
 - (void)saveResource:(id<DTResource>)resource toURL:(NSURL *)url usingManager:(DTResourceManager *)manager;
 {
     self.path = url;

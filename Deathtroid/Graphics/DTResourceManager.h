@@ -26,6 +26,8 @@
 // async, not done
 -(void)resourceNamed:(NSString *)name loaded:(void(^)(id<DTResource>))whenLoaded;
 
+- (void)reloadResoure:(id<DTResource>)resource usingDefinition:(NSDictionary*)definition;
+
 // writes to local disk
 - (void)saveResource:(id<DTResource>)resource;
 
