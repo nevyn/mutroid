@@ -16,6 +16,7 @@
 #import "DTMap.h"
 #import "DTClient.h"
 #import <Carbon/Carbon.h>
+#import "SPDepends.h"
 
 #define GAME_WIDTH 256
 #define GAME_HEIGHT 224
@@ -49,6 +50,14 @@
     [core.input.mapper mapKey:kVK_ANSI_U toAction:@"editor.flipX"];
     [core.input.mapper mapKey:kVK_ANSI_I toAction:@"editor.flipY"];
     [core.input.mapper mapKey:kVK_ANSI_O toAction:@"editor.rotate"];
+    
+    __weak __typeof(self) weakSelf = self;
+    SPAddDependency(self, @"current layer", @[core, @"editor.currentLayerIndex"], ^{
+        NSMenu *menu = weakSelf.currentLayerMenu.submenu;
+        for(NSMenuItem *item in menu.itemArray)
+            item.state = NSOffState;
+        [menu itemWithTag:weakSelf.core.editor.currentLayerIndex].state = NSOnState;
+    });
 }
 
 -(BOOL)acceptsFirstResponder {
@@ -247,6 +256,12 @@
 - (IBAction)toggleLayer:(NSMenuItem*)sender
 {
     [core.client setLayer:(int)sender.tag visible:![core.client layerVisible:(int)sender.tag]];
+    for(NSMenuItem *item in [sender.parentItem.submenu itemArray])
+        item.state = [core.client layerVisible:item.tag] ? NSOnState : NSOffState;
+}
+- (IBAction)chooseLayer:(NSMenuItem*)sender
+{
+    core.editor.currentLayerIndex = (int)sender.tag;
 }
 
 @end

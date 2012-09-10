@@ -10,8 +10,7 @@
 
 @class DTCore;
 
-@interface DTView : NSOpenGLView {
-}
+@interface DTView : NSOpenGLView
 
 @property (nonatomic,strong) DTCore *core;
 
@@ -19,4 +18,5 @@
 -(void)keyUp:(NSEvent *)theEvent;
 -(void)flagsChanged:(NSEvent *)theEvent;
 
+@property (weak) IBOutlet NSMenuItem *currentLayerMenu;
 @end
