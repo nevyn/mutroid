@@ -87,6 +87,13 @@ static const CGSize kTileSizeInPixels = {16, 16};
     if([$castIf(DTEntityPlayer, entity) immune] && (frameCount/2)%2)
         return;
     
+    // XX: Switched animation without running tick. Why is tick separate from drawEntity anyway?
+    if(entityData.currentFrame >= [entity.animation frameCountForAnimation:entity.currentState]) {
+        entityData.currentFrame = 0;
+        entityData.secondsSinceLastFrame = 0.;
+    }
+
+    
     DTSpriteMap *spriteMap = [entity.animation spriteMapForAnimation:entity.currentState];
     [spriteMap.texture use];
     DTSpriteMapFrame frame = [entity.animation frameAtIndex:entityData.currentFrame forAnimation:entity.currentState];
