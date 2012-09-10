@@ -2,7 +2,7 @@
 #import "Vector2.h"
 @class DTClient;
 
-@interface DTEditor : NSObject
+@interface DTEditor : NSResponder
 @property(weak) DTClient *client;
 
 - (void)leftMouseDownOrMoved:(Vector2*)viewCoordInPixels;
@@ -19,4 +19,8 @@
 @property int currentTileIndex;
 
 @property(readonly) NSUndoManager *undo;
+@end
+
+@protocol DTEditorUIDelegate <NSObject>
+
 @end

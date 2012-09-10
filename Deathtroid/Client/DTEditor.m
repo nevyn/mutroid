@@ -130,6 +130,16 @@
 
     [map setAttr:(*attr) ^ flag atX:tileCoord.x y:tileCoord.y];
 }
+//Undo broke because we create new maps
+- (void)undo:(id)sender
+{
+    [self.undo undo];
+}
+- (void)redo:(id)sender
+{
+    [self.undo redo];
+}
+
 
 - (void)draw
 {

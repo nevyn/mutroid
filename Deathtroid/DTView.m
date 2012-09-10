@@ -58,6 +58,9 @@
             item.state = NSOffState;
         [menu itemWithTag:weakSelf.core.editor.currentLayerIndex].state = NSOnState;
     });
+    
+    core.editor.nextResponder = self.nextResponder;
+    self.nextResponder = core.editor;
 }
 
 -(BOOL)acceptsFirstResponder {
@@ -242,15 +245,6 @@
 {
     NSPoint p = [self convertPoint:[self.window mouseLocationOutsideOfEventStream] fromView:nil];
     [core.editor toggleAttribute:TileAttributeRotate90 at:[self convertPointToGameCoordinate:p]];
-}
-
-- (void)undo:(id)sender
-{
-    [core.editor.undo undo];
-}
-- (void)redo:(id)sender
-{
-    [core.editor.undo redo];
 }
 
 - (IBAction)toggleLayer:(NSMenuItem*)sender
