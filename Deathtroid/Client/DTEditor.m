@@ -42,13 +42,19 @@
         return nil;
     return layers[_currentLayerIndex];
 }
+- (DTMap*)currentMap
+{
+    DTRoom *room = self.client.currentRoom.room;
+    if(_currentLayerIndex == -1)
+        return room.collisionLayer;
+    else
+        return [self currentLayer].map;
+}
+
 - (void)leftMouseDownOrMoved:(Vector2*)viewCoordInPixels
 {
     Vector2 *tileCoord = [self tileCoordFromViewCoord:viewCoordInPixels];
-    
-    DTLayer *layer = [self currentLayer];
-    
-    [self setTile:_currentTileIndex atCoord:tileCoord onLayer:self.currentLayer];
+    [self setTile:_currentTileIndex atCoord:tileCoord onMap:self.currentMap];
 }
 
 - (void)leftMouseUp
@@ -59,11 +65,15 @@
 - (void)rightMouseDownOrMoved:(Vector2*)viewCoordInPixels
 {
     Vector2 *tileCoord = [self tileCoordFromViewCoord:viewCoordInPixels];
+    
+    DTLayer *layer = [self currentLayer];
+    DTMap *map = [self currentMap];
+    NSString *texName = (_currentLayerIndex == -1) ? @"collision" : layer.tilesetName;
+    DTTexture *texture = [[DTResourceManager sharedManager] resourceNamed:$sprintf(@"%@.texture", texName)];
+
     if(!_drawEditorAt) {
-        DTLayer *layer = [self currentLayer];
-        int *tile = [layer.map tileAtX:tileCoord.x y:tileCoord.y];
+        int *tile = [map tileAtX:tileCoord.x y:tileCoord.y];
         if(tile) {
-            DTTexture *texture = [[DTResourceManager sharedManager] resourceNamed:$sprintf(@"%@.texture", layer.tilesetName)];
             float w = texture.pixelSize.width/16.;
 
             MutableVector2 *p = tileCoord.mutableCopy;
@@ -77,8 +87,6 @@
     }
     
     Vector2 *coordInSheet = [tileCoord vectorBySubtractingVector:_drawEditorAt];
-    DTLayer *layer = [self currentLayer];
-	DTTexture *texture = [[DTResourceManager sharedManager] resourceNamed:$sprintf(@"%@.texture", layer.tilesetName)];
     float w = texture.pixelSize.width/16.;
     float h = texture.pixelSize.height/16.;
     if(coordInSheet.x < 0 || coordInSheet.y < 0 || coordInSheet.x >= w || coordInSheet.y >= h)
@@ -92,31 +100,35 @@
     _drawEditorAt = nil;
 }
 
-- (void)setTile:(int)tileIndex atCoord:(Vector2*)tileCoord onLayer:(DTLayer*)layer
+- (void)setTile:(int)tileIndex atCoord:(Vector2*)tileCoord onMap:(DTMap*)map
 {
-    int *tile = [layer.map tileAtX:tileCoord.x y:tileCoord.y];
+    int *tile = [map tileAtX:tileCoord.x y:tileCoord.y];
     if(!tile) return;
 
-    [[_undo prepareWithInvocationTarget:self] _setTile:*tile atCoord:tileCoord onLayer:layer];
-    [self _setTile:tileIndex atCoord:tileCoord onLayer:layer];
+    [[_undo prepareWithInvocationTarget:self] _setTile:*tile atCoord:tileCoord onMap:map];
+    [self _setTile:tileIndex atCoord:tileCoord onMap:map];
 }
-- (void)_setTile:(int)tileIndex atCoord:(Vector2*)tileCoord onLayer:(DTLayer*)layer
+- (void)_setTile:(int)tileIndex atCoord:(Vector2*)tileCoord onMap:(DTMap*)map
 {
-    int *tile = [layer.map tileAtX:tileCoord.x y:tileCoord.y];
+    int *tile = [map tileAtX:tileCoord.x y:tileCoord.y];
     if(!tile) return;
     
     *tile = tileIndex;
 }
 
-- (void)toggleAttribute:(int)flag at:(Vector2*)viewCoordInPixels
+- (void)toggleAttribute:(int)flag at:(Vector2*)viewCoordInPixels;
 {
-    [[_undo prepareWithInvocationTarget:self] _toggleAttribute:flag at:viewCoordInPixels];
-    [self _toggleAttribute:flag at:viewCoordInPixels];
+    [self toggleAttribute:flag at:viewCoordInPixels onMap:self.currentMap];
 }
-- (void)_toggleAttribute:(int)flag at:(Vector2*)viewCoordInPixels
+- (void)toggleAttribute:(int)flag at:(Vector2*)viewCoordInPixels onMap:(DTMap*)map
+{
+    [[_undo prepareWithInvocationTarget:self] _toggleAttribute:flag at:viewCoordInPixels onMap:map];
+    [self _toggleAttribute:flag at:viewCoordInPixels onMap:map];
+}
+- (void)_toggleAttribute:(int)flag at:(Vector2*)viewCoordInPixels onMap:(DTMap*)map
 {
     Vector2 *tileCoord = [self tileCoordFromViewCoord:viewCoordInPixels];
-    int *attr = [[self currentLayer].map attrAtX:tileCoord.x y:tileCoord.y];
+    int *attr = [map attrAtX:tileCoord.x y:tileCoord.y];
     if(!attr) return;
     
     *attr ^= flag;
@@ -129,7 +141,8 @@
     DTProgram *program = [[DTResourceManager sharedManager] resourceNamed:@"main.program"];
 
     DTLayer *layer = [self currentLayer];
-	DTTexture *texture = [[DTResourceManager sharedManager] resourceNamed:$sprintf(@"%@.texture", layer.tilesetName)];
+    NSString *texName = (_currentLayerIndex == -1) ? @"collision" : layer.tilesetName;
+    DTTexture *texture = [[DTResourceManager sharedManager] resourceNamed:$sprintf(@"%@.texture", texName)];
     float w = texture.pixelSize.width/16.;
     float h = texture.pixelSize.height/16.;
         

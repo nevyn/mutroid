@@ -14,6 +14,7 @@
 #import "DTInput.h"
 #import "DTEditor.h"
 #import "DTMap.h"
+#import "DTClient.h"
 #import <Carbon/Carbon.h>
 
 #define GAME_WIDTH 256
@@ -156,7 +157,7 @@
     [core.input pressedKey:[theEvent keyCode] repeated:[theEvent isARepeat]];
     
     int i = [[theEvent characters] intValue];
-    if(i > 0)
+    if(i > 0 || [[theEvent characters] isEqual:@"0"])
         core.editor.currentLayerIndex = i - 1;
 }
 
@@ -218,6 +219,22 @@
     [core.editor save];
 }
 
+- (IBAction)flipHorizontal:(id)sender
+{
+    NSPoint p = [self convertPoint:[self.window mouseLocationOutsideOfEventStream] fromView:nil];
+    [core.editor toggleAttribute:TileAttributeFlipX at:[self convertPointToGameCoordinate:p]];
+}
+- (IBAction)flipVertical:(id)sender
+{
+    NSPoint p = [self convertPoint:[self.window mouseLocationOutsideOfEventStream] fromView:nil];
+    [core.editor toggleAttribute:TileAttributeFlipY at:[self convertPointToGameCoordinate:p]];
+}
+- (IBAction)rotate90:(id)sender
+{
+    NSPoint p = [self convertPoint:[self.window mouseLocationOutsideOfEventStream] fromView:nil];
+    [core.editor toggleAttribute:TileAttributeRotate90 at:[self convertPointToGameCoordinate:p]];
+}
+
 - (void)undo:(id)sender
 {
     [core.editor.undo undo];
@@ -225,6 +242,11 @@
 - (void)redo:(id)sender
 {
     [core.editor.undo redo];
+}
+
+- (IBAction)toggleLayer:(NSMenuItem*)sender
+{
+    [core.client setLayer:(int)sender.tag visible:![core.client layerVisible:(int)sender.tag]];
 }
 
 @end

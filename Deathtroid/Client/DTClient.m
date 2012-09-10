@@ -48,6 +48,7 @@
 	DTRenderEntities *entityRenderer;
 	DTRenderTilemap *tilemapRenderer;
     FISoundEngine *finch;
+    NSMutableDictionary *_visibleLayers;
 }
 @synthesize physics;
 @synthesize rooms, playerEntity;
@@ -106,8 +107,9 @@
 #else
     physics = [[DTPhysics alloc] init];
 #endif
-
-        
+    
+    _visibleLayers = [NSMutableDictionary dictionaryWithCapacity:10];
+    
     return self;
 }
 
@@ -144,8 +146,10 @@ static const int kScreenWidthInTiles = 16;
     glTranslatef(0, 2, 0);
 
 	
+    int i = 0;
 	for(DTLayer *layer in _currentRoom.room.layers)
-		[tilemapRenderer drawLayer:layer camera:camera fromWorldRoom:_currentRoom];
+        if([self layerVisible:i++])
+            [tilemapRenderer drawLayer:layer camera:camera fromWorldRoom:_currentRoom];
 
     glPushMatrix();
 
@@ -172,6 +176,15 @@ static const int kScreenWidthInTiles = 16;
     glEnd();
     
     [p use];
+}
+
+- (BOOL)layerVisible:(int)index
+{
+    return [[_visibleLayers objectForKey:@(index)] ?: @YES boolValue];
+}
+- (void)setLayer:(int)index visible:(BOOL)visible
+{
+    [_visibleLayers setObject:@(visible) forKey:@(index)];
 }
 
 

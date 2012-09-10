@@ -39,6 +39,8 @@ typedef void(^DTClientMessageCallback)(NSString *message);
 @property (nonatomic,weak) DTWorldRoom *currentRoom;
 
 @property (nonatomic,strong) DTCamera *camera;
+- (BOOL)layerVisible:(int)index;
+- (void)setLayer:(int)index visible:(BOOL)visible;
 
 @property(nonatomic,copy) DTClientHealthCallback healthCallback;
 @property(nonatomic,copy) DTClientScoresCallback scoresCallback;
