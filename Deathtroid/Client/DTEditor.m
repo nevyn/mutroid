@@ -72,7 +72,7 @@
     DTTexture *texture = [[DTResourceManager sharedManager] resourceNamed:$sprintf(@"%@.texture", texName)];
 
     if(!_drawEditorAt) {
-        int *tile = [map tileAtX:tileCoord.x y:tileCoord.y];
+        const int *tile = [map tileAtX:tileCoord.x y:tileCoord.y];
         if(tile) {
             float w = texture.pixelSize.width/16.;
 
@@ -102,7 +102,7 @@
 
 - (void)setTile:(int)tileIndex atCoord:(Vector2*)tileCoord onMap:(DTMap*)map
 {
-    int *tile = [map tileAtX:tileCoord.x y:tileCoord.y];
+    const int *tile = [map tileAtX:tileCoord.x y:tileCoord.y];
     if(!tile) return;
 
     [[_undo prepareWithInvocationTarget:self] _setTile:*tile atCoord:tileCoord onMap:map];
@@ -110,10 +110,7 @@
 }
 - (void)_setTile:(int)tileIndex atCoord:(Vector2*)tileCoord onMap:(DTMap*)map
 {
-    int *tile = [map tileAtX:tileCoord.x y:tileCoord.y];
-    if(!tile) return;
-    
-    *tile = tileIndex;
+    [map setTile:tileIndex atX:tileCoord.x y:tileCoord.y];
 }
 
 - (void)toggleAttribute:(int)flag at:(Vector2*)viewCoordInPixels;
@@ -128,10 +125,10 @@
 - (void)_toggleAttribute:(int)flag at:(Vector2*)viewCoordInPixels onMap:(DTMap*)map
 {
     Vector2 *tileCoord = [self tileCoordFromViewCoord:viewCoordInPixels];
-    int *attr = [map attrAtX:tileCoord.x y:tileCoord.y];
+    const int *attr = [map attrAtX:tileCoord.x y:tileCoord.y];
     if(!attr) return;
-    
-    *attr ^= flag;
+
+    [map setAttr:(*attr) ^ flag atX:tileCoord.x y:tileCoord.y];
 }
 
 - (void)draw

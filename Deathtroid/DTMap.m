@@ -62,16 +62,34 @@
         @"map": attr ? @[mapRep, attrRep] : mapRep
     };
 }
-- (int*)tileAtX:(int)x y:(int)y
+- (const int*)tileAtX:(int)x y:(int)y
 {
     if(x < 0 || y < 0 || x >= width || y >= height )
         return NULL;
     return &tiles[y*width + x];
 }
-- (int*)attrAtX:(int)x y:(int)y
+- (void)setTile:(int)index atX:(int)x y:(int)y;
+{
+    if(x < 0 || y < 0 || x >= width || y >= height )
+        return;
+    [self willChangeValueForKey:@"tiles"];
+    tiles[y*width + x] = index;
+    [self didChangeValueForKey:@"tiles"];
+    [_delegate attrOrTileChangedInMap:self];
+}
+- (const int*)attrAtX:(int)x y:(int)y
 {
     if(x < 0 || y < 0 || x >= width || y >= height )
         return NULL;
     return &attr[y*width + x];
+}
+- (void)setAttr:(int)flag atX:(int)x y:(int)y;
+{
+    if(x < 0 || y < 0 || x >= width || y >= height )
+        return;
+    [self willChangeValueForKey:@"attr"];
+    attr[y*width + x] = flag;
+    [self didChangeValueForKey:@"attr"];
+    [_delegate attrOrTileChangedInMap:self];
 }
 @end

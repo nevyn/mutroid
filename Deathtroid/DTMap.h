@@ -7,24 +7,22 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
+@protocol DTMapDelegate;
 @class MutableVector2;
 
 /** @class Map
     @abstract A single tilemap
 */
-@interface DTMap : NSObject {
-	int		*tiles;
-    int     *attr;
-	
-	// In tiles
-	int		width, height;
-}
-
+@interface DTMap : NSObject
 @property (nonatomic,assign) int *tiles, *attr;
 @property (nonatomic,assign) int width, height;
-- (int*)tileAtX:(int)x y:(int)y;
-- (int*)attrAtX:(int)x y:(int)y;
+@property (nonatomic,weak) id<DTMapDelegate> delegate;
+
+- (const int*)tileAtX:(int)x y:(int)y;
+- (void)setTile:(int)index atX:(int)x y:(int)y;
+
+- (const int*)attrAtX:(int)x y:(int)y;
+- (void)setAttr:(int)attr atX:(int)x y:(int)y;
 
 -(id)initWithRep:(NSDictionary*)rep;
 -(id)rep;
@@ -36,3 +34,7 @@ enum {
     TileAttributeFlipY = 1 << 1,
     TileAttributeRotate90 = 1 << 2,
 };
+
+@protocol DTMapDelegate <NSObject>
+- (void)attrOrTileChangedInMap:(DTMap*)map;
+@end
