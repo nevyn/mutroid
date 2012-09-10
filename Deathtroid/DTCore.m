@@ -84,4 +84,14 @@
 {
     return client;
 }
+
++ (NSString*)appInstanceIdentifier
+{
+    static NSString *identifier = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        identifier = [NSString dt_uuid];
+    });
+    return identifier;
+}
 @end

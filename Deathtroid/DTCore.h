@@ -21,4 +21,6 @@
 -(void)tick:(double)delta;
 -(DTClient*)client;
 
+// To know if server and client are running in the same process
++ (NSString*)appInstanceIdentifier;
 @end

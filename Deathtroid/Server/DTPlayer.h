@@ -19,5 +19,6 @@
 @property (nonatomic,weak) DTEntity *entity;
 @property (nonatomic,weak) DTServerRoom *room;
 @property (nonatomic,strong) TCAsyncHashProtocol *proto;
+@property(nonatomic,strong) NSString *appId;
 
 @end

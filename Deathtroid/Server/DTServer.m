@@ -19,6 +19,7 @@
 #import "Vector2.h"
 #import "DTPhysics.h"
 #import "DTServerRoom.h"
+#import "DTCore.h"
 
 #if DUMB_CLIENT
 static const int kMaxServerFramerate = 60;
@@ -193,6 +194,7 @@ static const int kMaxServerFramerate = 10;
 -(void)player:(DTPlayer*)player hello:(NSDictionary*)hash;
 {
     player.name = [hash objectForKey:@"playerName"];
+    player.appId = hash[@"appId"];
     [self addPoints:0 forPlayer:player];
     [self msg:$sprintf(@"%@ joined.", player.name)];
 }
@@ -233,9 +235,11 @@ static const int kMaxServerFramerate = 10;
 - (void)player:(DTPlayer*)player updateRoomFromRep:(NSDictionary*)hash
 {
     DTServerRoom *room = [_rooms objectForKey:$notNull([hash objectForKey:@"room"])];
-    NSDictionary *rep = $notNull(hash[@"rep"]);
-    [[DTResourceManager sharedManager] reloadResoure:room.room usingDefinition:rep];
     
+    if (![player.appId isEqual:[DTCore appInstanceIdentifier]]) {
+        NSDictionary *rep = $notNull(hash[@"rep"]);
+        [[DTResourceManager sharedManager] reloadResoure:room.room usingDefinition:rep];
+    }
     [self broadcast:@{
         @"command": @"updateRoomFromRep",
         @"room": room.room.uuid,

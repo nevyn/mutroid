@@ -21,6 +21,7 @@
 #import "DTEntity.h"
 #import "DTEntityPlayer.h"
 #import "DTWorldRoom.h"
+#import "DTCore.h"
 
 #import "DTResourceManager.h"
 #import "DTTexture.h"
@@ -195,9 +196,9 @@ static const int kScreenWidthInTiles = 16;
 	NSLog(@"Connected to server: %@", sock);
 	[_proto sendHash:$dict(
 		@"command", @"hello",
-		@"playerName", [[NSUserDefaults standardUserDefaults] objectForKey:@"playerName"]
+		@"playerName", [[NSUserDefaults standardUserDefaults] objectForKey:@"playerName"],
+        @"appId", [DTCore appInstanceIdentifier]
 	)];
-	
 }
 -(void)onSocketDidDisconnect:(AsyncSocket *)sock;
 {
