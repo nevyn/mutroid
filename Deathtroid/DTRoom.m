@@ -40,7 +40,7 @@
         @"entities": self.initialEntityReps,
     };
     NSError *err;
-    NSData *data = [NSJSONSerialization dataWithJSONObject:rep options:0 error:&err];
+    NSData *data = [NSJSONSerialization dataWithJSONObject:rep options:NSJSONWritingPrettyPrinted error:&err];
     NSAssert(data != nil, @"Failed serialization: %@", err);
     
     [data writeToURL:[[DTResourceManager sharedManager] pathForResourceNamed:self.resourceId] atomically:YES];
