@@ -88,5 +88,18 @@
     
 	return resource;
 }
+- (void)saveResource:(id<DTResource>)resource toURL:(NSURL *)url usingManager:(DTResourceManager *)manager;
+{
+    self.path = url;
+    [self saveResource:resource];
+}
+- (void)writeDefinition:(NSDictionary *)def
+{
+    self.definition = def;
+    NSError *err;
+    NSData *data = [NSJSONSerialization dataWithJSONObject:def options:NSJSONWritingPrettyPrinted error:&err];
+    NSAssert(data != nil, @"Failed serialization: %@", err);
+    [data writeToURL:self.path atomically:YES];
+}
 
 @end

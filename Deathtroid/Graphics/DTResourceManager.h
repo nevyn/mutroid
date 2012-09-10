@@ -26,8 +26,10 @@
 // async, not done
 -(void)resourceNamed:(NSString *)name loaded:(void(^)(id<DTResource>))whenLoaded;
 
+// writes to local disk
+- (void)saveResource:(id<DTResource>)resource;
+
 - (NSURL *)absolutePathForFileName:(NSString *)filename;
--(NSURL *)pathForResourceNamed:(NSString *)wantedResource_id;
 @end
 
 

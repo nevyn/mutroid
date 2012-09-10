@@ -175,7 +175,7 @@
 
 - (void)save
 {
-    [self.client.currentRoom.room saveToDisk];
+    [[DTResourceManager sharedManager] saveResource:self.client.currentRoom.room];
 }
 
 @end

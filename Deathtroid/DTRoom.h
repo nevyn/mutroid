@@ -19,5 +19,5 @@
 @property (nonatomic,strong) NSString *uuid;
 @property (nonatomic,strong) NSArray *initialEntityReps;
 
-- (void)saveToDisk;
+- (id)rep;
 @end

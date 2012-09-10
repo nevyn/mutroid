@@ -32,18 +32,13 @@
     return self;
 }
 
-- (void)saveToDisk
+- (id)rep
 {
-    id rep = @{
+    return @{
         @"collision": [self.collisionLayer rep],
         @"layers": [self.layers valueForKeyPath:@"rep"],
         @"entities": self.initialEntityReps,
     };
-    NSError *err;
-    NSData *data = [NSJSONSerialization dataWithJSONObject:rep options:NSJSONWritingPrettyPrinted error:&err];
-    NSAssert(data != nil, @"Failed serialization: %@", err);
-    
-    [data writeToURL:[[DTResourceManager sharedManager] pathForResourceNamed:self.resourceId] atomically:YES];
 }
 
 -(NSString*)description;
@@ -79,6 +74,11 @@
     room.initialEntityReps = $notNull([self.definition objectForKey:@"entities"]);
     
     return YES;
+}
+
+- (void)saveResource:(DTRoom*)room
+{
+    [self writeDefinition:room.rep];
 }
 
 @end

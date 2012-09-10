@@ -162,6 +162,16 @@ static NSMutableDictionary *resourceLoaders = nil;
     [loader reloadResource:resource atURL:path usingManager:self error:&error];
 }
 
+- (void)saveResource:(id<DTResource>)resource
+{
+    NSURL *path = [self pathForResourceNamed:resource.resourceId];
+    id<DTResourceLoader> loader = [DTResourceManager resourceLoaderForTypeName:path.dt_resourceType];
+    NSAssert([loader respondsToSelector:@selector(saveResource:)], @"Can't save this kind of resource: %@", resource);
+    [loader saveResource:resource toURL:path usingManager:self];
+    
+}
+
+
 @end
 
 
