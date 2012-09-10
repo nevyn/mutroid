@@ -667,7 +667,7 @@
 							</array>
 						</object>
 					</object>
-					<object class="NSMenuItem" id="204299991">
+					<object class="NSMenuItem" id="31012835">
 						<reference key="NSMenu" ref="649796088"/>
 						<string key="NSTitle">Editor</string>
 						<string key="NSKeyEquiv"/>
@@ -675,11 +675,11 @@
 						<reference key="NSOnImage" ref="35465992"/>
 						<reference key="NSMixedImage" ref="502551668"/>
 						<string key="NSAction">submenuAction:</string>
-						<object class="NSMenu" key="NSSubmenu" id="140286087">
+						<object class="NSMenu" key="NSSubmenu" id="95857752">
 							<string key="NSTitle">Editor</string>
 							<array class="NSMutableArray" key="NSMenuItems">
 								<object class="NSMenuItem" id="1003727720">
-									<reference key="NSMenu" ref="140286087"/>
+									<reference key="NSMenu" ref="95857752"/>
 									<string key="NSTitle">Show Extras</string>
 									<string key="NSKeyEquiv">d</string>
 									<int key="NSKeyEquivModMask">1048576</int>
@@ -687,19 +687,19 @@
 									<reference key="NSOnImage" ref="35465992"/>
 									<reference key="NSMixedImage" ref="502551668"/>
 								</object>
-								<object class="NSMenuItem" id="300742986">
-									<reference key="NSMenu" ref="140286087"/>
+								<object class="NSMenuItem" id="355283756">
+									<reference key="NSMenu" ref="95857752"/>
 									<string key="NSTitle">Layer Visibility</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="35465992"/>
 									<reference key="NSMixedImage" ref="502551668"/>
 									<string key="NSAction">submenuAction:</string>
-									<object class="NSMenu" key="NSSubmenu" id="836370478">
+									<object class="NSMenu" key="NSSubmenu" id="443345217">
 										<string key="NSTitle">Layer Visibility</string>
 										<array class="NSMutableArray" key="NSMenuItems">
-											<object class="NSMenuItem" id="898518690">
-												<reference key="NSMenu" ref="836370478"/>
+											<object class="NSMenuItem" id="203715926">
+												<reference key="NSMenu" ref="443345217"/>
 												<string key="NSTitle">Layer 1</string>
 												<string key="NSKeyEquiv">1</string>
 												<int key="NSKeyEquivModMask">1048576</int>
@@ -708,8 +708,8 @@
 												<reference key="NSOnImage" ref="35465992"/>
 												<reference key="NSMixedImage" ref="502551668"/>
 											</object>
-											<object class="NSMenuItem" id="80408026">
-												<reference key="NSMenu" ref="836370478"/>
+											<object class="NSMenuItem" id="755433170">
+												<reference key="NSMenu" ref="443345217"/>
 												<string key="NSTitle">Layer 2</string>
 												<string key="NSKeyEquiv">2</string>
 												<int key="NSKeyEquivModMask">1048576</int>
@@ -719,8 +719,8 @@
 												<reference key="NSMixedImage" ref="502551668"/>
 												<int key="NSTag">1</int>
 											</object>
-											<object class="NSMenuItem" id="954977320">
-												<reference key="NSMenu" ref="836370478"/>
+											<object class="NSMenuItem" id="999079455">
+												<reference key="NSMenu" ref="443345217"/>
 												<string key="NSTitle">Layer 3</string>
 												<string key="NSKeyEquiv">3</string>
 												<int key="NSKeyEquivModMask">1048576</int>
@@ -730,8 +730,8 @@
 												<reference key="NSMixedImage" ref="502551668"/>
 												<int key="NSTag">2</int>
 											</object>
-											<object class="NSMenuItem" id="185487430">
-												<reference key="NSMenu" ref="836370478"/>
+											<object class="NSMenuItem" id="104271222">
+												<reference key="NSMenu" ref="443345217"/>
 												<string key="NSTitle">Layer 4</string>
 												<string key="NSKeyEquiv">4</string>
 												<int key="NSKeyEquivModMask">1048576</int>
@@ -741,8 +741,8 @@
 												<reference key="NSMixedImage" ref="502551668"/>
 												<int key="NSTag">3</int>
 											</object>
-											<object class="NSMenuItem" id="778424255">
-												<reference key="NSMenu" ref="836370478"/>
+											<object class="NSMenuItem" id="678791114">
+												<reference key="NSMenu" ref="443345217"/>
 												<string key="NSTitle">Layer 5</string>
 												<string key="NSKeyEquiv">5</string>
 												<int key="NSKeyEquivModMask">1048576</int>
@@ -752,8 +752,8 @@
 												<reference key="NSMixedImage" ref="502551668"/>
 												<int key="NSTag">4</int>
 											</object>
-											<object class="NSMenuItem" id="66221087">
-												<reference key="NSMenu" ref="836370478"/>
+											<object class="NSMenuItem" id="313053988">
+												<reference key="NSMenu" ref="443345217"/>
 												<string key="NSTitle">Layer 6</string>
 												<string key="NSKeyEquiv">6</string>
 												<int key="NSKeyEquivModMask">1048576</int>
@@ -766,27 +766,27 @@
 										</array>
 									</object>
 								</object>
-								<object class="NSMenuItem" id="1022794408">
-									<reference key="NSMenu" ref="140286087"/>
+								<object class="NSMenuItem" id="988474773">
+									<reference key="NSMenu" ref="95857752"/>
 									<string key="NSTitle">Current Layer</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="35465992"/>
 									<reference key="NSMixedImage" ref="502551668"/>
 									<string key="NSAction">submenuAction:</string>
-									<object class="NSMenu" key="NSSubmenu" id="432696869">
+									<object class="NSMenu" key="NSSubmenu" id="544146771">
 										<string key="NSTitle">Current Layer</string>
 										<array class="NSMutableArray" key="NSMenuItems">
-											<object class="NSMenuItem" id="808687779">
-												<reference key="NSMenu" ref="432696869"/>
+											<object class="NSMenuItem" id="491137959">
+												<reference key="NSMenu" ref="544146771"/>
 												<string key="NSTitle">Layer 1</string>
 												<string key="NSKeyEquiv">1</string>
 												<int key="NSMnemonicLoc">2147483647</int>
 												<reference key="NSOnImage" ref="35465992"/>
 												<reference key="NSMixedImage" ref="502551668"/>
 											</object>
-											<object class="NSMenuItem" id="328834911">
-												<reference key="NSMenu" ref="432696869"/>
+											<object class="NSMenuItem" id="625256438">
+												<reference key="NSMenu" ref="544146771"/>
 												<string key="NSTitle">Layer 2</string>
 												<string key="NSKeyEquiv">2</string>
 												<int key="NSMnemonicLoc">2147483647</int>
@@ -794,8 +794,8 @@
 												<reference key="NSMixedImage" ref="502551668"/>
 												<int key="NSTag">1</int>
 											</object>
-											<object class="NSMenuItem" id="982397466">
-												<reference key="NSMenu" ref="432696869"/>
+											<object class="NSMenuItem" id="739134447">
+												<reference key="NSMenu" ref="544146771"/>
 												<string key="NSTitle">Layer 3</string>
 												<string key="NSKeyEquiv">3</string>
 												<int key="NSMnemonicLoc">2147483647</int>
@@ -803,8 +803,8 @@
 												<reference key="NSMixedImage" ref="502551668"/>
 												<int key="NSTag">2</int>
 											</object>
-											<object class="NSMenuItem" id="948503290">
-												<reference key="NSMenu" ref="432696869"/>
+											<object class="NSMenuItem" id="5997607">
+												<reference key="NSMenu" ref="544146771"/>
 												<string key="NSTitle">Layer 4</string>
 												<string key="NSKeyEquiv">4</string>
 												<int key="NSMnemonicLoc">2147483647</int>
@@ -812,8 +812,8 @@
 												<reference key="NSMixedImage" ref="502551668"/>
 												<int key="NSTag">3</int>
 											</object>
-											<object class="NSMenuItem" id="763910207">
-												<reference key="NSMenu" ref="432696869"/>
+											<object class="NSMenuItem" id="107434047">
+												<reference key="NSMenu" ref="544146771"/>
 												<string key="NSTitle">Layer 5</string>
 												<string key="NSKeyEquiv">5</string>
 												<int key="NSMnemonicLoc">2147483647</int>
@@ -821,8 +821,8 @@
 												<reference key="NSMixedImage" ref="502551668"/>
 												<int key="NSTag">4</int>
 											</object>
-											<object class="NSMenuItem" id="1044088696">
-												<reference key="NSMenu" ref="432696869"/>
+											<object class="NSMenuItem" id="106386338">
+												<reference key="NSMenu" ref="544146771"/>
 												<string key="NSTitle">Layer 6</string>
 												<string key="NSKeyEquiv">6</string>
 												<int key="NSMnemonicLoc">2147483647</int>
@@ -830,8 +830,8 @@
 												<reference key="NSMixedImage" ref="502551668"/>
 												<int key="NSTag">5</int>
 											</object>
-											<object class="NSMenuItem" id="1057104289">
-												<reference key="NSMenu" ref="432696869"/>
+											<object class="NSMenuItem" id="517999335">
+												<reference key="NSMenu" ref="544146771"/>
 												<bool key="NSIsDisabled">YES</bool>
 												<bool key="NSIsSeparator">YES</bool>
 												<string key="NSTitle"/>
@@ -840,8 +840,8 @@
 												<reference key="NSOnImage" ref="35465992"/>
 												<reference key="NSMixedImage" ref="502551668"/>
 											</object>
-											<object class="NSMenuItem" id="964193567">
-												<reference key="NSMenu" ref="432696869"/>
+											<object class="NSMenuItem" id="960087489">
+												<reference key="NSMenu" ref="544146771"/>
 												<string key="NSTitle">Collision Layer</string>
 												<string key="NSKeyEquiv">0</string>
 												<int key="NSMnemonicLoc">2147483647</int>
@@ -849,8 +849,8 @@
 												<reference key="NSMixedImage" ref="502551668"/>
 												<int key="NSTag">-1</int>
 											</object>
-											<object class="NSMenuItem" id="16109903">
-												<reference key="NSMenu" ref="432696869"/>
+											<object class="NSMenuItem" id="570460176">
+												<reference key="NSMenu" ref="544146771"/>
 												<bool key="NSIsDisabled">YES</bool>
 												<string key="NSTitle">Show Extras to see collision layer</string>
 												<string key="NSKeyEquiv"/>
@@ -859,7 +859,7 @@
 												<reference key="NSMixedImage" ref="502551668"/>
 												<object class="NSAttributedString" key="NSAttributedTitle">
 													<string key="NSString">Show Extras to see collision layer</string>
-													<dictionary key="NSAttributes" id="421953147">
+													<dictionary key="NSAttributes" id="482533616">
 														<object class="NSFont" key="NSFont">
 															<string key="NSName">LucidaGrande</string>
 															<double key="NSSize">10</double>
@@ -871,8 +871,8 @@
 													</dictionary>
 												</object>
 											</object>
-											<object class="NSMenuItem" id="430527878">
-												<reference key="NSMenu" ref="432696869"/>
+											<object class="NSMenuItem" id="1068819260">
+												<reference key="NSMenu" ref="544146771"/>
 												<bool key="NSIsDisabled">YES</bool>
 												<bool key="NSIsSeparator">YES</bool>
 												<string key="NSTitle"/>
@@ -881,8 +881,8 @@
 												<reference key="NSOnImage" ref="35465992"/>
 												<reference key="NSMixedImage" ref="502551668"/>
 											</object>
-											<object class="NSMenuItem" id="253483248">
-												<reference key="NSMenu" ref="432696869"/>
+											<object class="NSMenuItem" id="127117957">
+												<reference key="NSMenu" ref="544146771"/>
 												<string key="NSTitle">Edit Layers…</string>
 												<string key="NSKeyEquiv">l</string>
 												<int key="NSKeyEquivModMask">1048576</int>
@@ -893,8 +893,8 @@
 										</array>
 									</object>
 								</object>
-								<object class="NSMenuItem" id="511496795">
-									<reference key="NSMenu" ref="140286087"/>
+								<object class="NSMenuItem" id="114237042">
+									<reference key="NSMenu" ref="95857752"/>
 									<bool key="NSIsDisabled">YES</bool>
 									<bool key="NSIsSeparator">YES</bool>
 									<string key="NSTitle"/>
@@ -903,8 +903,8 @@
 									<reference key="NSOnImage" ref="35465992"/>
 									<reference key="NSMixedImage" ref="502551668"/>
 								</object>
-								<object class="NSMenuItem" id="916821200">
-									<reference key="NSMenu" ref="140286087"/>
+								<object class="NSMenuItem" id="422142583">
+									<reference key="NSMenu" ref="95857752"/>
 									<bool key="NSIsDisabled">YES</bool>
 									<string key="NSTitle">With tile under cursor:</string>
 									<string key="NSKeyEquiv"/>
@@ -913,27 +913,27 @@
 									<reference key="NSMixedImage" ref="502551668"/>
 									<object class="NSAttributedString" key="NSAttributedTitle">
 										<string key="NSString">With tile under cursor:</string>
-										<reference key="NSAttributes" ref="421953147"/>
+										<reference key="NSAttributes" ref="482533616"/>
 									</object>
 								</object>
-								<object class="NSMenuItem" id="1064711931">
-									<reference key="NSMenu" ref="140286087"/>
+								<object class="NSMenuItem" id="606586754">
+									<reference key="NSMenu" ref="95857752"/>
 									<string key="NSTitle">Flip Horizontal</string>
 									<string key="NSKeyEquiv">u</string>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="35465992"/>
 									<reference key="NSMixedImage" ref="502551668"/>
 								</object>
-								<object class="NSMenuItem" id="176680714">
-									<reference key="NSMenu" ref="140286087"/>
+								<object class="NSMenuItem" id="448297083">
+									<reference key="NSMenu" ref="95857752"/>
 									<string key="NSTitle">Flip Vertical</string>
 									<string key="NSKeyEquiv">i</string>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="35465992"/>
 									<reference key="NSMixedImage" ref="502551668"/>
 								</object>
-								<object class="NSMenuItem" id="256537105">
-									<reference key="NSMenu" ref="140286087"/>
+								<object class="NSMenuItem" id="136722014">
+									<reference key="NSMenu" ref="95857752"/>
 									<string key="NSTitle">Rotate 90°</string>
 									<string key="NSKeyEquiv">o</string>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -1027,7 +1027,7 @@
 			<object class="NSWindowTemplate" id="972006081">
 				<int key="NSWindowStyleMask">15</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{335, 390}, {512, 448}}</string>
+				<string key="NSWindowRect">{{419, 129}, {512, 448}}</string>
 				<int key="NSWTFlags">1685585920</int>
 				<string key="NSWindowTitle">Deathtroid</string>
 				<string key="NSWindowClass">NSWindow</string>
@@ -2228,7 +2228,7 @@
 					<object class="IBActionConnection" key="connection">
 						<string key="label">toggleLayer:</string>
 						<reference key="source" ref="1014"/>
-						<reference key="destination" ref="898518690"/>
+						<reference key="destination" ref="203715926"/>
 					</object>
 					<int key="connectionID">682</int>
 				</object>
@@ -2236,7 +2236,7 @@
 					<object class="IBActionConnection" key="connection">
 						<string key="label">toggleLayer:</string>
 						<reference key="source" ref="1014"/>
-						<reference key="destination" ref="80408026"/>
+						<reference key="destination" ref="755433170"/>
 					</object>
 					<int key="connectionID">683</int>
 				</object>
@@ -2244,7 +2244,7 @@
 					<object class="IBActionConnection" key="connection">
 						<string key="label">toggleLayer:</string>
 						<reference key="source" ref="1014"/>
-						<reference key="destination" ref="954977320"/>
+						<reference key="destination" ref="999079455"/>
 					</object>
 					<int key="connectionID">684</int>
 				</object>
@@ -2252,7 +2252,7 @@
 					<object class="IBActionConnection" key="connection">
 						<string key="label">toggleLayer:</string>
 						<reference key="source" ref="1014"/>
-						<reference key="destination" ref="185487430"/>
+						<reference key="destination" ref="104271222"/>
 					</object>
 					<int key="connectionID">685</int>
 				</object>
@@ -2260,7 +2260,7 @@
 					<object class="IBActionConnection" key="connection">
 						<string key="label">toggleLayer:</string>
 						<reference key="source" ref="1014"/>
-						<reference key="destination" ref="778424255"/>
+						<reference key="destination" ref="678791114"/>
 					</object>
 					<int key="connectionID">686</int>
 				</object>
@@ -2268,7 +2268,7 @@
 					<object class="IBActionConnection" key="connection">
 						<string key="label">toggleLayer:</string>
 						<reference key="source" ref="1014"/>
-						<reference key="destination" ref="66221087"/>
+						<reference key="destination" ref="313053988"/>
 					</object>
 					<int key="connectionID">687</int>
 				</object>
@@ -2276,7 +2276,7 @@
 					<object class="IBActionConnection" key="connection">
 						<string key="label">flipHorizontal:</string>
 						<reference key="source" ref="1014"/>
-						<reference key="destination" ref="1064711931"/>
+						<reference key="destination" ref="606586754"/>
 					</object>
 					<int key="connectionID">688</int>
 				</object>
@@ -2284,7 +2284,7 @@
 					<object class="IBActionConnection" key="connection">
 						<string key="label">flipVertical:</string>
 						<reference key="source" ref="1014"/>
-						<reference key="destination" ref="176680714"/>
+						<reference key="destination" ref="448297083"/>
 					</object>
 					<int key="connectionID">689</int>
 				</object>
@@ -2292,7 +2292,7 @@
 					<object class="IBActionConnection" key="connection">
 						<string key="label">rotate90:</string>
 						<reference key="source" ref="1014"/>
-						<reference key="destination" ref="256537105"/>
+						<reference key="destination" ref="136722014"/>
 					</object>
 					<int key="connectionID">690</int>
 				</object>
@@ -2300,7 +2300,7 @@
 					<object class="IBActionConnection" key="connection">
 						<string key="label">chooseLayer:</string>
 						<reference key="source" ref="1014"/>
-						<reference key="destination" ref="808687779"/>
+						<reference key="destination" ref="491137959"/>
 					</object>
 					<int key="connectionID">708</int>
 				</object>
@@ -2308,7 +2308,7 @@
 					<object class="IBActionConnection" key="connection">
 						<string key="label">chooseLayer:</string>
 						<reference key="source" ref="1014"/>
-						<reference key="destination" ref="328834911"/>
+						<reference key="destination" ref="625256438"/>
 					</object>
 					<int key="connectionID">709</int>
 				</object>
@@ -2316,7 +2316,7 @@
 					<object class="IBActionConnection" key="connection">
 						<string key="label">chooseLayer:</string>
 						<reference key="source" ref="1014"/>
-						<reference key="destination" ref="982397466"/>
+						<reference key="destination" ref="739134447"/>
 					</object>
 					<int key="connectionID">710</int>
 				</object>
@@ -2324,7 +2324,7 @@
 					<object class="IBActionConnection" key="connection">
 						<string key="label">chooseLayer:</string>
 						<reference key="source" ref="1014"/>
-						<reference key="destination" ref="948503290"/>
+						<reference key="destination" ref="5997607"/>
 					</object>
 					<int key="connectionID">711</int>
 				</object>
@@ -2332,7 +2332,7 @@
 					<object class="IBActionConnection" key="connection">
 						<string key="label">chooseLayer:</string>
 						<reference key="source" ref="1014"/>
-						<reference key="destination" ref="763910207"/>
+						<reference key="destination" ref="107434047"/>
 					</object>
 					<int key="connectionID">712</int>
 				</object>
@@ -2340,7 +2340,7 @@
 					<object class="IBActionConnection" key="connection">
 						<string key="label">chooseLayer:</string>
 						<reference key="source" ref="1014"/>
-						<reference key="destination" ref="1044088696"/>
+						<reference key="destination" ref="106386338"/>
 					</object>
 					<int key="connectionID">713</int>
 				</object>
@@ -2348,7 +2348,7 @@
 					<object class="IBActionConnection" key="connection">
 						<string key="label">chooseLayer:</string>
 						<reference key="source" ref="1014"/>
-						<reference key="destination" ref="964193567"/>
+						<reference key="destination" ref="960087489"/>
 					</object>
 					<int key="connectionID">718</int>
 				</object>
@@ -2452,7 +2452,7 @@
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">currentLayerMenu</string>
 						<reference key="source" ref="599500996"/>
-						<reference key="destination" ref="1022794408"/>
+						<reference key="destination" ref="988474773"/>
 					</object>
 					<int key="connectionID">720</int>
 				</object>
@@ -2544,7 +2544,7 @@
 							<reference ref="952259628"/>
 							<reference ref="448692316"/>
 							<reference ref="419926805"/>
-							<reference ref="204299991"/>
+							<reference ref="31012835"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -3456,188 +3456,188 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">665</int>
-						<reference key="object" ref="204299991"/>
+						<reference key="object" ref="31012835"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="140286087"/>
+							<reference ref="95857752"/>
 						</array>
 						<reference key="parent" ref="649796088"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">666</int>
-						<reference key="object" ref="140286087"/>
+						<reference key="object" ref="95857752"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="1064711931"/>
-							<reference ref="256537105"/>
-							<reference ref="176680714"/>
-							<reference ref="511496795"/>
-							<reference ref="300742986"/>
+							<reference ref="606586754"/>
+							<reference ref="136722014"/>
+							<reference ref="448297083"/>
+							<reference ref="114237042"/>
+							<reference ref="355283756"/>
 							<reference ref="1003727720"/>
-							<reference ref="1022794408"/>
-							<reference ref="916821200"/>
+							<reference ref="988474773"/>
+							<reference ref="422142583"/>
 						</array>
-						<reference key="parent" ref="204299991"/>
+						<reference key="parent" ref="31012835"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">667</int>
-						<reference key="object" ref="1064711931"/>
-						<reference key="parent" ref="140286087"/>
+						<reference key="object" ref="606586754"/>
+						<reference key="parent" ref="95857752"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">668</int>
-						<reference key="object" ref="256537105"/>
-						<reference key="parent" ref="140286087"/>
+						<reference key="object" ref="136722014"/>
+						<reference key="parent" ref="95857752"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">669</int>
-						<reference key="object" ref="176680714"/>
-						<reference key="parent" ref="140286087"/>
+						<reference key="object" ref="448297083"/>
+						<reference key="parent" ref="95857752"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">670</int>
-						<reference key="object" ref="511496795"/>
-						<reference key="parent" ref="140286087"/>
+						<reference key="object" ref="114237042"/>
+						<reference key="parent" ref="95857752"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">671</int>
-						<reference key="object" ref="300742986"/>
+						<reference key="object" ref="355283756"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="836370478"/>
+							<reference ref="443345217"/>
 						</array>
-						<reference key="parent" ref="140286087"/>
+						<reference key="parent" ref="95857752"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">672</int>
-						<reference key="object" ref="836370478"/>
+						<reference key="object" ref="443345217"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="898518690"/>
-							<reference ref="80408026"/>
-							<reference ref="954977320"/>
-							<reference ref="185487430"/>
-							<reference ref="778424255"/>
-							<reference ref="66221087"/>
+							<reference ref="203715926"/>
+							<reference ref="755433170"/>
+							<reference ref="999079455"/>
+							<reference ref="104271222"/>
+							<reference ref="678791114"/>
+							<reference ref="313053988"/>
 						</array>
-						<reference key="parent" ref="300742986"/>
+						<reference key="parent" ref="355283756"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">673</int>
-						<reference key="object" ref="898518690"/>
-						<reference key="parent" ref="836370478"/>
+						<reference key="object" ref="203715926"/>
+						<reference key="parent" ref="443345217"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">675</int>
-						<reference key="object" ref="80408026"/>
-						<reference key="parent" ref="836370478"/>
+						<reference key="object" ref="755433170"/>
+						<reference key="parent" ref="443345217"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">676</int>
-						<reference key="object" ref="954977320"/>
-						<reference key="parent" ref="836370478"/>
+						<reference key="object" ref="999079455"/>
+						<reference key="parent" ref="443345217"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">677</int>
-						<reference key="object" ref="185487430"/>
-						<reference key="parent" ref="836370478"/>
+						<reference key="object" ref="104271222"/>
+						<reference key="parent" ref="443345217"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">678</int>
-						<reference key="object" ref="778424255"/>
-						<reference key="parent" ref="836370478"/>
+						<reference key="object" ref="678791114"/>
+						<reference key="parent" ref="443345217"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">679</int>
-						<reference key="object" ref="66221087"/>
-						<reference key="parent" ref="836370478"/>
+						<reference key="object" ref="313053988"/>
+						<reference key="parent" ref="443345217"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">613</int>
 						<reference key="object" ref="1003727720"/>
-						<reference key="parent" ref="140286087"/>
+						<reference key="parent" ref="95857752"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">691</int>
-						<reference key="object" ref="1022794408"/>
+						<reference key="object" ref="988474773"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="432696869"/>
+							<reference ref="544146771"/>
 						</array>
-						<reference key="parent" ref="140286087"/>
+						<reference key="parent" ref="95857752"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">692</int>
-						<reference key="object" ref="432696869"/>
+						<reference key="object" ref="544146771"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="808687779"/>
-							<reference ref="328834911"/>
-							<reference ref="982397466"/>
-							<reference ref="948503290"/>
-							<reference ref="763910207"/>
-							<reference ref="1044088696"/>
-							<reference ref="253483248"/>
-							<reference ref="430527878"/>
-							<reference ref="964193567"/>
-							<reference ref="1057104289"/>
-							<reference ref="16109903"/>
+							<reference ref="491137959"/>
+							<reference ref="625256438"/>
+							<reference ref="739134447"/>
+							<reference ref="5997607"/>
+							<reference ref="107434047"/>
+							<reference ref="106386338"/>
+							<reference ref="127117957"/>
+							<reference ref="1068819260"/>
+							<reference ref="960087489"/>
+							<reference ref="517999335"/>
+							<reference ref="570460176"/>
 						</array>
-						<reference key="parent" ref="1022794408"/>
+						<reference key="parent" ref="988474773"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">694</int>
-						<reference key="object" ref="808687779"/>
-						<reference key="parent" ref="432696869"/>
+						<reference key="object" ref="491137959"/>
+						<reference key="parent" ref="544146771"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">695</int>
-						<reference key="object" ref="328834911"/>
-						<reference key="parent" ref="432696869"/>
+						<reference key="object" ref="625256438"/>
+						<reference key="parent" ref="544146771"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">696</int>
-						<reference key="object" ref="982397466"/>
-						<reference key="parent" ref="432696869"/>
+						<reference key="object" ref="739134447"/>
+						<reference key="parent" ref="544146771"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">697</int>
-						<reference key="object" ref="948503290"/>
-						<reference key="parent" ref="432696869"/>
+						<reference key="object" ref="5997607"/>
+						<reference key="parent" ref="544146771"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">698</int>
-						<reference key="object" ref="763910207"/>
-						<reference key="parent" ref="432696869"/>
+						<reference key="object" ref="107434047"/>
+						<reference key="parent" ref="544146771"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">699</int>
-						<reference key="object" ref="1044088696"/>
-						<reference key="parent" ref="432696869"/>
+						<reference key="object" ref="106386338"/>
+						<reference key="parent" ref="544146771"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">700</int>
-						<reference key="object" ref="253483248"/>
-						<reference key="parent" ref="432696869"/>
+						<reference key="object" ref="127117957"/>
+						<reference key="parent" ref="544146771"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">707</int>
-						<reference key="object" ref="430527878"/>
-						<reference key="parent" ref="432696869"/>
+						<reference key="object" ref="1068819260"/>
+						<reference key="parent" ref="544146771"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">714</int>
-						<reference key="object" ref="964193567"/>
-						<reference key="parent" ref="432696869"/>
+						<reference key="object" ref="960087489"/>
+						<reference key="parent" ref="544146771"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">715</int>
-						<reference key="object" ref="1057104289"/>
-						<reference key="parent" ref="432696869"/>
+						<reference key="object" ref="517999335"/>
+						<reference key="parent" ref="544146771"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">716</int>
-						<reference key="object" ref="16109903"/>
-						<reference key="parent" ref="432696869"/>
+						<reference key="object" ref="570460176"/>
+						<reference key="parent" ref="544146771"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">717</int>
-						<reference key="object" ref="916821200"/>
-						<reference key="parent" ref="140286087"/>
+						<reference key="object" ref="422142583"/>
+						<reference key="parent" ref="95857752"/>
 					</object>
 				</array>
 			</object>
@@ -3694,6 +3694,8 @@
 				<string key="350.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="351.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="354.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<boolean value="YES" key="371.IBNSWindowAutoPositionCentersHorizontal"/>
+				<boolean value="YES" key="371.IBNSWindowAutoPositionCentersVertical"/>
 				<string key="371.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="371.IBWindowTemplateEditedContentRect">{{380, 496}, {480, 360}}</string>
 				<integer value="1" key="371.NSWindowTemplate.visibleAtLaunch"/>
@@ -3913,40 +3915,6 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">DTView</string>
 					<string key="superclassName">NSOpenGLView</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="chooseLayer:">NSMenuItem</string>
-						<string key="flipHorizontal:">id</string>
-						<string key="flipVertical:">id</string>
-						<string key="saveDocument:">id</string>
-						<string key="toggleFullScreen:">id</string>
-						<string key="toggleLayer:">NSMenuItem</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="chooseLayer:">
-							<string key="name">chooseLayer:</string>
-							<string key="candidateClassName">NSMenuItem</string>
-						</object>
-						<object class="IBActionInfo" key="flipHorizontal:">
-							<string key="name">flipHorizontal:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="flipVertical:">
-							<string key="name">flipVertical:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="saveDocument:">
-							<string key="name">saveDocument:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="toggleFullScreen:">
-							<string key="name">toggleFullScreen:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="toggleLayer:">
-							<string key="name">toggleLayer:</string>
-							<string key="candidateClassName">NSMenuItem</string>
-						</object>
-					</dictionary>
 					<object class="NSMutableDictionary" key="outlets">
 						<string key="NS.key.0">currentLayerMenu</string>
 						<string key="NS.object.0">NSMenuItem</string>
