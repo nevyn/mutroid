@@ -47,7 +47,8 @@
 @property (nonatomic,strong) NSMutableArray *cycleColors;
 @property (nonatomic) float cycleFPS;
 
--(id)initWithRep:(NSDictionary*)rep;
+-(id)init;
+-(void)updateFromRep:(NSDictionary*)rep;
 -(id)rep;
 
 -(void)tick:(float)delta inState:(DTLayerState*)state;

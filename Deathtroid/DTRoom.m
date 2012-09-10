@@ -29,6 +29,8 @@
     if(!(self = [super initWithResourceId:rid])) return nil;
     
     _layerArray = [[NSMutableArray alloc] init];
+    self.collisionLayer = [DTMap new];
+    self.collisionLayer.delegate = self;
     
     return self;
 }
@@ -102,14 +104,18 @@
 
 - (BOOL)loadResource:(DTRoom *)room usingManager:(DTResourceManager *)manager error:(NSError *__autoreleasing *)error
 {
-    [room.layers removeAllObjects];
     NSArray *layerReps = $notNull([self.definition objectForKey:@"layers"]);
-	for(NSDictionary *layerRep in layerReps)
-        [room.layers addObject:[[DTLayer alloc] initWithRep:layerRep]];
+    int i = 0;
+	for(NSDictionary *layerRep in layerReps) {
+        if(room.layers.count <= i)
+            [room.layers addObject:[DTLayer new]];
+        [room.layers[i] updateFromRep:layerRep];
+        i++;
+    }
     
     room.name = self.path.dt_resourceName;
     NSDictionary *collisionRep = $notNull([self.definition objectForKey:@"collision"]);
-    room.collisionLayer = [[DTMap alloc] initWithRep:collisionRep];
+    [room.collisionLayer updateFromRep:collisionRep];
     room.initialEntityReps = $notNull([self.definition objectForKey:@"entities"]);
     
     return YES;

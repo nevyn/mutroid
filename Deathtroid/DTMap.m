@@ -15,10 +15,8 @@
 @synthesize tiles, attr;
 @synthesize width, height;
 
--(id)initWithRep:(NSDictionary*)rep;
+-(void)updateFromRep:(NSDictionary*)rep
 {
-	if(!(self = [super init])) return nil;
-    
     NSArray *mapRep = $notNull([rep objectForKey:@"map"]);
     
     BOOL hasAttr = [mapRep count] == 2;
@@ -30,6 +28,8 @@
     
     NSArray *tileRep = hasAttr ? [mapRep objectAtIndex:0] : mapRep;
     NSArray *attrRep;
+    free(tiles);
+    free(attr);
     tiles = malloc(sizeof(int)*width*height);
     attr = malloc(sizeof(int)*width*height);
     memset(attr, 0, sizeof(int)*width*height);
@@ -45,9 +45,8 @@
         if(hasAttr)
             attr[i] = [[attrRep objectAtIndex:i] intValue];
     }
-    
-	return self;
 }
+
 -(id)rep
 {
     NSMutableArray *mapRep = [NSMutableArray arrayWithCapacity:width*height];

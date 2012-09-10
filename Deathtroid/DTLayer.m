@@ -28,22 +28,28 @@
 @synthesize repeatX, repeatY;
 @synthesize cycleSource, cycleColors, cycleFPS;
 
--(id)initWithRep:(NSDictionary*)rep;
+-(id)init
 {
     if(!(self = [super init])) return nil;
     
-    tilesetName = [rep objectForKey:@"tileset"];
 
 	startPosition = [Vector2 vectorWithX:0. y:0.];
 	
-    depth = [[rep objectForKey:@"depth"]?:$num(1) floatValue];
 	autoScrollSpeed = CGPointMake(0.f, 0.f);
 		
-	map = [[DTMap alloc] initWithRep:rep];
+	map = [[DTMap alloc] init];
     
+    return self;
+}
+-(void)updateFromRep:(NSDictionary*)rep;
+{
+    tilesetName = [rep objectForKey:@"tileset"];
+
+    depth = [[rep objectForKey:@"depth"]?:$num(1) floatValue];
+
     repeatX = [[rep objectForKey:@"repeatX"] boolValue];
     repeatY = [[rep objectForKey:@"repeatY"] boolValue];
-    
+
     NSDictionary *cc = [rep objectForKey:@"colorCycle"];
     if(cc) {
         NSArray *source = [cc objectForKey:@"source"];
@@ -67,7 +73,7 @@
         cycleFPS = [[cc objectForKey:@"fps"] floatValue];
     }
     
-    return self;
+    [map updateFromRep:rep];
 }
 -(id)rep
 {

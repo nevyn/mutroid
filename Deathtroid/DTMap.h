@@ -24,7 +24,7 @@
 - (const int*)attrAtX:(int)x y:(int)y;
 - (void)setAttr:(int)attr atX:(int)x y:(int)y;
 
--(id)initWithRep:(NSDictionary*)rep;
+-(void)updateFromRep:(NSDictionary*)rep;
 -(id)rep;
 
 @end
