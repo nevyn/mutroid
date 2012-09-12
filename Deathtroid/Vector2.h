@@ -57,6 +57,7 @@ typedef enum
 
 - (const float*)coordsPtr;
 - (const float*)coordsPtr:(NSUInteger)coord;
+- (CGPoint)point;
 
 - (id)vectorByAddingVector:(Vector2*)rhs;
 - (id)vectorByAddingScalar:(float)rhs;

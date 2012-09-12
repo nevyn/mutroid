@@ -214,6 +214,11 @@ static Vector2 *negativeYAxis;
 	return (v + coord);
 }
 
+- (CGPoint)point
+{
+    return CGPointMake(self.x, self.y);
+}
+
 - (id)vectorByAddingVector:(Vector2*)rhs;
 {
 	return [[self class] vectorWithX:X + rhs->X y:Y + rhs->Y];
