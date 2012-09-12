@@ -1192,23 +1192,6 @@
     }
   ],
   "entities" : [
-    {
-      "rotation" : 0,
-      "class" : "DTEntityDummy",
-      "position" : {
-        "x" : 13.1966552734375,
-        "y" : 5.337495803833008
-      },
-      "uuid" : "0D52E148-F2B6-45D4-8157-0498450F6935"
-    },
-    {
-      "rotation" : 0,
-      "class" : "DTEntityDummy",
-      "position" : {
-        "x" : 1.824951171875,
-        "y" : 6.2030029296875
-      },
-      "uuid" : "FB6FF27C-DAC5-48C5-86CF-80B7AA123510"
-    }
+
   ]
 }

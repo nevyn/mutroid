@@ -124,4 +124,13 @@
 
 }
 
+- (IBAction)delete:(id)sender
+{
+    if(!_selection) {
+        NSBeep();
+        return;
+    }
+    [[self currentTemplates] removeObjectForKey:_selection.uuid];
+    _selection = nil;
+}
 @end
