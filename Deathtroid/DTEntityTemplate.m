@@ -1,6 +1,7 @@
 #import "DTEntityTemplate.h"
 #import "DTEntity.h"
 #import "Vector2.h"
+#import "DTEntityDummy.h"
 
 @implementation DTEntityTemplate
 - (id)init
@@ -12,6 +13,7 @@
     if(!(self = [super init]))
         return nil;
     
+    self.klass = [DTEntityDummy class];
     self.position = [MutableVector2 new];
     self.uuid = [NSString dt_uuid];
     self.attributes = [NSMutableDictionary new];
@@ -26,7 +28,7 @@
     NSMutableDictionary *mrep = [rep mutableCopy];
     self.klass = NSClassFromString(mrep[@"class"]); [mrep removeObjectForKey:@"class"];
     NSAssert(self.klass != Nil, @"Missing entity class, or unknown class");
-    NSAssert([self.klass isKindOfClass:[DTEntity class]], @"Must be Entity subclass");
+    NSAssert([self.klass isSubclassOfClass:[DTEntity class]], @"Must be Entity subclass");
     
     self.uuid = mrep[@"uuid"]; [mrep removeObjectForKey:@"uuid"];
     NSAssert(self.uuid, @"Template must have 'uuid'");

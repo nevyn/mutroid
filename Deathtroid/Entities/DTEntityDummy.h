@@ -1,13 +1,6 @@
-//
-//  DTEntityDummy.h
-//  Deathtroid
-//
-//  Created by Joachim Bengtsson on 2012-09-12.
-//
-//
-
 #import "DTEntity.h"
 
+/// Placeholder when creating new entities in the editor
 @interface DTEntityDummy : DTEntity
 
 @end
