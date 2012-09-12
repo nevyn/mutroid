@@ -64,7 +64,7 @@
         
     core.tilemapEditor.undo = core.entitiesEditor.undo = _undo = [NSUndoManager new];
     
-    [self setCurrentEditor:core.tilemapEditor];
+    [self setCurrentEditor:nil];
 }
 
 -(BOOL)acceptsFirstResponder {
@@ -233,6 +233,7 @@
 {
     if(!self.isInFullScreenMode) {
         [self enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
+        [self setCurrentEditor:_currentEditor]; // trigger new cursor
     } else {
         [self exitFullScreenModeWithOptions:nil];
     }
@@ -281,7 +282,7 @@
         [NSCursor pointingHandCursor];
     [cursor set];
     
-    if(editor == nil)
+    if(editor == nil && [self isInFullScreenMode])
         CGDisplayHideCursor(0);
     else
         CGDisplayShowCursor(0);
