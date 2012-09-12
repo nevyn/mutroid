@@ -18,7 +18,7 @@
 @property (nonatomic,strong) DTMap *collisionLayer;
 @property (nonatomic,strong,readonly) NSString *name;
 @property (nonatomic,strong) NSString *uuid;
-@property (nonatomic,strong) NSArray *initialEntityReps;
+@property (nonatomic,strong) NSMutableDictionary *entityTemplates;
 @property (nonatomic,weak) id<DTRoomDelegate> delegate;
 
 - (id)rep;

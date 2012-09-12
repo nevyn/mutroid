@@ -10,6 +10,7 @@
 #import "DTLayer.h"
 #import "DTMap.h"
 #import "DTWorld.h"
+#import "DTEntityTemplate.h"
 
 @interface DTRoom () <DTMapDelegate>
 @property (nonatomic,strong,readwrite) NSString *name;
@@ -21,7 +22,6 @@
 
 @synthesize collisionLayer;
 @synthesize name = _name;
-@synthesize initialEntityReps;
 @synthesize uuid;
 
 - (id)initWithResourceId:(NSString *)rid
@@ -29,6 +29,7 @@
     if(!(self = [super initWithResourceId:rid])) return nil;
     
     _layerArray = [[NSMutableArray alloc] init];
+    _entityTemplates = [NSMutableDictionary dictionary];
     self.collisionLayer = [DTMap new];
     self.collisionLayer.delegate = self;
     
@@ -40,7 +41,7 @@
     return @{
         @"collision": [self.collisionLayer rep],
         @"layers": [self.layers valueForKeyPath:@"rep"],
-        @"entities": self.initialEntityReps,
+        @"entities": [self.entityTemplates.allValues valueForKeyPath:@"rep"],
     };
 }
 
@@ -116,7 +117,22 @@
     room.name = self.path.dt_resourceName;
     NSDictionary *collisionRep = $notNull([self.definition objectForKey:@"collision"]);
     [room.collisionLayer updateFromRep:collisionRep];
-    room.initialEntityReps = $notNull([self.definition objectForKey:@"entities"]);
+    
+    NSMutableSet *encounteredTemplateUuids = [NSMutableSet set];
+    for(NSDictionary *templateRep in $notNull([self.definition objectForKey:@"entities"])) {
+        DTEntityTemplate *template = [room.entityTemplates objectForKey:templateRep[@"uuid"]];
+        if(!template) {
+            template = [[DTEntityTemplate alloc] initWithRep:templateRep];
+            [room.entityTemplates setObject:template forKey:template.uuid];
+        } else {
+            [template updateFromRep:templateRep];
+        }
+        [encounteredTemplateUuids addObject:template.uuid];
+    }
+    NSMutableSet *toRemove = [NSMutableSet setWithArray:room.entityTemplates.allKeys];
+    [toRemove minusSet:encounteredTemplateUuids];
+    for(NSString *uuid in toRemove)
+        [room.entityTemplates removeObjectForKey:uuid];
     
     return YES;
 }

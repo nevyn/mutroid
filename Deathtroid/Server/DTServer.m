@@ -20,6 +20,7 @@
 #import "DTPhysics.h"
 #import "DTServerRoom.h"
 #import "DTCore.h"
+#import "DTEntityTemplate.h"
 
 #if DUMB_CLIENT
 static const int kMaxServerFramerate = 60;
@@ -101,9 +102,9 @@ static const int kMaxServerFramerate = 10;
         sroom.world.server = self;
         sroom.world.resources = _resources;
         
-        for(NSDictionary *entRep in sroom.room.initialEntityReps)
-            [sroom createEntity:NSClassFromString([entRep objectForKey:@"class"]) setup:^(DTEntity *e) {
-                [e updateFromRep:entRep];
+        for(DTEntityTemplate *template in sroom.room.entityTemplates.allValues)
+            [sroom createEntity:template.klass setup:^(DTEntity *e) {
+                [e updateFromRep:template.rep];
             }];
             
         if(then) then(sroom);
