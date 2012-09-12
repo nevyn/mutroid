@@ -279,6 +279,10 @@ static Vector2 *negativeYAxis;
 	float invLen = 1.0 / [self length];
 	return [[self class] vectorWithX:X * invLen y:Y * invLen];
 }
+- (id)integralVector
+{
+    return [[self class] vectorWithX:floor(self.x) y:floor(self.y)];
+}
 
 - (float)length;
 {
@@ -429,6 +433,13 @@ static Vector2 *negativeYAxis;
 	Y *= invLen;
 	
 	return self;
+}
+- (id)makeIntegral;
+{
+    X = floor(X);
+    Y = floor(Y);
+    
+    return self;
 }
 
 @end

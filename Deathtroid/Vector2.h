@@ -73,6 +73,7 @@ typedef enum
 
 - (id)invertedVector;
 - (id)normalizedVector;
+- (id)integralVector;
 
 - (float)length;
 - (float)squaredLength;
@@ -109,5 +110,6 @@ typedef enum
 
 - (id)invert;
 - (id)normalize;
+- (id)makeIntegral;
 
 @end

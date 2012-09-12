@@ -99,12 +99,16 @@
         } else {
             _selection = _dragging = [DTEntityTemplate new];
             CGRect newFrame = [self frameForTemplate:_dragging];
-            _draggingOffset = [Vector2 vectorWithX:newFrame.size.width/2 y:newFrame.size.height/2];
+            _draggingOffset = [[Vector2 vectorWithX:newFrame.size.width/2 y:newFrame.size.height/2] integralVector];
             [self.currentTemplates setObject:_selection forKey:_selection.uuid];
         }
     }
     
-    _dragging.position = [[tileCoord vectorBySubtractingVector:_draggingOffset] mutableCopy];
+    _dragging.position = [[[[tileCoord.mutableCopy
+        subtractVector:_draggingOffset]
+        multiplyWithScalar:16]
+        makeIntegral]
+        divideWithScalar:16];
 }
 - (void)leftMouseUp
 {
