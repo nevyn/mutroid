@@ -11,11 +11,12 @@
 @class DTClient;
 @class DTServer;
 @class DTInput;
-@class DTEditor;
+@class DTEditorTilemap, DTEditorEntities;
 
 @interface DTCore : NSObject
 @property (nonatomic,strong) DTInput *input;
-@property (nonatomic,strong) DTEditor *editor;
+@property (nonatomic,strong) DTEditorTilemap *tilemapEditor;
+@property (nonatomic,strong) DTEditorEntities *entitiesEditor;
 
 -(void)draw;
 -(void)tick:(double)delta;

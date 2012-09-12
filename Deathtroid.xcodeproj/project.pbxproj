@@ -17,6 +17,8 @@
 		055459AC1441DC3500E94DB2 /* BlackBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 055459AB1441DC3400E94DB2 /* BlackBackgroundView.m */; };
 		0587E522143F8DB200EA9CBF /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 0587E521143F8DB200EA9CBF /* AsyncSocket.m */; };
 		0587E525143F8FB200EA9CBF /* DTConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0587E524143F8FB200EA9CBF /* DTConstants.m */; };
+		05ABD61016009081002F04F0 /* DTEditorTilemap.m in Sources */ = {isa = PBXBuildFile; fileRef = 05ABD60F16009081002F04F0 /* DTEditorTilemap.m */; };
+		05ABD6131600908D002F04F0 /* DTEditorEntities.m in Sources */ = {isa = PBXBuildFile; fileRef = 05ABD6121600908D002F04F0 /* DTEditorEntities.m */; };
 		05AD7F8515FCACCE00E97694 /* DTEntityExplosion.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD7F8415FCACCE00E97694 /* DTEntityExplosion.m */; };
 		05AD7F8815FCDEA600E97694 /* DTEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD7F8715FCDEA600E97694 /* DTEditor.m */; };
 		05ADA1EA15FBFF9C00D4B784 /* DTWorldRoom.m in Sources */ = {isa = PBXBuildFile; fileRef = 05ADA1E915FBFF9C00D4B784 /* DTWorldRoom.m */; };
@@ -127,6 +129,10 @@
 		0587E521143F8DB200EA9CBF /* AsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AsyncSocket.m; path = Vendor/cocoaasyncsocket/RunLoop/AsyncSocket.m; sourceTree = SOURCE_ROOT; };
 		0587E523143F8FB100EA9CBF /* DTConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTConstants.h; sourceTree = "<group>"; };
 		0587E524143F8FB200EA9CBF /* DTConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTConstants.m; sourceTree = "<group>"; };
+		05ABD60E16009081002F04F0 /* DTEditorTilemap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTEditorTilemap.h; path = Client/DTEditorTilemap.h; sourceTree = "<group>"; };
+		05ABD60F16009081002F04F0 /* DTEditorTilemap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTEditorTilemap.m; path = Client/DTEditorTilemap.m; sourceTree = "<group>"; };
+		05ABD6111600908C002F04F0 /* DTEditorEntities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTEditorEntities.h; path = Client/DTEditorEntities.h; sourceTree = "<group>"; };
+		05ABD6121600908D002F04F0 /* DTEditorEntities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTEditorEntities.m; path = Client/DTEditorEntities.m; sourceTree = "<group>"; };
 		05AD7F8315FCACCE00E97694 /* DTEntityExplosion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTEntityExplosion.h; sourceTree = "<group>"; };
 		05AD7F8415FCACCE00E97694 /* DTEntityExplosion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTEntityExplosion.m; sourceTree = "<group>"; };
 		05AD7F8615FCDEA600E97694 /* DTEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTEditor.h; path = Client/DTEditor.h; sourceTree = "<group>"; };
@@ -548,6 +554,10 @@
 				05F49DFA1449FB4600974FF9 /* DTRenderTilemap.m */,
 				05AD7F8615FCDEA600E97694 /* DTEditor.h */,
 				05AD7F8715FCDEA600E97694 /* DTEditor.m */,
+				05ABD60E16009081002F04F0 /* DTEditorTilemap.h */,
+				05ABD60F16009081002F04F0 /* DTEditorTilemap.m */,
+				05ABD6111600908C002F04F0 /* DTEditorEntities.h */,
+				05ABD6121600908D002F04F0 /* DTEditorEntities.m */,
 			);
 			name = Client;
 			sourceTree = "<group>";
@@ -746,6 +756,8 @@
 				05ADA1EA15FBFF9C00D4B784 /* DTWorldRoom.m in Sources */,
 				05AD7F8515FCACCE00E97694 /* DTEntityExplosion.m in Sources */,
 				05AD7F8815FCDEA600E97694 /* DTEditor.m in Sources */,
+				05ABD61016009081002F04F0 /* DTEditorTilemap.m in Sources */,
+				05ABD6131600908D002F04F0 /* DTEditorEntities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

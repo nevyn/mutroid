@@ -11,7 +11,8 @@
 #import "DTClient.h"
 #import "DTServer.h"
 #import "DTInput.h"
-#import "DTEditor.h"
+#import "DTEditorTilemap.h"
+#import "DTEditorEntities.h"
 #import <Carbon/Carbon.h>
 
 @implementation DTCore  {
@@ -44,8 +45,10 @@
         server = [[DTServer alloc] init];
 		client = [[DTClient alloc] init];
     }
-    _editor = [[DTEditor alloc] init];
-    _editor.client = client;
+    _tilemapEditor = [[DTEditorTilemap alloc] init];
+    _tilemapEditor.client = client;
+    _entitiesEditor = [[DTEditorEntities alloc] init];
+    _entitiesEditor.client = client;
     
     
 /*    DTDiskLevelRepository *local = nil;
@@ -72,7 +75,8 @@
 -(void)draw;
 {
     [client draw];
-    [_editor draw];
+    [_tilemapEditor draw];
+    [_entitiesEditor draw];
 }
 
 -(void)tick:(double)delta;

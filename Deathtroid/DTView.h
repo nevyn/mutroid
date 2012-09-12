@@ -20,3 +20,9 @@
 
 @property (weak) IBOutlet NSMenuItem *currentLayerMenu;
 @end
+
+enum {
+    EditorTypeNone,
+    EditorTypeTilemap,
+    EditorTypeEntities
+};

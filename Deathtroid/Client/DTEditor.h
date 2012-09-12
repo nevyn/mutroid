@@ -9,18 +9,20 @@
 - (void)leftMouseUp;
 - (void)rightMouseDownOrMoved:(Vector2*)viewCoordInPixels;
 - (void)rightMouseUp;
-- (void)toggleAttribute:(int)flag at:(Vector2*)viewCoordInPixels;
 
 - (void)draw;
-
 - (void)save;
 
-@property int currentLayerIndex;
-@property int currentTileIndex;
-
-@property(readonly) NSUndoManager *undo;
+// Set this to get undo support
+@property(strong) NSUndoManager *undo;
+@property BOOL active;
 @end
 
 @protocol DTEditorUIDelegate <NSObject>
 
+@end
+
+
+@interface DTEditor (ForSubclasses)
+- (Vector2*)roomCoordFromViewCoord:(Vector2*)viewCoord;
 @end

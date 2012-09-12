@@ -12,7 +12,8 @@
 
 #import "DTCore.h"
 #import "DTInput.h"
-#import "DTEditor.h"
+#import "DTEditorTilemap.h"
+#import "DTEditorEntities.h"
 #import "DTMap.h"
 #import "DTClient.h"
 #import <Carbon/Carbon.h>
@@ -25,6 +26,8 @@
 {
     GLuint FramebufferName;
     GLuint renderedTexture;
+    DTEditor *_currentEditor;
+    NSUndoManager *_undo;
 }
 
 @synthesize core;
@@ -36,15 +39,15 @@
     __weak DTCore *weakCore = core;
 	[core.input.mapper registerActionWithName:@"editor.flipX" action:^{
         NSPoint p = [self convertPoint:[self.window mouseLocationOutsideOfEventStream] fromView:nil];
-        [weakCore.editor toggleAttribute:TileAttributeFlipX at:[self convertPointToGameCoordinate:p]];
+        [weakCore.tilemapEditor toggleAttribute:TileAttributeFlipX at:[self convertPointToGameCoordinate:p]];
     }];
 	[core.input.mapper registerActionWithName:@"editor.flipY" action:^{
         NSPoint p = [self convertPoint:[self.window mouseLocationOutsideOfEventStream] fromView:nil];
-        [weakCore.editor toggleAttribute:TileAttributeFlipY at:[self convertPointToGameCoordinate:p]];
+        [weakCore.tilemapEditor toggleAttribute:TileAttributeFlipY at:[self convertPointToGameCoordinate:p]];
     }];
 	[core.input.mapper registerActionWithName:@"editor.rotate" action:^{
         NSPoint p = [self convertPoint:[self.window mouseLocationOutsideOfEventStream] fromView:nil];
-        [weakCore.editor toggleAttribute:TileAttributeRotate90 at:[self convertPointToGameCoordinate:p]];
+        [weakCore.tilemapEditor toggleAttribute:TileAttributeRotate90 at:[self convertPointToGameCoordinate:p]];
     }];
 
     [core.input.mapper mapKey:kVK_ANSI_U toAction:@"editor.flipX"];
@@ -52,19 +55,28 @@
     [core.input.mapper mapKey:kVK_ANSI_O toAction:@"editor.rotate"];
     
     __weak __typeof(self) weakSelf = self;
-    SPAddDependency(self, @"current layer", @[core, @"editor.currentLayerIndex"], ^{
+    SPAddDependency(self, @"current layer", @[core, @"tilemapEditor.currentLayerIndex"], ^{
         NSMenu *menu = weakSelf.currentLayerMenu.submenu;
         for(NSMenuItem *item in menu.itemArray)
             item.state = NSOffState;
-        [menu itemWithTag:weakSelf.core.editor.currentLayerIndex].state = NSOnState;
+        [menu itemWithTag:weakSelf.core.tilemapEditor.currentLayerIndex].state = NSOnState;
     });
+        
+    core.tilemapEditor.undo = core.entitiesEditor.undo = _undo = [NSUndoManager new];
     
-    core.editor.nextResponder = self.nextResponder;
-    self.nextResponder = core.editor;
+    [self setCurrentEditor:core.tilemapEditor];
 }
 
 -(BOOL)acceptsFirstResponder {
 	return YES;
+}
+- (NSResponder*)nextResponder
+{
+    if(_currentEditor) {
+        _currentEditor.nextResponder = [super nextResponder];
+        return _currentEditor;
+    }
+    return [super nextResponder];
 }
 
 - (void)drawRect:(NSRect)rect {
@@ -170,7 +182,7 @@
     
     int i = [[theEvent characters] intValue];
     if(i > 0 || [[theEvent characters] isEqual:@"0"])
-        core.editor.currentLayerIndex = i - 1;
+        core.tilemapEditor.currentLayerIndex = i - 1;
 }
 
 -(void)keyUp:(NSEvent *)theEvent {
@@ -192,11 +204,11 @@
 - (void)mouseDragged:(NSEvent *)theEvent
 {
     NSPoint p = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-    [core.editor leftMouseDownOrMoved:[self convertPointToGameCoordinate:p]];
+    [_currentEditor leftMouseDownOrMoved:[self convertPointToGameCoordinate:p]];
 }
 - (void)mouseUp:(NSEvent *)theEvent
 {
-    [core.editor leftMouseUp];
+    [_currentEditor leftMouseUp];
 }
 
 - (void)rightMouseDown:(NSEvent *)theEvent
@@ -206,11 +218,11 @@
 - (void)rightMouseDragged:(NSEvent *)theEvent
 {
     NSPoint p = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-    [core.editor rightMouseDownOrMoved:[self convertPointToGameCoordinate:p]];
+    [_currentEditor rightMouseDownOrMoved:[self convertPointToGameCoordinate:p]];
 }
 - (void)rightMouseUp:(NSEvent *)theEvent
 {
-    [core.editor rightMouseUp];
+    [_currentEditor rightMouseUp];
 }
 
 
@@ -228,23 +240,23 @@
 
 - (IBAction)saveDocument:(id)sender
 {
-    [core.editor save];
+    [_currentEditor save];
 }
 
 - (IBAction)flipHorizontal:(id)sender
 {
     NSPoint p = [self convertPoint:[self.window mouseLocationOutsideOfEventStream] fromView:nil];
-    [core.editor toggleAttribute:TileAttributeFlipX at:[self convertPointToGameCoordinate:p]];
+    [core.tilemapEditor toggleAttribute:TileAttributeFlipX at:[self convertPointToGameCoordinate:p]];
 }
 - (IBAction)flipVertical:(id)sender
 {
     NSPoint p = [self convertPoint:[self.window mouseLocationOutsideOfEventStream] fromView:nil];
-    [core.editor toggleAttribute:TileAttributeFlipY at:[self convertPointToGameCoordinate:p]];
+    [core.tilemapEditor toggleAttribute:TileAttributeFlipY at:[self convertPointToGameCoordinate:p]];
 }
 - (IBAction)rotate90:(id)sender
 {
     NSPoint p = [self convertPoint:[self.window mouseLocationOutsideOfEventStream] fromView:nil];
-    [core.editor toggleAttribute:TileAttributeRotate90 at:[self convertPointToGameCoordinate:p]];
+    [core.tilemapEditor toggleAttribute:TileAttributeRotate90 at:[self convertPointToGameCoordinate:p]];
 }
 
 - (IBAction)toggleLayer:(NSMenuItem*)sender
@@ -255,7 +267,34 @@
 }
 - (IBAction)chooseLayer:(NSMenuItem*)sender
 {
-    core.editor.currentLayerIndex = (int)sender.tag;
+    core.tilemapEditor.currentLayerIndex = (int)sender.tag;
+}
+
+- (void)setCurrentEditor:(DTEditor*)editor
+{
+    _currentEditor.active = NO;
+    _currentEditor = editor;
+    _currentEditor.active = YES;
+    
+    NSCursor *cursor = (editor == nil) ? [NSCursor arrowCursor] :
+        (editor == core.tilemapEditor) ? [NSCursor crosshairCursor]:
+        [NSCursor pointingHandCursor];
+    [cursor set];
+    
+    if(editor == nil)
+        CGDisplayHideCursor(0);
+    else
+        CGDisplayShowCursor(0);
+}
+
+- (IBAction)chooseEditor:(id)sender
+{
+    if([sender tag] == EditorTypeNone)
+        [self setCurrentEditor:nil];
+    else if([sender tag] == EditorTypeTilemap)
+        [self setCurrentEditor:core.tilemapEditor];
+    else if([sender tag] == EditorTypeEntities)
+        [self setCurrentEditor:core.entitiesEditor];
 }
 
 @end
