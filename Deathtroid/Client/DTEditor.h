@@ -18,10 +18,6 @@
 @property BOOL active;
 @end
 
-@protocol DTEditorUIDelegate <NSObject>
-
-@end
-
 
 @interface DTEditor (ForSubclasses)
 - (Vector2*)roomCoordFromViewCoord:(Vector2*)viewCoord;

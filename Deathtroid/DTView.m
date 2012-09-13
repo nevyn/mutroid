@@ -18,6 +18,7 @@
 #import "DTClient.h"
 #import <Carbon/Carbon.h>
 #import "SPDepends.h"
+#import "DTEntityEditor.h"
 
 #define GAME_WIDTH 256
 #define GAME_HEIGHT 224
@@ -28,6 +29,7 @@
     GLuint renderedTexture;
     DTEditor *_currentEditor;
     NSUndoManager *_undo;
+    DTEntityEditor *_entityProps;
 }
 
 @synthesize core;
@@ -296,6 +298,18 @@
         [self setCurrentEditor:core.tilemapEditor];
     else if([sender tag] == EditorTypeEntities)
         [self setCurrentEditor:core.entitiesEditor];
+}
+
+- (IBAction)editPropertiesForSelection:(id)sender
+{
+    DTEntityTemplate *template = core.entitiesEditor.selection;
+    if(!template) {
+        NSBeep();
+        return;
+    }
+    
+    _entityProps = [[DTEntityEditor alloc] initEditingTemplate:template];
+    [_entityProps showWindow:sender];
 }
 
 @end

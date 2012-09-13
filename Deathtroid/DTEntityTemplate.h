@@ -6,7 +6,7 @@
     @abstract Template from which an entity can be instantiated.
     Used in the list of entities in a Room resource.
 */
-@interface DTEntityTemplate : NSObject
+@interface DTEntityTemplate : NSDictionary
 - (id)init;
 - (id)initWithRep:(NSDictionary*)rep;
 - (void)updateFromRep:(NSDictionary*)rep;
@@ -17,6 +17,6 @@
 
 @property MutableVector2 *position;
 @property float rotation;
-// all additional attributes
-@property NSMutableDictionary *attributes;
+
+@property NSMutableDictionary *additionalAttributes; // everything except the above
 @end

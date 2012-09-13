@@ -12,6 +12,8 @@
 		052A5EBA144CBC7F005C12AC /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 052A5EB9144CBC7F005C12AC /* OpenAL.framework */; };
 		052A5EC3144CC63B005C12AC /* DTSound.m in Sources */ = {isa = PBXBuildFile; fileRef = 052A5EC2144CC63B005C12AC /* DTSound.m */; };
 		052A5EC5144CCED1005C12AC /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 052A5EC4144CCED1005C12AC /* AudioToolbox.framework */; };
+		0554015F16023A00009B2E35 /* DTEntityEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0554015E16023A00009B2E35 /* DTEntityEditor.m */; };
+		0554016116023B54009B2E35 /* DTEntityEditor.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0554016016023B54009B2E35 /* DTEntityEditor.xib */; };
 		0554598D1441383400E94DB2 /* DTServerRoom.m in Sources */ = {isa = PBXBuildFile; fileRef = 0554598C1441383400E94DB2 /* DTServerRoom.m */; };
 		055459A81441659000E94DB2 /* DTEntityDoor.m in Sources */ = {isa = PBXBuildFile; fileRef = 055459A71441659000E94DB2 /* DTEntityDoor.m */; };
 		055459AC1441DC3500E94DB2 /* BlackBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 055459AB1441DC3400E94DB2 /* BlackBackgroundView.m */; };
@@ -121,6 +123,9 @@
 		052A5EC1144CC63B005C12AC /* DTSound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTSound.h; path = Sound/DTSound.h; sourceTree = "<group>"; };
 		052A5EC2144CC63B005C12AC /* DTSound.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTSound.m; path = Sound/DTSound.m; sourceTree = "<group>"; };
 		052A5EC4144CCED1005C12AC /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		0554015D16023A00009B2E35 /* DTEntityEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTEntityEditor.h; sourceTree = "<group>"; };
+		0554015E16023A00009B2E35 /* DTEntityEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTEntityEditor.m; sourceTree = "<group>"; };
+		0554016016023B54009B2E35 /* DTEntityEditor.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DTEntityEditor.xib; sourceTree = "<group>"; };
 		0554598B1441383300E94DB2 /* DTServerRoom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTServerRoom.h; sourceTree = "<group>"; };
 		0554598C1441383400E94DB2 /* DTServerRoom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTServerRoom.m; sourceTree = "<group>"; };
 		055459A61441659000E94DB2 /* DTEntityDoor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTEntityDoor.h; sourceTree = "<group>"; };
@@ -351,6 +356,9 @@
 				D8548F42143F45D7005D7DC0 /* MainMenu.xib */,
 				055459AA1441DC3400E94DB2 /* BlackBackgroundView.h */,
 				055459AB1441DC3400E94DB2 /* BlackBackgroundView.m */,
+				0554015D16023A00009B2E35 /* DTEntityEditor.h */,
+				0554015E16023A00009B2E35 /* DTEntityEditor.m */,
+				0554016016023B54009B2E35 /* DTEntityEditor.xib */,
 			);
 			name = "Mac shit";
 			sourceTree = "<group>";
@@ -683,6 +691,7 @@
 				D8548F3E143F45D7005D7DC0 /* Credits.rtf in Resources */,
 				D8548F44143F45D7005D7DC0 /* MainMenu.xib in Resources */,
 				994E5610144146A8009EC13C /* resources in Resources */,
+				0554016116023B54009B2E35 /* DTEntityEditor.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -770,6 +779,7 @@
 				05ABD6131600908D002F04F0 /* DTEditorEntities.m in Sources */,
 				05ABD6571600BE7B002F04F0 /* DTEntityTemplate.m in Sources */,
 				05AD34E716012800001D6F65 /* DTEntityDummy.m in Sources */,
+				0554015F16023A00009B2E35 /* DTEntityEditor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

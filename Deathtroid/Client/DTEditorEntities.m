@@ -133,4 +133,5 @@
     [[self currentTemplates] removeObjectForKey:_selection.uuid];
     _selection = nil;
 }
+
 @end
