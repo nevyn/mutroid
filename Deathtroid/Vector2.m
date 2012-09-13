@@ -181,6 +181,8 @@ static Vector2 *negativeYAxis;
 
 - (BOOL)isEqual:(Vector2*)vector;
 {
+    if(![vector isKindOfClass:[Vector2 class]])
+        return NO;
 	return X == vector->X && Y == vector->Y;
 }
 

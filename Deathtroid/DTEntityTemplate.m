@@ -48,42 +48,14 @@
     return mrep;
 }
 
-- (NSUInteger)count;
+- (id)valueForUndefinedKey:(NSString *)key
 {
-    return self.additionalAttributes.count + 4;
-}
-- (id)objectForKey:(id)aKey;
-{
-    if ([aKey isEqual:@"self"])
-        return self;
-    if ([aKey isEqual:@"rep"])
-        return self.rep;
-    return self.rep[aKey];
-}
-- (NSEnumerator *)keyEnumerator
-{
-    return self.rep.keyEnumerator;
+    return _additionalAttributes[key];
 }
 
-- (void)removeObjectForKey:(id)aKey
+- (void)setValue:(id)value forUndefinedKey:(NSString *)key
 {
-    [_additionalAttributes removeObjectForKey:aKey];
+    _additionalAttributes[key] = value;
 }
-- (void)setObject:(id)anObject forKey:(id <NSCopying>)aKey
-{
-    if([(id)aKey isEqual:@"class"])
-        self.klass = NSClassFromString(anObject);
-    else if([(id)aKey isEqual:@"position"])
-        NSBeep();
-    else if([@[@"uuid", @"rotation"] containsObject:aKey])
-        [self setValue:anObject forKey:(id)aKey];
-    else
-        [_additionalAttributes setObject:anObject forKey:aKey];
-}
-- (void)setValue:(id)value forKey:(NSString *)key
-{
-    [super setValue:value forKey:key];
-}
-
 
 @end

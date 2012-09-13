@@ -6,7 +6,7 @@
     @abstract Template from which an entity can be instantiated.
     Used in the list of entities in a Room resource.
 */
-@interface DTEntityTemplate : NSDictionary
+@interface DTEntityTemplate : NSObject
 - (id)init;
 - (id)initWithRep:(NSDictionary*)rep;
 - (void)updateFromRep:(NSDictionary*)rep;
