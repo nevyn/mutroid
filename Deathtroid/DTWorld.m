@@ -14,6 +14,7 @@
 #import "DTLayer.h"
 #import "DTRoom.h"
 #import "DTServer.h"
+#import "DTServerRoom.h"
 
 static int gettile(int *tiles, int x, int y, int width, int height) {
     if(x < 0 || x >= width || y < 0 || y >= height) return 0;
@@ -230,12 +231,28 @@ static int gettile(int *tiles, int x, int y, int width, int height) {
         }
     }
     
+    // Hack together some entity collision for now
+    DTEntity *collided = nil;
+    if(!ignore) {
+        CGRect me = CGRectMake(origin.x+box.min.x, origin.y+box.min.y, box.max.x-box.min.x, box.max.y-box.min.y);
+        for(DTEntity *other in self.sroom.entities.allValues) {
+            if(exclude == other)
+                continue;
+            CGRect them = CGRectMake(other.position.x+other.size.min.x, other.position.y+other.size.min.y, other.size.max.x-other.size.min.x, other.size.max.y-other.size.min.y);
+            if(CGRectIntersectsRect(me, them)) {
+                collided = other;
+                break;
+            }
+            
+        }
+    }
+    
     DTTraceResult *result = [[DTTraceResult alloc]
                     initWithX:(collidedLeft || collidedRight)
                             y:(collidedBottom || collidedTop)
                         slope:slope
             collisionPosition:[Vector2 vectorWithX:goalX y:goalY]
-                       entity:nil
+                       entity:collided
                      velocity:nil];
 
     return result;

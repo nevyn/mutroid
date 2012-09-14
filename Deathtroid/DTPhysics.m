@@ -53,10 +53,6 @@
     [pairs addObject:[[DTCollisionPair alloc] initWithClassA:[DTEntityPlayer class] b:[DTEntityEnemyBase class] action:^(DTEntity *a, DTEntity *b){
         [a damage:((DTEntityRipper*)b).touchDamage from:b.position killer:b];
     }]];
-        
-    [pairs addObject:[[DTCollisionPair alloc] initWithClassA:[DTEntityPlayer class] b:[DTEntity class] action:^(DTEntity *a, DTEntity *b) {
-        NSLog(@"Kollision av nåt slag.");
-    }]];
     
     [pairs addObject:[[DTCollisionPair alloc] initWithClassA:[DTEntityBullet class] b:[DTEntity class] action:^(DTEntity *a, DTEntity *b) {
         if(b == ((DTEntityBullet*)a).owner) return;
@@ -93,7 +89,7 @@
     float move = entity.velocity.x * delta;
     
     // Is there a wall in the way?
-    DTTraceResult *side = [world traceBox:entity.size from:entity.position to:[Vector2 vectorWithX:entity.position.x + move y:0.0] exclude:entity ignoreEntities:YES];
+    DTTraceResult *side = [world traceBox:entity.size from:entity.position to:[Vector2 vectorWithX:entity.position.x + move y:0.0] exclude:entity ignoreEntities:NO];
     if(side.x) {
         entity.position.x = side.collisionPosition.x;
         entity.velocity.x = 0.0f;
@@ -132,7 +128,7 @@
     Vector2 *move = [entity.velocity vectorByMultiplyingWithScalar:delta];
     
     // Do a trace for the move
-    DTTraceResult *trace = [world traceBox:entity.size from:entity.position to:[entity.position vectorByAddingVector:move] exclude:entity ignoreEntities:YES];
+    DTTraceResult *trace = [world traceBox:entity.size from:entity.position to:[entity.position vectorByAddingVector:move] exclude:entity ignoreEntities:NO];
     
     [self handleEntityCollisionsInTrace:trace forEntity:entity];
     
@@ -160,11 +156,11 @@
     if(!info.entity && (info.x || info.y)) {
         [entity didCollideWithWorld:info];
     } else if(info.entity) {
+        NSLog(@"Kollision mellan %@ och %@", entity, info.entity);
         for(DTCollisionPair *pair in pairs) {
             [pair runWithEntityA:entity b:info.entity];
         }
     }
-
 }
 
 /*
