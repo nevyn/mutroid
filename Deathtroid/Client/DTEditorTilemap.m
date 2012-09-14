@@ -81,11 +81,7 @@
     const int *tile = [map tileAtX:tileCoord.x y:tileCoord.y];
     if(!tile) return;
 
-    [[self.undo prepareWithInvocationTarget:self] _setTile:*tile atCoord:tileCoord onMap:map];
-    [self _setTile:tileIndex atCoord:tileCoord onMap:map];
-}
-- (void)_setTile:(int)tileIndex atCoord:(Vector2*)tileCoord onMap:(DTMap*)map
-{
+    [[self.undo prepareWithInvocationTarget:self] setTile:*tile atCoord:tileCoord onMap:map];
     [map setTile:tileIndex atX:tileCoord.x y:tileCoord.y];
 }
 
@@ -95,11 +91,8 @@
 }
 - (void)toggleAttribute:(int)flag at:(Vector2*)viewCoordInPixels onMap:(DTMap*)map
 {
-    [[self.undo prepareWithInvocationTarget:self] _toggleAttribute:flag at:viewCoordInPixels onMap:map];
-    [self _toggleAttribute:flag at:viewCoordInPixels onMap:map];
-}
-- (void)_toggleAttribute:(int)flag at:(Vector2*)viewCoordInPixels onMap:(DTMap*)map
-{
+    [[self.undo prepareWithInvocationTarget:self] toggleAttribute:flag at:viewCoordInPixels onMap:map];
+    
     Vector2 *tileCoord = [self roomCoordFromViewCoord:viewCoordInPixels];
     const int *attr = [map attrAtX:tileCoord.x y:tileCoord.y];
     if(!attr) return;
