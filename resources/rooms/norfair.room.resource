@@ -94,5 +94,21 @@
 			]]
 		}
 	],
-    "entities" : []
+    "entities" : [
+      {
+        "destinationRoom" : "brinstar-save",
+        "position" : {
+          "x" : 1, 
+          "y" : 7
+        },
+        "rotation" : 0,
+        "destinationPosition" : {
+          "x" : 14,
+          "y" : 8
+        },
+        "class" : "DTEntityDoor",
+        "uuid" : "B1071F23-4BD2-4426-9F30-1E6387AF98A4",
+        "boo" : 0
+      }
+    ]
 }
