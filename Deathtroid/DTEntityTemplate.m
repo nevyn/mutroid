@@ -36,7 +36,7 @@
     self.position = [[MutableVector2 alloc] initWithRep:mrep[@"position"]]; [mrep removeObjectForKey:@"position"];
     self.rotation = [mrep[@"rotation"] floatValue]; [mrep removeObjectForKey:@"rotation"];
     
-    self.additionalAttributes = mrep.copy;
+    self.additionalAttributes = [mrep mutableCopy];
 }
 - (NSDictionary*)rep
 {
