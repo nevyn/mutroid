@@ -3,5 +3,6 @@
 
 @interface DTEntityEditor : NSWindowController
 - (id)initEditingTemplate:(DTEntityTemplate*)entity;
-@property DTEntityTemplate *entity;
+@property(readonly) DTEntityTemplate *entity;
+@property NSUndoManager *undo;
 @end

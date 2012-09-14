@@ -309,6 +309,7 @@
     }
     
     _entityProps = [[DTEntityEditor alloc] initEditingTemplate:template];
+    _entityProps.undo = _undo;
     [_entityProps showWindow:sender];
 }
 

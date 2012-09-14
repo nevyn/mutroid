@@ -53,8 +53,22 @@
     if([key isEqual:@"klass"])
         object = NSClassFromString(object);
     
-    [_entity setValue:object forKey:key];
+    [self setProperty:object forKey:key onEntity:_entity];
 }
 
+- (void)setProperty:(id)property forKey:(NSString*)key onEntity:(DTEntityTemplate*)entity
+{
+    //[[_undo prepareWithInvocationTarget:self] setProperty:[_entity valueForKey:key] forKey:key onEntity:entity];
+    [entity setValue:property forKey:key];
+}
+
+- (IBAction)undo:(id)sender
+{
+    [_undo undo];
+}
+- (IBAction)redo:(id)sender
+{
+    [_undo redo];
+}
 
 @end
