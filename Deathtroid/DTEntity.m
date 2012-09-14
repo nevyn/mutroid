@@ -63,9 +63,6 @@
     _moveDirection = EntityDirectionRight;
     _lookDirection = EntityDirectionRight;
     
-    DTResourceManager *resourceManager = [DTResourceManager sharedManager];
-
-    self.animation = [resourceManager animationNamed:@"sten.animation"];
     self.rotation = 0.0;
     // currentState is used to specify what animation to use
     
