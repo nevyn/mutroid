@@ -11,3 +11,6 @@
 [submodule "Vendor/SCEvents"]
 	path = Vendor/SCEvents
 	url = https://github.com/mz2/SCEvents.git
+[submodule "Vendor/MAObjCRuntime"]
+	path = Vendor/MAObjCRuntime
+	url = https://github.com/mikeash/MAObjCRuntime.git

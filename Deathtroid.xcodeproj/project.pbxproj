@@ -17,6 +17,12 @@
 		0554598D1441383400E94DB2 /* DTServerRoom.m in Sources */ = {isa = PBXBuildFile; fileRef = 0554598C1441383400E94DB2 /* DTServerRoom.m */; };
 		055459A81441659000E94DB2 /* DTEntityDoor.m in Sources */ = {isa = PBXBuildFile; fileRef = 055459A71441659000E94DB2 /* DTEntityDoor.m */; };
 		055459AC1441DC3500E94DB2 /* BlackBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 055459AB1441DC3400E94DB2 /* BlackBackgroundView.m */; };
+		0587700916050CB700279D77 /* MARTNSObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 05876FF916050CB700279D77 /* MARTNSObject.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0587700B16050CB700279D77 /* RTIvar.m in Sources */ = {isa = PBXBuildFile; fileRef = 05876FFC16050CB700279D77 /* RTIvar.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0587700C16050CB700279D77 /* RTMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = 05876FFE16050CB700279D77 /* RTMethod.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0587700D16050CB700279D77 /* RTProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 0587700016050CB700279D77 /* RTProperty.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0587700E16050CB700279D77 /* RTProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 0587700216050CB700279D77 /* RTProtocol.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0587700F16050CB700279D77 /* RTUnregisteredClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 0587700416050CB700279D77 /* RTUnregisteredClass.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0587E522143F8DB200EA9CBF /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 0587E521143F8DB200EA9CBF /* AsyncSocket.m */; };
 		0587E525143F8FB200EA9CBF /* DTConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0587E524143F8FB200EA9CBF /* DTConstants.m */; };
 		05ABD61016009081002F04F0 /* DTEditorTilemap.m in Sources */ = {isa = PBXBuildFile; fileRef = 05ABD60F16009081002F04F0 /* DTEditorTilemap.m */; };
@@ -132,6 +138,18 @@
 		055459A71441659000E94DB2 /* DTEntityDoor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTEntityDoor.m; sourceTree = "<group>"; };
 		055459AA1441DC3400E94DB2 /* BlackBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlackBackgroundView.h; sourceTree = "<group>"; };
 		055459AB1441DC3400E94DB2 /* BlackBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlackBackgroundView.m; sourceTree = "<group>"; };
+		05876FF816050CB700279D77 /* MARTNSObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MARTNSObject.h; sourceTree = "<group>"; };
+		05876FF916050CB700279D77 /* MARTNSObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MARTNSObject.m; sourceTree = "<group>"; };
+		05876FFB16050CB700279D77 /* RTIvar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTIvar.h; sourceTree = "<group>"; };
+		05876FFC16050CB700279D77 /* RTIvar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTIvar.m; sourceTree = "<group>"; };
+		05876FFD16050CB700279D77 /* RTMethod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTMethod.h; sourceTree = "<group>"; };
+		05876FFE16050CB700279D77 /* RTMethod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTMethod.m; sourceTree = "<group>"; };
+		05876FFF16050CB700279D77 /* RTProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTProperty.h; sourceTree = "<group>"; };
+		0587700016050CB700279D77 /* RTProperty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTProperty.m; sourceTree = "<group>"; };
+		0587700116050CB700279D77 /* RTProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTProtocol.h; sourceTree = "<group>"; };
+		0587700216050CB700279D77 /* RTProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTProtocol.m; sourceTree = "<group>"; };
+		0587700316050CB700279D77 /* RTUnregisteredClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTUnregisteredClass.h; sourceTree = "<group>"; };
+		0587700416050CB700279D77 /* RTUnregisteredClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTUnregisteredClass.m; sourceTree = "<group>"; };
 		0587E520143F8DB200EA9CBF /* AsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AsyncSocket.h; path = Vendor/cocoaasyncsocket/RunLoop/AsyncSocket.h; sourceTree = SOURCE_ROOT; };
 		0587E521143F8DB200EA9CBF /* AsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AsyncSocket.m; path = Vendor/cocoaasyncsocket/RunLoop/AsyncSocket.m; sourceTree = SOURCE_ROOT; };
 		0587E523143F8FB100EA9CBF /* DTConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTConstants.h; sourceTree = "<group>"; };
@@ -374,6 +392,26 @@
 			name = Util;
 			sourceTree = "<group>";
 		};
+		05876FF316050CB700279D77 /* MAObjCRuntime */ = {
+			isa = PBXGroup;
+			children = (
+				05876FF816050CB700279D77 /* MARTNSObject.h */,
+				05876FF916050CB700279D77 /* MARTNSObject.m */,
+				05876FFB16050CB700279D77 /* RTIvar.h */,
+				05876FFC16050CB700279D77 /* RTIvar.m */,
+				05876FFD16050CB700279D77 /* RTMethod.h */,
+				05876FFE16050CB700279D77 /* RTMethod.m */,
+				05876FFF16050CB700279D77 /* RTProperty.h */,
+				0587700016050CB700279D77 /* RTProperty.m */,
+				0587700116050CB700279D77 /* RTProtocol.h */,
+				0587700216050CB700279D77 /* RTProtocol.m */,
+				0587700316050CB700279D77 /* RTUnregisteredClass.h */,
+				0587700416050CB700279D77 /* RTUnregisteredClass.m */,
+			);
+			name = MAObjCRuntime;
+			path = Vendor/MAObjCRuntime;
+			sourceTree = "<group>";
+		};
 		05CC7B6C143FC4BB00052D06 /* SPSuccinct */ = {
 			isa = PBXGroup;
 			children = (
@@ -474,6 +512,7 @@
 		D8548F2C143F45D7005D7DC0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				05876FF316050CB700279D77 /* MAObjCRuntime */,
 				99E500F615FAB7AE0031F34D /* SCEvents */,
 				0587E520143F8DB200EA9CBF /* AsyncSocket.h */,
 				0587E521143F8DB200EA9CBF /* AsyncSocket.m */,
@@ -780,6 +819,12 @@
 				05ABD6571600BE7B002F04F0 /* DTEntityTemplate.m in Sources */,
 				05AD34E716012800001D6F65 /* DTEntityDummy.m in Sources */,
 				0554015F16023A00009B2E35 /* DTEntityEditor.m in Sources */,
+				0587700916050CB700279D77 /* MARTNSObject.m in Sources */,
+				0587700B16050CB700279D77 /* RTIvar.m in Sources */,
+				0587700C16050CB700279D77 /* RTMethod.m in Sources */,
+				0587700D16050CB700279D77 /* RTProperty.m in Sources */,
+				0587700E16050CB700279D77 /* RTProtocol.m in Sources */,
+				0587700F16050CB700279D77 /* RTUnregisteredClass.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
