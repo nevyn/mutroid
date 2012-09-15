@@ -7,6 +7,8 @@
 //
 
 #import "DTEntityEditor.h"
+#import <MAObjCRuntime/MARTNSObject.h>
+#import "DTEntity.h"
 
 @interface DTEntityEditor ()
 
@@ -60,6 +62,24 @@
     
         [self setProperty:object forKey:key onEntity:_entity];
     }
+}
+
+- (NSCell *)tableView:(NSTableView *)tableView dataCellForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+{
+    NSInteger col = [[tableView tableColumns] indexOfObject:tableColumn];
+    NSString *key = [_keys objectAtIndex:row];
+    
+    if(col == 2 && [key isEqual:@"klass"]) {
+        NSComboBoxCell *cell = [[NSComboBoxCell alloc] initTextCell:@""];
+        [cell setButtonBordered:NO];
+        cell.bordered = NO;
+        for(Class klass in [DTEntity rt_subclasses])
+            [cell addItemWithObjectValue:NSStringFromClass(klass)];
+        
+        return cell;
+    }
+    
+    return nil;
 }
 
 - (void)setProperty:(id)property forKey:(NSString*)key onEntity:(DTEntityTemplate*)entity

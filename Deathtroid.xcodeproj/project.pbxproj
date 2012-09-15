@@ -939,10 +939,11 @@
 					"$(inherited)",
 					"DUMB_CLIENT=0",
 				);
+				HEADER_SEARCH_PATHS = "\"${SRCROOT}/Vendor\"";
 				INFOPLIST_FILE = "Deathtroid/Deathtroid-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				RUN_CLANG_STATIC_ANALYZER = YES;
-				USER_HEADER_SEARCH_PATHS = "Vendor/SPSuccinct/SPSuccinct Vendor/cocoaasyncsocket/RunLoop Vendor/Finch/Finch";
+				USER_HEADER_SEARCH_PATHS = "Vendor/SPSuccinct/SPSuccinct Vendor/cocoaasyncsocket/RunLoop Vendor/Finch/Finch Vendor/";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -952,10 +953,11 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Deathtroid/Deathtroid-Prefix.pch";
+				HEADER_SEARCH_PATHS = "\"${SRCROOT}/Vendor\"";
 				INFOPLIST_FILE = "Deathtroid/Deathtroid-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				RUN_CLANG_STATIC_ANALYZER = YES;
-				USER_HEADER_SEARCH_PATHS = "Vendor/SPSuccinct/SPSuccinct Vendor/cocoaasyncsocket/RunLoop Vendor/Finch/Finch";
+				USER_HEADER_SEARCH_PATHS = "Vendor/SPSuccinct/SPSuccinct Vendor/cocoaasyncsocket/RunLoop Vendor/Finch/Finch Vendor/";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
