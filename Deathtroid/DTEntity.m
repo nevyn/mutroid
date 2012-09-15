@@ -96,6 +96,8 @@
     $doif(@"collisionType", _collisionType = [o intValue]);
     $doif(@"rotation", _rotation = [o floatValue]);
     
+    $doif(@"templateUUID", _templateUUID = o);
+    
     return self;
 }
 -(NSDictionary*)rep;
@@ -118,6 +120,8 @@
         @"collisionType", $num(_collisionType),
         @"rotation", $num(_rotation)
     );
+    if(_templateUUID)
+        rep[@"templateUUID"] = _templateUUID;
     
     return rep;
 }

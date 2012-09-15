@@ -385,6 +385,14 @@ static const int kScreenWidthInTiles = 16;
     room.room.delegate = self;
 }
 
+- (void)reloadEntityForTemplateUUID:(NSString*)uuid
+{
+    [_proto sendHash:@{
+        @"command": @"respawnEntityFromTemplateUUID",
+        @"templateUUID": uuid
+    }];
+}
+
 
 #pragma mark meta
 -(void)command:(id)proto updateScoreboard:(NSDictionary*)hash;

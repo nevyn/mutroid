@@ -113,7 +113,10 @@
 {
     [self removeKey:_keys[[_tableView selectedRow]]];
 }
-
+- (IBAction)reload:(id)sender
+{
+    [_client reloadEntityForTemplateUUID:_entity.uuid];
+}
 - (IBAction)undo:(id)sender
 {
     [_undo undo];

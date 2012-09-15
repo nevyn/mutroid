@@ -105,6 +105,7 @@ static const int kMaxServerFramerate = 10;
         for(DTEntityTemplate *template in sroom.room.entityTemplates.allValues)
             [sroom createEntity:template.klass setup:^(DTEntity *e) {
                 [e updateFromRep:template.rep];
+                e.templateUUID = template.uuid;
             }];
             
         if(then) then(sroom);
@@ -246,6 +247,26 @@ static const int kMaxServerFramerate = 10;
         @"room": room.room.uuid,
         @"rep": room.room.rep
      } excluding:player];
+}
+- (void)player:(DTPlayer*)player respawnEntityFromTemplateUUID:(NSDictionary*)hash
+{
+    // Only local player can do this
+    if (![player.appId isEqual:[DTCore appInstanceIdentifier]])
+        return;
+    
+    // Destroy old entity
+    NSString *templateUUID = hash[@"templateUUID"];
+    for(DTEntity *e in player.room.entities.allValues)
+        if([e.templateUUID isEqual:templateUUID])
+            [player.room destroyEntityKeyed:e.uuid];
+    
+    // Create a new one
+    DTEntityTemplate *template = player.room.room.entityTemplates[templateUUID];
+    if(template)
+        [player.room createEntity:template.klass setup:^(DTEntity *e) {
+            [e updateFromRep:template.rep];
+            e.templateUUID = template.uuid;
+        }];
 }
 
 #pragma mark Incoming player requests

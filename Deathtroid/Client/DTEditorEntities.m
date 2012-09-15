@@ -131,7 +131,12 @@
         return;
     }
     [[self currentTemplates] removeObjectForKey:_selection.uuid];
+    [self.client reloadEntityForTemplateUUID:_selection.uuid];
     _selection = nil;
+}
+- (IBAction)reload:(id)sender
+{
+    [self.client reloadEntityForTemplateUUID:_selection.uuid];
 }
 
 @end

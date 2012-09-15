@@ -45,4 +45,6 @@ typedef void(^DTClientMessageCallback)(NSString *message);
 @property(nonatomic,copy) DTClientHealthCallback healthCallback;
 @property(nonatomic,copy) DTClientScoresCallback scoresCallback;
 @property(nonatomic,copy) DTClientMessageCallback messageCallback;
+
+- (void)reloadEntityForTemplateUUID:(NSString*)uuid;
 @end

@@ -87,6 +87,7 @@ typedef struct {
 
 @property (nonatomic,weak) DTWorld *world;
 @property (nonatomic,strong) NSString *uuid;
+@property (nonatomic,strong) NSString *templateUUID;
 @property (nonatomic,readonly) NSString *typeName;
 
 @property (nonatomic, retain) NSString *currentState;
