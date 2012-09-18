@@ -18,6 +18,8 @@
 @implementation DTEntityEditor {
     NSMutableArray *_keys;
     IBOutlet NSTableView *_tableView;
+    IBOutlet __weak NSTableColumn *_keyColumn;
+    IBOutlet __weak NSTableColumn *_valueColumn;
 }
 - (id)initEditingTemplate:(DTEntityTemplate*)entity
 {
@@ -36,29 +38,26 @@
 
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-    NSInteger col = [[tableView tableColumns] indexOfObject:tableColumn];
-
     NSString *key = [_keys objectAtIndex:row];
-    if(col == 0)
+    if(tableColumn == _keyColumn)
         return key;
-    if(col == 2)
+    if(tableColumn == _valueColumn)
         return [_entity valueForKey:key];
     return nil;
 }
 
 - (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-    NSInteger col = [[tableView tableColumns] indexOfObject:tableColumn];
     NSString *key = [_keys objectAtIndex:row];
     DTEntityFieldDescriptor *descriptor = [self descriptorForRow:row];
     
-    if(col == 0) {
+    if(tableColumn == _keyColumn) {
         if(row < 4)
             return;
         
         [self renameKey:key to:object onEntity:_entity];
         
-    } else if(col == 2) {
+    } else if(tableColumn == _valueColumn) {
         if(descriptor.type == EntityFieldClass)
             object = NSClassFromString(object);
         else if(descriptor.type == EntityFieldVector2) {
@@ -77,9 +76,7 @@
 
 - (NSCell *)tableView:(NSTableView *)tableView dataCellForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-    NSInteger col = [[tableView tableColumns] indexOfObject:tableColumn];
-    
-    if(col == 2) {
+    if(tableColumn == _valueColumn) {
         switch ([self descriptorForRow:row].type) {
             case EntityFieldClass: {
                 NSComboBoxCell *cell = [[NSComboBoxCell alloc] initTextCell:@""];
