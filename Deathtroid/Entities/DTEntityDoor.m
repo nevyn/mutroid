@@ -38,6 +38,14 @@
     [rep addEntriesFromDictionary:[super rep]];
     return rep;
 }
++ (NSArray*)fieldDescriptors
+{
+    return [[super fieldDescriptors] arrayByAddingObjectsFromArray:@[
+        DTFIELD(@"destinationRoom", RoomReference),
+        DTFIELD(@"destinationPosition", Vector2),
+    ]];
+}
+
 -(void)didCollideWithEntity:(DTEntity *)other;
 {
 }

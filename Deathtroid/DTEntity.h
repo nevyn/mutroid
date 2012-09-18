@@ -14,6 +14,7 @@
 @class DTTraceResult;
 @class DTSpriteMap;
 @class DTAnimation;
+@class DTEntityFieldDescriptor;
 #import "FISound.h"
 
 #define $doif(key, then) ({id o = [rep objectForKey:key]; if(o) { then; } });
@@ -92,6 +93,9 @@ typedef struct {
 
 @property (nonatomic, retain) NSString *currentState;
 
++ (NSArray/*<DTEntityFieldDescriptor>*/*)fieldDescriptors;
++ (DTEntityFieldDescriptor*)descriptorForKey:(NSString*)key;
+
 // protected
 
 @property (nonatomic, retain) DTAnimation* animation;
@@ -99,3 +103,23 @@ typedef struct {
 
 @end
 
+
+typedef enum {
+    EntityFieldClass,
+    EntityFieldVector2,
+    EntityFieldInteger,
+    EntityFieldFloat,
+    EntityFieldString,
+    EntityFieldRoomReference,
+    EntityFieldEntityReference,
+    EntityFieldDirection,
+} EntityFieldTypes;
+/** @class DTEntityFieldDescriptor
+    @abstract Describes an attribute settable by the editor
+*/
+@interface DTEntityFieldDescriptor : NSObject
+- (id)initKeyed:(NSString*)key type:(EntityFieldTypes)type;
+@property NSString *key;
+@property EntityFieldTypes type;
+@end
+#define DTFIELD(key, type_) [[DTEntityFieldDescriptor alloc] initKeyed:key type: EntityField##type_]

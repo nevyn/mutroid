@@ -125,6 +125,27 @@
     
     return rep;
 }
++ (NSArray*)fieldDescriptors
+{
+    return @[
+        DTFIELD(@"klass", Class),
+        DTFIELD(@"position", Vector2),
+        DTFIELD(@"velocity", Vector2),
+        DTFIELD(@"maxHealth", Integer),
+        DTFIELD(@"moveDirection", Direction),
+        DTFIELD(@"lookDirection", Direction),
+        DTFIELD(@"rotation", Float),
+        DTFIELD(@"uuid", String)
+    ];
+}
++ (DTEntityFieldDescriptor*)descriptorForKey:(NSString*)key
+{
+    for(DTEntityFieldDescriptor *desc in self.fieldDescriptors) {
+        if([desc.key isEqual:key])
+            return desc;
+    }
+    return nil;
+}
 
 -(void)tick:(double)delta;
 {    
@@ -185,5 +206,15 @@
 -(NSString*)typeName;
 {
 	return [[[NSStringFromClass([self class]) componentsSeparatedByString:@"DTEntity"] objectAtIndex:1] lowercaseString];
+}
+@end
+
+@implementation DTEntityFieldDescriptor
+- (id)initKeyed:(NSString*)key type:(EntityFieldTypes)type
+{
+    if(!(self = [super init])) return nil;
+    self.key = key;
+    self.type = type;
+    return self;
 }
 @end

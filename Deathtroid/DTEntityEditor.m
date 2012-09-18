@@ -9,6 +9,7 @@
 #import "DTEntityEditor.h"
 #import <MAObjCRuntime/MARTNSObject.h>
 #import "DTEntity.h"
+#import "Vector2.h"
 
 @interface DTEntityEditor ()
 
@@ -49,6 +50,7 @@
 {
     NSInteger col = [[tableView tableColumns] indexOfObject:tableColumn];
     NSString *key = [_keys objectAtIndex:row];
+    DTEntityFieldDescriptor *descriptor = [self descriptorForRow:row];
     
     if(col == 0) {
         if(row < 4)
@@ -57,26 +59,53 @@
         [self renameKey:key to:object onEntity:_entity];
         
     } else if(col == 2) {
-        if([key isEqual:@"klass"])
+        if(descriptor.type == EntityFieldClass)
             object = NSClassFromString(object);
+        else if(descriptor.type == EntityFieldVector2) {
+            NSArray *comps = [[[object stringByReplacingOccurrencesOfString:@"(" withString:@""] stringByReplacingOccurrencesOfString:@")" withString:@""] componentsSeparatedByString:@", "];
+            object = [MutableVector2 vectorWithX:[comps[0] floatValue] y:[comps[1] floatValue]];
+        }
     
         [self setProperty:object forKey:key onEntity:_entity];
     }
 }
 
+- (DTEntityFieldDescriptor*)descriptorForRow:(NSInteger)row
+{
+    return [_entity.klass descriptorForKey:_keys[row]];
+}
+
 - (NSCell *)tableView:(NSTableView *)tableView dataCellForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
     NSInteger col = [[tableView tableColumns] indexOfObject:tableColumn];
-    NSString *key = [_keys objectAtIndex:row];
     
-    if(col == 2 && [key isEqual:@"klass"]) {
-        NSComboBoxCell *cell = [[NSComboBoxCell alloc] initTextCell:@""];
-        [cell setButtonBordered:NO];
-        cell.bordered = NO;
-        for(Class klass in [DTEntity rt_subclasses])
-            [cell addItemWithObjectValue:NSStringFromClass(klass)];
-        
-        return cell;
+    if(col == 2) {
+        switch ([self descriptorForRow:row].type) {
+            case EntityFieldClass: {
+                NSComboBoxCell *cell = [[NSComboBoxCell alloc] initTextCell:@""];
+                [cell setButtonBordered:NO];
+                cell.bordered = NO;
+                for(Class klass in [DTEntity rt_subclasses])
+                    [cell addItemWithObjectValue:NSStringFromClass(klass)];
+                
+                return cell;
+            }
+            case EntityFieldFloat:
+            case EntityFieldInteger:
+            case EntityFieldDirection: {
+                NSTextFieldCell *cell = [tableColumn dataCellForRow:row];
+                cell.objectValue = [self tableView:tableView objectValueForTableColumn:tableColumn row:row];
+                cell.formatter = [[NSNumberFormatter alloc] init];
+                //[(id)cell.formatter setGeneratesDecimalNumbers:YES];
+                return cell;
+            }
+            default: { // normal text cell
+                id cell = [tableColumn dataCellForRow:row];
+                if([cell respondsToSelector:@selector(setFormatter:)])
+                    [cell setFormatter:nil];
+                return cell;
+            }
+        }
     }
     
     return nil;
