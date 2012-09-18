@@ -71,7 +71,8 @@
 
 - (DTEntityFieldDescriptor*)descriptorForRow:(NSInteger)row
 {
-    return [_entity.klass descriptorForKey:_keys[row]];
+    return [_entity.klass descriptorForKey:_keys[row]] ?:
+        [[DTEntityFieldDescriptor alloc] initKeyed:_keys[row] type:EntityFieldClass];
 }
 
 - (NSCell *)tableView:(NSTableView *)tableView dataCellForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
@@ -97,9 +98,12 @@
                 return cell;
             }
             default: { // normal text cell
-                id cell = [tableColumn dataCellForRow:row];
-                if([cell respondsToSelector:@selector(setFormatter:)])
-                    [cell setFormatter:nil];
+                NSTextFieldCell *cell = [NSTextFieldCell new];
+                cell.editable = cell.scrollable = YES;
+                cell.drawsBackground = NO;
+                cell.font = [NSFont systemFontOfSize:[NSFont systemFontSize]];
+                cell.lineBreakMode = NSLineBreakByTruncatingTail;
+                cell.backgroundColor = [NSColor controlBackgroundColor];
                 return cell;
             }
         }
