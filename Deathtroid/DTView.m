@@ -336,9 +336,13 @@
 {
     if([sender tag] == EditorTypeNone)
         [self setCurrentEditor:nil];
-    else if([sender tag] == EditorTypeTilemap)
+    else if([sender tag] == EditorTypeTilemap) {
         [self setCurrentEditor:_core.tilemapEditor];
-    else if([sender tag] == EditorTypeEntities)
+        if(!_roomProps) {
+            [self showRoomProps];
+            [self.window makeKeyAndOrderFront:nil];
+        }
+    } else if([sender tag] == EditorTypeEntities)
         [self setCurrentEditor:_core.entitiesEditor];
 }
 
@@ -366,6 +370,11 @@
 {
     self.roomProps = [[DTRoomEditor alloc] initEditingRoom:_core.client.currentRoom.room];
     _roomProps.undo = _undo;
+    
+    NSRect r = _roomProps.window.frame;
+    r.origin.y = self.window.frame.origin.y;
+    r.origin.x = self.window.frame.origin.x + self.window.frame.size.width;
+    [_roomProps.window setFrame:r display:NO];
     [_roomProps showWindow:nil];
 }
 
