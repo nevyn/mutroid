@@ -32,6 +32,7 @@
 - (void)windowDidLoad
 {
     self.window.title = [NSString stringWithFormat:@"Editing %@", _room.name];
+    [self tableViewSelectionDidChange:nil];
 }
 - (DTLayer*)selectedLayer
 {
@@ -60,7 +61,6 @@
     [[_undo prepareWithInvocationTarget:self] addLayer:layer atIndex:[_room.layers indexOfObject:layer]];
     [_room.layers removeObject:layer];
 }
-
 
 - (IBAction)moveLayerUp:(id)sender
 {
@@ -140,5 +140,10 @@
     return nil;
 }
 
+- (void)tableViewSelectionDidChange:(NSNotification *)notification;
+{
+    _widthCell.intValue = [self selectedLayer].map.width;
+    _heightCell.intValue = [self selectedLayer].map.height;
+}
 
 @end

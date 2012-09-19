@@ -46,14 +46,32 @@
 
 - (void)setWidth:(int)width_ height:(int)height_;
 {
+    int oldWidth = width, oldHeight = height, *oldTiles = tiles, *oldAttr = attr;
+    
+    if(width_ == width && height_ == height && tiles && attr)
+        return;
+    
     self.width = width_;
     self.height = height_;
-    free(tiles);
-    free(attr);
     tiles = malloc(sizeof(int)*width*height);
     attr = malloc(sizeof(int)*width*height);
     memset(tiles, 0, sizeof(int)*width*height);
     memset(attr, 0, sizeof(int)*width*height);
+    
+    if(!oldTiles || !oldAttr)
+        return;
+    
+    for(int y = 0; y < MAX(oldHeight, height); y++)
+        for(int x = 0; x < MAX(oldWidth, width); x++) {
+            if(y >= MIN(oldHeight, height) || x >= MIN(oldWidth, width))
+                continue;
+            
+            tiles[y*width+x] = oldTiles[y*oldWidth+x];
+            attr[y*width+x] = oldAttr[y*oldWidth+x];
+        }
+    
+    free(oldTiles);
+    free(oldAttr);
 }
 
 -(id)rep
