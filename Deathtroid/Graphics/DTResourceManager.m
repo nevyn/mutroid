@@ -118,6 +118,20 @@ static NSMutableDictionary *resourceLoaders = nil;
 	return nil;
 }
 
+-(NSArray*)namesOfLocalResourcesOfType:(NSString*)type;
+{
+    NSMutableArray *names = [NSMutableArray array];
+	NSFileManager *fm = [NSFileManager defaultManager];
+	NSArray *props = @[NSURLNameKey];
+	NSDirectoryEnumerator *dirEnumerator = [fm enumeratorAtURL:self.baseURL includingPropertiesForKeys:props options:NSDirectoryEnumerationSkipsHiddenFiles errorHandler:nil];
+	
+	for(NSURL *url in dirEnumerator)
+		if([[url pathExtension] isEqualToString:@"resource"] && [[url dt_resourceType] isEqual:type])
+			[names addObject:[url lastPathComponent]];
+
+    return names;
+}
+
 -(NSURL *)pathForResourceNamed:(NSString *)wantedResource_id
 {
 	return [self pathForResourceId:[wantedResource_id stringByAppendingPathExtension:@"resource"]];

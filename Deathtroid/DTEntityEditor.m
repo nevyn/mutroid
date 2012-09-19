@@ -10,6 +10,7 @@
 #import <MAObjCRuntime/MARTNSObject.h>
 #import "DTEntity.h"
 #import "Vector2.h"
+#import "DTResourceManager.h"
 
 @interface DTEntityEditor ()
 
@@ -107,8 +108,8 @@
                 NSComboBoxCell *cell = [[NSComboBoxCell alloc] initTextCell:@""];
                 [cell setButtonBordered:NO];
                 cell.bordered = NO;
-                for(Class klass in [DTEntity rt_subclasses]) {
-                    NSString *name = [NSStringFromClass(klass) stringByReplacingOccurrencesOfString:@"DTEntity" withString:@""];
+                for(NSString *className in [[[DTEntity rt_subclasses] valueForKeyPath:@"description"] sortedArrayUsingSelector:@selector(compare:)]) {
+                    NSString *name = [className stringByReplacingOccurrencesOfString:@"DTEntity" withString:@""];
                     if([name rangeOfString:@"Base"].location != NSNotFound || name.length == 0)
                         continue;
                     [cell addItemWithObjectValue:name];
@@ -131,6 +132,14 @@
                 cell.objectValue = [self tableView:tableView objectValueForTableColumn:tableColumn row:row];
                 cell.formatter = [[NSNumberFormatter alloc] init];
                 //[(id)cell.formatter setGeneratesDecimalNumbers:YES];
+                return cell;
+            }
+            case EntityFieldRoomReference: {
+                NSComboBoxCell *cell = [[NSComboBoxCell alloc] initTextCell:@""];
+                [cell setButtonBordered:NO];
+                cell.bordered = NO;
+                for(NSString *roomName in [[DTResourceManager sharedManager] namesOfLocalResourcesOfType:@"room"])
+                    [cell addItemWithObjectValue:[roomName dt_resourceName]];
                 return cell;
             }
             default: { // normal text cell

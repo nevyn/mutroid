@@ -37,14 +37,27 @@
     self.rotation = [mrep[@"rotation"] floatValue]; [mrep removeObjectForKey:@"rotation"];
     
     self.additionalAttributes = [mrep mutableCopy];
+    
+    for(NSString *key in self.additionalAttributes.copy) {
+        DTEntityFieldDescriptor *desc = [self.klass descriptorForKey:key];
+        if(desc.type == EntityFieldVector2)
+            [self.additionalAttributes setObject:[[MutableVector2 alloc] initWithRep:self.additionalAttributes[key]] forKey:key];
+    }
 }
 - (NSDictionary*)rep
 {
-    NSMutableDictionary *mrep = [self.additionalAttributes mutableCopy];
+    NSMutableDictionary *mrep = [self.additionalAttributes mutableCopy];    
+    for(NSString *key in mrep.copy) {
+        DTEntityFieldDescriptor *desc = [self.klass descriptorForKey:key];
+        if(desc.type == EntityFieldVector2)
+            mrep[key] = [mrep[key] rep];
+    }
+    
     mrep[@"class"] = NSStringFromClass(self.klass);
     mrep[@"uuid"] = self.uuid;
     mrep[@"position"] = self.position.rep;
     mrep[@"rotation"] = @(self.rotation);
+
     return mrep;
 }
 
