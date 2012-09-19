@@ -30,6 +30,7 @@
     DTEditor *_currentEditor;
     NSUndoManager *_undo;
     NSMutableDictionary *_entityProps;
+    NSResponder *_myNextResponder;
 }
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
@@ -83,13 +84,12 @@
 -(BOOL)acceptsFirstResponder {
 	return YES;
 }
-- (NSResponder*)nextResponder
+
+- (void)setNextResponder:(NSResponder *)aResponder
 {
-    if(_currentEditor) {
-        _currentEditor.nextResponder = [super nextResponder];
-        return _currentEditor;
-    }
-    return [super nextResponder];
+    _myNextResponder = aResponder;
+    if(_currentEditor)
+        [_currentEditor setNextResponder:aResponder];
 }
 
 - (void)drawRect:(NSRect)rect {
@@ -196,6 +196,12 @@
     int i = [[theEvent characters] intValue];
     if(i > 0 || [[theEvent characters] isEqual:@"0"])
         _core.tilemapEditor.currentLayerIndex = i - 1;
+    
+    [self interpretKeyEvents:@[theEvent]];
+}
+- (void)doCommandBySelector:(SEL)aSelector
+{
+    [super doCommandBySelector:aSelector];
 }
 
 -(void)keyUp:(NSEvent *)theEvent {
@@ -286,9 +292,14 @@
 
 - (void)setCurrentEditor:(DTEditor*)editor
 {
+    [_currentEditor setNextResponder:nil];
+    
     _currentEditor.active = NO;
     _currentEditor = editor;
     _currentEditor.active = YES;
+    
+    [super setNextResponder:_currentEditor];
+    [_currentEditor setNextResponder:_myNextResponder];
     
     NSCursor *cursor = (editor == nil) ? [NSCursor arrowCursor] :
         (editor == _core.tilemapEditor) ? [NSCursor crosshairCursor]:

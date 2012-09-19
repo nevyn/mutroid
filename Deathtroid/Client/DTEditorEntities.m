@@ -171,4 +171,44 @@
     if(newIndex < 0) newIndex = values.count-1;
     _selection = values[newIndex];
 }
+- (IBAction)insertTab:(id)sender { [self selectNext:nil]; }
+- (IBAction)insertBacktab:(id)sender { [self selectPrevious:nil]; }
+
+- (void)moveRight:(id)sender
+{
+    _selection.position.x += 1/16.;
+}
+
+- (void)moveLeft:(id)sender
+{
+    _selection.position.x -= 1/16.;
+}
+- (void)moveUp:(id)sender
+{
+    _selection.position.y -= 1/16.;
+}
+- (void)moveDown:(id)sender
+{
+    _selection.position.y += 1/16.;
+}
+
+- (void)moveWordRight:(id)sender
+{
+    _selection.position.x += 1;
+}
+
+- (void)moveWordLeft:(id)sender
+{
+    _selection.position.x -= 1;
+}
+- (void)moveBackward:(id)sender
+{
+    _selection.position.y -= 1;
+}
+- (void)moveForward:(id)sender
+{
+    _selection.position.y += 1;
+}
+
+
 @end
