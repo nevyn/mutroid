@@ -20,9 +20,11 @@
 #import <Carbon/Carbon.h>
 #import "SPDepends.h"
 #import "DTEntityEditor.h"
+#import "DTRoomEditor.h"
 #import "DTResourceManager.h"
 #import "DTRoom.h"
 #import "DTLayer.h"
+#import "DTWorldRoom.h"
 
 #define GAME_WIDTH 256
 #define GAME_HEIGHT 224
@@ -34,6 +36,8 @@
     DTEditor *_currentEditor;
     NSUndoManager *_undo;
     NSMutableDictionary *_entityProps;
+    DTRoomEditor *_roomProps;
+    
     NSResponder *_myNextResponder;
 }
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -326,7 +330,7 @@
         [self setCurrentEditor:_core.entitiesEditor];
 }
 
-- (IBAction)editPropertiesForSelection:(id)sender
+- (void)showEntityProps
 {
     DTEntityTemplate *template = _core.entitiesEditor.selection;
     if(!template) {
@@ -343,9 +347,23 @@
     editor = [[DTEntityEditor alloc] initEditingTemplate:template];
     editor.undo = _undo;
     editor.client = _core.client;
-    [editor showWindow:sender];
+    [editor showWindow:nil];
     [_entityProps setObject:editor forKey:template.uuid];
 }
+- (void)showRoomProps
+{
+    _roomProps = [[DTRoomEditor alloc] initEditingRoom:_core.client.currentRoom.room];
+    [_roomProps showWindow:nil];
+}
+
+- (IBAction)editPropertiesForSelection:(id)sender
+{
+    if(_currentEditor == _core.entitiesEditor)
+        [self showEntityProps];
+    else if(_currentEditor == _core.tilemapEditor)
+        [self showRoomProps];
+}
+
 - (void)editorClosed:(DTEntityEditor*)editor;
 {
     [_entityProps removeObjectForKey:editor.entity.uuid];
