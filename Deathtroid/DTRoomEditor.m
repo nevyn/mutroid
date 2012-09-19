@@ -22,7 +22,12 @@
     if(!(self = [super initWithWindowNibName:@"DTRoomEditor"]))
         return nil;
     _room = room;
+    
     return self;
+}
+- (void)windowDidLoad
+{
+    self.window.title = [NSString stringWithFormat:@"Editing %@", _room.name];
 }
 - (DTLayer*)selectedLayer
 {
@@ -50,25 +55,25 @@
 }
 
 #pragma mark Table view
-/*- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)col row:(NSInteger)row
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)col row:(NSInteger)row
 {
-    DTLayer *lay = [[_room layers] objectAtIndex:row];
     if(col == _colIndex) return @(row+1);
-    if(col == _colFg) return @(lay.foreground);
-    if(col == _colRepX) return @(lay.repeatX);
+    return nil;
 }
 
-- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+- (NSCell *)tableView:(NSTableView *)tableView dataCellForTableColumn:(NSTableColumn *)col row:(NSInteger)row
 {
-
-}
-
-- (NSCell *)tableView:(NSTableView *)tableView dataCellForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
-{
-
+    if(col == _colTileset) {
+        NSComboBoxCell *cell = [col dataCellForRow:row];
+        [cell setEditable:YES];
+        [cell removeAllItems];
+        for(NSString *setName in [[DTResourceManager sharedManager] namesOfLocalResourcesOfType:@"image"])
+            [cell addItemWithObjectValue:[setName dt_resourceName]];
+        return cell;
+    }
     
     return nil;
-}*/
+}
 
 
 @end
