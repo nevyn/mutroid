@@ -36,6 +36,8 @@
     return _entity.additionalAttributes.count + 4;
 }
 
++ (NSArray*)directionNames { return @[@"•", @"←", @"↖", @"↑", @"↗", @"→", @"↘", @"↓", @"↙"]; }
+
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
     NSString *key = [_keys objectAtIndex:row];
@@ -46,6 +48,8 @@
         id value = [_entity valueForKey:key];
         if(descriptor.type == EntityFieldClass)
             value = [NSStringFromClass(value) stringByReplacingOccurrencesOfString:@"DTEntity" withString:@""];
+        else if(descriptor.type == EntityFieldDirection)
+            value = [[[self class] directionNames] objectAtIndex:[value intValue]];
         return value;
     }
     return nil;
@@ -68,7 +72,8 @@
         else if(descriptor.type == EntityFieldVector2) {
             NSArray *comps = [[[object stringByReplacingOccurrencesOfString:@"(" withString:@""] stringByReplacingOccurrencesOfString:@")" withString:@""] componentsSeparatedByString:@", "];
             object = [MutableVector2 vectorWithX:[comps[0] floatValue] y:[comps[1] floatValue]];
-        }
+        } else if(descriptor.type == EntityFieldDirection)
+            object = @([[DTEntityEditor directionNames] indexOfObject:object]);
     
         [self setProperty:object forKey:key onEntity:_entity];
     }
@@ -107,9 +112,17 @@
                 
                 return cell;
             }
-            case EntityFieldFloat:
-            case EntityFieldInteger:
+
             case EntityFieldDirection: {
+                NSComboBoxCell *cell = [[NSComboBoxCell alloc] initTextCell:@""];
+                [cell setButtonBordered:NO];
+                cell.bordered = NO;
+                for(NSString *direction in [[self class] directionNames])
+                    [cell addItemWithObjectValue:direction];
+                return cell;
+            }
+            case EntityFieldFloat:
+            case EntityFieldInteger: {
                 NSTextFieldCell *cell = [tableColumn dataCellForRow:row];
                 cell.objectValue = [self tableView:tableView objectValueForTableColumn:tableColumn row:row];
                 cell.formatter = [[NSNumberFormatter alloc] init];
