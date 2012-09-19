@@ -41,8 +41,13 @@
     NSString *key = [_keys objectAtIndex:row];
     if(tableColumn == _keyColumn)
         return key;
-    if(tableColumn == _valueColumn)
-        return [_entity valueForKey:key];
+    if(tableColumn == _valueColumn) {
+        DTEntityFieldDescriptor *descriptor = [self descriptorForRow:row];
+        id value = [_entity valueForKey:key];
+        if(descriptor.type == EntityFieldClass)
+            value = [NSStringFromClass(value) stringByReplacingOccurrencesOfString:@"DTEntity" withString:@""];
+        return value;
+    }
     return nil;
 }
 
@@ -59,7 +64,7 @@
         
     } else if(tableColumn == _valueColumn) {
         if(descriptor.type == EntityFieldClass)
-            object = NSClassFromString(object);
+            object = NSClassFromString([@"DTEntity" stringByAppendingString:object]);
         else if(descriptor.type == EntityFieldVector2) {
             NSArray *comps = [[[object stringByReplacingOccurrencesOfString:@"(" withString:@""] stringByReplacingOccurrencesOfString:@")" withString:@""] componentsSeparatedByString:@", "];
             object = [MutableVector2 vectorWithX:[comps[0] floatValue] y:[comps[1] floatValue]];
@@ -93,8 +98,12 @@
                 NSComboBoxCell *cell = [[NSComboBoxCell alloc] initTextCell:@""];
                 [cell setButtonBordered:NO];
                 cell.bordered = NO;
-                for(Class klass in [DTEntity rt_subclasses])
-                    [cell addItemWithObjectValue:NSStringFromClass(klass)];
+                for(Class klass in [DTEntity rt_subclasses]) {
+                    NSString *name = [NSStringFromClass(klass) stringByReplacingOccurrencesOfString:@"DTEntity" withString:@""];
+                    if([name rangeOfString:@"Base"].location != NSNotFound || name.length == 0)
+                        continue;
+                    [cell addItemWithObjectValue:name];
+                }
                 
                 return cell;
             }
