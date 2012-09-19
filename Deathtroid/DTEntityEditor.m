@@ -35,6 +35,10 @@
 {
     self.window.title = _entity.uuid;
 }
+- (void)dealloc
+{
+    [_undo removeAllActionsWithTarget:self];
+}
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
@@ -159,7 +163,7 @@
 
 - (void)setProperty:(id)property forKey:(NSString*)key onEntity:(DTEntityTemplate*)entity
 {
-    //[[_undo prepareWithInvocationTarget:self] setProperty:[_entity valueForKey:key] forKey:key onEntity:entity];
+    [[_undo prepareWithInvocationTarget:self] setProperty:[_entity valueForKey:key] forKey:key onEntity:entity];
     [entity setValue:property forKey:key];
     if(![_keys containsObject:key])
         [_keys addObject:key];
@@ -168,7 +172,7 @@
 
 - (void)renameKey:(NSString*)key to:(NSString*)newKey onEntity:(DTEntityTemplate*)entity
 {
-    //[[_undo prepareWithInvocationTarget:self] renameKeynewKey to:key onEntity:entity];
+    [[_undo prepareWithInvocationTarget:self] renameKey:newKey to:key onEntity:entity];
     if([_keys containsObject:newKey]) {
         NSBeep();
         return;
@@ -182,15 +186,15 @@
 }
 - (void)addNewKey:(NSString*)key
 {
-    //[[_undo prepareWithInvocationTarget:self] removeKey:key];
+    [[_undo prepareWithInvocationTarget:self] removeKey:key];
     [_entity additionalAttributes][key] = @(0);
     [_keys addObject:key];
     [_tableView reloadData];
 }
 - (void)removeKey:(NSString*)key
 {
-    //id oldValue = [_entity valueForKey:key];
-    //[[_undo prepareWithInvocationTarget:self] setProperty:oldValue forKey:key onEntity:_entity];
+    id oldValue = [_entity valueForKey:key];
+    [[_undo prepareWithInvocationTarget:self] setProperty:oldValue forKey:key onEntity:_entity];
     [[_entity additionalAttributes] removeObjectForKey:key];
     [_keys removeObject:key];
     [_tableView reloadData];
