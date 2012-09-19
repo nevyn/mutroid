@@ -48,9 +48,6 @@
 {
     int oldWidth = width, oldHeight = height, *oldTiles = tiles, *oldAttr = attr;
     
-    if(width_ == width && height_ == height && tiles && attr)
-        return;
-    
     self.width = width_;
     self.height = height_;
     tiles = malloc(sizeof(int)*width*height);
