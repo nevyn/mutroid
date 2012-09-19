@@ -97,6 +97,11 @@
 - (NSCell *)tableView:(NSTableView *)tableView dataCellForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
     if(tableColumn == _keyColumn) {
+        if(row < 4) {
+            id cell = [tableColumn dataCellForRow:row];
+            [cell setEditable:NO];
+            return cell;
+        }
         NSComboBoxCell *cell = [[NSComboBoxCell alloc] initTextCell:@""];
         [cell setButtonBordered:NO];
         cell.bordered = NO;
