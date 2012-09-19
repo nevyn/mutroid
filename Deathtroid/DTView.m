@@ -304,6 +304,7 @@
     [_core.client setLayer:(int)sender.tag visible:![_core.client layerVisible:(int)sender.tag]];
     for(NSMenuItem *item in [sender.parentItem.submenu itemArray])
         item.state = [_core.client layerVisible:item.tag] ? NSOnState : NSOffState;
+    [_roomProps.layersTable reloadData];
 }
 - (IBAction)chooseLayer:(NSMenuItem*)sender
 {
@@ -370,6 +371,7 @@
 {
     self.roomProps = [[DTRoomEditor alloc] initEditingRoom:_core.client.currentRoom.room];
     _roomProps.undo = _undo;
+    _roomProps.client = _core.client;
     
     NSRect r = _roomProps.window.frame;
     r.origin.y = self.window.frame.origin.y;

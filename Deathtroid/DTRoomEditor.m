@@ -2,12 +2,13 @@
 #import "DTRoom.h"
 #import "DTLayer.h"
 #import "DTMap.h"
+#import "DTClient.h"
 
 @interface DTRoomEditor ()
-@property (weak) IBOutlet NSTableView *layersTable;
 @property (weak) IBOutlet NSFormCell *widthCell;
 @property (weak) IBOutlet NSFormCell *heightCell;
 @property (weak) IBOutlet NSTableColumn *colIndex;
+@property (weak) IBOutlet NSTableColumn *colVisibility;
 @property (weak) IBOutlet NSTableColumn *colFg;
 @property (weak) IBOutlet NSTableColumn *colRepX;
 @property (weak) IBOutlet NSTableColumn *colRepY;
@@ -122,7 +123,13 @@
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)col row:(NSInteger)row
 {
     if(col == _colIndex) return @(row+1);
+    if(col == _colVisibility) return @([_client layerVisible:(int)row]);
     return nil;
+}
+- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)col row:(NSInteger)row
+{
+    if(col == _colVisibility)
+        [_client setLayer:(int)row visible:[object boolValue]];
 }
 
 - (NSCell *)tableView:(NSTableView *)tableView dataCellForTableColumn:(NSTableColumn *)col row:(NSInteger)row
