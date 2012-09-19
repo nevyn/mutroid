@@ -53,15 +53,18 @@
 	}
 }
 
--(void)doInput:(int)key pressed:(BOOL)pressed {
+-(BOOL)doInput:(int)key pressed:(BOOL)pressed {
+    BOOL didProcess = NO;
 	for(DTInputMapping *mapping in mappings) {
 		if(mapping->key == key) {			
 			if(pressed && mapping->begin != nil)
                 mapping->begin();
 			else if (!pressed && mapping->end != nil)
                 mapping->end();
+            didProcess = YES;
 		}
 	}
+    return didProcess;
 }
 
 @end
@@ -78,9 +81,9 @@
 	return self;
 }
 
--(void)pressedKey:(int)key repeated:(BOOL)repeated {
-    if(repeated) return;
-	[mapper doInput:key pressed:YES];
+-(BOOL)pressedKey:(int)key repeated:(BOOL)repeated {
+    if(repeated) return YES;
+	return [mapper doInput:key pressed:YES];
 }
 
 -(void)releasedKey:(int)key {

@@ -43,7 +43,7 @@ typedef void(^DTInputCallback)();
 -(void)mapKey:(int)key toAction:(NSString*)actionName;
 
 // User presses a key
--(void)doInput:(int)key pressed:(BOOL)pressed;
+-(BOOL)doInput:(int)key pressed:(BOOL)pressed;
 
 @end
 
@@ -53,7 +53,7 @@ typedef void(^DTInputCallback)();
 
 @property (nonatomic,retain) DTInputMapper *mapper;
 
--(void)pressedKey:(int)key repeated:(BOOL)repeated;
+-(BOOL)pressedKey:(int)key repeated:(BOOL)repeated;
 -(void)releasedKey:(int)key;
 
 @end

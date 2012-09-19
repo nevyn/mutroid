@@ -211,13 +211,18 @@
 }
 
 -(void)keyDown:(NSEvent *)theEvent {
-    [_core.input pressedKey:[theEvent keyCode] repeated:[theEvent isARepeat]];
+    BOOL processed = [_core.input pressedKey:[theEvent keyCode] repeated:[theEvent isARepeat]];
     
-    int i = [[theEvent characters] intValue];
-    if(i > 0 || [[theEvent characters] isEqual:@"0"])
-        _core.tilemapEditor.currentLayerIndex = i - 1;
+    if(!processed) {
+        int i = [[theEvent characters] intValue];
+        if(i > 0 || [[theEvent characters] isEqual:@"0"]) {
+            _core.tilemapEditor.currentLayerIndex = i - 1;
+            processed = YES;
+        }
+    }
     
-    [self interpretKeyEvents:@[theEvent]];
+    if(!processed)
+        [self interpretKeyEvents:@[theEvent]];
 }
 - (void)doCommandBySelector:(SEL)aSelector
 {
@@ -335,8 +340,6 @@
 
 - (IBAction)chooseEditor:(id)sender
 {
-    NSLog(@"%ld", [sender tag]);
-
     if([sender tag] == EditorTypeNone) {
         [self setCurrentEditor:nil];
         [[self window] setTitle: @"Deathroid"];
