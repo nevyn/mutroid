@@ -4,6 +4,7 @@
 
 @interface DTEditor : NSResponder
 @property(weak) DTClient *client;
+- (id)init;
 
 - (void)leftMouseDownOrMoved:(Vector2*)viewCoordInPixels;
 - (void)leftMouseUp;

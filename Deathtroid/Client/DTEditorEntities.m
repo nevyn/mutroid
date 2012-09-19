@@ -8,10 +8,22 @@
 #import "DTTexture.h"
 #import "DTResourceManager.h"
 #import "DTProgram.h"
+#import "SPDepends.h"
 
 @implementation DTEditorEntities {
     DTEntityTemplate *_selection, *_dragging;
     Vector2 *_draggingOffset;
+}
+- (id)init
+{
+    if(!(self = [super init]))
+        return nil;
+    __weak id wself = self;
+    SPAddDependency(self, @"clear selection", @[self, @"client.currentRoom"], ^{
+        __strong DTEditorEntities *strongSelf = wself;
+        strongSelf->_selection = strongSelf->_dragging = nil;
+    });
+    return self;
 }
 - (NSMutableDictionary*)currentTemplates
 {
@@ -139,4 +151,24 @@
     [self.client reloadEntityForTemplateUUID:_selection.uuid];
 }
 
+- (IBAction)selectNext:(id)sender
+{
+    NSArray *values = self.currentTemplates.allValues;
+    if(!_selection) {
+        _selection = values[0];
+        return;
+    }
+    _selection = values[([values indexOfObject:_selection]+1) % values.count];
+}
+- (IBAction)selectPrevious:(id)sender
+{
+    NSArray *values = self.currentTemplates.allValues;
+    if(!_selection) {
+        _selection = values.lastObject;
+        return;
+    }
+    NSInteger newIndex = [values indexOfObject:_selection]-1;
+    if(newIndex < 0) newIndex = values.count-1;
+    _selection = values[newIndex];
+}
 @end

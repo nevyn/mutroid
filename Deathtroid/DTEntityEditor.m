@@ -30,6 +30,10 @@
     [_keys addObjectsFromArray:_entity.additionalAttributes.allKeys];
     return self;
 }
+- (void)awakeFromNib
+{
+    self.window.title = _entity.uuid;
+}
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
@@ -215,6 +219,12 @@
 - (IBAction)redo:(id)sender
 {
     [_undo redo];
+}
+
+- (BOOL)windowShouldClose:(id)sender;
+{
+    [_delegate editorClosed:self];
+    return YES;
 }
 
 @end

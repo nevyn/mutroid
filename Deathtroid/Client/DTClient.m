@@ -300,12 +300,12 @@ static const int kScreenWidthInTiles = 16;
     NSString *name = $notNull([hash objectForKey:@"name"]);
     NSString *uuid = $notNull([hash objectForKey:@"uuid"]);
     
-    _currentRoom = nil;
+    self.currentRoom = nil;
     [entityRenderer emptyGfxState];
     
     __block DTWorldRoom *room = [rooms objectForKey:uuid];
     void(^then)() = ^ {
-        _currentRoom = room;
+        self.currentRoom = room;
         
         [proto requestHash:$dict(@"question", @"getRoom", @"uuid", uuid) response:^(NSDictionary *hash2) {
             NSDictionary *reps = $notNull([hash2 objectForKey:@"entities"]);
