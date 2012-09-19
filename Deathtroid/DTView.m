@@ -353,6 +353,7 @@
 - (void)showRoomProps
 {
     _roomProps = [[DTRoomEditor alloc] initEditingRoom:_core.client.currentRoom.room];
+    _roomProps.undo = _undo;
     [_roomProps showWindow:nil];
 }
 

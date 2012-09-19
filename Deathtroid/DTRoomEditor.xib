@@ -917,7 +917,7 @@
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
-			<object class="NSArrayController" id="1042220027">
+			<object class="NSArrayController" id="56495756">
 				<bool key="NSEditable">YES</bool>
 				<object class="_NSManagedProxy" key="_NSManagedProxy"/>
 				<bool key="NSAvoidsEmptySelection">YES</bool>
@@ -1051,6 +1051,14 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
+						<string key="label">layersController</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="56495756"/>
+					</object>
+					<int key="connectionID">229</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
 						<string key="label">delegate</string>
 						<reference key="source" ref="1005"/>
 						<reference key="destination" ref="1001"/>
@@ -1077,10 +1085,10 @@
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: arrangedObjects.tilesetName</string>
 						<reference key="source" ref="816635195"/>
-						<reference key="destination" ref="1042220027"/>
+						<reference key="destination" ref="56495756"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="816635195"/>
-							<reference key="NSDestination" ref="1042220027"/>
+							<reference key="NSDestination" ref="56495756"/>
 							<string key="NSLabel">value: arrangedObjects.tilesetName</string>
 							<string key="NSBinding">value</string>
 							<string key="NSKeyPath">arrangedObjects.tilesetName</string>
@@ -1093,10 +1101,10 @@
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: arrangedObjects.foreground</string>
 						<reference key="source" ref="419690632"/>
-						<reference key="destination" ref="1042220027"/>
+						<reference key="destination" ref="56495756"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="419690632"/>
-							<reference key="NSDestination" ref="1042220027"/>
+							<reference key="NSDestination" ref="56495756"/>
 							<string key="NSLabel">value: arrangedObjects.foreground</string>
 							<string key="NSBinding">value</string>
 							<string key="NSKeyPath">arrangedObjects.foreground</string>
@@ -1109,10 +1117,10 @@
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: arrangedObjects.depth</string>
 						<reference key="source" ref="1064515723"/>
-						<reference key="destination" ref="1042220027"/>
+						<reference key="destination" ref="56495756"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="1064515723"/>
-							<reference key="NSDestination" ref="1042220027"/>
+							<reference key="NSDestination" ref="56495756"/>
 							<string key="NSLabel">value: arrangedObjects.depth</string>
 							<string key="NSBinding">value</string>
 							<string key="NSKeyPath">arrangedObjects.depth</string>
@@ -1125,10 +1133,10 @@
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: arrangedObjects.repeatX</string>
 						<reference key="source" ref="875494909"/>
-						<reference key="destination" ref="1042220027"/>
+						<reference key="destination" ref="56495756"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="875494909"/>
-							<reference key="NSDestination" ref="1042220027"/>
+							<reference key="NSDestination" ref="56495756"/>
 							<string key="NSLabel">value: arrangedObjects.repeatX</string>
 							<string key="NSBinding">value</string>
 							<string key="NSKeyPath">arrangedObjects.repeatX</string>
@@ -1141,10 +1149,10 @@
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: arrangedObjects.repeatY</string>
 						<reference key="source" ref="700584068"/>
-						<reference key="destination" ref="1042220027"/>
+						<reference key="destination" ref="56495756"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="700584068"/>
-							<reference key="NSDestination" ref="1042220027"/>
+							<reference key="NSDestination" ref="56495756"/>
 							<string key="NSLabel">value: arrangedObjects.repeatY</string>
 							<string key="NSBinding">value</string>
 							<string key="NSKeyPath">arrangedObjects.repeatY</string>
@@ -1156,10 +1164,10 @@
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">contentArray: room.layers</string>
-						<reference key="source" ref="1042220027"/>
+						<reference key="source" ref="56495756"/>
 						<reference key="destination" ref="1001"/>
 						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="1042220027"/>
+							<reference key="NSSource" ref="56495756"/>
 							<reference key="NSDestination" ref="1001"/>
 							<string key="NSLabel">contentArray: room.layers</string>
 							<string key="NSBinding">contentArray</string>
@@ -2202,7 +2210,7 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">209</int>
-						<reference key="object" ref="1042220027"/>
+						<reference key="object" ref="56495756"/>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">Layers</string>
 					</object>
@@ -2367,13 +2375,27 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">228</int>
+			<int key="maxID">229</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<object class="IBPartialClassDescription">
 					<string key="className">DTRoomEditor</string>
 					<string key="superclassName">NSWindowController</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="moveLayerDown:">id</string>
+						<string key="removeSelectedLayer:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="moveLayerDown:">
+							<string key="name">moveLayerDown:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="removeSelectedLayer:">
+							<string key="name">removeSelectedLayer:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="colDepth">NSTableColumn</string>
 						<string key="colFg">NSTableColumn</string>
@@ -2382,6 +2404,7 @@
 						<string key="colRepY">NSTableColumn</string>
 						<string key="colTileset">NSTableColumn</string>
 						<string key="heightCell">NSFormCell</string>
+						<string key="layersController">NSArrayController</string>
 						<string key="layersTable">NSTableView</string>
 						<string key="widthCell">NSFormCell</string>
 					</dictionary>
@@ -2413,6 +2436,10 @@
 						<object class="IBToOneOutletInfo" key="heightCell">
 							<string key="name">heightCell</string>
 							<string key="candidateClassName">NSFormCell</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="layersController">
+							<string key="name">layersController</string>
+							<string key="candidateClassName">NSArrayController</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="layersTable">
 							<string key="name">layersTable</string>

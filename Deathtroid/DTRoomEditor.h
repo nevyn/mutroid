@@ -4,4 +4,5 @@
 @interface DTRoomEditor : NSWindowController
 - (id)initEditingRoom:(DTRoom*)room;
 @property DTRoom *room;
+@property NSUndoManager *undo;
 @end
