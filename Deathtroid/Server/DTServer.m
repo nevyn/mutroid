@@ -372,6 +372,10 @@ static const int kMaxServerFramerate = 10;
                 pos2 = [(id)e spawnLocation];
                 break;
             }
+        // Very well, just somewhere then.
+        if(!pos2)
+            pos2 = [Vector2 vectorWithX:5 y:5];
+        
         player.entity.position = pos2.mutableCopy;
         
         [oldRoom destroyEntityKeyed:playerE.uuid];

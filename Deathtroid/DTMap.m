@@ -26,13 +26,10 @@
     
     NSAssert(width > 0 && height > 0, @"Width and height must be >0");
     
+    [self setWidth:width height:height];
+    
     NSArray *tileRep = hasAttr ? [mapRep objectAtIndex:0] : mapRep;
     NSArray *attrRep;
-    free(tiles);
-    free(attr);
-    tiles = malloc(sizeof(int)*width*height);
-    attr = malloc(sizeof(int)*width*height);
-    memset(attr, 0, sizeof(int)*width*height);
 
     if(hasAttr) {
         attrRep = [mapRep objectAtIndex:1];
@@ -45,6 +42,18 @@
         if(hasAttr)
             attr[i] = [[attrRep objectAtIndex:i] intValue];
     }
+}
+
+- (void)setWidth:(int)width_ height:(int)height_;
+{
+    self.width = width_;
+    self.height = height_;
+    free(tiles);
+    free(attr);
+    tiles = malloc(sizeof(int)*width*height);
+    attr = malloc(sizeof(int)*width*height);
+    memset(tiles, 0, sizeof(int)*width*height);
+    memset(attr, 0, sizeof(int)*width*height);
 }
 
 -(id)rep

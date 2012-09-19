@@ -156,7 +156,7 @@
     if(!info.entity && (info.x || info.y)) {
         [entity didCollideWithWorld:info];
     } else if(info.entity) {
-        NSLog(@"Kollision mellan %@ och %@", entity, info.entity);
+        //NSLog(@"Kollision mellan %@ och %@", entity, info.entity);
         for(DTCollisionPair *pair in pairs) {
             [pair runWithEntityA:entity b:info.entity];
         }

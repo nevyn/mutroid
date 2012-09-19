@@ -21,6 +21,8 @@
 #import "SPDepends.h"
 #import "DTEntityEditor.h"
 #import "DTResourceManager.h"
+#import "DTRoom.h"
+#import "DTLayer.h"
 
 #define GAME_WIDTH 256
 #define GAME_HEIGHT 224
@@ -365,6 +367,39 @@
         NSString *roomName = [[[[open URLs] lastObject] lastPathComponent] dt_resourceName];
         
         [_core.server teleportPlayer:nil toPosition:nil inRoomNamed:roomName];
+    }];
+}
+
+- (void)newDocument:(id)sender
+{
+    _core.drawing = NO;
+    NSSavePanel *save = [NSSavePanel savePanel];
+    save.allowedFileTypes = @[@"resource"];
+    save.title = @"New level name";
+    save.nameFieldStringValue = @"newLevel.room.resource";
+    save.directoryURL = [[DTResourceManager sharedManager] baseURL];
+    [save beginSheetModalForWindow:self.window completionHandler:^(NSInteger result) {
+        _core.drawing = YES;
+        if(result == NSFileHandlingPanelCancelButton)
+            return;
+        
+        NSURL *roomURL = save.URL;
+        
+        NSError *err;
+        if(![@"{}" writeToURL:roomURL atomically:NO encoding:NSUTF8StringEncoding error:&err]) {
+            [NSApp presentError:err];
+            return;
+        }
+        DTRoom *fakeNewRoom = [[DTRoom alloc] initWithResourceId:roomURL.dt_resourceId];
+        [fakeNewRoom.collisionLayer setWidth:16 height:12];
+        [fakeNewRoom.collisionLayer setTile:1 atX:5 y:11];
+        DTLayer *initialLayer = [DTLayer new];
+        [initialLayer.map setTile:3 atX:5 y:11];
+        [fakeNewRoom.layers addObject:initialLayer];
+        
+        [[DTResourceManager sharedManager] saveResource:fakeNewRoom];
+        [_core.server teleportPlayer:nil toPosition:nil inRoomNamed:roomURL.dt_resourceName];
+        
     }];
 }
 

@@ -38,6 +38,9 @@
 	autoScrollSpeed = CGPointMake(0.f, 0.f);
 		
 	map = [[DTMap alloc] init];
+    [map setWidth:16 height:12];
+    tilesetName = @"brinstarbase";
+    depth = 1;
     
     return self;
 }

@@ -16,6 +16,8 @@
 @interface DTMap : NSObject
 @property (nonatomic,assign) int *tiles, *attr;
 @property (nonatomic,assign) int width, height;
+- (void)setWidth:(int)width height:(int)height; // reallocs tiles + attrs
+
 @property (nonatomic,weak) id<DTMapDelegate> delegate;
 
 - (const int*)tileAtX:(int)x y:(int)y;
