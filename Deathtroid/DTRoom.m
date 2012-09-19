@@ -97,7 +97,6 @@
 +(void)load{
 	[DTResourceManager registerResourceLoader:self withTypeName:@"room"];
 }
-
 - (id<DTResource>)createResourceWithManager:(DTResourceManager *)manager
 {	
 	return [[DTRoom alloc] initWithResourceId:self.path.dt_resourceId];

@@ -335,16 +335,24 @@
 
 - (IBAction)chooseEditor:(id)sender
 {
-    if([sender tag] == EditorTypeNone)
+    NSLog(@"%ld", [sender tag]);
+
+    if([sender tag] == EditorTypeNone) {
         [self setCurrentEditor:nil];
+        [[self window] setTitle: @"Deathroid"];
+    }
     else if([sender tag] == EditorTypeTilemap) {
         [self setCurrentEditor:_core.tilemapEditor];
+        [[self window] setTitle: @"Deathroid – Tilemap"];
         if(!_roomProps) {
             [self showRoomProps];
             [self.window makeKeyAndOrderFront:nil];
         }
-    } else if([sender tag] == EditorTypeEntities)
+    }
+    else if([sender tag] == EditorTypeEntities) {
         [self setCurrentEditor:_core.entitiesEditor];
+        [[self window] setTitle: @"Deathroid – Entities"];
+    }
 }
 
 - (void)showEntityProps
