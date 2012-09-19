@@ -1591,7 +1591,17 @@
   ],
   "entities" : [
     {
+      "rotation" : 0,
+      "class" : "DTEntitySpawnLocation",
+      "position" : {
+        "x" : 5.9375,
+        "y" : 9
+      },
+      "uuid" : "E8C70530-D208-4175-A0F6-45BFBD960099"
+    },
+    {
       "destinationRoom" : "norfair",
+      "lookDirection" : 1,
       "position" : {
         "x" : 16,
         "y" : 7
@@ -1602,8 +1612,7 @@
         "y" : 8
       },
       "class" : "DTEntityDoor",
-      "uuid" : "B1071F23-4BD2-4426-9F30-1E6387AF98A4",
-      "boo" : 0
+      "uuid" : "B1071F23-4BD2-4426-9F30-1E6387AF98A4"
     }
   ]
 }

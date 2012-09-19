@@ -105,7 +105,8 @@
     
     // Should maybe be moved to client
     // Updated separately because engine systems may run with different framerates
-    [_view setNeedsDisplay:YES];
+    if(core.drawing)
+        [_view setNeedsDisplay:YES];
 }
 
 - (IBAction)toggleDebug:(id)sender

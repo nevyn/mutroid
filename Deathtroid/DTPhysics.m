@@ -66,7 +66,7 @@
     
     [pairs addObject:[[DTCollisionPair alloc] initWithClassA:[DTEntityPlayer class] b:[DTEntityDoor class] action:^(DTEntity *a, DTEntity *b) {
         if(b.world.server)
-            [b.world.server teleportPlayerForEntity:a toPosition:((DTEntityDoor*)b).destinationPosition inRoomNamed:((DTEntityDoor*)b).destinationRoom];
+            [b.world.server teleportPlayer:[b.world.server playerForEntity:a] toPosition:((DTEntityDoor*)b).destinationPosition inRoomNamed:((DTEntityDoor*)b).destinationRoom];
     }]];
         
     return self;

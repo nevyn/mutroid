@@ -4,6 +4,7 @@
 @class DTWorld, DTRoom, DTEntity, DTMap;
 @class DTTraceResult;
 @class Vector2;
+@class DTPlayer;
 
 @interface DTServer : NSObject 
 
@@ -16,8 +17,10 @@
 
 -(void)entityDamaged:(DTEntity*)entity damage:(int)damage location:(Vector2*)where killer:(DTEntity*)killer;
 
--(void)teleportPlayerForEntity:(DTEntity*)playerE toPosition:(Vector2*)pos inRoomNamed:(NSString*)roomName;
-
+/// @param player: nil to send hoster's player
+/// @param pos: nil to find a spawn location
+-(void)teleportPlayer:(DTPlayer*)player toPosition:(Vector2*)pos inRoomNamed:(NSString*)roomName;
+-(DTPlayer*)playerForEntity:(DTEntity*)playerE;
 
 @property (nonatomic,strong) DTPhysics *physics;
 

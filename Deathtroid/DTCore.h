@@ -17,10 +17,12 @@
 @property (nonatomic,strong) DTInput *input;
 @property (nonatomic,strong) DTEditorTilemap *tilemapEditor;
 @property (nonatomic,strong) DTEditorEntities *entitiesEditor;
+@property BOOL drawing;
 
 -(void)draw;
 -(void)tick:(double)delta;
 -(DTClient*)client;
+-(DTServer*)server;
 
 // To know if server and client are running in the same process
 + (NSString*)appInstanceIdentifier;

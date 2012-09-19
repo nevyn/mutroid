@@ -16,9 +16,11 @@
 #import "DTEditorEntities.h"
 #import "DTMap.h"
 #import "DTClient.h"
+#import "DTServer.h"
 #import <Carbon/Carbon.h>
 #import "SPDepends.h"
 #import "DTEntityEditor.h"
+#import "DTResourceManager.h"
 
 #define GAME_WIDTH 256
 #define GAME_HEIGHT 224
@@ -345,6 +347,25 @@
 - (void)editorClosed:(DTEntityEditor*)editor;
 {
     [_entityProps removeObjectForKey:editor.entity.uuid];
+}
+
+- (void)openDocument:(id)sender
+{
+    _core.drawing = NO;
+    NSOpenPanel *open = [NSOpenPanel openPanel];
+    open.allowedFileTypes = @[@"resource"];
+    open.canChooseFiles = YES;
+    open.title = @"Select level";
+    open.directoryURL = [[DTResourceManager sharedManager] baseURL];
+    [open beginSheetModalForWindow:self.window completionHandler:^(NSInteger result) {
+        _core.drawing = YES;
+        if(result == NSFileHandlingPanelCancelButton)
+            return;
+        
+        NSString *roomName = [[[[open URLs] lastObject] lastPathComponent] dt_resourceName];
+        
+        [_core.server teleportPlayer:nil toPosition:nil inRoomNamed:roomName];
+    }];
 }
 
 @end

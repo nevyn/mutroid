@@ -12,4 +12,6 @@
 @property(nonatomic,copy) NSString *destinationRoom;
 @property(nonatomic,strong) Vector2 *destinationPosition;
 -(void)didCollideWithEntity:(DTEntity*)other;
+
+- (Vector2*)spawnLocation;
 @end

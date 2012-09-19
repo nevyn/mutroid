@@ -68,6 +68,8 @@
     */
     
     [server loadLevel:@"brinstar-save"];
+    
+    _drawing = YES;
 	    
     return self;
 }
@@ -87,6 +89,10 @@
 -(DTClient*)client;
 {
     return client;
+}
+-(DTServer*)server;
+{
+    return server;
 }
 
 + (NSString*)appInstanceIdentifier

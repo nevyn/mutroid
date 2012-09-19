@@ -49,4 +49,10 @@
 -(void)didCollideWithEntity:(DTEntity *)other;
 {
 }
+- (Vector2*)spawnLocation;
+{
+    MutableVector2 *v = [self.position mutableCopy];
+    [v addVector:[EntityDirectionToUnitVector(self.lookDirection) vectorByMultiplyingWithScalar:1]];
+    return v;
+}
 @end

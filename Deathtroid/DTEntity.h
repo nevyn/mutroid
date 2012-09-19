@@ -30,6 +30,7 @@ typedef enum {
     EntityDirectionDown,
     EntityDirectionLeftDown
 } EntityDirection;
+extern Vector2 *EntityDirectionToUnitVector(EntityDirection direction);
 
 typedef enum {
     EntityCollisionTypeNone,

@@ -21,6 +21,7 @@
 #import "DTServerRoom.h"
 #import "DTCore.h"
 #import "DTEntityTemplate.h"
+#import "DTEntitySpawnLocation.h"
 
 #if DUMB_CLIENT
 static const int kMaxServerFramerate = 60;
@@ -81,7 +82,7 @@ static const int kMaxServerFramerate = 10;
     
     player.entity = [room createEntity:[DTEntityPlayer class] setup:nil];
     
-    [self teleportPlayerForEntity:player.entity toPosition:player.entity.position inRoomNamed:room.room.name];
+    [self teleportPlayer:player toPosition:nil inRoomNamed:room.room.name];
 }
 
 -(void)loadLevel:(NSString*)roomName then:(void(^)(DTServerRoom*))then;
@@ -114,6 +115,14 @@ static const int kMaxServerFramerate = 10;
 -(void)loadLevel:(NSString *)roomName;
 {
     [self loadLevel:roomName then:nil];
+}
+
+- (DTPlayer*)localPlayer
+{
+    for(DTPlayer *pl in players)
+        if([pl.appId isEqual:[DTCore appInstanceIdentifier]])
+            return pl;
+    return nil;
 }
 
 #pragma mark Network
@@ -337,16 +346,33 @@ static const int kMaxServerFramerate = 10;
 	[killed.world.sroom destroyEntityKeyed:killed.uuid];
 }
 
--(void)teleportPlayerForEntity:(DTEntity*)playerE
+-(void)teleportPlayer:(DTPlayer*)player
                     toPosition:(Vector2*)pos
                    inRoomNamed:(NSString*)roomName;
 {
-    DTPlayer *player = $notNull([self playerForEntity:playerE]);
+    __block Vector2 *pos2 = pos;
+    
+    if(!player)
+        player = [self localPlayer];
+    
+    DTEntity *playerE = player.entity;
     
     DTServerRoom *oldRoom = playerE.world.sroom;
     
     [self loadLevel:roomName then:^(DTServerRoom *newRoom) {
-        player.entity.position = [MutableVector2 vectorWithVector2:pos];
+        // Find a spawn point
+        if(!pos2) for(DTEntity *e in newRoom.entities.allValues)
+            if([e isKindOfClass:[DTEntitySpawnLocation class]]) {
+                pos2 = [(id)e spawnLocation];
+                break;
+            }
+        // Or at least a door
+        if(!pos2) for(DTEntity *e in newRoom.entities.allValues)
+            if([e respondsToSelector:@selector(spawnLocation)]) {
+                pos2 = [(id)e spawnLocation];
+                break;
+            }
+        player.entity.position = pos2.mutableCopy;
         
         [oldRoom destroyEntityKeyed:playerE.uuid];
         player.room = nil;

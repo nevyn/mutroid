@@ -218,3 +218,18 @@
     return self;
 }
 @end
+
+Vector2 *EntityDirectionToUnitVector(EntityDirection direction)
+{
+    switch (direction) {
+        case EntityDirectionNone: return [Vector2 vectorWithX:0 y:0];
+        case EntityDirectionLeft: return [Vector2 vectorWithX:-1 y:0];
+        case EntityDirectionLeftUp: return [[Vector2 vectorWithX:-1 y:-1] normalizedVector];
+        case EntityDirectionUp: return [Vector2 vectorWithX:0 y:-1];
+        case EntityDirectionRightUp: return [[Vector2 vectorWithX:1 y:-1] normalizedVector];
+        case EntityDirectionRight: return [Vector2 vectorWithX:1 y:0];
+        case EntityDirectionRightDown: return [[Vector2 vectorWithX:1 y:1] normalizedVector];
+        case EntityDirectionDown: return [Vector2 vectorWithX:0 y:1];
+        case EntityDirectionLeftDown: return [[Vector2 vectorWithX:-1 y:1] normalizedVector];
+    }
+}
