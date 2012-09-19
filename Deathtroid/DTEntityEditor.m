@@ -72,12 +72,22 @@
 - (DTEntityFieldDescriptor*)descriptorForRow:(NSInteger)row
 {
     return [_entity.klass descriptorForKey:_keys[row]] ?:
-        [[DTEntityFieldDescriptor alloc] initKeyed:_keys[row] type:EntityFieldClass];
+        [[DTEntityFieldDescriptor alloc] initKeyed:_keys[row] type:EntityFieldString];
 }
 
 - (NSCell *)tableView:(NSTableView *)tableView dataCellForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-    if(tableColumn == _valueColumn) {
+    if(tableColumn == _keyColumn) {
+        NSComboBoxCell *cell = [[NSComboBoxCell alloc] initTextCell:@""];
+        [cell setButtonBordered:NO];
+        cell.bordered = NO;
+        cell.editable = YES;
+        for(DTEntityFieldDescriptor *desc in [_entity.klass fieldDescriptors])
+            if(![_keys containsObject:desc.key])
+                [cell addItemWithObjectValue:desc.key];
+        
+        return cell;
+    } else if(tableColumn == _valueColumn) {
         switch ([self descriptorForRow:row].type) {
             case EntityFieldClass: {
                 NSComboBoxCell *cell = [[NSComboBoxCell alloc] initTextCell:@""];
@@ -153,10 +163,19 @@
 
 - (IBAction)add:(id)sender
 {
-    NSString *suggestedName; int i = 0;
-    do {
-        suggestedName = $sprintf(@"undefined_%d", i++);
-    } while([[_entity additionalAttributes] objectForKey:suggestedName] != nil);
+    NSString *suggestedName = nil;
+    for(DTEntityFieldDescriptor *desc in [_entity.klass fieldDescriptors])
+        if(![_keys containsObject:desc.key]) {
+            suggestedName = desc.key;
+            break;
+        }
+    
+    if(!suggestedName) {
+        int i = 0;
+        do {
+            suggestedName = $sprintf(@"undefined_%d", i++);
+        } while([[_entity additionalAttributes] objectForKey:suggestedName] != nil);
+    }
     [self addNewKey:suggestedName];
 }
 - (IBAction)remove:(id)sender
