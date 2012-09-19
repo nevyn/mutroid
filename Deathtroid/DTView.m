@@ -87,8 +87,11 @@
             item.state = NSOffState;
         int newIndex = weakSelf.core.tilemapEditor.currentLayerIndex;
         [menu itemWithTag:newIndex].state = NSOnState;
-        if(!dontupdate)
+        if(!dontupdate && newIndex != -1)
             weakSelf.roomProps.layersController.selectionIndex = newIndex;
+        else if(newIndex == -1) {
+            [weakSelf.roomProps.layersController setSelectionIndexes:[NSIndexSet new]];
+        }
     });
     SPAddDependency(self, @"selected layer", @[self, @"roomProps.layersController.selectionIndex"], ^{
         dontupdate = YES;
