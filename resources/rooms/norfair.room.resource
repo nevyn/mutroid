@@ -63,6 +63,7 @@
 			"width": 64,
 			"height": 12,
 			"depth": 1,
+            "foreground": true,
             "repeatX": false,
             "repeatY": false,
 			"map": [[
@@ -138,7 +139,7 @@
         },
         "rotation" : 0,
         "destinationPosition" : {
-          "x" : 14,
+          "x" : 15,
           "y" : 8
         },
         "class" : "DTEntityDoor",

@@ -38,6 +38,7 @@
 
 @property (nonatomic,strong) DTMap *map;
 
+@property BOOL foreground;
 @property (nonatomic) float depth;
 @property (nonatomic) CGPoint autoScrollSpeed;
 

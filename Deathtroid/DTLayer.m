@@ -52,6 +52,8 @@
 
     repeatX = [[rep objectForKey:@"repeatX"] boolValue];
     repeatY = [[rep objectForKey:@"repeatY"] boolValue];
+    
+    _foreground = [rep[@"foreground"] boolValue];
 
     NSDictionary *cc = [rep objectForKey:@"colorCycle"];
     if(cc) {
@@ -82,6 +84,7 @@
 {
     NSMutableDictionary *mapRep = [self.map.rep mutableCopy];
     mapRep[@"tileset"] = tilesetName;
+    mapRep[@"foreground"] = @(_foreground);
     mapRep[@"depth"] = @(depth);
     mapRep[@"repeatX"] = @(repeatX);
     mapRep[@"repeatY"] = @(repeatY);

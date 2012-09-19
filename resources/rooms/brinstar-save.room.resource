@@ -395,8 +395,8 @@
   },
   "layers" : [
     {
-      "height" : 12,
       "depth" : 1,
+      "height" : 12,
       "map" : [
         [
           75,
@@ -790,11 +790,12 @@
       "tileset" : "saveroom",
       "width" : 16,
       "repeatY" : false,
-      "repeatX" : false
+      "repeatX" : false,
+      "foreground" : false
     },
     {
-      "height" : 12,
       "depth" : 1,
+      "height" : 12,
       "map" : [
         [
           19,
@@ -1188,11 +1189,12 @@
       "tileset" : "saveroom",
       "width" : 16,
       "repeatY" : false,
-      "repeatX" : false
+      "repeatX" : false,
+      "foreground" : true
     },
     {
-      "height" : 12,
       "depth" : 1,
+      "height" : 12,
       "map" : [
         [
           0,
@@ -1586,7 +1588,8 @@
       "tileset" : "doorsAndProps",
       "width" : 16,
       "repeatY" : false,
-      "repeatX" : false
+      "repeatX" : false,
+      "foreground" : true
     }
   ],
   "entities" : [
@@ -1608,7 +1611,7 @@
       },
       "rotation" : 0,
       "destinationPosition" : {
-        "x" : 2,
+        "x" : 1,
         "y" : 8
       },
       "class" : "DTEntityDoor",

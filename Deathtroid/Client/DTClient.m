@@ -146,19 +146,28 @@ static const int kScreenWidthInTiles = 16;
     
     glTranslatef(0, 2, 0);
 
-	
+	// Background layers
     int i = 0;
-	for(DTLayer *layer in _currentRoom.room.layers)
+	for(DTLayer *layer in _currentRoom.room.layers) {
+        if(layer.foreground)
+            break;
         if([self layerVisible:i++])
             [tilemapRenderer drawLayer:layer camera:camera fromWorldRoom:_currentRoom];
-
+    }
+    
+    // Entities
     glPushMatrix();
-
     glTranslatef(-camera.position.x, -camera.position.y, 0);
     for(DTEntity *entity in _currentRoom.entities.allValues)
         [entityRenderer drawEntity:entity camera:camera frameCount:frameCount];
-
     glPopMatrix();
+    
+    // Foreground layers
+	for(DTLayer *layer in [_currentRoom.room.layers subarrayWithRange:NSMakeRange(i, _currentRoom.room.layers.count-i)]) {
+        if([self layerVisible:i++])
+            [tilemapRenderer drawLayer:layer camera:camera fromWorldRoom:_currentRoom];
+    }
+    
     
     if([[NSUserDefaults standardUserDefaults] boolForKey:@"debug"])
         [tilemapRenderer drawCollision:_currentRoom.room.collisionLayer camera:camera];
