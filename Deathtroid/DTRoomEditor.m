@@ -13,7 +13,6 @@
 @property (weak) IBOutlet NSTableColumn *colRepY;
 @property (weak) IBOutlet NSTableColumn *colDepth;
 @property (weak) IBOutlet NSTableColumn *colTileset;
-@property (strong) IBOutlet NSArrayController *layersController;
 @end
 
 @implementation DTRoomEditor

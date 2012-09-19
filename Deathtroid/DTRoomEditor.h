@@ -5,4 +5,5 @@
 - (id)initEditingRoom:(DTRoom*)room;
 @property DTRoom *room;
 @property NSUndoManager *undo;
+@property (strong) IBOutlet NSArrayController *layersController;
 @end

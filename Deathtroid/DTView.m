@@ -29,6 +29,10 @@
 #define GAME_WIDTH 256
 #define GAME_HEIGHT 224
 
+@interface DTView ()
+@property DTRoomEditor *roomProps;
+@end
+
 @implementation DTView
 {
     GLuint FramebufferName;
@@ -36,7 +40,6 @@
     DTEditor *_currentEditor;
     NSUndoManager *_undo;
     NSMutableDictionary *_entityProps;
-    DTRoomEditor *_roomProps;
     
     NSResponder *_myNextResponder;
 }
@@ -77,11 +80,20 @@
     [_core.input.mapper mapKey:kVK_ANSI_O toAction:@"editor.rotate"];
     
     __weak __typeof(self) weakSelf = self;
+    __block bool dontupdate;
     SPAddDependency(self, @"current layer", @[_core, @"tilemapEditor.currentLayerIndex"], ^{
         NSMenu *menu = weakSelf.currentLayerMenu.submenu;
         for(NSMenuItem *item in menu.itemArray)
             item.state = NSOffState;
-        [menu itemWithTag:weakSelf.core.tilemapEditor.currentLayerIndex].state = NSOnState;
+        int newIndex = weakSelf.core.tilemapEditor.currentLayerIndex;
+        [menu itemWithTag:newIndex].state = NSOnState;
+        if(!dontupdate)
+            weakSelf.roomProps.layersController.selectionIndex = newIndex;
+    });
+    SPAddDependency(self, @"selected layer", @[self, @"roomProps.layersController.selectionIndex"], ^{
+        dontupdate = YES;
+        weakSelf.core.tilemapEditor.currentLayerIndex = weakSelf.roomProps.layersController.selectionIndex;
+        dontupdate = NO;
     });
         
     _core.tilemapEditor.undo = _core.entitiesEditor.undo = _undo = [NSUndoManager new];
@@ -352,7 +364,7 @@
 }
 - (void)showRoomProps
 {
-    _roomProps = [[DTRoomEditor alloc] initEditingRoom:_core.client.currentRoom.room];
+    self.roomProps = [[DTRoomEditor alloc] initEditingRoom:_core.client.currentRoom.room];
     _roomProps.undo = _undo;
     [_roomProps showWindow:nil];
 }
