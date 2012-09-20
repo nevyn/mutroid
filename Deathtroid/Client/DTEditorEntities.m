@@ -9,6 +9,7 @@
 #import "DTResourceManager.h"
 #import "DTProgram.h"
 #import "SPDepends.h"
+#import "DTCamera.h"
 
 @implementation DTEditorEntities {
     DTEntityTemplate *_selection, *_dragging;
@@ -42,7 +43,8 @@
 {
     glPushMatrix();
     
-    glLoadIdentity();
+    glTranslatef(-self.client.camera.position.x, -self.client.camera.position.y, 0);
+
     glTranslatef(0, 2, 0);
     glTranslatef(template.position.x, template.position.y, 0);
     

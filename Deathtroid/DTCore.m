@@ -67,7 +67,7 @@
     server.levelRepo = client.levelRepo = online;
     */
     
-    [server loadLevel:@"brinstar-save"];
+    [server loadLevel:@"norfair"];
     
     _drawing = YES;
 	    

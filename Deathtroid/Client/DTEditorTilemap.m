@@ -6,6 +6,7 @@
 #import "DTWorldRoom.h"
 #import "DTTexture.h"
 #import "DTProgram.h"
+#import "DTCamera.h"
 
 
 @implementation DTEditorTilemap {
@@ -113,8 +114,8 @@
     float h = texture.pixelSize.height/16.;
         
     glPushMatrix();
+    glTranslatef(-self.client.camera.position.x, -self.client.camera.position.y, 0);
     
-    glLoadIdentity();
     glTranslatef(_drawEditorAt.x, _drawEditorAt.y+2, 0);
 
     [program unuse];
