@@ -35,6 +35,7 @@
 		05AD7F8515FCACCE00E97694 /* DTEntityExplosion.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD7F8415FCACCE00E97694 /* DTEntityExplosion.m */; };
 		05AD7F8815FCDEA600E97694 /* DTEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD7F8715FCDEA600E97694 /* DTEditor.m */; };
 		05ADA1EA15FBFF9C00D4B784 /* DTWorldRoom.m in Sources */ = {isa = PBXBuildFile; fileRef = 05ADA1E915FBFF9C00D4B784 /* DTWorldRoom.m */; };
+		05B7AD25160F5314008BCD48 /* deathtroid.icns in Resources */ = {isa = PBXBuildFile; fileRef = 05B7AD24160F5314008BCD48 /* deathtroid.icns */; };
 		05C35705143F9F53001FE29E /* TCAsyncHashProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 05C35704143F9F53001FE29E /* TCAsyncHashProtocol.m */; };
 		05CC7B77143FC4BB00052D06 /* SPDepends.m in Sources */ = {isa = PBXBuildFile; fileRef = 05CC7B6F143FC4BB00052D06 /* SPDepends.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		05CC7B78143FC4BB00052D06 /* SPKVONotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 05CC7B71143FC4BB00052D06 /* SPKVONotificationCenter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -178,6 +179,7 @@
 		05ADA1E915FBFF9C00D4B784 /* DTWorldRoom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTWorldRoom.m; sourceTree = "<group>"; };
 		05B60AD21440E56F00CFFCE9 /* DTLevelRepository.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTLevelRepository.h; sourceTree = "<group>"; };
 		05B60AD31440E56F00CFFCE9 /* DTLevelRepository.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTLevelRepository.m; sourceTree = "<group>"; };
+		05B7AD24160F5314008BCD48 /* deathtroid.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = deathtroid.icns; sourceTree = "<group>"; };
 		05C35703143F9F53001FE29E /* TCAsyncHashProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCAsyncHashProtocol.h; sourceTree = "<group>"; };
 		05C35704143F9F53001FE29E /* TCAsyncHashProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCAsyncHashProtocol.m; sourceTree = "<group>"; };
 		05CC7B6E143FC4BB00052D06 /* SPDepends.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPDepends.h; sourceTree = "<group>"; };
@@ -388,6 +390,7 @@
 				05475A0C160A1F920000BD66 /* DTRoomEditor.h */,
 				05475A0D160A1F920000BD66 /* DTRoomEditor.m */,
 				05475A0A160A11770000BD66 /* DTRoomEditor.xib */,
+				05B7AD24160F5314008BCD48 /* deathtroid.icns */,
 			);
 			name = "Mac shit";
 			sourceTree = "<group>";
@@ -745,6 +748,7 @@
 				994E5610144146A8009EC13C /* resources in Resources */,
 				0554016116023B54009B2E35 /* DTEntityEditor.xib in Resources */,
 				05475A0B160A11780000BD66 /* DTRoomEditor.xib in Resources */,
+				05B7AD25160F5314008BCD48 /* deathtroid.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
