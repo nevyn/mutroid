@@ -422,7 +422,7 @@
         
         NSString *roomName = [[[[open URLs] lastObject] lastPathComponent] dt_resourceName];
         
-        [_core.server teleportPlayer:nil toPosition:nil inRoomNamed:roomName];
+        [_core.server teleportPlayer:nil toPosition:nil inRoomNamed:roomName transitionDirection:0];
     }];
 }
 
@@ -454,7 +454,7 @@
         [fakeNewRoom.layers addObject:initialLayer];
         
         [[DTResourceManager sharedManager] saveResource:fakeNewRoom];
-        [_core.server teleportPlayer:nil toPosition:nil inRoomNamed:roomURL.dt_resourceName];
+        [_core.server teleportPlayer:nil toPosition:nil inRoomNamed:roomURL.dt_resourceName transitionDirection:0];
         
     }];
 }

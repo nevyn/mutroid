@@ -82,7 +82,7 @@ static const int kMaxServerFramerate = 10;
     
     player.entity = [room createEntity:[DTEntityPlayer class] setup:nil];
     
-    [self teleportPlayer:player toPosition:nil inRoomNamed:room.room.name];
+    [self teleportPlayer:player toPosition:nil inRoomNamed:room.room.name transitionDirection:0];
 }
 
 -(void)loadLevel:(NSString*)roomName then:(void(^)(DTServerRoom*))then;
@@ -136,8 +136,10 @@ static const int kMaxServerFramerate = 10;
 	player.proto = clientProto;
 	[players addObject:player];
     
-    DTRoom *room = [[_rooms allValues] objectAtIndex:random()%_rooms.allValues.count];
-	[self spawnPlayer:player inRoom:$cast(DTServerRoom, room)];
+    [self loadLevel:@"brinstar-save" then:^(DTServerRoom *room) {
+        [self spawnPlayer:player inRoom:room];
+    }];
+	
 }
 -(void)onSocketDidDisconnect:(AsyncSocket *)sock;
 {
@@ -347,8 +349,9 @@ static const int kMaxServerFramerate = 10;
 }
 
 -(void)teleportPlayer:(DTPlayer*)player
-                    toPosition:(Vector2*)pos
-                   inRoomNamed:(NSString*)roomName;
+           toPosition:(Vector2*)pos
+          inRoomNamed:(NSString*)roomName
+  transitionDirection:(EntityDirection)direction
 {
     __block Vector2 *pos2 = pos;
     
@@ -381,11 +384,13 @@ static const int kMaxServerFramerate = 10;
         [oldRoom destroyEntityKeyed:playerE.uuid];
         player.room = nil;
         
-        [player.proto requestHash:$dict(
-            @"question", @"joinRoom",
-            @"name", newRoom.room.name,
-            @"uuid", newRoom.room.uuid
-        ) response:^(NSDictionary *response) {
+        [player.proto requestHash:@{
+            @"question": @"joinRoom",
+            @"name": newRoom.room.name,
+            @"uuid": newRoom.room.uuid,
+            @"transitionDirection": @(direction),
+            @"destinationPosition": [pos2 rep]
+        } response:^(NSDictionary *response) {
             // client's room is now loaded, and its state is all set up.
             player.room = newRoom;
             [newRoom addEntityToRoom:playerE];

@@ -8,10 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-@class MutableVector2;
+@class Vector2, MutableVector2, DTRoom;
 
-@interface DTCamera : NSObject
+@interface DTCamera : NSObject <NSCopying>
 
 @property (nonatomic,strong) MutableVector2 *position;
 
+- (void)setPositionFromEntity:(Vector2*)entityPosition;
+- (void)clampToRoom:(DTRoom*)room;
 @end

@@ -158,7 +158,12 @@ static NSMutableDictionary *resourceLoaders = nil;
 -(void)resourceNamed:(NSString *)name loaded:(void(^)(id<DTResource>))whenLoaded;
 {
 	// todo: implement the loader chain in levelrepository
-	whenLoaded([self resourceNamed:name]);
+    // XXX: Artificial delay
+    int64_t delayInSeconds = 0.5;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        whenLoaded([self resourceNamed:name]);
+    });
 }
 
 - (void)reloadResourceNamed:(NSString *)name

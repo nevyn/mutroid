@@ -67,8 +67,6 @@
     server.levelRepo = client.levelRepo = online;
     */
     
-    [server loadLevel:@"norfair"];
-    
     _drawing = YES;
 	    
     return self;

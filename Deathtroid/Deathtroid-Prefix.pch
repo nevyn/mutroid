@@ -10,3 +10,10 @@
 #endif
 
 #define DT_RESOURCE_DIR "resources"
+
+#ifndef CLAMP
+#define CLAMP(v, mi, ma) MAX(MIN(v, ma), mi)
+#endif
+
+static const int kScreenWidthInTiles = 16;
+static const int kScreenHeightInTiles = 12;

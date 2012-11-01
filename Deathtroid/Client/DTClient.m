@@ -33,9 +33,8 @@
 #import "FISoundEngine.h"
 #import <OpenAL/al.h>
 #import <OpenAL/alc.h>
-#ifndef CLAMP
-#define CLAMP(v, mi, ma) MAX(MIN(v, ma), mi)
-#endif
+
+static const float kRoomTransitionTime = 1;
 
 @interface DTClient () <TCAsyncHashProtocolDelegate, DTRoomDelegate>
 @property (nonatomic, strong) DTResourceManager *resources;
@@ -50,6 +49,13 @@
 	DTRenderTilemap *tilemapRenderer;
     FISoundEngine *finch;
     NSMutableDictionary *_visibleLayers;
+    
+    // If set, we're currently transitioning to the new room
+    DTWorldRoom *_oldRoom;
+    DTCamera *_oldCamera;
+    float _oldRoomTransitionTimer;
+    EntityDirection _transitionDirection;
+    void(^_transitionDone)();
 }
 @synthesize physics;
 @synthesize rooms, playerEntity;
@@ -114,13 +120,14 @@
     return self;
 }
 
-static const int kScreenWidthInTiles = 16;
-
 -(void)tick:(double)delta;
 {
     // Ticka de som ska tickas?
     
-    camera.position.x = CLAMP(followThis.position.x - 8, 0, [_currentRoom.room.layers.lastObject map].width-kScreenWidthInTiles);
+    if(followThis)
+        [camera setPositionFromEntity:followThis.position];
+    [camera clampToRoom:_currentRoom.room];
+    
     finch.listenerPosition = [FIVector vectorWithX:camera.position.x+8 Y:camera.position.y+7 Z:1];
     
     [_currentRoom tick:delta];
@@ -145,6 +152,25 @@ static const int kScreenWidthInTiles = 16;
     glLoadIdentity();
     
     glTranslatef(0, 2, 0);
+    
+    if(_oldRoomTransitionTimer > 0) {
+        Vector2 *roomDisplacement = [EntityDirectionToUnitVector(_transitionDirection) vectorByMultiplyingWithScalar:kScreenWidthInTiles];
+        Vector2 *offset = [[roomDisplacement invertedVector] vectorByMultiplyingWithScalar:_oldRoomTransitionTimer/kRoomTransitionTime];
+        glTranslatef(offset.x, offset.y, 0);
+        
+        // Old room
+        glPushMatrix();
+        glTranslatef(roomDisplacement.x, roomDisplacement.y, 0);
+        for(DTLayer *layer in _oldRoom.room.layers) {
+            [tilemapRenderer drawLayer:layer camera:_oldCamera fromWorldRoom:_oldRoom];
+        }
+        glPopMatrix();
+        
+        // New room
+        for(DTLayer *layer in _currentRoom.room.layers) {
+            [tilemapRenderer drawLayer:layer camera:camera fromWorldRoom:_currentRoom];
+        }
+    }
 
 	// Background layers
     int i = 0;
@@ -168,7 +194,6 @@ static const int kScreenWidthInTiles = 16;
             [tilemapRenderer drawLayer:layer camera:camera fromWorldRoom:_currentRoom];
     }
     
-    
     if([[NSUserDefaults standardUserDefaults] boolForKey:@"debug"])
         [tilemapRenderer drawCollision:_currentRoom.room.collisionLayer camera:camera];
         
@@ -186,6 +211,17 @@ static const int kScreenWidthInTiles = 16;
     glEnd();
     
     [p use];
+    
+    if(_oldRoomTransitionTimer > 0) {
+        _oldRoomTransitionTimer -= 1/60.;
+        if(_oldRoomTransitionTimer <= 0) {
+            _oldRoom = nil;
+            _oldCamera = nil;
+            if(_transitionDone)
+                _transitionDone();
+            _transitionDone = nil;
+        }
+    }
 }
 
 - (BOOL)layerVisible:(int)index
@@ -309,8 +345,21 @@ static const int kScreenWidthInTiles = 16;
     NSString *name = $notNull([hash objectForKey:@"name"]);
     NSString *uuid = $notNull([hash objectForKey:@"uuid"]);
     
+    _oldRoom = self.currentRoom;
+    _transitionDirection = [[hash objectForKey:@"transitionDirection"] intValue];
+    if(_oldRoom && _transitionDirection != EntityDirectionNone) {
+        _oldRoomTransitionTimer = kRoomTransitionTime;
+        _oldCamera = [camera copy];
+    } else {
+        _oldRoomTransitionTimer = 0;
+    }
+    
+    Vector2 *destination = [[Vector2 alloc] initWithRep:hash[@"destinationPosition"]];
+    [camera setPositionFromEntity:destination];
+    
     self.currentRoom = nil;
     [entityRenderer emptyGfxState];
+    followThis = nil;
     
     __block DTWorldRoom *room = [rooms objectForKey:uuid];
     void(^then)() = ^ {
@@ -333,8 +382,14 @@ static const int kScreenWidthInTiles = 16;
             NSMutableSet *toDelete = [NSMutableSet setWithArray:[room.entities allKeys]];
             [toDelete minusSet:[NSSet setWithArray:reps.allKeys]];
             for(NSArray *key in toDelete) [room.entities removeObjectForKey:key];
-        
-            responder($dict(@"status", @"done"));        
+            
+            _transitionDone = ^{
+                responder($dict(@"status", @"done"));
+            };
+            if(_oldRoomTransitionTimer <= 0) {
+                _transitionDone();
+                _transitionDone = nil;
+            }
         }];
     };
     

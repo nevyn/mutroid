@@ -1,7 +1,8 @@
 #import <Foundation/Foundation.h>
+#import "DTEntity.h"
 
 @class DTPhysics;
-@class DTWorld, DTRoom, DTEntity, DTMap;
+@class DTWorld, DTRoom, DTMap;
 @class DTTraceResult;
 @class Vector2;
 @class DTPlayer;
@@ -19,7 +20,11 @@
 
 /// @param player: nil to send hoster's player
 /// @param pos: nil to find a spawn location
--(void)teleportPlayer:(DTPlayer*)player toPosition:(Vector2*)pos inRoomNamed:(NSString*)roomName;
+/// @param direction: If it's a door transition, the way the door is pointing
+-(void)teleportPlayer:(DTPlayer*)player
+           toPosition:(Vector2*)pos
+          inRoomNamed:(NSString*)roomName
+  transitionDirection:(EntityDirection)direction;
 -(DTPlayer*)playerForEntity:(DTEntity*)playerE;
 
 @property (nonatomic,strong) DTPhysics *physics;
