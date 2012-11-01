@@ -11,7 +11,15 @@
 #import "DTMap.h"
 
 @implementation DTColor
-@synthesize r,g,b,a;
++ (id)colorWithRed:(float)r green:(CGFloat)g blue:(CGFloat)b alpha:(CGFloat)a;
+{
+    DTColor *color = [DTColor new];
+    color.r = r;
+    color.g = g;
+    color.b = b;
+    color.a = a;
+    return color;
+}
 @end
 @interface DTLayerState ()
 @property float cycleCounter;

@@ -35,7 +35,7 @@
 #import <OpenAL/al.h>
 #import <OpenAL/alc.h>
 
-static const float kRoomTransitionTime = 1;
+static const float kRoomTransitionTime = 2;
 
 @interface DTClient () <TCAsyncHashProtocolDelegate, DTRoomDelegate>
 @property (nonatomic, strong) DTResourceManager *resources;
@@ -143,6 +143,23 @@ static const float kRoomTransitionTime = 1;
         [entityRenderer tick:delta forEntity:entity];
 }
 
+- (void)drawRect:(CGRect)rect color:(DTColor*)c;
+{
+    DTProgram *p = [resources resourceNamed:@"main.program"];
+    [p unuse];
+    
+    // Placeholder status bar
+    glBegin(GL_QUADS);
+    glColor4f(c.r, c.g, c.b, c.a);
+    glVertex2f(rect.origin.x, rect.origin.y);
+    glVertex2f(rect.origin.x + rect.size.width, rect.origin.y);
+    glVertex2f(rect.origin.x + rect.size.width, rect.origin.y + rect.size.height);
+    glVertex2f(rect.origin.x, rect.origin.y + rect.size.height);
+    glEnd();
+    
+    [p use];
+}
+
 -(void)draw;
 {
 	frameCount++;
@@ -156,19 +173,8 @@ static const float kRoomTransitionTime = 1;
     
     glLoadIdentity();
     
-    DTProgram *p = [resources resourceNamed:@"main.program"];
-    [p unuse];
-    
     // Placeholder status bar
-    glBegin(GL_QUADS);
-    glColor3f(0.3, 0.0, 0.0);
-    glVertex2f(0.0, 0.0);
-    glVertex2f(16., 0.);
-    glVertex2f(16., 2.);
-    glVertex2f(0., 2.);
-    glEnd();
-    
-    [p use];
+    [self drawRect:CGRectMake(0, 0, 16, 2) color:[DTColor colorWithRed:0.3 green:0 blue:0 alpha:1]];
 }
 
 - (void)drawCurrentRoom
@@ -327,34 +333,50 @@ static const float kRoomTransitionTime = 1;
     
     if(oldRoom && transitionDirection != EntityDirectionNone) {
         DTCamera *oldCamera = [camera copy];
-        __block NSTimeInterval timeRemaining = kRoomTransitionTime;
+        
         [_renderStates pushState:[[DTRenderStateAnimation alloc] initWithBlock:^(NSTimeInterval delta) {
-            if(delta == 0) {
-                animationDone = YES;
-                if(transitionDone)
-                    transitionDone();
-                return;
-            }
+            animationDone = YES;
+            if(transitionDone)
+                transitionDone();
+        } duration:0 timingFunction:nil]];
+        
+        // Fade in new room
+        [_renderStates pushState:[[DTRenderStateAnimation alloc] initWithBlock:^(NSTimeInterval progress) {
             
+            for(DTLayer *layer in _currentRoom.room.layers)
+                [tilemapRenderer drawLayer:layer camera:camera fromWorldRoom:_currentRoom];
+            [self drawRect:CGRectMake(0, 0, kScreenWidthInTiles, kScreenHeightInTiles) color:[DTColor colorWithRed:0 green:0 blue:0 alpha:1-progress]];
+            [tilemapRenderer drawLayer:[_currentRoom.room doorLayer] camera:camera fromWorldRoom:_currentRoom];
+            
+        } duration:kRoomTransitionTime/4 timingFunction:nil]];
+        
+        // Move from one room to the next
+        [_renderStates pushState:[[DTRenderStateAnimation alloc] initWithBlock:^(NSTimeInterval progress) {
             Vector2 *roomDisplacement = [EntityDirectionToUnitVector(transitionDirection) vectorByMultiplyingWithScalar:kScreenWidthInTiles];
-            Vector2 *offset = [[roomDisplacement invertedVector] vectorByMultiplyingWithScalar:timeRemaining/kRoomTransitionTime];
+            Vector2 *offset = [[roomDisplacement invertedVector] vectorByMultiplyingWithScalar:1.-progress];
             glTranslatef(offset.x, offset.y, 0);
             
             // Old room
             glPushMatrix();
             glTranslatef(roomDisplacement.x, roomDisplacement.y, 0);
-            for(DTLayer *layer in oldRoom.room.layers) {
-                [tilemapRenderer drawLayer:layer camera:oldCamera fromWorldRoom:oldRoom];
-            }
+            [tilemapRenderer drawLayer:[oldRoom.room doorLayer] camera:oldCamera fromWorldRoom:oldRoom];
             glPopMatrix();
                 
             // New room
-            for(DTLayer *layer in _currentRoom.room.layers) {
-                [tilemapRenderer drawLayer:layer camera:camera fromWorldRoom:_currentRoom];
-            }
+            [tilemapRenderer drawLayer:[_currentRoom.room doorLayer] camera:camera fromWorldRoom:_currentRoom];
             
-            timeRemaining -= delta;
-        } duration:kRoomTransitionTime timingFunction:nil]];
+        } duration:kRoomTransitionTime/2 timingFunction:nil]];
+        
+        // Fade out old room
+        [_renderStates pushState:[[DTRenderStateAnimation alloc] initWithBlock:^(NSTimeInterval progress) {
+            
+            for(DTLayer *layer in oldRoom.room.layers)
+                [tilemapRenderer drawLayer:layer camera:oldCamera fromWorldRoom:oldRoom];
+            [self drawRect:CGRectMake(0, 0, kScreenWidthInTiles, kScreenHeightInTiles) color:[DTColor colorWithRed:0 green:0 blue:0 alpha:progress]];
+            [tilemapRenderer drawLayer:[oldRoom.room doorLayer] camera:oldCamera fromWorldRoom:oldRoom];
+            
+        } duration:kRoomTransitionTime/4 timingFunction:nil]];
+        
     } else
         animationDone = YES;
     

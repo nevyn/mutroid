@@ -10,11 +10,13 @@
 #import "DTResource.h"
 
 @class DTWorld;
+@class DTLayer;
 @class DTMap;
 @protocol DTRoomDelegate;
 
 @interface DTRoom : DTResource
 @property (nonatomic,readonly) NSMutableArray *layers;
+- (DTLayer*)doorLayer;
 @property (nonatomic,strong) DTMap *collisionLayer;
 @property (nonatomic,strong,readonly) NSString *name;
 @property (nonatomic,strong) NSString *uuid;

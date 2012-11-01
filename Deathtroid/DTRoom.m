@@ -87,6 +87,14 @@
 {
     [_delegate roomChanged:self];
 }
+
+- (DTLayer*)doorLayer
+{
+    for(DTLayer *layer in self.layers)
+        if([layer.tilesetName isEqual:@"doorsAndProps"])
+            return layer;
+    return nil;
+}
 @end
 
 @interface DTRoomLoader : DTResourceLoader

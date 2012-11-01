@@ -25,7 +25,6 @@
 @end
 
 @interface DTRenderStateAnimation : DTRenderState
-// called with delta 0 when animation finishes
 - (id)initWithTarget:(id)target action:(SEL)action duration:(NSTimeInterval)duration timingFunction:(id)notyet;
-- (id)initWithBlock:(void(^)(NSTimeInterval delta))block duration:(NSTimeInterval)duration timingFunction:(id)notyet;
+- (id)initWithBlock:(void(^)(NSTimeInterval progress))block duration:(NSTimeInterval)duration timingFunction:(id)notyet;
 @end

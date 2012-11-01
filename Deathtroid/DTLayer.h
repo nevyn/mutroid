@@ -13,6 +13,7 @@
 @class DTMap, DTLayerState;
 
 @interface DTColor : NSObject
++ (id)colorWithRed:(float)r green:(CGFloat)g blue:(CGFloat)b alpha:(CGFloat)a;
 @property (nonatomic) float r,g,b,a;
 @end
 

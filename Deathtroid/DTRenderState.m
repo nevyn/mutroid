@@ -72,6 +72,7 @@
 @end
 
 @implementation DTRenderStateAnimation {
+    NSTimeInterval _initialDuration;
     NSTimeInterval _duration;
     id _timingFunction;
 }
@@ -86,20 +87,22 @@
 {
     if(!(self = [super initWithBlock:block]))
         return nil;
-    _duration = duration;
+    _initialDuration = _duration = duration;
     _timingFunction = timingFunction;
     return self;
 }
 - (void)draw:(NSTimeInterval)delta
 {
-    _duration -= delta;
     if(_duration <= 0) {
+        [super draw:1];
         DTRenderStateStack *stack = self.stack;
-        [super draw:0];
         [self.stack popState];
         [stack draw:delta];
         return;
     }
-    [super draw:delta];
+    NSTimeInterval progress = (_initialDuration - _duration) / _initialDuration;
+    [super draw:progress];
+    
+    _duration -= delta;
 }
 @end
