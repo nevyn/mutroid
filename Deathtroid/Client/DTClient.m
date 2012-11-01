@@ -29,6 +29,7 @@
 #import "DTSpriteMap.h"
 #import "DTRenderEntities.h"
 #import "DTRenderTilemap.h"
+#import "DTRenderState.h"
 
 #import "FISoundEngine.h"
 #import <OpenAL/al.h>
@@ -50,12 +51,7 @@ static const float kRoomTransitionTime = 1;
     FISoundEngine *finch;
     NSMutableDictionary *_visibleLayers;
     
-    // If set, we're currently transitioning to the new room
-    DTWorldRoom *_oldRoom;
-    DTCamera *_oldCamera;
-    float _oldRoomTransitionTimer;
-    EntityDirection _transitionDirection;
-    void(^_transitionDone)();
+    DTRenderStateStack *_renderStates;
 }
 @synthesize physics;
 @synthesize rooms, playerEntity;
@@ -72,6 +68,9 @@ static const float kRoomTransitionTime = 1;
     
     finch = [FISoundEngine new];
     [finch openAudioDevice];
+    
+    _renderStates = [DTRenderStateStack new];
+    [_renderStates pushState:[[DTRenderState alloc] initWithTarget:self action:@selector(drawCurrentRoom)]];
 	
 	self.resources = [DTResourceManager sharedManager];
 	
@@ -153,25 +152,27 @@ static const float kRoomTransitionTime = 1;
     
     glTranslatef(0, 2, 0);
     
-    if(_oldRoomTransitionTimer > 0) {
-        Vector2 *roomDisplacement = [EntityDirectionToUnitVector(_transitionDirection) vectorByMultiplyingWithScalar:kScreenWidthInTiles];
-        Vector2 *offset = [[roomDisplacement invertedVector] vectorByMultiplyingWithScalar:_oldRoomTransitionTimer/kRoomTransitionTime];
-        glTranslatef(offset.x, offset.y, 0);
-        
-        // Old room
-        glPushMatrix();
-        glTranslatef(roomDisplacement.x, roomDisplacement.y, 0);
-        for(DTLayer *layer in _oldRoom.room.layers) {
-            [tilemapRenderer drawLayer:layer camera:_oldCamera fromWorldRoom:_oldRoom];
-        }
-        glPopMatrix();
-        
-        // New room
-        for(DTLayer *layer in _currentRoom.room.layers) {
-            [tilemapRenderer drawLayer:layer camera:camera fromWorldRoom:_currentRoom];
-        }
-    }
+    [_renderStates draw:1/60.];
+    
+    glLoadIdentity();
+    
+    DTProgram *p = [resources resourceNamed:@"main.program"];
+    [p unuse];
+    
+    // Placeholder status bar
+    glBegin(GL_QUADS);
+    glColor3f(0.3, 0.0, 0.0);
+    glVertex2f(0.0, 0.0);
+    glVertex2f(16., 0.);
+    glVertex2f(16., 2.);
+    glVertex2f(0., 2.);
+    glEnd();
+    
+    [p use];
+}
 
+- (void)drawCurrentRoom
+{
 	// Background layers
     int i = 0;
 	for(DTLayer *layer in _currentRoom.room.layers) {
@@ -196,32 +197,6 @@ static const float kRoomTransitionTime = 1;
     
     if([[NSUserDefaults standardUserDefaults] boolForKey:@"debug"])
         [tilemapRenderer drawCollision:_currentRoom.room.collisionLayer camera:camera];
-        
-    glLoadIdentity();
-    
-    DTProgram *p = [resources resourceNamed:@"main.program"];
-    [p unuse];
-    
-    glBegin(GL_QUADS);
-    glColor3f(0.3, 0.0, 0.0);
-    glVertex2f(0.0, 0.0);
-    glVertex2f(16., 0.);
-    glVertex2f(16., 2.);
-    glVertex2f(0., 2.);
-    glEnd();
-    
-    [p use];
-    
-    if(_oldRoomTransitionTimer > 0) {
-        _oldRoomTransitionTimer -= 1/60.;
-        if(_oldRoomTransitionTimer <= 0) {
-            _oldRoom = nil;
-            _oldCamera = nil;
-            if(_transitionDone)
-                _transitionDone();
-            _transitionDone = nil;
-        }
-    }
 }
 
 - (BOOL)layerVisible:(int)index
@@ -345,14 +320,43 @@ static const float kRoomTransitionTime = 1;
     NSString *name = $notNull([hash objectForKey:@"name"]);
     NSString *uuid = $notNull([hash objectForKey:@"uuid"]);
     
-    _oldRoom = self.currentRoom;
-    _transitionDirection = [[hash objectForKey:@"transitionDirection"] intValue];
-    if(_oldRoom && _transitionDirection != EntityDirectionNone) {
-        _oldRoomTransitionTimer = kRoomTransitionTime;
-        _oldCamera = [camera copy];
-    } else {
-        _oldRoomTransitionTimer = 0;
-    }
+    DTWorldRoom *oldRoom = self.currentRoom;
+    EntityDirection transitionDirection = [[hash objectForKey:@"transitionDirection"] intValue];
+    __block void(^transitionDone)();
+    __block BOOL animationDone = NO;
+    
+    if(oldRoom && transitionDirection != EntityDirectionNone) {
+        DTCamera *oldCamera = [camera copy];
+        __block NSTimeInterval timeRemaining = kRoomTransitionTime;
+        [_renderStates pushState:[[DTRenderStateAnimation alloc] initWithBlock:^(NSTimeInterval delta) {
+            if(delta == 0) {
+                animationDone = YES;
+                if(transitionDone)
+                    transitionDone();
+                return;
+            }
+            
+            Vector2 *roomDisplacement = [EntityDirectionToUnitVector(transitionDirection) vectorByMultiplyingWithScalar:kScreenWidthInTiles];
+            Vector2 *offset = [[roomDisplacement invertedVector] vectorByMultiplyingWithScalar:timeRemaining/kRoomTransitionTime];
+            glTranslatef(offset.x, offset.y, 0);
+            
+            // Old room
+            glPushMatrix();
+            glTranslatef(roomDisplacement.x, roomDisplacement.y, 0);
+            for(DTLayer *layer in oldRoom.room.layers) {
+                [tilemapRenderer drawLayer:layer camera:oldCamera fromWorldRoom:oldRoom];
+            }
+            glPopMatrix();
+                
+            // New room
+            for(DTLayer *layer in _currentRoom.room.layers) {
+                [tilemapRenderer drawLayer:layer camera:camera fromWorldRoom:_currentRoom];
+            }
+            
+            timeRemaining -= delta;
+        } duration:kRoomTransitionTime timingFunction:nil]];
+    } else
+        animationDone = YES;
     
     Vector2 *destination = [[Vector2 alloc] initWithRep:hash[@"destinationPosition"]];
     [camera setPositionFromEntity:destination];
@@ -383,12 +387,11 @@ static const float kRoomTransitionTime = 1;
             [toDelete minusSet:[NSSet setWithArray:reps.allKeys]];
             for(NSArray *key in toDelete) [room.entities removeObjectForKey:key];
             
-            _transitionDone = ^{
+            transitionDone = ^{
                 responder($dict(@"status", @"done"));
             };
-            if(_oldRoomTransitionTimer <= 0) {
-                _transitionDone();
-                _transitionDone = nil;
+            if(animationDone) {
+                transitionDone();
             }
         }];
     };

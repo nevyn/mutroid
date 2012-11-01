@@ -45,6 +45,7 @@
 		05CC7B82143FCE3900052D06 /* DTPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B05723143FA20F002CE09B /* DTPlayer.m */; };
 		05CC7BA61441FC9F00052D06 /* DTEntityEnemyBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 05CC7BA51441FC9F00052D06 /* DTEntityEnemyBase.m */; };
 		05F49DFB1449FB4600974FF9 /* DTRenderTilemap.m in Sources */ = {isa = PBXBuildFile; fileRef = 05F49DFA1449FB4600974FF9 /* DTRenderTilemap.m */; };
+		05F93D2816432C3C000551C3 /* DTRenderState.m in Sources */ = {isa = PBXBuildFile; fileRef = 05F93D2716432C3C000551C3 /* DTRenderState.m */; };
 		3809AC331444E57500B0C9AF /* DTRenderEntities.m in Sources */ = {isa = PBXBuildFile; fileRef = 3809AC321444E57500B0C9AF /* DTRenderEntities.m */; };
 		3809AC3614460AFC00B0C9AF /* DTAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3809AC3514460AFC00B0C9AF /* DTAnimation.m */; };
 		994E55F3144115DF009EC13C /* DTResourceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 994E55F2144115DF009EC13C /* DTResourceManager.m */; };
@@ -192,6 +193,8 @@
 		05CC7BA51441FC9F00052D06 /* DTEntityEnemyBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTEntityEnemyBase.m; sourceTree = "<group>"; };
 		05F49DF91449FB4600974FF9 /* DTRenderTilemap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTRenderTilemap.h; path = Client/DTRenderTilemap.h; sourceTree = "<group>"; };
 		05F49DFA1449FB4600974FF9 /* DTRenderTilemap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTRenderTilemap.m; path = Client/DTRenderTilemap.m; sourceTree = "<group>"; };
+		05F93D2616432C3C000551C3 /* DTRenderState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTRenderState.h; sourceTree = "<group>"; };
+		05F93D2716432C3C000551C3 /* DTRenderState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTRenderState.m; sourceTree = "<group>"; };
 		3809AC311444E57500B0C9AF /* DTRenderEntities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTRenderEntities.h; sourceTree = "<group>"; };
 		3809AC321444E57500B0C9AF /* DTRenderEntities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTRenderEntities.m; sourceTree = "<group>"; };
 		3809AC3414460AFC00B0C9AF /* DTAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTAnimation.h; sourceTree = "<group>"; };
@@ -631,6 +634,8 @@
 				05ABD60F16009081002F04F0 /* DTEditorTilemap.m */,
 				05ABD6111600908C002F04F0 /* DTEditorEntities.h */,
 				05ABD6121600908D002F04F0 /* DTEditorEntities.m */,
+				05F93D2616432C3C000551C3 /* DTRenderState.h */,
+				05F93D2716432C3C000551C3 /* DTRenderState.m */,
 			);
 			name = Client;
 			sourceTree = "<group>";
@@ -845,6 +850,7 @@
 				0587700F16050CB700279D77 /* RTUnregisteredClass.m in Sources */,
 				05475A091609F5960000BD66 /* DTEntitySpawnLocation.m in Sources */,
 				05475A0E160A1F920000BD66 /* DTRoomEditor.m in Sources */,
+				05F93D2816432C3C000551C3 /* DTRenderState.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
