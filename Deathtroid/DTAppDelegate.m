@@ -12,6 +12,7 @@
 #import "DTCore.h"
 #import "DTClient.h"
 #import "DTResourceManager.h"
+#import <CocoaLibSpotify/CocoaLibSpotify.h>
 
 #import <OpenGL/gl.h>
 
@@ -33,6 +34,10 @@
     NSString *currentPath = [[NSUserDefaults standardUserDefaults] objectForKey:@"resourcePath"];
     if(!currentPath || [currentPath rangeOfString:@".app"].location != NSNotFound)
         [[NSUserDefaults standardUserDefaults] setObject:[DTResourceManager sharedManager].baseURL.path forKey:@"resourcePath"];
+    
+    NSError *err;
+    if(![SPSession initializeSharedSessionWithApplicationKey:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"spkey" ofType:@"key"]] userAgent:@"Mutroid" loadingPolicy:SPAsyncLoadingManual error:&err])
+        NSLog(@"No spfy :( %@", err);
 }
 - (void)applicationWillTerminate:(NSNotification *)notification
 {

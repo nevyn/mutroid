@@ -14,3 +14,6 @@
 [submodule "Vendor/MAObjCRuntime"]
 	path = Vendor/MAObjCRuntime
 	url = https://github.com/mikeash/MAObjCRuntime.git
+[submodule "vendor/cocoalibspotify"]
+	path = vendor/cocoalibspotify
+	url = https://github.com/spotify/cocoalibspotify.git
