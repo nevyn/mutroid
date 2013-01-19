@@ -17,6 +17,4 @@
 [submodule "Vendor/cocoalibspotify"]
 	path = Vendor/cocoalibspotify
 	url = https://github.com/spotify/cocoalibspotify.git
-[submodule "Vendor/echonest"]
-	path = Vendor/echonest
-	url = https://github.com/echonest/libechonest.git
+
