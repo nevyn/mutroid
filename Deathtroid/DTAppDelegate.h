@@ -29,4 +29,9 @@
 -(IBAction)joinSelected:(id)sender;
 -(IBAction)joinCustom:(id)sender;
 
+@property(assign) IBOutlet NSTextField *spUser;
+@property(assign) IBOutlet NSTextField *spPass;
+@property(assign) IBOutlet NSTextField *spStatusLabel;
+- (IBAction)spotifyLogin:(id)sender;
+
 @end
