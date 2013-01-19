@@ -228,22 +228,22 @@
 		D822B7D414406D750097FC9E /* DTEntityZoomer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTEntityZoomer.m; sourceTree = "<group>"; };
 		D822B7DB14407E1F0097FC9E /* DTWorld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTWorld.h; sourceTree = "<group>"; };
 		D822B7DC14407E1F0097FC9E /* DTWorld.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTWorld.m; sourceTree = "<group>"; };
-		D8548F29143F45D7005D7DC0 /* Deathtroid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Deathtroid.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D8548F29143F45D7005D7DC0 /* Mutroid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mutroid.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8548F2D143F45D7005D7DC0 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		D8548F30143F45D7005D7DC0 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		D8548F31143F45D7005D7DC0 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		D8548F32143F45D7005D7DC0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		D8548F35143F45D7005D7DC0 /* Deathtroid-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Deathtroid-Info.plist"; sourceTree = "<group>"; };
+		D8548F35143F45D7005D7DC0 /* Mutroid-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Mutroid-Info.plist"; sourceTree = "<group>"; };
 		D8548F37143F45D7005D7DC0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D8548F39143F45D7005D7DC0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		D8548F3B143F45D7005D7DC0 /* Deathtroid-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Deathtroid-Prefix.pch"; sourceTree = "<group>"; };
+		D8548F3B143F45D7005D7DC0 /* Mutroid-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Mutroid-Prefix.pch"; sourceTree = "<group>"; };
 		D8548F3D143F45D7005D7DC0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		D8548F3F143F45D7005D7DC0 /* DTAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTAppDelegate.h; sourceTree = "<group>"; };
 		D8548F40143F45D7005D7DC0 /* DTAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTAppDelegate.m; sourceTree = "<group>"; };
 		D8548F43143F45D7005D7DC0 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		D8548F4A143F45D7005D7DC0 /* DeathtroidTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DeathtroidTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D8548F4A143F45D7005D7DC0 /* MutroidTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MutroidTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8548F4B143F45D7005D7DC0 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		D8548F52143F45D7005D7DC0 /* DeathtroidTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DeathtroidTests-Info.plist"; sourceTree = "<group>"; };
+		D8548F52143F45D7005D7DC0 /* MutroidTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MutroidTests-Info.plist"; sourceTree = "<group>"; };
 		D8548F54143F45D7005D7DC0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D8548F56143F45D7005D7DC0 /* DeathtroidTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeathtroidTests.h; sourceTree = "<group>"; };
 		D8548F57143F45D7005D7DC0 /* DeathtroidTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeathtroidTests.m; sourceTree = "<group>"; };
@@ -522,8 +522,8 @@
 		D8548F2A143F45D7005D7DC0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D8548F29143F45D7005D7DC0 /* Deathtroid.app */,
-				D8548F4A143F45D7005D7DC0 /* DeathtroidTests.octest */,
+				D8548F29143F45D7005D7DC0 /* Mutroid.app */,
+				D8548F4A143F45D7005D7DC0 /* MutroidTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -574,10 +574,10 @@
 		D8548F34143F45D7005D7DC0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				D8548F35143F45D7005D7DC0 /* Deathtroid-Info.plist */,
+				D8548F35143F45D7005D7DC0 /* Mutroid-Info.plist */,
 				D8548F36143F45D7005D7DC0 /* InfoPlist.strings */,
 				D8548F39143F45D7005D7DC0 /* main.m */,
-				D8548F3B143F45D7005D7DC0 /* Deathtroid-Prefix.pch */,
+				D8548F3B143F45D7005D7DC0 /* Mutroid-Prefix.pch */,
 				D8548F3C143F45D7005D7DC0 /* Credits.rtf */,
 			);
 			name = "Supporting Files";
@@ -596,7 +596,7 @@
 		D8548F51143F45D7005D7DC0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				D8548F52143F45D7005D7DC0 /* DeathtroidTests-Info.plist */,
+				D8548F52143F45D7005D7DC0 /* MutroidTests-Info.plist */,
 				D8548F53143F45D7005D7DC0 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -643,9 +643,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D8548F28143F45D7005D7DC0 /* Deathtroid */ = {
+		D8548F28143F45D7005D7DC0 /* Mutroid */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D8548F5B143F45D7005D7DC0 /* Build configuration list for PBXNativeTarget "Deathtroid" */;
+			buildConfigurationList = D8548F5B143F45D7005D7DC0 /* Build configuration list for PBXNativeTarget "Mutroid" */;
 			buildPhases = (
 				D8548F25143F45D7005D7DC0 /* Sources */,
 				D8548F26143F45D7005D7DC0 /* Frameworks */,
@@ -655,14 +655,14 @@
 			);
 			dependencies = (
 			);
-			name = Deathtroid;
+			name = Mutroid;
 			productName = Deathtroid;
-			productReference = D8548F29143F45D7005D7DC0 /* Deathtroid.app */;
+			productReference = D8548F29143F45D7005D7DC0 /* Mutroid.app */;
 			productType = "com.apple.product-type.application";
 		};
-		D8548F49143F45D7005D7DC0 /* DeathtroidTests */ = {
+		D8548F49143F45D7005D7DC0 /* MutroidTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D8548F5E143F45D7005D7DC0 /* Build configuration list for PBXNativeTarget "DeathtroidTests" */;
+			buildConfigurationList = D8548F5E143F45D7005D7DC0 /* Build configuration list for PBXNativeTarget "MutroidTests" */;
 			buildPhases = (
 				D8548F45143F45D7005D7DC0 /* Sources */,
 				D8548F46143F45D7005D7DC0 /* Frameworks */,
@@ -674,9 +674,9 @@
 			dependencies = (
 				D8548F4F143F45D7005D7DC0 /* PBXTargetDependency */,
 			);
-			name = DeathtroidTests;
+			name = MutroidTests;
 			productName = DeathtroidTests;
-			productReference = D8548F4A143F45D7005D7DC0 /* DeathtroidTests.octest */;
+			productReference = D8548F4A143F45D7005D7DC0 /* MutroidTests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -687,7 +687,7 @@
 			attributes = {
 				LastUpgradeCheck = 0420;
 			};
-			buildConfigurationList = D8548F23143F45D6005D7DC0 /* Build configuration list for PBXProject "Deathtroid" */;
+			buildConfigurationList = D8548F23143F45D6005D7DC0 /* Build configuration list for PBXProject "Mutroid" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -705,8 +705,8 @@
 			);
 			projectRoot = "";
 			targets = (
-				D8548F28143F45D7005D7DC0 /* Deathtroid */,
-				D8548F49143F45D7005D7DC0 /* DeathtroidTests */,
+				D8548F28143F45D7005D7DC0 /* Mutroid */,
+				D8548F49143F45D7005D7DC0 /* MutroidTests */,
 			);
 		};
 /* End PBXProject section */
@@ -867,7 +867,7 @@
 /* Begin PBXTargetDependency section */
 		D8548F4F143F45D7005D7DC0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D8548F28143F45D7005D7DC0 /* Deathtroid */;
+			target = D8548F28143F45D7005D7DC0 /* Mutroid */;
 			targetProxy = D8548F4E143F45D7005D7DC0 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -959,15 +959,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Deathtroid/Deathtroid-Prefix.pch";
+				GCC_PREFIX_HEADER = "Deathtroid/Mutroid-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 					"DUMB_CLIENT=0",
 				);
 				HEADER_SEARCH_PATHS = "\"${SRCROOT}/Vendor\"";
-				INFOPLIST_FILE = "Deathtroid/Deathtroid-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "Deathtroid/Mutroid-Info.plist";
+				PRODUCT_NAME = Mutroid;
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				USER_HEADER_SEARCH_PATHS = "Vendor/SPSuccinct/SPSuccinct Vendor/cocoaasyncsocket/RunLoop Vendor/Finch/Finch Vendor/";
 				WRAPPER_EXTENSION = app;
@@ -978,10 +978,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Deathtroid/Deathtroid-Prefix.pch";
+				GCC_PREFIX_HEADER = "Deathtroid/Mutroid-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"${SRCROOT}/Vendor\"";
-				INFOPLIST_FILE = "Deathtroid/Deathtroid-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "Deathtroid/Mutroid-Info.plist";
+				PRODUCT_NAME = Mutroid;
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				USER_HEADER_SEARCH_PATHS = "Vendor/SPSuccinct/SPSuccinct Vendor/cocoaasyncsocket/RunLoop Vendor/Finch/Finch Vendor/";
 				WRAPPER_EXTENSION = app;
@@ -995,8 +995,8 @@
 				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Deathtroid/Deathtroid-Prefix.pch";
-				INFOPLIST_FILE = "DeathtroidTests/DeathtroidTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "DeathtroidTests/MutroidTests-Info.plist";
+				PRODUCT_NAME = MutroidTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -1009,8 +1009,8 @@
 				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Deathtroid/Deathtroid-Prefix.pch";
-				INFOPLIST_FILE = "DeathtroidTests/DeathtroidTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "DeathtroidTests/MutroidTests-Info.plist";
+				PRODUCT_NAME = MutroidTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -1019,7 +1019,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D8548F23143F45D6005D7DC0 /* Build configuration list for PBXProject "Deathtroid" */ = {
+		D8548F23143F45D6005D7DC0 /* Build configuration list for PBXProject "Mutroid" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D8548F59143F45D7005D7DC0 /* Debug */,
@@ -1028,7 +1028,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D8548F5B143F45D7005D7DC0 /* Build configuration list for PBXNativeTarget "Deathtroid" */ = {
+		D8548F5B143F45D7005D7DC0 /* Build configuration list for PBXNativeTarget "Mutroid" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D8548F5C143F45D7005D7DC0 /* Debug */,
@@ -1037,7 +1037,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D8548F5E143F45D7005D7DC0 /* Build configuration list for PBXNativeTarget "DeathtroidTests" */ = {
+		D8548F5E143F45D7005D7DC0 /* Build configuration list for PBXNativeTarget "MutroidTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D8548F5F143F45D7005D7DC0 /* Debug */,
