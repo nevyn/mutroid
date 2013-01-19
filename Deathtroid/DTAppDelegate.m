@@ -16,7 +16,7 @@
 
 #import <OpenGL/gl.h>
 
-@interface DTAppDelegate ()
+@interface DTAppDelegate () <SPSessionDelegate>
 @property (nonatomic,strong) DTCore *core;
 @end
 
@@ -38,10 +38,17 @@
     NSError *err;
     if(![SPSession initializeSharedSessionWithApplicationKey:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"spkey" ofType:@"key"]] userAgent:@"Mutroid" loadingPolicy:SPAsyncLoadingManual error:&err])
         NSLog(@"No spfy :( %@", err);
+
+    [[SPSession sharedSession] setDelegate:self];
 }
 - (void)applicationWillTerminate:(NSNotification *)notification
 {
     [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (IBAction)spotifyLogin:(id)sender
+{
+    [[SPSession sharedSession] attemptLoginWithUserName:self.spUser.stringValue password:self.spPass.stringValue];
 }
 
 -(void)start2;
@@ -117,6 +124,16 @@
 - (IBAction)toggleDebug:(id)sender
 {
     [[NSUserDefaults standardUserDefaults] setBool:![[NSUserDefaults standardUserDefaults] boolForKey:@"debug"] forKey:@"debug"];
+}
+
+#pragma woot Spotify
+-(void)sessionDidLoginSuccessfully:(SPSession *)aSession
+{
+    self.spStatusLabel.stringValue = @"Logged in";
+}
+-(void)session:(SPSession *)aSession didFailToLoginWithError:(NSError *)error
+{
+    self.spStatusLabel.stringValue = [NSString stringWithFormat:@"Err: %@", error.localizedDescription];
 }
 
 @end
