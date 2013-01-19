@@ -17,6 +17,7 @@
 @property (nonatomic,strong) Vector2 *collisionPosition;
 @property (nonatomic,strong) Vector2 *velocity;   // Entity's velocity at impact
 @property (nonatomic) BOOL slope;
+@property (nonatomic) int collisionTile; // index into collisionTilemap that was hit by feet
 @end
 
 

@@ -18,7 +18,6 @@
 #import "DTEntityPlayer.h"
 #import "DTEntityRipper.h"
 #import "DTEntityZoomer.h"
-#import "DTEntitySidehopper.h"
 #import "DTEntityBullet.h"
 #import "DTEntityDoor.h"
 
@@ -121,6 +120,9 @@
             // This is when we walk over downward slope
             entity.position.y = down.collisionPosition.y;
         }
+        
+        if(down.collisionTile == 23) // the 'kill' tile
+            [entity damage:entity.health+1 from:[Vector2 vector] killer:entity];
     }
 }
 
