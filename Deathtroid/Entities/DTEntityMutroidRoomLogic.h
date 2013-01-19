@@ -10,5 +10,5 @@
 #import "EchoNestFetcher.h"
 
 @interface DTEntityMutroidRoomLogic : DTEntity<EchoNestFetcherDelegate>
-
+@property(nonatomic,strong) NSString *trackURL;
 @end

@@ -98332,6 +98332,16 @@
   ],
   "entities" : [
     {
+      "uuid" : "B4EACE7E-FAFB-417A-A6E5-5BAA275B35C3",
+      "rotation" : 0,
+      "class" : "DTEntityMutroidRoomLogic",
+      "position" : {
+        "x" : 1.5,
+        "y" : 20.75
+      },
+      "trackURL" : "spotify:track:3TbJQyO3WSjAC2SszZEVu7"
+    },
+    {
       "rotation" : 0,
       "class" : "DTEntitySpawnLocation",
       "position" : {

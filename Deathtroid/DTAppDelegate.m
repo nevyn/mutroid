@@ -17,6 +17,9 @@
 #import <OpenGL/gl.h>
 
 @interface DTAppDelegate () <SPSessionDelegate>
+{
+    SPCoreAudioController *_audioOut;
+}
 @property (nonatomic,strong) DTCore *core;
 @end
 
@@ -38,8 +41,9 @@
     NSError *err;
     if(![SPSession initializeSharedSessionWithApplicationKey:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"spkey" ofType:@"key"]] userAgent:@"Mutroid" loadingPolicy:SPAsyncLoadingManual error:&err])
         NSLog(@"No spfy :( %@", err);
-
+    _audioOut = [SPCoreAudioController new];
     [[SPSession sharedSession] setDelegate:self];
+    [[SPSession sharedSession] setAudioDeliveryDelegate:_audioOut];
 }
 - (void)applicationWillTerminate:(NSNotification *)notification
 {
