@@ -13,7 +13,6 @@
 #import "DTClient.h"
 #import "DTResourceManager.h"
 #import <CocoaLibSpotify/CocoaLibSpotify.h>
-#import "EchoNestFetcher.h"
 
 #import <OpenGL/gl.h>
 
@@ -39,9 +38,6 @@
     NSError *err;
     if(![SPSession initializeSharedSessionWithApplicationKey:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"spkey" ofType:@"key"]] userAgent:@"Mutroid" loadingPolicy:SPAsyncLoadingManual error:&err])
         NSLog(@"No spfy :( %@", err);
-    
-    EchoNestFetcher *echo = [[EchoNestFetcher alloc] init];
-    [echo findSong:@"El Scorcho" byArtist:@"Weezer"];
 }
 - (void)applicationWillTerminate:(NSNotification *)notification
 {

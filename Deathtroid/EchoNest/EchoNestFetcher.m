@@ -14,13 +14,20 @@
 #define GET_SONG_ANALYSIS @"Get song analysis"
 
 @interface EchoNestFetcher ()
+
+@property (nonatomic, retain) id<EchoNestFetcherDelegate> delegate;
+
 @end
 
 @implementation EchoNestFetcher
 
 
-- (void) findSong:(NSString*)song byArtist:(NSString*)artist {
+- (void) findSong:(NSString*)song byArtist:(NSString*)artist delegate:(id<EchoNestFetcherDelegate>)delegate {
 
+    self.delegate = delegate;
+    
+    NSLog(@"Find song %@ by artist %@", song, artist);
+    
     song = [song stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
     artist = [artist stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
 
@@ -36,7 +43,7 @@
     
     if (tag == FIND_SONG) {
         
-        NSLog(@"Found song: %@", json);
+        //NSLog(@"Found song: %@", json);
         
         NSString *trackID = [[[[[[json objectForKey:@"response"] objectForKey:@"songs"] objectAtIndex:0] objectForKey:@"tracks"] objectAtIndex:0] objectForKey:@"id"];
         
@@ -46,7 +53,7 @@
     }
     else if (tag == GET_SONG_DATA) {
         
-        NSLog(@"Song data: %@", json);
+        //NSLog(@"Song data: %@", json);
         
         NSString *analysisURL = [[[[json objectForKey:@"response"] objectForKey:@"track"] objectForKey:@"audio_summary"] objectForKey:@"analysis_url"];
         
@@ -55,8 +62,9 @@
     }
     else if (tag == GET_SONG_ANALYSIS) {
         
-        NSLog(@"Song analysis: %@", json);
-
+        NSLog(@"Found song analysis");
+        //NSLog(@"Song analysis: %@", json);
+        
     }
 }
 

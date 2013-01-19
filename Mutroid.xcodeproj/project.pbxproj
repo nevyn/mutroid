@@ -55,6 +55,7 @@
 		3809AC3614460AFC00B0C9AF /* DTAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3809AC3514460AFC00B0C9AF /* DTAnimation.m */; };
 		38F01F9E16AAC71200BA478A /* EchoNestFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F01F9D16AAC71200BA478A /* EchoNestFetcher.m */; };
 		38F01FA116AACFF700BA478A /* ARURLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F01FA016AACFF700BA478A /* ARURLConnection.m */; };
+		38F01FB916AB4A9F00BA478A /* DTEntityMutroidRoomLogic.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F01FB816AB4A9F00BA478A /* DTEntityMutroidRoomLogic.m */; };
 		994E55F3144115DF009EC13C /* DTResourceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 994E55F2144115DF009EC13C /* DTResourceManager.m */; };
 		994E55F614411609009EC13C /* DTTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = 994E55F514411609009EC13C /* DTTexture.m */; };
 		994E55F914411645009EC13C /* DTResource.m in Sources */ = {isa = PBXBuildFile; fileRef = 994E55F814411645009EC13C /* DTResource.m */; };
@@ -242,6 +243,8 @@
 		38F01F9D16AAC71200BA478A /* EchoNestFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EchoNestFetcher.m; sourceTree = "<group>"; };
 		38F01F9F16AACFF700BA478A /* ARURLConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARURLConnection.h; sourceTree = "<group>"; };
 		38F01FA016AACFF700BA478A /* ARURLConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARURLConnection.m; sourceTree = "<group>"; };
+		38F01FB716AB4A9F00BA478A /* DTEntityMutroidRoomLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTEntityMutroidRoomLogic.h; sourceTree = "<group>"; };
+		38F01FB816AB4A9F00BA478A /* DTEntityMutroidRoomLogic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTEntityMutroidRoomLogic.m; sourceTree = "<group>"; };
 		994E55F1144115DF009EC13C /* DTResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTResourceManager.h; path = Graphics/DTResourceManager.h; sourceTree = "<group>"; };
 		994E55F2144115DF009EC13C /* DTResourceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTResourceManager.m; path = Graphics/DTResourceManager.m; sourceTree = "<group>"; };
 		994E55F414411609009EC13C /* DTTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTTexture.h; path = Graphics/DTTexture.h; sourceTree = "<group>"; };
@@ -581,6 +584,8 @@
 				05CC7BA51441FC9F00052D06 /* DTEntityEnemyBase.m */,
 				05475A071609F5960000BD66 /* DTEntitySpawnLocation.h */,
 				05475A081609F5960000BD66 /* DTEntitySpawnLocation.m */,
+				38F01FB716AB4A9F00BA478A /* DTEntityMutroidRoomLogic.h */,
+				38F01FB816AB4A9F00BA478A /* DTEntityMutroidRoomLogic.m */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -950,6 +955,7 @@
 				05F93D2816432C3C000551C3 /* DTRenderState.m in Sources */,
 				38F01F9E16AAC71200BA478A /* EchoNestFetcher.m in Sources */,
 				38F01FA116AACFF700BA478A /* ARURLConnection.m in Sources */,
+				38F01FB916AB4A9F00BA478A /* DTEntityMutroidRoomLogic.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
