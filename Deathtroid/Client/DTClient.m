@@ -506,6 +506,14 @@ static const float kRoomTransitionTime = 2;
     playerEntity.moveDirection = EntityDirectionLeft;
 	[_proto sendHash:$dict(@"command", @"action", @"action", @"walk",   @"direction", @"left")];
 }
+-(void)stopWalkLeft {
+    if (playerEntity.moveDirection == EntityDirectionLeft) [self stopWalk];
+}
+-(void)stopWalkRight {
+    if (playerEntity.moveDirection == EntityDirectionRight) [self stopWalk];
+
+    
+}
 -(void)stopWalk;
 {
     playerEntity.moving = false;

@@ -26,7 +26,8 @@ typedef void(^DTClientMessageCallback)(NSString *message);
 -(void)draw;
 
 -(void)walkLeft;
--(void)stopWalk;
+-(void)stopWalkLeft;
+-(void)stopWalkRight;
 -(void)walkRight;
 -(void)jump;
 -(void)shoot;

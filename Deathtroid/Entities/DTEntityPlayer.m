@@ -28,7 +28,7 @@
     
     acceleration = 0.4;
     maxMoveSpeed = 16;
-    brakeSpeed = 0.2;
+    brakeSpeed = 0.5;
     self.destructible = YES;
     
     self.maxHealth = self.health = 99;
@@ -61,12 +61,12 @@
             self.velocity.x -= brakeSpeed; if(self.velocity.x < 0) self.velocity.x = 0;
         } else if(self.moveDirection == EntityDirectionLeft) {
             self.velocity.x += brakeSpeed; if(self.velocity.x > 0) self.velocity.x = 0;
-        }               
+        }
     }
     
     if(self.velocity.x < 0) self.lookDirection = EntityDirectionLeft;
     else if(self.velocity.x > 0) self.lookDirection = EntityDirectionRight;
-    
+        
     NSString *doing =
         !self.onGround ? @"jump-roll" :
         abs(self.velocity.x) > 0 ? @"walking" :

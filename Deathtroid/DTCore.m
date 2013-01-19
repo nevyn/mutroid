@@ -26,8 +26,8 @@
     
     _input = [[DTInput alloc] init];
     
-    [_input.mapper registerStateActionWithName:@"WalkLeft" beginAction:^{ [client walkLeft]; } endAction:^{ [client stopWalk]; }];
-    [_input.mapper registerStateActionWithName:@"WalkRight" beginAction:^{ [client walkRight]; } endAction:^{ [client stopWalk]; }];
+    [_input.mapper registerStateActionWithName:@"WalkLeft" beginAction:^{ [client walkLeft]; } endAction:^{ [client stopWalkLeft]; }];
+    [_input.mapper registerStateActionWithName:@"WalkRight" beginAction:^{ [client walkRight]; } endAction:^{ [client stopWalkRight]; }];
     [_input.mapper registerActionWithName:@"Jump" action:^{ [client jump]; }];
     [_input.mapper registerActionWithName:@"Shoot" action:^{ [client shoot]; }];
     
