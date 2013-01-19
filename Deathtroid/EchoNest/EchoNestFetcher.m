@@ -16,6 +16,7 @@
 @interface EchoNestFetcher ()
 
 @property (nonatomic, retain) id<EchoNestFetcherDelegate> delegate;
+@property (nonatomic, retain) ARURLConnection *connection;
 
 @end
 
@@ -33,7 +34,7 @@
 
     NSString *url = [NSString stringWithFormat:@"http://developer.echonest.com/api/v4/song/search?api_key=%@&format=json&results=1&artist=%@&title=%@&bucket=id:7digital-US&bucket=tracks", API_KEY, artist, song];
     
-    [ARURLConnection connectionWithURL:url delegate:self tag:FIND_SONG];
+    self.connection = [ARURLConnection connectionWithURL:url delegate:self tag:FIND_SONG];
     
 }
 
@@ -65,7 +66,10 @@
         NSLog(@"Found song analysis");
         //NSLog(@"Song analysis: %@", json);
         
+        [self.delegate foundSongData:json];
     }
+    
+    self.connection = nil;
 }
 
 @end
