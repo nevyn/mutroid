@@ -136,7 +136,7 @@ static const int kMaxServerFramerate = 10;
 	player.proto = clientProto;
 	[players addObject:player];
     
-    [self loadLevel:@"brinstar-save" then:^(DTServerRoom *room) {
+    [self loadLevel:@"mutroid" then:^(DTServerRoom *room) {
         [self spawnPlayer:player inRoom:room];
     }];
 	

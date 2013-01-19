@@ -1595,7 +1595,7 @@
   "entities" : [
     {
       "rotation" : 0,
-      "class" : "DTEntitySpawnLocation",
+      "class" : "DTEntityDummy",
       "position" : {
         "x" : 5.9375,
         "y" : 9
