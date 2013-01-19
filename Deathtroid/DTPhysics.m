@@ -10,6 +10,8 @@
 
 #import "DTServer.h"
 #import "DTWorld.h"
+#import "DTRoom.h"
+#import "DTMap.h"
 #import "DTEntity.h"
 #import "Vector2.h"
 
@@ -79,6 +81,9 @@
             [self moveEntityGround:entity world:world delta:delta];
         else
             [self moveEntityAir:entity world:world delta:delta];
+        
+        if (entity.position.y > world.room.collisionLayer.height + 4)
+            [entity damage:entity.health+1 from:[Vector2 vector] killer:entity];
     }
 }
 
