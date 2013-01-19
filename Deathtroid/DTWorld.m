@@ -52,7 +52,9 @@ static int gettile(int *tiles, int x, int y, int width, int height) {
 
 -(DTTraceResult*)traceBox:(DTBBox*)box from:(Vector2*)from to:(Vector2*)to exclude:(DTEntity*)exclude ignoreEntities:(BOOL)ignore;
 {
-    return [self traceBox:box from:from to:to exclude:exclude ignoreEntities:ignore inverted:false];
+    DTTraceResult *res = [self traceBox:box from:from to:to exclude:exclude ignoreEntities:ignore inverted:false];
+    res.collisionTile = gettile([_room collisionLayer].tiles, to.x, to.y, [_room collisionLayer].width, [_room collisionLayer].height);
+    return res;
 }
 
 -(DTTraceResult*)traceBox:(DTBBox*)box from:(Vector2*)from to:(Vector2*)to exclude:(DTEntity*)exclude ignoreEntities:(BOOL)ignore inverted:(BOOL)inverted;

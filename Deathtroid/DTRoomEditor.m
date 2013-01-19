@@ -105,10 +105,16 @@
 }
 - (void)updateLayer:(DTLayer*)layer width:(int)width height:(int)height
 {
-    if(!layer || width == 0 || height == 0) return;
+    if(width == 0 || height == 0) {
+        NSBeep();
+        return;
+    }
     
     [[_undo prepareWithInvocationTarget:self] updateLayer:layer width:layer.map.width height:layer.map.height];
     DTMap *map = self.selectedLayer.map;
+    if(!map)
+        map = _room.collisionLayer;
+    
     [map setWidth:width height:height];
     
     if(map.width > _room.collisionLayer.width || map.height > _room.collisionLayer.height) {
@@ -148,8 +154,9 @@
 
 - (void)tableViewSelectionDidChange:(NSNotification *)notification;
 {
-    _widthCell.intValue = [self selectedLayer].map.width;
-    _heightCell.intValue = [self selectedLayer].map.height;
+    DTMap *map = self.selectedLayer.map ?: _room.collisionLayer;
+    _widthCell.intValue = map.width;
+    _heightCell.intValue = map.height;
 }
 
 @end

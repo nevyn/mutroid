@@ -483,6 +483,19 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		05A5A44216AACFB0007F768F /* Editor */ = {
+			isa = PBXGroup;
+			children = (
+				05AD7F8615FCDEA600E97694 /* DTEditor.h */,
+				05AD7F8715FCDEA600E97694 /* DTEditor.m */,
+				05ABD60E16009081002F04F0 /* DTEditorTilemap.h */,
+				05ABD60F16009081002F04F0 /* DTEditorTilemap.m */,
+				05ABD6111600908C002F04F0 /* DTEditorEntities.h */,
+				05ABD6121600908D002F04F0 /* DTEditorEntities.m */,
+			);
+			name = Editor;
+			sourceTree = "<group>";
+		};
 		05CC7B6C143FC4BB00052D06 /* SPSuccinct */ = {
 			isa = PBXGroup;
 			children = (
@@ -697,12 +710,7 @@
 				3809AC321444E57500B0C9AF /* DTRenderEntities.m */,
 				05F49DF91449FB4600974FF9 /* DTRenderTilemap.h */,
 				05F49DFA1449FB4600974FF9 /* DTRenderTilemap.m */,
-				05AD7F8615FCDEA600E97694 /* DTEditor.h */,
-				05AD7F8715FCDEA600E97694 /* DTEditor.m */,
-				05ABD60E16009081002F04F0 /* DTEditorTilemap.h */,
-				05ABD60F16009081002F04F0 /* DTEditorTilemap.m */,
-				05ABD6111600908C002F04F0 /* DTEditorEntities.h */,
-				05ABD6121600908D002F04F0 /* DTEditorEntities.m */,
+				05A5A44216AACFB0007F768F /* Editor */,
 				05F93D2616432C3C000551C3 /* DTRenderState.h */,
 				05F93D2716432C3C000551C3 /* DTRenderState.m */,
 			);

@@ -21,8 +21,8 @@
 {
     MutableVector2 *ret = [viewCoord mutableCopy];
     [ret divideWithScalar:16];
+    ret.y = 12 - ret.y; // inverse coordinate space; 12 is height of screen
     [ret addVector:self.client.camera.position];
-    ret.y = 12 - ret.y;
     return ret;
 }
 
