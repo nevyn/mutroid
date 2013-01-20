@@ -62,39 +62,6 @@
 
     if(!([NSEvent modifierFlags] & NSShiftKeyMask))
         player.position.x = _timePassed * kMutroidTimeSpeedConstant;
-    
-    if(self.world.sroom)
-        return;
-    
-    if ([self.bars count] > 0) {
-        
-        float start = [[[self.bars objectAtIndex:0] objectForKey:@"start"] floatValue];
-        float duration = [[[self.bars objectAtIndex:0] objectForKey:@"duration"] floatValue];
-        float end = start + duration;
-        
-        if (self.timePassed >= end) {
-            
-            int tile = *[self.map tileAtX:10 y:20] == 0 ? 2 : 0;
-            [self.map setTile:tile atX:10 y:20];
-
-            [self.bars removeObjectAtIndex:0];
-        }
-    }
-    
-    if ([self.beats count] > 0) {
-        
-        float start = [[[self.beats objectAtIndex:0] objectForKey:@"start"] floatValue];
-        float duration = [[[self.beats objectAtIndex:0] objectForKey:@"duration"] floatValue];
-        float end = start + duration;
-        
-        int expected = (self.timePassed >= start && self.timePassed <= end) ? 2 : 0;
-        if(expected != *[self.map tileAtX:15 y:17])
-            [self.map setTile:expected atX:15 y:17];
-        
-        if (self.timePassed >= end) {
-            [self.beats removeObjectAtIndex:0];
-        }
-    }
 }
 
 - (void) foundSongData:(NSDictionary*)data
