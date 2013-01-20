@@ -48,7 +48,7 @@
     
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
     
-    if (tag == FIND_SONG) {
+    if ([tag isEqual:FIND_SONG]) {
         
         if (json) {
             //NSLog(@"Found song: %@", json);
@@ -63,7 +63,7 @@
             NSLog(@"Couldn't find song");
         }
     }
-    else if (tag == GET_SONG_DATA) {
+    else if ([tag isEqual:GET_SONG_DATA]) {
         
         if (json) {
             //NSLog(@"Song data: %@", json);
@@ -77,7 +77,7 @@
         }
 
     }
-    else if (tag == GET_SONG_ANALYSIS) {
+    else if ([tag isEqual:GET_SONG_ANALYSIS]) {
         
         if (json) {
             //NSLog(@"Song analysis: %@", json);
