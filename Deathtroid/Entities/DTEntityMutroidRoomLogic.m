@@ -59,7 +59,7 @@
     for(DTEntity *e in self.world.wroom.entities.allValues)
         if([e isKindOfClass:[DTEntityPlayer class]])
             player = (id)e;
-    player.position.x = _timePassed*4;
+    player.position.x = _timePassed*7;
     
     if(self.world.sroom)
         return;

@@ -81,6 +81,11 @@
     NSString *direction = self.lookDirection == EntityDirectionLeft ? @"left" : @"right";
     
     self.currentState = [NSString stringWithFormat:@"%@-%@", doing, direction];
+    
+    if ([doing isEqualToString:@"walking"]) {
+        self.size.min.y = -3;
+        self.size.max.y = 0;
+    }
 }
 
 -(id)updateFromRep:(NSDictionary*)rep;
@@ -103,11 +108,17 @@
 	
     self.onGround = false;
     self.velocity.y = -15;
+    
+    self.size.min.y = -1.5;
+    self.size.max.y = 0;
 }
 -(void)pressDown {
     
     if (pressedDown >= 0) return;
     pressedDown = 1.0;
+    
+    self.size.min.y = -1.5;
+    self.size.max.y = 0;
 }
 -(void)jump;
 {
