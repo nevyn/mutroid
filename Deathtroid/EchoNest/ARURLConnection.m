@@ -67,9 +67,7 @@
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-    
-    NSLog(@"Succeeded! Received %ld bytes of data",[self.receivedData length]);
-    
+        
     [self.delegate requestFinishedWithTag:self.tag data:self.receivedData];
     
     self.receivedData = nil;

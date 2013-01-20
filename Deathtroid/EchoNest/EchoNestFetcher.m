@@ -44,29 +44,43 @@
     
     if (tag == FIND_SONG) {
         
-        //NSLog(@"Found song: %@", json);
+        if (json) {
+            //NSLog(@"Found song: %@", json);
         
-        NSString *trackID = [[[[[[json objectForKey:@"response"] objectForKey:@"songs"] objectAtIndex:0] objectForKey:@"tracks"] objectAtIndex:0] objectForKey:@"id"];
+            NSString *trackID = [[[[[[json objectForKey:@"response"] objectForKey:@"songs"] objectAtIndex:0] objectForKey:@"tracks"] objectAtIndex:0] objectForKey:@"id"];
         
-        NSString *url = [NSString stringWithFormat:@"http://developer.echonest.com/api/v4/track/profile?api_key=%@&format=json&id=%@&bucket=audio_summary", API_KEY, trackID];
+            NSString *url = [NSString stringWithFormat:@"http://developer.echonest.com/api/v4/track/profile?api_key=%@&format=json&id=%@&bucket=audio_summary", API_KEY, trackID];
         
-        [ARURLConnection connectionWithURL:url delegate:self tag:GET_SONG_DATA];
+            [ARURLConnection connectionWithURL:url delegate:self tag:GET_SONG_DATA];
+        }
+        else {
+            NSLog(@"Couldn't find song");
+        }
     }
     else if (tag == GET_SONG_DATA) {
         
-        //NSLog(@"Song data: %@", json);
+        if (json) {
+            //NSLog(@"Song data: %@", json);
         
-        NSString *analysisURL = [[[[json objectForKey:@"response"] objectForKey:@"track"] objectForKey:@"audio_summary"] objectForKey:@"analysis_url"];
+            NSString *analysisURL = [[[[json objectForKey:@"response"] objectForKey:@"track"] objectForKey:@"audio_summary"] objectForKey:@"analysis_url"];
         
-        [ARURLConnection connectionWithURL:analysisURL delegate:self tag:GET_SONG_ANALYSIS];
+            [ARURLConnection connectionWithURL:analysisURL delegate:self tag:GET_SONG_ANALYSIS];
+        }
+        else {
+            NSLog(@"Couldn't find song data");
+        }
 
     }
     else if (tag == GET_SONG_ANALYSIS) {
         
-        NSLog(@"Found song analysis");
-        //NSLog(@"Song analysis: %@", json);
+        if (json) {
+            //NSLog(@"Song analysis: %@", json);
         
-        [self.delegate foundSongData:json];
+            [self.delegate foundSongData:json];
+        }
+        else {
+            NSLog(@"Couldn't find song analysis");
+        }
     }
     
     self.connection = nil;

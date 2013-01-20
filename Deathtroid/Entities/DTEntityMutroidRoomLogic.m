@@ -19,6 +19,7 @@
 
 @property (nonatomic, assign) double timePassed;
 @property (nonatomic, retain) NSMutableArray *beats;
+@property (nonatomic, retain) NSMutableArray *bars;
 @property (nonatomic, retain) DTMap *map;
 
 @end
@@ -51,18 +52,34 @@
     if(self.world.sroom)
         return;
     
-    if ([self.beats count] <= 0) return;
+    if ([self.bars count] > 0) {
+        
+        float start = [[[self.bars objectAtIndex:0] objectForKey:@"start"] floatValue];
+        float duration = [[[self.bars objectAtIndex:0] objectForKey:@"duration"] floatValue];
+        float end = start + duration;
+        
+        if (self.timePassed >= end) {
+            
+            int tile = *[self.map tileAtX:10 y:20] == 0 ? 2 : 0;
+            [self.map setTile:tile atX:10 y:20];
+
+            [self.bars removeObjectAtIndex:0];
+        }
+    }
     
-    float start = [[[self.beats objectAtIndex:0] objectForKey:@"start"] floatValue];
-    float duration = [[[self.beats objectAtIndex:0] objectForKey:@"duration"] floatValue];
-    float end = start + duration;
-    
-    int expected = (self.timePassed >= start && self.timePassed <= end) ? 2 : 0;
-    if(expected != *[self.map tileAtX:10 y:20])
-        [self.map setTile:expected atX:10 y:20];
-    
-    if (self.timePassed >= end) {
-        [self.beats removeObjectAtIndex:0];
+    if ([self.beats count] > 0) {
+        
+        float start = [[[self.beats objectAtIndex:0] objectForKey:@"start"] floatValue];
+        float duration = [[[self.beats objectAtIndex:0] objectForKey:@"duration"] floatValue];
+        float end = start + duration;
+        
+        int expected = (self.timePassed >= start && self.timePassed <= end) ? 2 : 0;
+        if(expected != *[self.map tileAtX:15 y:17])
+            [self.map setTile:expected atX:15 y:17];
+        
+        if (self.timePassed >= end) {
+            [self.beats removeObjectAtIndex:0];
+        }
     }
 }
 
@@ -70,6 +87,8 @@
 {
     _songData = data;
     [self playTrack];
+    
+    if (data) NSLog(@"Received song analysis");
 }
 
 - (void)loadTrack
@@ -104,6 +123,7 @@
     
     NSLog(@"Beats: %@", _songData[@"beats"][0]);
     self.beats = [NSMutableArray arrayWithArray:_songData[@"beats"]];
+    self.bars = [NSMutableArray arrayWithArray:[_songData objectForKey:@"bars"]];
     
     self.timePassed = 0.0;
     [[[DTAppDelegate sharedAppDelegate] audioOut] setDelegate:self];
