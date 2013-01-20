@@ -160,6 +160,23 @@ static const float kRoomTransitionTime = 2;
     [p use];
 }
 
+- (void)drawStatusBar:(CGRect)rect color:(DTColor*)c;
+{
+    // Placeholder status bar
+    
+    DTTexture *texture = [[DTResourceManager sharedManager] resourceNamed:@"statusbar.texture"];
+    [texture use];
+
+    glBegin(GL_QUADS);
+    glColor4f(c.r, c.g, c.b, c.a);
+    glTexCoord2f(0, 0); glVertex2f(rect.origin.x, rect.origin.y);
+    glTexCoord2f(1, 0); glVertex2f(rect.origin.x + rect.size.width, rect.origin.y);
+    glTexCoord2f(1, 1); glVertex2f(rect.origin.x + rect.size.width, rect.origin.y + rect.size.height);
+    glTexCoord2f(0, 1); glVertex2f(rect.origin.x, rect.origin.y + rect.size.height);
+    glEnd();
+}
+
+
 -(void)draw;
 {
 	frameCount++;
@@ -174,7 +191,7 @@ static const float kRoomTransitionTime = 2;
     glLoadIdentity();
     
     // Placeholder status bar
-    [self drawRect:CGRectMake(0, 0, 16, 2) color:[DTColor colorWithRed:0.3 green:0 blue:0 alpha:1]];
+    [self drawStatusBar:CGRectMake(0, 0, 16, 2) color:[DTColor colorWithRed:0.3 green:0 blue:0 alpha:1]];
 }
 
 - (void)drawCurrentRoom
