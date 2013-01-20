@@ -51,6 +51,10 @@
 
 - (void) requestFinishedWithTag:(NSString*)tag data:(NSData*)data {
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    if(!data) {
+        NSString *errorString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"Error! %@", errorString);
+    }
     
     if ([tag isEqual:FIND_SONG]) {
         
