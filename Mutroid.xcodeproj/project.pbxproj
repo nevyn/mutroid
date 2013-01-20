@@ -33,6 +33,9 @@
 		05A5A3DC16AAA8DA007F768F /* libspotify.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 05A5A3D916AAA86F007F768F /* libspotify.framework */; };
 		05A5A3DD16AAA8E3007F768F /* CocoaLibSpotify.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 05A5A3D516AAA802007F768F /* CocoaLibSpotify.framework */; };
 		05A5A3DF16AAAA2E007F768F /* spkey.key in Resources */ = {isa = PBXBuildFile; fileRef = 05A5A3DE16AAAA2E007F768F /* spkey.key */; };
+		05A5A48716AB7CA8007F768F /* DTAudioController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05A5A48616AB7CA8007F768F /* DTAudioController.m */; };
+		05A5A48916AB7F89007F768F /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05A5A48816AB7F89007F768F /* CoreAudio.framework */; };
+		05A5A48B16AB7F98007F768F /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05A5A48A16AB7F98007F768F /* AudioUnit.framework */; };
 		05ABD61016009081002F04F0 /* DTEditorTilemap.m in Sources */ = {isa = PBXBuildFile; fileRef = 05ABD60F16009081002F04F0 /* DTEditorTilemap.m */; };
 		05ABD6131600908D002F04F0 /* DTEditorEntities.m in Sources */ = {isa = PBXBuildFile; fileRef = 05ABD6121600908D002F04F0 /* DTEditorEntities.m */; };
 		05ABD6571600BE7B002F04F0 /* DTEntityTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = 05ABD6561600BE7B002F04F0 /* DTEntityTemplate.m */; };
@@ -204,6 +207,10 @@
 		05A5A3CB16AAA802007F768F /* CocoaLibSpotify Mac Framework.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "CocoaLibSpotify Mac Framework.xcodeproj"; path = "Vendor/cocoalibspotify/Mac Framework/CocoaLibSpotify Mac Framework.xcodeproj"; sourceTree = "<group>"; };
 		05A5A3D916AAA86F007F768F /* libspotify.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libspotify.framework; path = Vendor/libspotify/libspotify.framework; sourceTree = "<group>"; };
 		05A5A3DE16AAAA2E007F768F /* spkey.key */ = {isa = PBXFileReference; lastKnownFileType = file; path = spkey.key; sourceTree = "<group>"; };
+		05A5A48516AB7CA8007F768F /* DTAudioController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTAudioController.h; sourceTree = "<group>"; };
+		05A5A48616AB7CA8007F768F /* DTAudioController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTAudioController.m; sourceTree = "<group>"; };
+		05A5A48816AB7F89007F768F /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		05A5A48A16AB7F98007F768F /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
 		05ABD60E16009081002F04F0 /* DTEditorTilemap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTEditorTilemap.h; path = Client/DTEditorTilemap.h; sourceTree = "<group>"; };
 		05ABD60F16009081002F04F0 /* DTEditorTilemap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTEditorTilemap.m; path = Client/DTEditorTilemap.m; sourceTree = "<group>"; };
 		05ABD6111600908C002F04F0 /* DTEditorEntities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTEditorEntities.h; path = Client/DTEditorEntities.h; sourceTree = "<group>"; };
@@ -333,6 +340,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				05A5A48B16AB7F98007F768F /* AudioUnit.framework in Frameworks */,
+				05A5A48916AB7F89007F768F /* CoreAudio.framework in Frameworks */,
 				05A5A3D816AAA811007F768F /* CocoaLibSpotify.framework in Frameworks */,
 				052A5EC5144CCED1005C12AC /* AudioToolbox.framework in Frameworks */,
 				052A5EBA144CBC7F005C12AC /* OpenAL.framework in Frameworks */,
@@ -428,6 +437,8 @@
 		052A5EBF144CC54D005C12AC /* Mac shit */ = {
 			isa = PBXGroup;
 			children = (
+				05A5A48516AB7CA8007F768F /* DTAudioController.h */,
+				05A5A48616AB7CA8007F768F /* DTAudioController.m */,
 				D8548F3F143F45D7005D7DC0 /* DTAppDelegate.h */,
 				D8548F40143F45D7005D7DC0 /* DTAppDelegate.m */,
 				D8548F70143F4C4D005D7DC0 /* DTView.h */,
@@ -622,6 +633,8 @@
 				0587E520143F8DB200EA9CBF /* AsyncSocket.h */,
 				0587E521143F8DB200EA9CBF /* AsyncSocket.m */,
 				052A5E97144CBBDB005C12AC /* Finch.xcodeproj */,
+				05A5A48A16AB7F98007F768F /* AudioUnit.framework */,
+				05A5A48816AB7F89007F768F /* CoreAudio.framework */,
 				052A5EB9144CBC7F005C12AC /* OpenAL.framework */,
 				05CC7B6C143FC4BB00052D06 /* SPSuccinct */,
 				D8548F2D143F45D7005D7DC0 /* Cocoa.framework */,
@@ -956,6 +969,7 @@
 				38F01F9E16AAC71200BA478A /* EchoNestFetcher.m in Sources */,
 				38F01FA116AACFF700BA478A /* ARURLConnection.m in Sources */,
 				38F01FB916AB4A9F00BA478A /* DTEntityMutroidRoomLogic.m in Sources */,
+				05A5A48716AB7CA8007F768F /* DTAudioController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

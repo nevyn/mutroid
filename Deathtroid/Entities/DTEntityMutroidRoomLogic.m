@@ -15,7 +15,7 @@
 #import <CocoaLibSpotify/CocoaLibSpotify.h>
 #import "DTAppDelegate.h"
 
-@interface DTEntityMutroidRoomLogic () <SPCoreAudioControllerDelegate>
+@interface DTEntityMutroidRoomLogic ()
 
 @property (nonatomic, assign) double timePassed;
 @property (nonatomic, retain) NSMutableArray *beats;
@@ -47,7 +47,7 @@
 -(void)tick:(double)delta {
     [super tick:delta];
     
-    //self.timePassed += delta;
+    self.timePassed = [DTAppDelegate sharedAppDelegate].audioOut.progress;
     
     if(self.world.sroom)
         return;
@@ -86,9 +86,15 @@
 - (void) foundSongData:(NSDictionary*)data
 {
     _songData = data;
-    [self playTrack];
-    
-    if (data) NSLog(@"Received song analysis");
+    if (!data)
+        return;
+    NSLog(@"Received song analysis");
+
+    [[SPSession sharedSession] playTrack:_track callback:^(NSError *error) {
+        _playbackReady = YES;
+        [self playTrack];
+    }];
+    [[SPSession sharedSession] setPlaying:NO];
 }
 
 - (void)loadTrack
@@ -104,12 +110,7 @@
         _track = track;
         [SPAsyncLoading waitUntilLoaded:_track timeout:30 then:^(NSArray *loadedItems, NSArray *notLoadedItems) {
             NSAssert(loadedItems.count == 1, @"Expected track to load");
-            
-            [[SPSession sharedSession] playTrack:_track callback:^(NSError *error) {
-                _playbackReady = YES;
-            }];
-            [[SPSession sharedSession] setPlaying:NO];
-            
+                        
             _fetcher = [[EchoNestFetcher alloc] init];
             [_fetcher findSong:_track.name byArtist:[_track.artists[0] name] delegate:self];
         }];
@@ -126,13 +127,7 @@
     self.bars = [NSMutableArray arrayWithArray:[_songData objectForKey:@"bars"]];
     
     self.timePassed = 0.0;
-    [[[DTAppDelegate sharedAppDelegate] audioOut] setDelegate:self];
     [[SPSession sharedSession] setPlaying:YES];
-}
-
--(void)coreAudioController:(SPCoreAudioController *)controller didOutputAudioOfDuration:(NSTimeInterval)audioDuration
-{
-    self.timePassed += audioDuration;
 }
 
 -(id)updateFromRep:(NSDictionary*)rep;

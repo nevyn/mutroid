@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <CocoaLibSpotify/CocoaLibSpotify.h>
+#import "DTAudioController.h"
 
 @class DTView, DTCore;
 
@@ -36,6 +37,6 @@
 @property(assign) IBOutlet NSTextField *spPass;
 @property(assign) IBOutlet NSTextField *spStatusLabel;
 - (IBAction)spotifyLogin:(id)sender;
-@property(readonly) SPCoreAudioController *audioOut;
+@property(readonly) DTAudioController *audioOut;
 
 @end

@@ -47,7 +47,7 @@ __weak DTAppDelegate *__singleton;
     NSError *err;
     if(![SPSession initializeSharedSessionWithApplicationKey:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"spkey" ofType:@"key"]] userAgent:@"Mutroid" loadingPolicy:SPAsyncLoadingManual error:&err])
         NSLog(@"No spfy :( %@", err);
-    _audioOut = [SPCoreAudioController new];
+    _audioOut = [DTAudioController new];
     [[SPSession sharedSession] setDelegate:self];
     [[SPSession sharedSession] setAudioDeliveryDelegate:_audioOut];
 
