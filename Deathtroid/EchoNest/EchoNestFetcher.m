@@ -59,8 +59,18 @@
     if ([tag isEqual:FIND_SONG]) {
         
         if (json) {
-            //NSLog(@"Found song: %@", json);
         
+            if (![json objectForKey:@"response"] ||
+                ![[json objectForKey:@"response"] objectForKey:@"songs"] ||
+                [[[json objectForKey:@"response"] objectForKey:@"songs"] count] == 0 ||
+                ![[[[json objectForKey:@"response"] objectForKey:@"songs"] objectAtIndex:0] objectForKey:@"tracks"] ||
+                [[[[[json objectForKey:@"response"] objectForKey:@"songs"] objectAtIndex:0] objectForKey:@"tracks"] count] == 0 ||
+                ![[[[[[json objectForKey:@"response"] objectForKey:@"songs"] objectAtIndex:0] objectForKey:@"tracks"] objectAtIndex:0] objectForKey:@"id"]) {
+                    
+                NSLog(@"Error! Couldn't find song id");
+                return;
+            }
+                
             NSString *trackID = [[[[[[json objectForKey:@"response"] objectForKey:@"songs"] objectAtIndex:0] objectForKey:@"tracks"] objectAtIndex:0] objectForKey:@"id"];
         
             NSString *url = [NSString stringWithFormat:@"http://developer.echonest.com/api/v4/track/profile?api_key=%@&format=json&id=%@&bucket=audio_summary", API_KEY, trackID];
@@ -74,7 +84,15 @@
     else if ([tag isEqual:GET_SONG_DATA]) {
         
         if (json) {
-            //NSLog(@"Song data: %@", json);
+            
+            if (![json objectForKey:@"response"] ||
+                ![[json objectForKey:@"response"] objectForKey:@"track"] ||
+                ![[[json objectForKey:@"response"] objectForKey:@"track"] objectForKey:@"audio_summary"] ||
+                ![[[[json objectForKey:@"response"] objectForKey:@"track"] objectForKey:@"audio_summary"] objectForKey:@"analysis_url"]) {
+                
+                NSLog(@"Error! Couldn't find analysis url");
+                return;
+            }
         
             NSString *analysisURL = [[[[json objectForKey:@"response"] objectForKey:@"track"] objectForKey:@"audio_summary"] objectForKey:@"analysis_url"];
         
@@ -88,8 +106,6 @@
     else if ([tag isEqual:GET_SONG_ANALYSIS]) {
         
         if (json) {
-            //NSLog(@"Song analysis: %@", json);
-        
             [self.delegate foundSongData:json];
         }
         else {
