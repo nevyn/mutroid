@@ -21,6 +21,7 @@
     float   brakeSpeed;
 	float   immunityTimer;
     float   pressedDown;
+    DTEntityBullet *_lastBullet;
 }
 
 -(id)init;
@@ -129,10 +130,11 @@
 }
 -(void)shoot;
 {
+    [_lastBullet didCollideWithWorld:nil];
     MutableVector2 *p = self.position.mutableCopy;
     p.y -= 1.7 ;
     p.x += self.lookDirection == EntityDirectionLeft ? -.9 : +.9;
-    [self.world.sroom createEntity:[DTEntityBullet class] setup:(EntCtor)^(DTEntityBullet *e) {
+    _lastBullet = [self.world.sroom createEntity:[DTEntityBullet class] setup:(EntCtor)^(DTEntityBullet *e) {
         e.position = p;
         e.moveDirection = e.lookDirection = self.lookDirection;
         e.owner = self;
