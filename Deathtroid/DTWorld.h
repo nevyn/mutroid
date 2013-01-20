@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class DTMap, DTRoom, Vector2, DTEntity, DTServer, DTServerRoom, DTResourceManager, DTBBox;
+@class DTMap, DTRoom, Vector2, DTEntity, DTServer, DTServerRoom, DTResourceManager, DTBBox, DTWorldRoom;
 
 @interface DTTraceResult : NSObject
 -(id)initWithX:(BOOL)_x y:(BOOL)_y slope:(BOOL)_slope collisionPosition:(Vector2*)colPos entity:(DTEntity*)_entity velocity:(Vector2*)_velocity;
@@ -33,6 +33,7 @@
 
 @property (weak) DTServer *server; // nil if world is on client
 @property (weak) DTRoom *room;
+@property (weak) DTWorldRoom *wroom;
 @property (weak) DTServerRoom *sroom; // nil if on client
 // for entities to find new resources if needed. This is probably a bad idea; want to 
 // pull all client-side work out of the entities (see: DTRenderEntities), but not sure

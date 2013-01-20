@@ -11,6 +11,7 @@
         return nil;
     self.room = room;
     self.world = [[DTWorld alloc] initWithRoom:room];
+    self.world.wroom = self;
 
     _entities = [NSMutableDictionary new];
     _layerStates = [NSMutableDictionary new];

@@ -11,9 +11,11 @@
 #import "DTRoom.h"
 #import "DTWorld.h"
 #import "DTMap.h"
+#import "DTEntityPlayer.h"
 #import "DTLayer.h"
 #import <CocoaLibSpotify/CocoaLibSpotify.h>
 #import "DTAppDelegate.h"
+#import "DTWorldRoom.h"
 
 @interface DTEntityMutroidRoomLogic ()
 
@@ -52,6 +54,12 @@
     [super tick:delta];
     
     self.timePassed = [DTAppDelegate sharedAppDelegate].audioOut.progress;
+        
+    DTEntityPlayer *player = nil;
+    for(DTEntity *e in self.world.wroom.entities.allValues)
+        if([e isKindOfClass:[DTEntityPlayer class]])
+            player = (id)e;
+    player.position.x = _timePassed*4;
     
     if(self.world.sroom)
         return;
