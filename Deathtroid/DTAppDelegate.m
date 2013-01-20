@@ -44,6 +44,9 @@
     _audioOut = [SPCoreAudioController new];
     [[SPSession sharedSession] setDelegate:self];
     [[SPSession sharedSession] setAudioDeliveryDelegate:_audioOut];
+
+    if(_spUser.stringValue.length && _spPass.stringValue.length)
+        [self spotifyLogin:nil];
 }
 - (void)applicationWillTerminate:(NSNotification *)notification
 {
