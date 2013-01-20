@@ -42,8 +42,10 @@
     self.map = ((DTLayer*)[self.world.room.layers objectAtIndex:1]).map;
     
     DTMap *coll = self.world.room.collisionLayer;
-    for(int i = 0, c = coll.width; i < c; i++)
+    for(int i = 0, c = coll.width; i < c; i++) {
         [coll setTile:1 atX:i y:coll.height-1];
+        [_map setTile:21 atX:i y:coll.height-1];
+    }
 
     return self;
 }
@@ -58,7 +60,8 @@
         if([e isKindOfClass:[DTEntityPlayer class]])
             player = (id)e;
 
-    player.position.x = _timePassed * kMutroidTimeSpeedConstant;
+    if(!([NSEvent modifierFlags] & NSShiftKeyMask))
+        player.position.x = _timePassed * kMutroidTimeSpeedConstant;
     
     if(self.world.sroom)
         return;
