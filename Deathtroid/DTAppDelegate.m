@@ -103,6 +103,11 @@ __weak DTAppDelegate *__singleton;
 }
 -(void)start;
 {
+    if(_usernameField.stringValue.length == 0 || ![self.spStatusLabel.stringValue isEqual:@"Logged in"]) {
+        NSRunAlertPanel(@"Missing username or spotify", @"You have to provide a username, and you have to log into spotify, before you can play.", @"OK", nil, nil);
+        return;
+    }
+    
     [DTResourceManager sharedManager].baseURL = [NSURL fileURLWithPath:[[NSUserDefaults standardUserDefaults] objectForKey:@"resourcePath"]];
     [tabView selectTabViewItemAtIndex:1];
     [self performSelector:@selector(start2) withObject:nil afterDelay:0.05];

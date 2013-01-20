@@ -27,6 +27,7 @@
 @property (assign) IBOutlet NSTextField *healthText;
 @property (assign) IBOutlet NSTextField *messages;
 @property (assign) IBOutlet NSTextField *highscores;
+@property (assign) IBOutlet NSTextField *usernameField;
 
 
 -(IBAction)startGame:(id)sender;
