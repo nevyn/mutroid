@@ -114,7 +114,7 @@
 	if(!self.onGround) return;
 	
     self.onGround = false;
-    self.velocity.y = -15;
+    self.velocity.y = -7;
 }
 -(void)shoot;
 {

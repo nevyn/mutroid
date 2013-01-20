@@ -237,6 +237,12 @@ static const int kMaxServerFramerate = 10;
     else if([direction isEqual:@"right"]) { player.entity.moving = true; player.entity.moveDirection = EntityDirectionRight; }
     else if([direction isEqual:@"stop"]) { player.entity.moving = false; }
 }
+-(void)playerAction:(DTPlayer*)player pressUp:(NSDictionary*)hash; {
+    [(DTEntityPlayer*)player.entity pressUp];
+}
+-(void)playerAction:(DTPlayer*)player pressDown:(NSDictionary*)hash; {
+    [(DTEntityPlayer*)player.entity pressDown];
+}
 -(void)playerAction:(DTPlayer*)player jump:(NSDictionary*)hash; {
     [(DTEntityPlayer*)player.entity jump];
 }
