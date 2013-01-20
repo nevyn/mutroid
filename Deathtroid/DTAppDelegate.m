@@ -98,6 +98,8 @@ __weak DTAppDelegate *__singleton;
 	core.client.messageCallback = ^(NSString *newString) {
 		messages.stringValue = [newString stringByAppendingFormat:@"\n%@", messages.stringValue];
 	};
+    
+    [self.view enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
 }
 -(void)start;
 {
