@@ -39,7 +39,7 @@
     [self loadTrack];
 
     self.timePassed = 0.0;
-    self.map = ((DTLayer*)[self.world.room.layers objectAtIndex:1]).map;
+    self.map = ((DTLayer*)[self.world.room.layers objectAtIndex:2]).map;
     
     DTMap *coll = self.world.room.collisionLayer;
     for(int i = 0, c = coll.width; i < c; i++) {
