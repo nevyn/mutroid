@@ -26,6 +26,8 @@
 {
     EchoNestFetcher *_fetcher;
     SPTrack *_track;
+    NSDictionary *_songData;
+    BOOL _playbackReady;
 }
 
 -(id)init;
@@ -43,10 +45,10 @@
 -(void)tick:(double)delta {
     [super tick:delta];
     
-    if(!self.world.sroom)
-        return;
- 
     self.timePassed += delta;
+    
+    if(self.world.sroom)
+        return;
     
     if ([self.beats count] <= 0) return;
     
@@ -63,17 +65,19 @@
     }
 }
 
-- (void) foundSongData:(NSDictionary*)data {
-    NSLog(@"Beats: %@", [data objectForKey:@"beats"]);
-    self.beats = [NSMutableArray arrayWithArray:[data objectForKey:@"beats"]];
-    
-    self.timePassed = 0.0;
+- (void) foundSongData:(NSDictionary*)data
+{
+    _songData = data;
+    [self playTrack];
 }
 
 - (void)loadTrack
 {
-    if(!self.trackURL)
+    if(!self.trackURL || self.world.sroom)
         return;
+    
+    _playbackReady = NO;
+    _songData = NO;
     
     [SPTrack trackForTrackURL:[NSURL URLWithString:self.trackURL] inSession:[SPSession sharedSession] callback:^(SPTrack *track) {
         NSAssert(track, @"Expected track for link");
@@ -81,10 +85,27 @@
         [SPAsyncLoading waitUntilLoaded:_track timeout:30 then:^(NSArray *loadedItems, NSArray *notLoadedItems) {
             NSAssert(loadedItems.count == 1, @"Expected track to load");
             
+            [[SPSession sharedSession] playTrack:_track callback:^(NSError *error) {
+                _playbackReady = YES;
+            }];
+            [[SPSession sharedSession] setPlaying:NO];
+            
             _fetcher = [[EchoNestFetcher alloc] init];
             [_fetcher findSong:_track.name byArtist:[_track.artists[0] name] delegate:self];
         }];
     }];
+}
+
+- (void)playTrack
+{
+    if(!_playbackReady || !_songData)
+        return;
+    
+    NSLog(@"Beats: %@", _songData[@"beats"]);
+    self.beats = [NSMutableArray arrayWithArray:_songData[@"beats"]];
+    
+    self.timePassed = 0.0;
+    [[SPSession sharedSession] setPlaying:YES];
 }
 
 -(id)updateFromRep:(NSDictionary*)rep;
