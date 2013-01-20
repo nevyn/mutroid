@@ -54,6 +54,7 @@
     [super tick:delta];
     
     self.timePassed = [DTAppDelegate sharedAppDelegate].audioOut.progress;
+    if (self.timePassed == 0) return;
         
     DTEntityPlayer *player = nil;
     for(DTEntity *e in self.world.wroom.entities.allValues)
@@ -151,8 +152,23 @@
     int i = 0;
     for(NSDictionary *beat in self.beats) {
         float start = [beat[@"start"] floatValue] * kMutroidTimeSpeedConstant;
+
+        i++;
         
-        if(i % 3) {
+        if(start < 4)
+            continue;
+        
+        enum {
+            Jump,
+            Duck,
+            
+            ActionCount
+        } nextAction = arc4random_uniform(ActionCount);
+        
+        if(i % 2 != 0)
+            continue;
+            
+        if(nextAction == Jump) {
             DTMap *coll = self.world.room.collisionLayer;
             [_map setTile:39 atX:start y:coll.height-2];
             [_map setTile:40 atX:start+1 y:coll.height-2];
@@ -163,9 +179,12 @@
             [coll setTile:23 atX:start+1 y:coll.height-2];
             [coll setTile:23 atX:start y:coll.height-1];
             [coll setTile:23 atX:start+1 y:coll.height-1];
+        } else if(nextAction == Duck) {
+            DTMap *coll = self.world.room.collisionLayer;
+            
+            [_map setTile:39 atX:start y:coll.height-4];
+            [coll setTile:23 atX:start y:coll.height-4];
         }
-        
-        i++;
     }
 }
 
