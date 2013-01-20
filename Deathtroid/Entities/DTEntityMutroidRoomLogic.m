@@ -147,21 +147,21 @@
         } else if(nextAction == Duck) {
             DTMap *coll = self.world.room.collisionLayer;
             
-            [_map setTile:47 atX:start y:coll.height-4];
-            [_map setTile:48 atX:start+1 y:coll.height-4];
-            [_map setTile:39 atX:start y:coll.height-3];
-            [_map setTile:40 atX:start+1 y:coll.height-3];
+            [_map setTile:47 atX:start+1 y:coll.height-4];
+            [_map setTile:48 atX:start+2 y:coll.height-4];
+            [_map setTile:39 atX:start+1 y:coll.height-3];
+            [_map setTile:40 atX:start+2 y:coll.height-3];
             
-            [_map setAttr:1 << 1 atX:start y:coll.height-4];
             [_map setAttr:1 << 1 atX:start+1 y:coll.height-4];
-            [_map setAttr:1 << 1 atX:start y:coll.height-3];
+            [_map setAttr:1 << 1 atX:start+2 y:coll.height-4];
             [_map setAttr:1 << 1 atX:start+1 y:coll.height-3];
+            [_map setAttr:1 << 1 atX:start+2 y:coll.height-3];
 
 
-            [coll setTile:23 atX:start y:coll.height-4];
             [coll setTile:23 atX:start+1 y:coll.height-4];
-            [coll setTile:23 atX:start y:coll.height-3];
+            [coll setTile:23 atX:start+2 y:coll.height-4];
             [coll setTile:23 atX:start+1 y:coll.height-3];
+            [coll setTile:23 atX:start+2 y:coll.height-3];
         }
     }
 }
