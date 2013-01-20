@@ -29,7 +29,6 @@
     EchoNestFetcher *_fetcher;
     SPTrack *_track;
     NSDictionary *_songData;
-    BOOL _playbackReady;
 }
 
 -(id)init;
@@ -104,12 +103,8 @@
     if (!data)
         return;
     NSLog(@"Received song analysis");
-
-    [[SPSession sharedSession] playTrack:_track callback:^(NSError *error) {
-        _playbackReady = YES;
-        [self playTrack];
-    }];
-    [[SPSession sharedSession] setPlaying:NO];
+    
+    [self playTrack];
 }
 
 - (void)loadTrack
@@ -117,7 +112,6 @@
     if(!self.trackURL || self.world.sroom)
         return;
     
-    _playbackReady = NO;
     _songData = NO;
     
     [SPTrack trackForTrackURL:[NSURL URLWithString:self.trackURL] inSession:[SPSession sharedSession] callback:^(SPTrack *track) {
@@ -134,9 +128,12 @@
 
 - (void)playTrack
 {
-    if(!_playbackReady || !_songData)
-        return;
-    
+    [[SPSession sharedSession] playTrack:_track callback:^(NSError *error) {
+        [self startLevel];
+    }];
+}
+- (void)startLevel
+{
     NSLog(@"Beats: %@", _songData[@"beats"][0]);
     self.beats = [NSMutableArray arrayWithArray:_songData[@"beats"]];
     self.bars = [NSMutableArray arrayWithArray:[_songData objectForKey:@"bars"]];
@@ -144,7 +141,6 @@
     [self buildLevel];
     
     self.timePassed = 0.0;
-    [[SPSession sharedSession] setPlaying:YES];
 }
 
 - (void)buildLevel
