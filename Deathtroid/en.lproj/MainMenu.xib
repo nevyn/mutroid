@@ -1115,7 +1115,7 @@
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{419, 129}, {512, 448}}</string>
 				<int key="NSWTFlags">1685585920</int>
-				<string key="NSWindowTitle">Mutroid</string>
+				<string key="NSWindowTitle">Super Mutroid</string>
 				<string key="NSWindowClass">NSWindow</string>
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
@@ -1129,6 +1129,7 @@
 							<string key="NSFrameSize">{512, 448}</string>
 							<reference key="NSSuperview" ref="439893737"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView" ref="223871002"/>
 							<string key="NSReuseIdentifierKey">_NS:608</string>
 							<array class="NSMutableArray" key="NSTabViewItems">
 								<object class="NSTabViewItem" id="481560157">
@@ -1244,7 +1245,7 @@
 																<string key="NSFrameSize">{187, 76}</string>
 																<reference key="NSSuperview" ref="594583379"/>
 																<reference key="NSWindow"/>
-																<reference key="NSNextKeyView" ref="7424168"/>
+																<reference key="NSNextKeyView" ref="48519040"/>
 																<string key="NSReuseIdentifierKey">_NS:1828</string>
 																<bool key="NSEnabled">YES</bool>
 																<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -1425,7 +1426,7 @@
 												<string key="NSFrame">{{303, 64}, {189, 94}}</string>
 												<reference key="NSSuperview" ref="223871002"/>
 												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView" ref="594583379"/>
+												<reference key="NSNextKeyView" ref="7424168"/>
 												<string key="NSReuseIdentifierKey">_NS:1824</string>
 												<int key="NSsFlags">133682</int>
 												<reference key="NSVScroller" ref="48519040"/>
@@ -1443,6 +1444,7 @@
 												<string key="NSFrame">{{297, 12}, {201, 32}}</string>
 												<reference key="NSSuperview" ref="223871002"/>
 												<reference key="NSWindow"/>
+												<reference key="NSNextKeyView"/>
 												<string key="NSReuseIdentifierKey">_NS:687</string>
 												<bool key="NSEnabled">YES</bool>
 												<object class="NSButtonCell" key="NSCell" id="934623251">
@@ -1533,7 +1535,7 @@
 											<object class="NSTextField" id="174197584">
 												<reference key="NSNextResponder" ref="223871002"/>
 												<int key="NSvFlags">268</int>
-												<string key="NSFrame">{{119, 374}, {275, 54}}</string>
+												<string key="NSFrame">{{94, 374}, {325, 54}}</string>
 												<reference key="NSSuperview" ref="223871002"/>
 												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="559970752"/>
@@ -1542,7 +1544,7 @@
 												<object class="NSTextFieldCell" key="NSCell" id="1068262962">
 													<int key="NSCellFlags">68157504</int>
 													<int key="NSCellFlags2">138413056</int>
-													<string key="NSContents">MUTROID</string>
+													<string key="NSContents">SUPER MUTROID</string>
 													<object class="NSFont" key="NSSupport">
 														<string key="NSName">LucidaGrande</string>
 														<double key="NSSize">40</double>
