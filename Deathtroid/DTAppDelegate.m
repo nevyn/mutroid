@@ -16,14 +16,18 @@
 
 #import <OpenGL/gl.h>
 
+__weak DTAppDelegate *__singleton;
+
 @interface DTAppDelegate () <SPSessionDelegate>
-{
-    SPCoreAudioController *_audioOut;
-}
 @property (nonatomic,strong) DTCore *core;
 @end
 
 @implementation DTAppDelegate
+
++ (DTAppDelegate*)sharedAppDelegate
+{
+    return __singleton;
+}
 
 @synthesize window = _window;
 @synthesize view = _view;
@@ -34,6 +38,8 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
+    __singleton = self;
+    
     NSString *currentPath = [[NSUserDefaults standardUserDefaults] objectForKey:@"resourcePath"];
     if(!currentPath || [currentPath rangeOfString:@".app"].location != NSNotFound)
         [[NSUserDefaults standardUserDefaults] setObject:[DTResourceManager sharedManager].baseURL.path forKey:@"resourcePath"];

@@ -13,8 +13,9 @@
 #import "DTMap.h"
 #import "DTLayer.h"
 #import <CocoaLibSpotify/CocoaLibSpotify.h>
+#import "DTAppDelegate.h"
 
-@interface DTEntityMutroidRoomLogic ()
+@interface DTEntityMutroidRoomLogic () <SPCoreAudioControllerDelegate>
 
 @property (nonatomic, assign) double timePassed;
 @property (nonatomic, retain) NSMutableArray *beats;
@@ -45,7 +46,7 @@
 -(void)tick:(double)delta {
     [super tick:delta];
     
-    self.timePassed += delta;
+    //self.timePassed += delta;
     
     if(self.world.sroom)
         return;
@@ -101,11 +102,17 @@
     if(!_playbackReady || !_songData)
         return;
     
-    NSLog(@"Beats: %@", _songData[@"beats"]);
+    NSLog(@"Beats: %@", _songData[@"beats"][0]);
     self.beats = [NSMutableArray arrayWithArray:_songData[@"beats"]];
     
     self.timePassed = 0.0;
+    [[[DTAppDelegate sharedAppDelegate] audioOut] setDelegate:self];
     [[SPSession sharedSession] setPlaying:YES];
+}
+
+-(void)coreAudioController:(SPCoreAudioController *)controller didOutputAudioOfDuration:(NSTimeInterval)audioDuration
+{
+    self.timePassed += audioDuration;
 }
 
 -(id)updateFromRep:(NSDictionary*)rep;

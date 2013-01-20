@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <CocoaLibSpotify/CocoaLibSpotify.h>
 
 @class DTView, DTCore;
 
@@ -14,6 +15,8 @@
     NSTimer		*loopTimer;
     float       interval;
 }
+
++ (DTAppDelegate*)sharedAppDelegate;
 
 @property (assign) IBOutlet NSWindow *window;
 @property (assign) IBOutlet DTView *view;
@@ -33,5 +36,6 @@
 @property(assign) IBOutlet NSTextField *spPass;
 @property(assign) IBOutlet NSTextField *spStatusLabel;
 - (IBAction)spotifyLogin:(id)sender;
+@property(readonly) SPCoreAudioController *audioOut;
 
 @end
