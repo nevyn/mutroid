@@ -20,8 +20,6 @@
 @interface DTEntityMutroidRoomLogic ()
 
 @property (nonatomic, assign) double timePassed;
-@property (nonatomic, retain) NSMutableArray *beats;
-@property (nonatomic, retain) NSMutableArray *bars;
 @property (nonatomic, retain) DTMap *map;
 
 @end
@@ -59,7 +57,8 @@
     for(DTEntity *e in self.world.wroom.entities.allValues)
         if([e isKindOfClass:[DTEntityPlayer class]])
             player = (id)e;
-    player.position.x = _timePassed*7;
+
+    player.position.x = _timePassed * kMutroidTimeSpeedConstant;
     
     if(self.world.sroom)
         return;

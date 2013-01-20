@@ -18,6 +18,7 @@
 #import <OpenGL/gl.h>
 #import "DTAnimation.h"
 #import "DTEntityZoomer.h"
+#import "DTEntityMutroidRoomLogic.h"
 
 static const CGSize kTileSizeInPixels = {16, 16};
 
@@ -87,6 +88,9 @@ static const CGSize kTileSizeInPixels = {16, 16};
     if([$castIf(DTEntityPlayer, entity) immune] && (frameCount/2)%2)
         return;
     
+    if($castIf(DTEntityMutroidRoomLogic, entity))
+        [self drawMutroid:(id)entity camera:camera];
+    
     // XX: Switched animation without running tick. Why is tick separate from drawEntity anyway?
     if(entityData.currentFrame >= [entity.animation frameCountForAnimation:entity.currentState]) {
         entityData.currentFrame = 0;
@@ -153,6 +157,32 @@ static const CGSize kTileSizeInPixels = {16, 16};
     glPopMatrix();
     
     
+}
+
+- (void)drawMutroid:(DTEntityMutroidRoomLogic*)entity camera:(DTCamera*)camera
+{
+        DTProgram *p = [resources resourceNamed:@"main.program"];
+        [p unuse];
+
+    glColor3f(0.3, 0, 0);
+    glBegin(GL_LINES);
+    for(NSDictionary *beat in entity.beats) {
+        float start = [beat[@"start"] floatValue] * kMutroidTimeSpeedConstant;
+        glVertex2f(start, 0);
+        glVertex2f(start, 24);
+    }
+    glEnd();
+    
+    glColor3f(0, 0.3, 0);
+    glBegin(GL_LINES);
+    for(NSDictionary *beat in entity.bars) {
+        float start = [beat[@"start"] floatValue] * kMutroidTimeSpeedConstant;
+        glVertex2f(start, 0);
+        glVertex2f(start, 24);
+    }
+    glEnd();
+
+    [p use];
 }
 
 - (void) deleteGfxStateForEntity:(DTEntity*)entity;

@@ -45,7 +45,6 @@
 }
 
 - (void) requestFinishedWithTag:(NSString*)tag data:(NSData*)data {
-    
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
     
     if ([tag isEqual:FIND_SONG]) {
