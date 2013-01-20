@@ -140,8 +140,33 @@
     self.beats = [NSMutableArray arrayWithArray:_songData[@"beats"]];
     self.bars = [NSMutableArray arrayWithArray:[_songData objectForKey:@"bars"]];
     
+    [self buildLevel];
+    
     self.timePassed = 0.0;
     [[SPSession sharedSession] setPlaying:YES];
+}
+
+- (void)buildLevel
+{
+    int i = 0;
+    for(NSDictionary *beat in self.beats) {
+        float start = [beat[@"start"] floatValue] * kMutroidTimeSpeedConstant;
+        
+        if(i % 3) {
+            DTMap *coll = self.world.room.collisionLayer;
+            [_map setTile:39 atX:start y:coll.height-2];
+            [_map setTile:40 atX:start+1 y:coll.height-2];
+            [_map setTile:47 atX:start y:coll.height-1];
+            [_map setTile:48 atX:start+1 y:coll.height-1];
+            
+            [coll setTile:23 atX:start y:coll.height-2];
+            [coll setTile:23 atX:start+1 y:coll.height-2];
+            [coll setTile:23 atX:start y:coll.height-1];
+            [coll setTile:23 atX:start+1 y:coll.height-1];
+        }
+        
+        i++;
+    }
 }
 
 -(id)updateFromRep:(NSDictionary*)rep;
