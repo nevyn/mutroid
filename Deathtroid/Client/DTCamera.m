@@ -39,8 +39,16 @@
 }
 - (void)clampToRoom:(DTRoom*)room;
 {
-    self.position.x = CLAMP(self.position.x, 0, [room.layers.lastObject map].width-kScreenWidthInTiles);
-    self.position.y = CLAMP(self.position.y, 0, [room.layers.lastObject map].height-kScreenHeightInTiles);
+    DTMap *widestLayer;
+    DTMap *tallestLayer;
+    for(DTLayer *layer in room.layers) {
+        if(layer.map.width > widestLayer.width)
+            widestLayer = layer.map;
+        if(layer.map.height > tallestLayer.height)
+            tallestLayer = layer.map;
+    }
+    self.position.x = CLAMP(self.position.x, 0, widestLayer.width-kScreenWidthInTiles);
+    self.position.y = CLAMP(self.position.y, 0, tallestLayer.height-kScreenHeightInTiles);
 }
 
 @end
