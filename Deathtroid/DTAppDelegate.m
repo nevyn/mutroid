@@ -99,7 +99,7 @@ __weak DTAppDelegate *__singleton;
 		messages.stringValue = [newString stringByAppendingFormat:@"\n%@", messages.stringValue];
 	};
     
-    [self.view enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
+    [self.view performSelector:@selector(enterFullScreenMode:withOptions:) withObject:[NSScreen mainScreen] afterDelay:0.5];
 }
 -(void)start;
 {
