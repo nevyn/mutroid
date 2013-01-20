@@ -65,10 +65,11 @@
         player.position.x = _timePassed * kMutroidTimeSpeedConstant;
     
     if(!self.world.server) {
-        if(!player && !_dead) {
+        if(!player && !_dead && [SPSession sharedSession].playing) {
             [[SPSession sharedSession] setPlaying:NO];
             [DTAppDelegate sharedAppDelegate].audioOut.progress = 0;
             _dead = YES;
+            [(NSSound*)[NSSound soundNamed:@"winddown.aif"] play];
         }
         
         if(![SPSession sharedSession].playing && player && _dead) {

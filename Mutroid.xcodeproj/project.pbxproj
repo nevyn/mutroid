@@ -40,6 +40,7 @@
 		05ABD6131600908D002F04F0 /* DTEditorEntities.m in Sources */ = {isa = PBXBuildFile; fileRef = 05ABD6121600908D002F04F0 /* DTEditorEntities.m */; };
 		05ABD6571600BE7B002F04F0 /* DTEntityTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = 05ABD6561600BE7B002F04F0 /* DTEntityTemplate.m */; };
 		05AD34E716012800001D6F65 /* DTEntityDummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD34E616012800001D6F65 /* DTEntityDummy.m */; };
+		05AD666816AC066F00EB9E49 /* winddown.aif in Resources */ = {isa = PBXBuildFile; fileRef = 05AD666716AC066F00EB9E49 /* winddown.aif */; };
 		05AD7F8515FCACCE00E97694 /* DTEntityExplosion.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD7F8415FCACCE00E97694 /* DTEntityExplosion.m */; };
 		05AD7F8815FCDEA600E97694 /* DTEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD7F8715FCDEA600E97694 /* DTEditor.m */; };
 		05ADA1EA15FBFF9C00D4B784 /* DTWorldRoom.m in Sources */ = {isa = PBXBuildFile; fileRef = 05ADA1E915FBFF9C00D4B784 /* DTWorldRoom.m */; };
@@ -220,6 +221,7 @@
 		05ABD6561600BE7B002F04F0 /* DTEntityTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTEntityTemplate.m; sourceTree = "<group>"; };
 		05AD34E516012800001D6F65 /* DTEntityDummy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTEntityDummy.h; sourceTree = "<group>"; };
 		05AD34E616012800001D6F65 /* DTEntityDummy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTEntityDummy.m; sourceTree = "<group>"; };
+		05AD666716AC066F00EB9E49 /* winddown.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = winddown.aif; sourceTree = SOURCE_ROOT; };
 		05AD7F8315FCACCE00E97694 /* DTEntityExplosion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTEntityExplosion.h; sourceTree = "<group>"; };
 		05AD7F8415FCACCE00E97694 /* DTEntityExplosion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTEntityExplosion.m; sourceTree = "<group>"; };
 		05AD7F8615FCDEA600E97694 /* DTEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTEditor.h; path = Client/DTEditor.h; sourceTree = "<group>"; };
@@ -598,6 +600,7 @@
 				05CC7BA51441FC9F00052D06 /* DTEntityEnemyBase.m */,
 				05475A071609F5960000BD66 /* DTEntitySpawnLocation.h */,
 				05475A081609F5960000BD66 /* DTEntitySpawnLocation.m */,
+				05AD666716AC066F00EB9E49 /* winddown.aif */,
 				38F01FB716AB4A9F00BA478A /* DTEntityMutroidRoomLogic.h */,
 				38F01FB816AB4A9F00BA478A /* DTEntityMutroidRoomLogic.m */,
 			);
@@ -873,6 +876,7 @@
 				05B7AD25160F5314008BCD48 /* deathtroid.icns in Resources */,
 				05A5A3DF16AAAA2E007F768F /* spkey.key in Resources */,
 				38F01FD016AB959500BA478A /* analysis.json in Resources */,
+				05AD666816AC066F00EB9E49 /* winddown.aif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
