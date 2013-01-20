@@ -64,6 +64,12 @@
 {
 	NSString *imagePath = [self.definition objectForKey:@"file"];
 	NSURL *imageURL = [manager absolutePathForFileName:imagePath];
+    
+    if(!imageURL) {
+        if(error)
+            *error = [NSError errorWithDomain:NSPOSIXErrorDomain code:ENOENT userInfo:@{NSLocalizedDescriptionKey:@"Missing file"}];
+        return NO;
+    }
 	
 	[image loadFromURL:imageURL];
     return YES;
