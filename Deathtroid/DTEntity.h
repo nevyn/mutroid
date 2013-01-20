@@ -47,9 +47,10 @@ typedef struct {
 */
 
 
-@interface DTBBox : NSObject {}
+@interface DTBBox : NSObject
 -(id)initWithRep:(NSDictionary*)rep;
 @property (nonatomic,strong) MutableVector2 *min, *max;
+- (float)height;
 @end
 
 

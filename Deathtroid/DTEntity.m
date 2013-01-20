@@ -37,6 +37,11 @@
 {
     return $dict(@"min", [min rep], @"max", [max rep]);
 }
+
+- (float)height
+{
+    return self.max.y - self.min.y;
+}
 @end
 
 @implementation DTEntity

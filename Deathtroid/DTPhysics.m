@@ -106,6 +106,9 @@
     // What's under us at our new position? (Air or slope?)
     DTTraceResult *down = [world traceBox:entity.size from:entity.position to:[entity.position vectorByAddingVector:[Vector2 vectorWithX:0 y:0.5]] exclude:entity ignoreEntities:YES];
     
+    const int *front1 = [world.room.collisionLayer tileAtX:entity.position.x+1 y:entity.position.y];
+    const int *front2 = [world.room.collisionLayer tileAtX:entity.position.x+1 y:entity.position.y-entity.size.height*.5];
+    
     if(!down.y) {
         // There is nothing under us. We're off the ground!
         entity.onGround = false;
@@ -121,7 +124,7 @@
             entity.position.y = down.collisionPosition.y;
         }
         
-        if(down.collisionTile == 23) // the 'kill' tile
+        if(down.collisionTile == 23 || (front1 && *front1 == 23) || (front2 && *front2 == 23)) // the 'kill' tile
             [entity damage:entity.health+1 from:[Vector2 vector] killer:entity];
     }
 }
