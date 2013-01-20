@@ -29,6 +29,8 @@
     EchoNestFetcher *_fetcher;
     SPTrack *_track;
     NSDictionary *_songData;
+    BOOL _dead;
+    BOOL _levelBuilt;
 }
 
 -(id)init;
@@ -53,15 +55,27 @@
     [super tick:delta];
     
     self.timePassed = [DTAppDelegate sharedAppDelegate].audioOut.progress;
-    if (self.timePassed == 0) return;
         
     DTEntityPlayer *player = nil;
     for(DTEntity *e in self.world.wroom.entities.allValues)
         if([e isKindOfClass:[DTEntityPlayer class]])
             player = (id)e;
-
+    
     if(!([NSEvent modifierFlags] & NSShiftKeyMask))
         player.position.x = _timePassed * kMutroidTimeSpeedConstant;
+    
+    if(!self.world.server) {
+        if(!player && !_dead) {
+            [[SPSession sharedSession] setPlaying:NO];
+            [DTAppDelegate sharedAppDelegate].audioOut.progress = 0;
+            _dead = YES;
+        }
+        
+        if(![SPSession sharedSession].playing && player && _dead) {
+            _dead = NO;
+            [self playTrack];
+        }
+    }
 }
 
 - (void) foundSongData:(NSDictionary*)data
@@ -110,10 +124,14 @@
     [self buildLevel];
     
     self.timePassed = 0.0;
+    [[SPSession sharedSession] setPlaying:YES];
 }
 
 - (void)buildLevel
 {
+    if(_levelBuilt)
+        return;
+    
     int i = 0;
     for(NSDictionary *beat in self.beats) {
         float start = [beat[@"start"] floatValue] * kMutroidTimeSpeedConstant;
@@ -164,6 +182,8 @@
             [coll setTile:23 atX:start+2 y:coll.height-3];
         }
     }
+    
+    _levelBuilt = YES;
 }
 
 -(id)updateFromRep:(NSDictionary*)rep;
