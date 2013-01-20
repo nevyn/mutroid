@@ -27,14 +27,20 @@
 
     self.delegate = delegate;
     
-    NSLog(@"Find song %@ by artist %@", song, artist);
-    
-    song = [song stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
-    artist = [artist stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
+    NSData *data = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"analysis" ofType:@"json"]];
+    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
 
-    NSString *url = [NSString stringWithFormat:@"http://developer.echonest.com/api/v4/song/search?api_key=%@&format=json&results=1&artist=%@&title=%@&bucket=id:7digital-US&bucket=tracks", API_KEY, artist, song];
+    if (json) [self.delegate foundSongData:json];
+
     
-    self.connection = [ARURLConnection connectionWithURL:url delegate:self tag:FIND_SONG];
+//    NSLog(@"Find song %@ by artist %@", song, artist);
+//    
+//    song = [song stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
+//    artist = [artist stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
+//
+//    NSString *url = [NSString stringWithFormat:@"http://developer.echonest.com/api/v4/song/search?api_key=%@&format=json&results=1&artist=%@&title=%@&bucket=id:7digital-US&bucket=tracks", API_KEY, artist, song];
+//    
+//    self.connection = [ARURLConnection connectionWithURL:url delegate:self tag:FIND_SONG];
     
 }
 
@@ -79,7 +85,7 @@
             [self.delegate foundSongData:json];
         }
         else {
-            NSLog(@"Couldn't find song analysis");
+            NSLog(@"Couldn't find song analysis: %@", json);
         }
     }
     

@@ -59,6 +59,7 @@
 		38F01F9E16AAC71200BA478A /* EchoNestFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F01F9D16AAC71200BA478A /* EchoNestFetcher.m */; };
 		38F01FA116AACFF700BA478A /* ARURLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F01FA016AACFF700BA478A /* ARURLConnection.m */; };
 		38F01FB916AB4A9F00BA478A /* DTEntityMutroidRoomLogic.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F01FB816AB4A9F00BA478A /* DTEntityMutroidRoomLogic.m */; };
+		38F01FD016AB959500BA478A /* analysis.json in Resources */ = {isa = PBXBuildFile; fileRef = 38F01FCF16AB959500BA478A /* analysis.json */; };
 		994E55F3144115DF009EC13C /* DTResourceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 994E55F2144115DF009EC13C /* DTResourceManager.m */; };
 		994E55F614411609009EC13C /* DTTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = 994E55F514411609009EC13C /* DTTexture.m */; };
 		994E55F914411645009EC13C /* DTResource.m in Sources */ = {isa = PBXBuildFile; fileRef = 994E55F814411645009EC13C /* DTResource.m */; };
@@ -252,6 +253,7 @@
 		38F01FA016AACFF700BA478A /* ARURLConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARURLConnection.m; sourceTree = "<group>"; };
 		38F01FB716AB4A9F00BA478A /* DTEntityMutroidRoomLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTEntityMutroidRoomLogic.h; sourceTree = "<group>"; };
 		38F01FB816AB4A9F00BA478A /* DTEntityMutroidRoomLogic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTEntityMutroidRoomLogic.m; sourceTree = "<group>"; };
+		38F01FCF16AB959500BA478A /* analysis.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = analysis.json; sourceTree = "<group>"; };
 		994E55F1144115DF009EC13C /* DTResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTResourceManager.h; path = Graphics/DTResourceManager.h; sourceTree = "<group>"; };
 		994E55F2144115DF009EC13C /* DTResourceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTResourceManager.m; path = Graphics/DTResourceManager.m; sourceTree = "<group>"; };
 		994E55F414411609009EC13C /* DTTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTTexture.h; path = Graphics/DTTexture.h; sourceTree = "<group>"; };
@@ -527,6 +529,7 @@
 		38F01F9B16AAC6F200BA478A /* EchoNest */ = {
 			isa = PBXGroup;
 			children = (
+				38F01FCF16AB959500BA478A /* analysis.json */,
 				38F01F9C16AAC71200BA478A /* EchoNestFetcher.h */,
 				38F01F9D16AAC71200BA478A /* EchoNestFetcher.m */,
 				38F01F9F16AACFF700BA478A /* ARURLConnection.h */,
@@ -869,6 +872,7 @@
 				05475A0B160A11780000BD66 /* DTRoomEditor.xib in Resources */,
 				05B7AD25160F5314008BCD48 /* deathtroid.icns in Resources */,
 				05A5A3DF16AAAA2E007F768F /* spkey.key in Resources */,
+				38F01FD016AB959500BA478A /* analysis.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
