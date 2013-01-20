@@ -114,7 +114,9 @@
     
     _songData = NO;
     
-    [SPTrack trackForTrackURL:[NSURL URLWithString:self.trackURL] inSession:[SPSession sharedSession] callback:^(SPTrack *track) {
+    NSString *urlString = [[NSUserDefaults standardUserDefaults] objectForKey:@"trackLink"] ?: self.trackURL;
+    
+    [SPTrack trackForTrackURL:[NSURL URLWithString:urlString] inSession:[SPSession sharedSession] callback:^(SPTrack *track) {
         NSAssert(track, @"Expected track for link");
         _track = track;
         [SPAsyncLoading waitUntilLoaded:_track timeout:30 then:^(NSArray *loadedItems, NSArray *notLoadedItems) {
