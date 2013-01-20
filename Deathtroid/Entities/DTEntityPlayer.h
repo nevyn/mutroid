@@ -16,5 +16,6 @@
 
 -(void)jump;
 -(void)shoot;
-
+-(void)pressUp;
+-(void)pressDown;
 @end

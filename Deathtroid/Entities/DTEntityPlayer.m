@@ -20,6 +20,7 @@
     float   maxMoveSpeed;
     float   brakeSpeed;
 	float   immunityTimer;
+    float   pressedDown;
 }
 
 -(id)init;
@@ -50,27 +51,33 @@
 	
 	if(immunityTimer > 0) immunityTimer -= delta;
 
-    if(self.moving) {
-        if(self.moveDirection == EntityDirectionRight && self.velocity.x < maxMoveSpeed) {
-            self.velocity.x += acceleration; if(self.velocity.x > maxMoveSpeed) self.velocity.x = maxMoveSpeed;
-        } else if(self.moveDirection == EntityDirectionLeft && self.velocity.x > -maxMoveSpeed) {
-            self.velocity.x -= acceleration; if(self.velocity.x < -maxMoveSpeed) self.velocity.x = -maxMoveSpeed;
-        }
-    } else if(self.velocity.x != 0) {
-        if(self.moveDirection == EntityDirectionRight) {
-            self.velocity.x -= brakeSpeed; if(self.velocity.x < 0) self.velocity.x = 0;
-        } else if(self.moveDirection == EntityDirectionLeft) {
-            self.velocity.x += brakeSpeed; if(self.velocity.x > 0) self.velocity.x = 0;
-        }
+//    if(self.moving) {
+//        if(self.moveDirection == EntityDirectionRight && self.velocity.x < maxMoveSpeed) {
+//            self.velocity.x += acceleration; if(self.velocity.x > maxMoveSpeed) self.velocity.x = maxMoveSpeed;
+//        } else if(self.moveDirection == EntityDirectionLeft && self.velocity.x > -maxMoveSpeed) {
+//            self.velocity.x -= acceleration; if(self.velocity.x < -maxMoveSpeed) self.velocity.x = -maxMoveSpeed;
+//        }
+//    } else if(self.velocity.x != 0) {
+//        if(self.moveDirection == EntityDirectionRight) {
+//            self.velocity.x -= brakeSpeed; if(self.velocity.x < 0) self.velocity.x = 0;
+//        } else if(self.moveDirection == EntityDirectionLeft) {
+//            self.velocity.x += brakeSpeed; if(self.velocity.x > 0) self.velocity.x = 0;
+//        }
+//    }
+//    
+//    if(self.velocity.x < 0) self.lookDirection = EntityDirectionLeft;
+//    else if(self.velocity.x > 0) self.lookDirection = EntityDirectionRight;
+    
+    if (pressedDown >= 0) {
+        pressedDown -= delta;
+        if (pressedDown < 0)
+            pressedDown = -1;
     }
     
-    if(self.velocity.x < 0) self.lookDirection = EntityDirectionLeft;
-    else if(self.velocity.x > 0) self.lookDirection = EntityDirectionRight;
-        
     NSString *doing =
         !self.onGround ? @"jump-roll" :
-        abs(self.velocity.x) > 0 ? @"walking" :
-        @"stand";
+        pressedDown >= 0 ? @"stand" :
+        @"walking";
     NSString *direction = self.lookDirection == EntityDirectionLeft ? @"left" : @"right";
     
     self.currentState = [NSString stringWithFormat:@"%@-%@", doing, direction];
@@ -91,6 +98,17 @@
     return rep;
 }
 
+-(void)pressUp {
+    if(!self.onGround) return;
+	
+    self.onGround = false;
+    self.velocity.y = -15;
+}
+-(void)pressDown {
+    
+    if (pressedDown >= 0) return;
+    pressedDown = 1.0;
+}
 -(void)jump;
 {
 	if(!self.onGround) return;

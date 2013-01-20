@@ -500,6 +500,14 @@ static const float kRoomTransitionTime = 2;
 
 #pragma mark -
 #pragma mark Player actions
+-(void)pressUp {
+    [(DTEntityPlayer*)playerEntity pressUp];
+    [_proto sendHash:$dict(@"command", @"action", @"action", @"pressUp")];
+}
+-(void)pressDown {
+    [(DTEntityPlayer*)playerEntity pressDown];
+    [_proto sendHash:$dict(@"command", @"action", @"action", @"pressDown")];
+}
 -(void)walkLeft;
 {
     playerEntity.moving = true;

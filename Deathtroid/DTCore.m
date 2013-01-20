@@ -26,15 +26,21 @@
     
     _input = [[DTInput alloc] init];
     
-    [_input.mapper registerStateActionWithName:@"WalkLeft" beginAction:^{ [client walkLeft]; } endAction:^{ [client stopWalkLeft]; }];
-    [_input.mapper registerStateActionWithName:@"WalkRight" beginAction:^{ [client walkRight]; } endAction:^{ [client stopWalkRight]; }];
-    [_input.mapper registerActionWithName:@"Jump" action:^{ [client jump]; }];
-    [_input.mapper registerActionWithName:@"Shoot" action:^{ [client shoot]; }];
-    
-    [_input.mapper mapKey:kVK_ANSI_A toAction:@"WalkLeft"];
-    [_input.mapper mapKey:kVK_ANSI_D toAction:@"WalkRight"];
-    [_input.mapper mapKey:kVK_Space toAction:@"Jump"];
-    [_input.mapper mapKey:kVK_ANSI_K toAction:@"Shoot"];
+    [_input.mapper registerActionWithName:@"Up" action:^{ [client pressUp]; }];
+    [_input.mapper registerActionWithName:@"Down" action:^{ [client pressDown]; }];
+    [_input.mapper mapKey:kVK_ANSI_W toAction:@"Up"];
+    [_input.mapper mapKey:kVK_ANSI_S toAction:@"Down"];
+
+
+//    [_input.mapper registerStateActionWithName:@"WalkLeft" beginAction:^{ [client walkLeft]; } endAction:^{ [client stopWalkLeft]; }];
+//    [_input.mapper registerStateActionWithName:@"WalkRight" beginAction:^{ [client walkRight]; } endAction:^{ [client stopWalkRight]; }];
+//    [_input.mapper registerActionWithName:@"Jump" action:^{ [client jump]; }];
+//    [_input.mapper registerActionWithName:@"Shoot" action:^{ [client shoot]; }];
+//    
+//    [_input.mapper mapKey:kVK_ANSI_A toAction:@"WalkLeft"];
+//    [_input.mapper mapKey:kVK_ANSI_D toAction:@"WalkRight"];
+//    [_input.mapper mapKey:kVK_Space toAction:@"Jump"];
+//    [_input.mapper mapKey:kVK_ANSI_K toAction:@"Shoot"];
 	
      	
 	NSString *host = [[NSUserDefaults standardUserDefaults] objectForKey:@"host"];

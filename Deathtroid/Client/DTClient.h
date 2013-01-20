@@ -32,6 +32,9 @@ typedef void(^DTClientMessageCallback)(NSString *message);
 -(void)jump;
 -(void)shoot;
 
+-(void)pressUp;
+-(void)pressDown;
+
 @property (nonatomic,strong) DTPhysics *physics;
 
 @property (nonatomic,strong) DTEntityPlayer *playerEntity;
