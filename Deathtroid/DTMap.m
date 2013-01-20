@@ -113,6 +113,6 @@
     [self willChangeValueForKey:@"attr"];
     attr[y*width + x] = flag;
     [self didChangeValueForKey:@"attr"];
-    [_delegate attrOrTileChangedInMap:self];
+    //[_delegate attrOrTileChangedInMap:self];
 }
 @end
