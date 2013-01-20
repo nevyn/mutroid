@@ -108,7 +108,7 @@
     if(!self.onGround) return;
 	
     self.onGround = false;
-    self.velocity.y = -15;
+    self.velocity.y = -12;
     
     self.size.min.y = -1.5;
     self.size.max.y = 0;
@@ -116,7 +116,7 @@
 -(void)pressDown {
     
     if (pressedDown >= 0) return;
-    pressedDown = 1.0;
+    pressedDown = 0.7;
     
     self.size.min.y = -1.5;
     self.size.max.y = 0;
@@ -126,7 +126,7 @@
 	if(!self.onGround) return;
 	
     self.onGround = false;
-    self.velocity.y = -7;
+    self.velocity.y = -15;
 }
 -(void)shoot;
 {
