@@ -25,6 +25,18 @@
       "fps" : 30.0,
       "spriteMap" : "samus_jump_roll.spritemap"
     },
+    "roll-ground-left" : {
+      "size" : [2.0, 2.0],
+      "center" : [1.0, 2.0],
+      "fps" : 30.0,
+      "spriteMap" : "samus_roll_ground.spritemap"
+    },
+    "roll-ground-right" : {
+      "size" : [2.0, 2.0],
+      "center" : [1.0, 2.0],
+      "fps" : 30.0,
+      "spriteMap" : "samus_roll_ground.spritemap"
+    },
     "stand-left" : {
       "size" : [3.0, 3.0],
       "center" : [1.5, 3.0],

@@ -76,7 +76,7 @@
     
     NSString *doing =
         !self.onGround ? @"jump-roll" :
-        pressedDown >= 0 ? @"stand" :
+        pressedDown >= 0 ? @"roll-ground" :
         @"walking";
     NSString *direction = self.lookDirection == EntityDirectionLeft ? @"left" : @"right";
     
