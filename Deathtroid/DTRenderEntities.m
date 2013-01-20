@@ -167,7 +167,7 @@ static const CGSize kTileSizeInPixels = {16, 16};
     glColor3f(0.3, 0, 0);
     glBegin(GL_LINES);
     for(NSDictionary *beat in entity.beats) {
-        float start = [beat[@"start"] floatValue] * kMutroidTimeSpeedConstant;
+        float start = [beat[@"start"] floatValue] * [entity timeSpeed];
         glVertex2f(start, 0);
         glVertex2f(start, 24);
     }
@@ -176,7 +176,7 @@ static const CGSize kTileSizeInPixels = {16, 16};
     glColor3f(0, 0.3, 0);
     glBegin(GL_LINES);
     for(NSDictionary *beat in entity.bars) {
-        float start = [beat[@"start"] floatValue] * kMutroidTimeSpeedConstant;
+        float start = [beat[@"start"] floatValue] * [entity timeSpeed];
         glVertex2f(start, 0);
         glVertex2f(start, 24);
     }

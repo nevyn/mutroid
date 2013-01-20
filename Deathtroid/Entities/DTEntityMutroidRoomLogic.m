@@ -17,6 +17,8 @@
 #import "DTAppDelegate.h"
 #import "DTWorldRoom.h"
 
+float gSpeedMultiplier = 1;
+
 @interface DTEntityMutroidRoomLogic ()
 
 @property (nonatomic, assign) double timePassed;
@@ -61,8 +63,7 @@
         if([e isKindOfClass:[DTEntityPlayer class]])
             player = (id)e;
     
-    if(!([NSEvent modifierFlags] & NSShiftKeyMask))
-        player.position.x = _timePassed * kMutroidTimeSpeedConstant;
+    player.position.x = _timePassed * [self timeSpeed];
     
     if(!self.world.server) {
         if(!player && !_dead && [SPSession sharedSession].playing) {
@@ -135,11 +136,11 @@
     
     int i = 0;
     for(NSDictionary *beat in self.beats) {
-        float start = [beat[@"start"] floatValue] * kMutroidTimeSpeedConstant;
+        float start = [beat[@"start"] floatValue] * [self timeSpeed];
 
         i++;
         
-        if(start < 4)
+        if(start < 4 * gSpeedMultiplier)
             continue;
         
         enum {
@@ -211,5 +212,19 @@
     ]];
 }
 
+- (float)timeSpeed
+{
+    static float gTimeSpeed;
+    if(self.world.server)
+        return gTimeSpeed;
+    
+    if(!_songData)
+        return gTimeSpeed = 7;
+    
+    // 7 tiles per second for a track at 120bpm
+    float multiplier = gSpeedMultiplier = [[_songData[@"track"] objectForKey:@"tempo"] floatValue]/101.4;
+    float speed = gTimeSpeed = multiplier * 7;
+    return speed;
+}
 
 @end

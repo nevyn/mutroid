@@ -9,11 +9,11 @@
 #import "DTEntity.h"
 #import "EchoNestFetcher.h"
 
-static const float kMutroidTimeSpeedConstant = 7;
-
 @interface DTEntityMutroidRoomLogic : DTEntity<EchoNestFetcherDelegate>
 @property(nonatomic,strong) NSString *trackURL;
 @property (nonatomic, retain) NSMutableArray *beats;
 @property (nonatomic, retain) NSMutableArray *bars;
+
+- (float)timeSpeed;
 
 @end

@@ -17,3 +17,4 @@
 
 static const int kScreenWidthInTiles = 16;
 static const int kScreenHeightInTiles = 12;
+extern float gSpeedMultiplier;

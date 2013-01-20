@@ -82,7 +82,7 @@
             [self moveEntityAir:entity world:world delta:delta];
         
         if (entity.position.y > world.room.collisionLayer.height + 4)
-            [entity damage:entity.health+1 from:[Vector2 vector] killer:entity];
+            [entity damage:entity.health+100 from:[Vector2 vector] killer:entity];
     }
 }
 
@@ -125,7 +125,7 @@
         }
         
         if(down.collisionTile == 23 || (front1 && *front1 == 23) || (front2 && *front2 == 23)) // the 'kill' tile
-            [entity damage:entity.health+1 from:[Vector2 vector] killer:entity];
+            [entity damage:entity.health+100 from:[Vector2 vector] killer:entity];
     }
 }
 
@@ -133,7 +133,7 @@
 {
     // Gravitate
     if(entity.gravity && entity.velocity.y < 8)
-        entity.velocity.y += 0.5;
+        entity.velocity.y += 0.5 * gSpeedMultiplier*gSpeedMultiplier;
 
     Vector2 *move = [entity.velocity vectorByMultiplyingWithScalar:delta];
     

@@ -108,7 +108,7 @@
     if(!self.onGround) return;
 	
     self.onGround = false;
-    self.velocity.y = -12;
+    self.velocity.y = -12 * gSpeedMultiplier;
     
     self.size.min.y = -1.5;
     self.size.max.y = 0;
@@ -116,7 +116,7 @@
 -(void)pressDown {
     
     if (pressedDown >= 0) return;
-    pressedDown = 0.7;
+    pressedDown = 0.7 / gSpeedMultiplier;
     
     self.size.min.y = -0.5;
     self.size.max.y = 0;
