@@ -98,7 +98,7 @@
     [self willChangeValueForKey:@"tiles"];
     tiles[y*width + x] = index;
     [self didChangeValueForKey:@"tiles"];
-    [_delegate attrOrTileChangedInMap:self];
+    //[_delegate attrOrTileChangedInMap:self];
 }
 - (const int*)attrAtX:(int)x y:(int)y
 {
